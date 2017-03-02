@@ -48,11 +48,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     BmobUser bmobUser = BmobUser.getCurrentUser();
     if(bmobUser != null){
       // 允许用户使用应用
-//      Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//      intent.putExtra("uid", bmobUser.getObjectId());
-//      startActivity(intent);
-//      overridePendingTransition(0, 0);
-//      LoginActivity.this.finish();
+      Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+      intent.putExtra("uid", bmobUser.getObjectId());
+      startActivity(intent);
+      overridePendingTransition(0, 0);
+      LoginActivity.this.finish();
     }
     setContentView(R.layout.activity_login);
     initUI();

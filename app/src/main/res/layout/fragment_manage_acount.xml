@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f4f4f4">
+
+    <RelativeLayout
+        android:id="@+id/layout_category_topbar"
+        style="@style/TopbarStyle" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="小号列表"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/iv_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:clickable="true"
+            android:src="@drawable/icon_topbar_add"
+            android:textSize="@dimen/small_medium_text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f4f4f4"
+        android:gravity="center" >
+
+        <TextView
+            style="@style/AcountListTitleText"
+            android:layout_weight="1"
+            android:text="编号" />
+
+        <TextView
+            style="@style/AcountListTitleText"
+            android:layout_weight="1"
+            android:text="手机号" />
+
+        <TextView
+            style="@style/AcountListTitleText"
+            android:layout_weight="1"
+            android:text="用户名" />
+
+        <TextView
+            style="@style/AcountListTitleText"
+            android:layout_weight="1"
+            android:text="是否启用" />
+    </LinearLayout>
+
+    <View xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="fill_parent"
+          android:layout_height="1.0px"
+          android:background="@color/div_line_color" />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/transparent"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:listSelector="@color/transparent"
+        android:cacheColorHint="@color/transparent"
+        android:footerDividersEnabled="false" />
+</LinearLayout>

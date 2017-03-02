@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.june.healthmail.R;
+import com.june.healthmail.fragement.ManageAcountFragment;
 import com.june.healthmail.fragement.MessageFragment;
 import com.june.healthmail.fragement.MineFragment;
 
@@ -21,7 +22,7 @@ public class MainActivity extends FragmentActivity {
   private String userName;
 
   private Class[] mFragments = new Class[] { MessageFragment.class,
-      MessageFragment.class, MessageFragment.class, MineFragment.class};
+      MessageFragment.class, ManageAcountFragment.class, MineFragment.class};
 
   private int[] mTabSelectors = new int[] {
       R.drawable.main_bottom_tab_faxian,
@@ -30,7 +31,7 @@ public class MainActivity extends FragmentActivity {
       R.drawable.main_bottom_tab_mine
   };
 
-  private String[] mTabSpecs = new String[]{"发现","消息", "好友","我的" };
+  private String[] mTabSpecs = new String[]{"猫友圈","功能列表","小号管理","个人中心" };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MainActivity extends FragmentActivity {
     mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
     mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
     addTab();
+    mTabHost.setCurrentTab(3);
   }
 
   private void addTab() {

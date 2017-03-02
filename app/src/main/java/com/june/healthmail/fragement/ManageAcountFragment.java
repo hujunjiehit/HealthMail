@@ -1,19 +1,25 @@
 package com.june.healthmail.fragement;
 
+/**
+ * Created by bjhujunjie on 2017/3/2.
+ */
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.june.healthmail.R;
 
 /**
- * Created by bjhujunjie on 2016/9/21.
+ * 小号管理fragment
  */
-public class MessageFragment extends Fragment implements View.OnClickListener{
+public class ManageAcountFragment extends Fragment implements View.OnClickListener{
 
   private View layout;
+  private ListView mListView;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,11 +27,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener{
       // 防止多次new出片段对象，造成图片错乱问题
       return layout;
     }
-    layout = inflater.inflate(R.layout.fragment_message, container, false);
-//    initView();
+    layout = inflater.inflate(R.layout.fragment_manage_acount, container, false);
+    initView();
 //    setOnListener();
 //    initLogin();
     return layout;
+  }
+
+  private void initView() {
+    mListView = (ListView) layout.findViewById(R.id.list_view);
   }
 
   @Override

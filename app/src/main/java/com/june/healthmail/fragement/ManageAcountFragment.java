@@ -4,14 +4,22 @@ package com.june.healthmail.fragement;
  * Created by bjhujunjie on 2017/3/2.
  */
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.june.healthmail.R;
+import com.june.healthmail.adapter.AcountListAdapter;
+import com.june.healthmail.model.AcountInfo;
+import com.june.healthmail.untils.DBManager;
+
+import java.util.ArrayList;
 
 /**
  * 小号管理fragment
@@ -19,7 +27,10 @@ import com.june.healthmail.R;
 public class ManageAcountFragment extends Fragment implements View.OnClickListener{
 
   private View layout;
+
   private ListView mListView;
+  private ArrayList<AcountInfo> acountList = new ArrayList<>();
+  private AcountListAdapter mAdapter;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,14 +40,69 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     }
     layout = inflater.inflate(R.layout.fragment_manage_acount, container, false);
     initView();
-//    setOnListener();
-//    initLogin();
+    setOnListener();
+    initData();
     return layout;
   }
 
+
+
   private void initView() {
     mListView = (ListView) layout.findViewById(R.id.list_view);
+    mAdapter = new AcountListAdapter(getActivity(),acountList);
+    mListView.setAdapter(mAdapter);
   }
+
+  private void setOnListener() {
+
+  }
+
+  private void initData() {
+
+    acountList.clear();
+
+    AcountInfo info1 = new AcountInfo();
+    info1.setNickName("胡军杰");
+    info1.setPassWord("111456");
+    info1.setPhoneNumber("13027909110");
+    info1.setStatus(0);
+    //acountList.add(info1);
+
+    AcountInfo info2 = new AcountInfo();
+    info2.setNickName("左佩");
+    info2.setPassWord("222456");
+    info2.setPhoneNumber("15278734567");
+    info2.setStatus(1);
+    //acountList.add(info2);
+
+    SQLiteDatabase db = DBManager.getInstance(getActivity()).getDb();
+    db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
+            new String[]{info1.getPhoneNumber(),info1.getPassWord(),info1.getNickName(),
+                    info1.getStatus()+""});
+
+    db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
+            new String[]{info2.getPhoneNumber(),info2.getPassWord(),info2.getNickName(),
+                    info2.getStatus()+""});
+
+    Cursor cursor = db.rawQuery("select * from account",null);
+    if(cursor.moveToFirst()){
+      do {
+        AcountInfo info = new AcountInfo();
+        info.setPassWord(cursor.getString(cursor.getColumnIndex("passWord")));
+        info.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
+        info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
+        info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+        info.setId(cursor.getInt(cursor.getColumnIndex("id")));
+
+        Log.e("test","id = " + info.getId());
+        acountList.add(info);
+      }while(cursor.moveToNext());
+    }
+    mAdapter.notifyDataSetChanged();
+
+  }
+
+
 
   @Override
   public void onDestroyView() {

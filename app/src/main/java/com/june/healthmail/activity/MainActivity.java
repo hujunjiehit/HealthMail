@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.june.healthmail.R;
 import com.june.healthmail.fragement.ManageAcountFragment;
-import com.june.healthmail.fragement.MessageFragment;
+import com.june.healthmail.fragement.FunctionListFragment;
 import com.june.healthmail.fragement.MineFragment;
 
 import cn.bmob.v3.BmobUser;
@@ -21,8 +21,8 @@ public class MainActivity extends FragmentActivity {
   private String uid;
   private String userName;
 
-  private Class[] mFragments = new Class[] { MessageFragment.class,
-      MessageFragment.class, ManageAcountFragment.class, MineFragment.class};
+  private Class[] mFragments = new Class[] { FunctionListFragment.class,
+      FunctionListFragment.class, ManageAcountFragment.class, MineFragment.class};
 
   private int[] mTabSelectors = new int[] {
       R.drawable.main_bottom_tab_faxian,

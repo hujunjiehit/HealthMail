@@ -12,12 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.AcountListAdapter;
 import com.june.healthmail.model.AcountInfo;
 import com.june.healthmail.untils.DBManager;
+import com.june.healthmail.view.TopbarOperatePop;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,9 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   private ListView mListView;
   private ArrayList<AcountInfo> acountList = new ArrayList<>();
   private AcountListAdapter mAdapter;
+  private ImageView ivAddButton;
+
+  private TopbarOperatePop operateBarPop;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,16 +50,16 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     return layout;
   }
 
-
-
   private void initView() {
     mListView = (ListView) layout.findViewById(R.id.list_view);
     mAdapter = new AcountListAdapter(getActivity(),acountList);
     mListView.setAdapter(mAdapter);
+
+    ivAddButton = (ImageView) layout.findViewById(R.id.iv_add_btn);
   }
 
   private void setOnListener() {
-
+    ivAddButton.setOnClickListener(this);
   }
 
   private void initData() {
@@ -114,6 +119,13 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 
   @Override
   public void onClick(View v) {
-
+    if(v.getId() == R.id.iv_add_btn){
+        if (operateBarPop != null && operateBarPop.isShowing()){
+          operateBarPop.dismiss();
+        } else {
+          operateBarPop =  new TopbarOperatePop(getActivity());
+          operateBarPop.showAsDropDown(ivAddButton,0,0);
+        }
+    }
   }
 }

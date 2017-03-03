@@ -40,22 +40,22 @@
 
         <TextView
             style="@style/AcountListTitleText"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="编号" />
 
         <TextView
             style="@style/AcountListTitleText"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:text="手机号" />
 
         <TextView
             style="@style/AcountListTitleText"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:text="用户名" />
 
         <TextView
             style="@style/AcountListTitleText"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="是否启用" />
     </LinearLayout>
 
@@ -68,7 +68,7 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/transparent"
+        android:divider="@color/div_line_color"
         android:dividerHeight="1px"
         android:fadingEdge="none"
         android:listSelector="@color/transparent"

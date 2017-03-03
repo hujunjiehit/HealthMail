@@ -39,6 +39,7 @@ captures/
 # Keystore files
 *.jks
 
+.idea
 # for freeline
 freeline/
 freeline.py

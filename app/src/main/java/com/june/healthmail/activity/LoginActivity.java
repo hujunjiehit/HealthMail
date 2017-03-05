@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 
 import com.june.healthmail.R;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.untils.ShowProgress;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -150,15 +151,21 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
    * 登录按钮
    */
   private void login() {
+    final ShowProgress showProgress = new ShowProgress(this);
+    showProgress.setMessage("正在登陆,请稍后...");
+    showProgress.show();
+
     String userName = mEditUid.getText().toString();
     String pwd = mEditPsw.getText().toString();
-
     final UserInfo user = new UserInfo();
     user.setUsername(userName);
     user.setPassword(pwd);
     user.login(new SaveListener<UserInfo>() {
       @Override
       public void done(UserInfo userInfo, BmobException e) {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
         if (e == null) {
           //将用户名保存到Preference
           SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);

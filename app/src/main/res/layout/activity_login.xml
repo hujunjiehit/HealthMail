@@ -268,7 +268,7 @@
             android:textSize="15sp"
             android:textColor="@color/red"
             android:text="试用账号：test"/>
-        
+
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"

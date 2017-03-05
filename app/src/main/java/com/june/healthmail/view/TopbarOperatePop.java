@@ -156,6 +156,19 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
             }else{
               Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
+          }else if(lines[i].contains(",")) {
+            String[] result = lines[i].split(",");
+            if (mDBManger.addAccount(result[0], result[1])) {
+              Log.d("test", result[0] + "--" + result[1] + " 添加成功");
+              AccountInfo info = new AccountInfo();
+              info.setId(accountList.size() + 1);
+              info.setNickName("");
+              info.setPhoneNumber(result[0]);
+              info.setPassWord(result[1]);
+              info.setStatus(1);
+              accountList.add(info);
+              mAdapter.notifyDataSetChanged();
+            }
           }
         }
       }

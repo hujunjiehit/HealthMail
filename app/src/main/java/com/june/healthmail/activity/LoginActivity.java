@@ -214,6 +214,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         break;
       case R.id.tv_quick_sign_up:	//快速注册
         //startActivity(new Intent(this, SignUpActivity.class));
+        Toast.makeText(this,"注册接口暂未开放，请联系作者购买账号",Toast.LENGTH_LONG).show();
         break;
 
       default:

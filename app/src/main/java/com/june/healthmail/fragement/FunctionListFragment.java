@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.activity.PingjiaActivity;
+import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.untils.CommonUntils;
 
 import java.io.IOException;
@@ -115,7 +116,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           break;
         case R.id.btn_operition_yueke:
           Toast.makeText(getActivity(),"进入约课页面",Toast.LENGTH_SHORT).show();
-          CommonUntils.getLocalMacAddressFromIp(getActivity());
+          //CommonUntils.getLocalMacAddressFromIp(getActivity());
+          Intent it = new Intent(getActivity(),YuekeActivity.class);
+          startActivity(it);
           break;
         default:
           break;

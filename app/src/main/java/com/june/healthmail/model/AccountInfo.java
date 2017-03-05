@@ -4,7 +4,7 @@ package com.june.healthmail.model;
  * Created by june on 2017/3/2.
  */
 
-public class AcountInfo {
+public class AccountInfo {
     private int id;
     private String phoneNumber;
     private String nickName;

@@ -1,5 +1,6 @@
 package com.june.healthmail.fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.untils.CommonUntils;
 
 import java.io.IOException;
@@ -70,6 +72,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
         case R.id.btn_operition_pingjia:
           Toast.makeText(getActivity(),"进入评价页面",Toast.LENGTH_SHORT).show();
 
+          Intent intent = new Intent(getActivity(),PingjiaActivity.class);
+          startActivity(intent);
+
           new Thread(new Runnable() {
             @Override
             public void run() {
@@ -105,7 +110,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
                 e.printStackTrace();
               }
             }
-          }).start();
+          });
 
           break;
         case R.id.btn_operition_yueke:

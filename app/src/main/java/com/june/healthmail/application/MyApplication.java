@@ -3,6 +3,7 @@ package com.june.healthmail.application;
 import android.app.Application;
 
 import com.june.healthmail.Config.BmobConfig;
+import com.june.healthmail.untils.PreferenceHelper;
 
 import cn.bmob.v3.Bmob;
 
@@ -16,5 +17,7 @@ public class MyApplication extends Application{
   public void onCreate() {
     super.onCreate();
     Bmob.initialize(this, BmobConfig.applicationId);
+
+    PreferenceHelper.getInstance().setContext(this);
   }
 }

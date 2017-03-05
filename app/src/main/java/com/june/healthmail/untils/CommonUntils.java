@@ -1,15 +1,14 @@
 package com.june.healthmail.untils;
 
 import android.content.Context;
-import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
-import android.webkit.WebSettings;
-
-import org.apache.http.conn.util.InetAddressUtils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 
 /**
@@ -87,5 +86,28 @@ public class CommonUntils {
       Log.e("test", ex.toString());
     }
     return null;
+  }
+
+  public static String md5(String string) {
+    if (TextUtils.isEmpty(string)) {
+      return "";
+    }
+    MessageDigest md5 = null;
+    try {
+      md5 = MessageDigest.getInstance("MD5");
+      byte[] bytes = md5.digest(string.getBytes());
+      String result = "";
+      for (byte b : bytes) {
+        String temp = Integer.toHexString(b & 0xff);
+        if (temp.length() == 1) {
+          temp = "0" + temp;
+        }
+        result += temp;
+      }
+      return result;
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 }

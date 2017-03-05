@@ -8,7 +8,7 @@
               android:paddingRight="8dp">
     <TextView
         android:id="@+id/tv_operate_1"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="44dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -17,8 +17,9 @@
         android:textSize="13sp"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_operate_2"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="44dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -28,11 +29,30 @@
 
     <TextView
         android:id="@+id/tv_operate_3"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="44dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="清空小号"
+        android:textColor="@color/text_press"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tv_operate_4"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="全部启用"
+        android:textColor="@color/text_press"
+        android:textSize="13sp"/>
+    <TextView
+        android:id="@+id/tv_operate_5"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="全部禁用"
         android:textColor="@color/text_press"
         android:textSize="13sp"/>
 

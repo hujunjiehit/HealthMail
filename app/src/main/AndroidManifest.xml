@@ -50,6 +50,11 @@
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
+
+        <activity
+            android:name="cn.bmob.v3.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>

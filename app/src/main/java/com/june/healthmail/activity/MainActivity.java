@@ -14,6 +14,7 @@ import com.june.healthmail.fragement.FunctionListFragment;
 import com.june.healthmail.fragement.MineFragment;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends FragmentActivity {
 
@@ -41,6 +42,8 @@ public class MainActivity extends FragmentActivity {
       Log.e("test","MainActivity, uid = " + getIntent().getStringExtra("uid"));
       uid = getIntent().getStringExtra("uid");
     }
+    //bmob版本更新
+    BmobUpdateAgent.update(this);
     mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
     mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
     addTab();

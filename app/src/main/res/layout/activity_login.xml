@@ -148,10 +148,9 @@
                     android:layout_toRightOf="@+id/tv_uid"
                     android:layout_margin="3dp"
                     android:background="@null"
-                    android:hint="用户名/邮箱/手机号"
+                    android:hint="手机号"
                     android:singleLine="true"
                     android:textSize="@dimen/small_middle_text_size">
-
                     <requestFocus/>
                 </EditText>
 
@@ -260,23 +259,6 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/red"
-            android:text="试用账号：test"/>
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/red"
-            android:text="试用密码：test"/>
     </LinearLayout>
 
 </RelativeLayout>

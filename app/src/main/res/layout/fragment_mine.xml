@@ -20,7 +20,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/tv_more"
+            android:id="@+id/tv_log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -110,18 +110,28 @@
             android:textSize="@dimen/small_medium_text_size" />
 
             <TextView
-            android:id="@+id/tv_level"
+            android:id="@+id/tv_user_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_uid"
+            android:layout_alignLeft="@id/tv_uid"
             android:layout_centerVertical="true"
             android:text="铜牌用户"
             android:textColor="@color/white"
-            android:visibility="gone"
             android:textSize="@dimen/small_medium_text_size" />
+
+            <TextView
+                android:id="@+id/tv_allow_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_alignLeft="@id/tv_uid"
+                android:layout_below="@id/tv_user_type"
+                android:layout_centerVertical="true"
+                android:text="剩余授权时间"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_medium_text_size" />
             </RelativeLayout>
         </LinearLayout>
-
     </ScrollView>
 
 
@@ -132,5 +142,28 @@
         <!--</LinearLayout>-->
 
 
+    <Button
+        android:id="@+id/btn_unbind_device"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:padding="4dp"
+        android:background="@drawable/bg_btn_press_selector_1"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textColor="@color/text_press"
+        android:textSize="16sp"
+        android:text="解除绑定"
+        android:layout_alignParentBottom="true"
+        />
 
+    <TextView
+        android:layout_above="@id/btn_unbind_device"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textColor="@color/red"
+        android:text="QQ交流群：524326010"/>
 </RelativeLayout>

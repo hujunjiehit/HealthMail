@@ -134,7 +134,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
     final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-    builder.setTitle(" 按照格式\"账号|密码\"输入小号，每行一个小号");
+    builder.setTitle("按照\"账号|密码\"或者\"帐号,密码\"的格式输入小号，每行一个小号,支持多行");
     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
@@ -168,6 +168,23 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
+            }else{
+              Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
+            }
+          }else if(lines[i].contains("，")) {
+            String[] result = lines[i].split("，");
+            if (mDBManger.addAccount(result[0], result[1])) {
+              Log.d("test", result[0] + "--" + result[1] + " 添加成功");
+              AccountInfo info = new AccountInfo();
+              info.setId(accountList.size() + 1);
+              info.setNickName("");
+              info.setPhoneNumber(result[0]);
+              info.setPassWord(result[1]);
+              info.setStatus(1);
+              accountList.add(info);
+              mAdapter.notifyDataSetChanged();
+            }else{
+              Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
           }
         }

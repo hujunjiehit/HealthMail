@@ -3,6 +3,8 @@ package com.june.healthmail.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,6 +16,23 @@ import com.june.healthmail.R;
 public class SplashActivity extends Activity {
 
   private ImageView mSplashItem_iv;
+
+  private static final int ON_ANIMATION_END = 1;
+
+  private Handler mHandler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case ON_ANIMATION_END:
+          startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+          overridePendingTransition(0, 0);
+          SplashActivity.this.finish();
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +68,7 @@ public class SplashActivity extends Activity {
 
       @Override
       public void onAnimationEnd(Animation animation) {
-        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-        overridePendingTransition(0, 0);
-        SplashActivity.this.finish();
+        mHandler.sendEmptyMessageDelayed(ON_ANIMATION_END,50);
       }
     });
     mSplashItem_iv.setAnimation(translate);

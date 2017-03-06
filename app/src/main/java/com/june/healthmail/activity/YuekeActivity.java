@@ -36,6 +36,7 @@ import com.june.healthmail.model.OrdersModel;
 import com.june.healthmail.model.PingjiaModel;
 import com.june.healthmail.model.PostYuekeModel;
 import com.june.healthmail.model.TokenModel;
+import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
@@ -283,7 +284,10 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BmobUser bmobUser = BmobUser.getCurrentUser();
+        if(!hasPermission()){
+            Toast.makeText(this,"当前用户无授权，无法进入本页面",Toast.LENGTH_SHORT).show();
+            finish();
+        }
         setContentView(R.layout.activity_yueke);
         initView();
         setListener();
@@ -589,6 +593,15 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         offset = tvShowResult.getLineCount()* tvShowResult.getLineHeight();
         if(offset > tvShowResult.getHeight()){
             tvShowResult.scrollTo(0,offset- tvShowResult.getHeight());
+        }
+    }
+
+    private boolean hasPermission() {
+        UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
+        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 2){
+            return true;
+        }else {
+            return false;
         }
     }
 }

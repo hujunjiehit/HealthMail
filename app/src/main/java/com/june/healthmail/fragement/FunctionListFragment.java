@@ -13,12 +13,14 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.YuekeActivity;
+import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import cn.bmob.v3.BmobUser;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -71,57 +73,32 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   public void onClick(View v) {
       switch (v.getId()){
         case R.id.btn_operition_pingjia:
-          Toast.makeText(getActivity(),"进入评价页面",Toast.LENGTH_SHORT).show();
-
-          Intent intent = new Intent(getActivity(),PingjiaActivity.class);
-          startActivity(intent);
-
-          new Thread(new Runnable() {
-            @Override
-            public void run() {
-              Response response = null;
-              try {
-                OkHttpClient mOkHttpClient = new OkHttpClient();
-                FormBody body = new FormBody.Builder()
-                    .add("data","{\"userPassword\":\"0a4532a389a4a0553a6ea9eb4b1ef17c\",\"grantType\":\"app_credential\",\"userName\":\"13064529726\",\"thirdLoginType\":\"0\"}")
-                    .build();
-
-                Request.Builder builder  = new Request.Builder().url("http://ssl.healthmall.cn/data/app/token/accessToken.do").post(body);
-                //builder.addHeader(key,value);  //将请求头以键值对形式添加，可添加多个请求头
-                builder.addHeader("User-Agent", CommonUntils.getUserAgent(getActivity())); //必须
-                builder.addHeader("appId","101"); //必须
-
-                builder.addHeader("deviceId","android_" + CommonUntils.getLocalMacAddressFromIp(getActivity())); //非必须
-                builder.addHeader("deviceType","1"); //非必须
-
-                builder.addHeader("timeStamp",String.valueOf(System.currentTimeMillis()));  //必须
-
-                builder.addHeader("versionCode","67"); //非必须
-                builder.addHeader("versionName","2.5.2.1"); //非必须
-
-                Request request = builder.build();
-                response = mOkHttpClient.newCall(request).execute();
-                if (response.isSuccessful()) {
-                  Log.e("test","body:"+response.body().toString());
-                  response.close();
-                } else {
-                  throw new IOException("Unexpected code " + response);
-                }
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
-            }
-          });
-
+          if(hasPermission()){
+            Intent intent = new Intent(getActivity(),PingjiaActivity.class);
+            startActivity(intent);
+          }else {
+            Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
+          }
           break;
         case R.id.btn_operition_yueke:
-          Toast.makeText(getActivity(),"进入约课页面",Toast.LENGTH_SHORT).show();
-          //CommonUntils.getLocalMacAddressFromIp(getActivity());
-          Intent it = new Intent(getActivity(),YuekeActivity.class);
-          startActivity(it);
+          if(hasPermission()){
+            Intent it = new Intent(getActivity(),YuekeActivity.class);
+            startActivity(it);
+          }else {
+            Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
+          }
           break;
         default:
           break;
       }
+  }
+
+  private boolean hasPermission() {
+    UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
+    if(userInfo.getUserType() == 1 || userInfo.getUserType() == 2){
+      return true;
+    }else {
+      return false;
+    }
   }
 }

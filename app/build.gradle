@@ -3,12 +3,7 @@ apply plugin: 'com.antfortune.freeline'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'hujunjie'
-            keyPassword '112092'
-            storeFile file('C:/Users/hujunjie.jks')
-            storePassword '112092'
-        }
+
     }
     compileSdkVersion 25
     buildToolsVersion "23.0.3"

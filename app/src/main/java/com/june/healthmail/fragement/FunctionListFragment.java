@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.model.UserInfo;
@@ -35,6 +36,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 
   private Button btnPingjia;
   private Button btnYueke;
+  private Button btnSetup;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,12 +54,14 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private void initView() {
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
+    btnSetup = (Button) layout.findViewById(R.id.btn_operition_setup);
   }
 
 
   private void setOnListener() {
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
+    btnSetup.setOnClickListener(this);
   }
 
 
@@ -87,6 +91,10 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           }else {
             Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
           }
+          break;
+        case R.id.btn_operition_setup:
+          Intent it = new Intent(getActivity(),FunctionSetupActivity.class);
+          startActivity(it);
           break;
         default:
           break;

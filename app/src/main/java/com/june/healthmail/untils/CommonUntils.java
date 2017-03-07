@@ -10,6 +10,7 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
+import java.util.Random;
 
 /**
  * Created by bjhujunjie on 2017/3/3.
@@ -37,7 +38,6 @@ public class CommonUntils {
     try {
       byte[] mac;
       String ip = getLocalIpAddress();
-      Log.d("test","ip = " + ip);
       NetworkInterface ne=NetworkInterface.getByInetAddress(InetAddress.getByName(getLocalIpAddress()));
       mac = ne.getHardwareAddress();
       if(mac != null){
@@ -61,7 +61,6 @@ public class CommonUntils {
       //数据流量的时候,需要从sharepreference获取mac地址
       mac_s = PreferenceHelper.getInstance().getMacAddress();
     }
-    Log.d("test","mac_s = " + mac_s);
     return mac_s;
   }
 
@@ -119,5 +118,12 @@ public class CommonUntils {
       e.printStackTrace();
     }
     return "";
+  }
+
+  public static int getRandomInt(int min, int max){
+    int result;
+    Random random = new Random();
+    result = random.nextInt(max - min + 1) + min;
+    return result;
   }
 }

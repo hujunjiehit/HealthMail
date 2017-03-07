@@ -47,6 +47,15 @@
                 android:textColor="@color/text_press"
                 android:textSize="26sp"
                 android:text="自动约课"/>
+
+            <Button
+                android:id="@+id/btn_operition_setup"
+                android:layout_marginTop="66dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="26sp"
+                android:text="功能设置"/>
         </LinearLayout>
 
     </RelativeLayout>

@@ -99,6 +99,9 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
     private CourseDetail currentCourseDetail;
 
     private static final int DEELAY_TIME = 1000;
+    private int min_time;
+    private int max_time;
+    private int max_sijiao;
 
     private Handler mHandler = new Handler(){
 
@@ -163,9 +166,17 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 case START_TO_GET_COURSE_LIST:
                     //传入私教id
                     if(sijiaoIndex < guanzhuList.size()){
-                        showTheResult("************开始获取私教["+ (sijiaoIndex+1) +"]-" +
-                                guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned()+ "的课程\n");
-                        getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                        if(sijiaoIndex < max_sijiao){
+                            showTheResult("************开始获取私教["+ (sijiaoIndex+1) +"]-" +
+                                    guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned()+ "的课程\n");
+                            getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                        }else {
+                            showTheResult("*******用户设置了最多只约"+max_sijiao+"个私教，开始下一个小号\n\n\n");
+                            accountIndex++;
+                            message = this.obtainMessage(START_TO_YUE_KE);
+                            message.sendToTarget();
+                        }
+
                     }else {
                         showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
                         accountIndex++;
@@ -182,7 +193,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                         coureseList.add(courseListModel.getValuse().get(i));
                     }
                     showTheResult("--------私教"+ (sijiaoIndex+1) + "有" + coureseList.size() + "节课程\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
 
                 case START_TO_GET_COURSE_USERS:
@@ -192,7 +203,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                             getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
                         } else {
                             sijiaoIndex++;
-                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, DEELAY_TIME);
+                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
                         }
                     }else{
                         showTheResult("**用户自己终止约课**当前已经执行完成"+ accountIndex + "个小号\n");
@@ -211,13 +222,13 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     if(isIntheList == true){
                         showTheResult("---------------------已经约过课了\n");
                         courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }else if(groupbuyUserModel.getValuse().size() >= 50){
                         showTheResult("---------------------课程已经约满了\n");
                         courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }else {
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,DEELAY_TIME);
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,getDelayTime());
                     }
                     break;
 
@@ -230,11 +241,11 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     if(courseDetailModel.getValuse().getHm_gbc_currnum() < courseDetailModel.getValuse().getHm_gbc_maxnum()
                             && courseDetailModel.getValuse().getHm_gbc_status() == 1){
                         currentCourseDetail = courseDetailModel.getValuse();
-                        this.sendEmptyMessageDelayed(POST_YUE_KE_APPLAY,DEELAY_TIME);
+                        this.sendEmptyMessageDelayed(POST_YUE_KE_APPLAY,getDelayTime());
                     }else {
                         showTheResult("---------------------课程已经约满了\n");
                         courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }
                     break;
                 case POST_YUE_KE_APPLAY:
@@ -244,32 +255,32 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 case YUE_KE_SUCESS:
                     showTheResult("----------------------------------约课成功\n");
                     courseIndex++;
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
                 case YUE_KE_FAILED:
                     showTheResult("----------------------------------约课失败\n");
                     //courseIndex++;
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
                 case GET_TOKEN_FAILED:
                     showTheResult("--获取token失败，重新开始该小号\n");
-                    this.sendEmptyMessageDelayed(START_TO_YUE_KE,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
                     break;
                 case GET_GUANZHU_LIST_FAILED:
                     showTheResult("--获取关注列表失败，重新获取关注列表\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_GUANZHU_LIST,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_GUANZHU_LIST,getDelayTime());
                     break;
                 case GET_COURSE_LIST_FAILED:
                     showTheResult("--获取私教课程列表失败，重新获取该私教课程列表\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST,getDelayTime());
                     break;
                 case GET_COURSE_USERS_FAILED:
                     showTheResult("--获取课程约课名单失败，重新获取\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
                 case GET_COURSE_DETAILS_FAILED:
                     showTheResult("--获取课程详情失败，重新获取\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,getDelayTime());
                     break;
                 default:
                     Log.e("test","undefined message");
@@ -321,6 +332,16 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
             }while(cursor.moveToNext());
         }
 
+        min_time = PreferenceHelper.getInstance().getMinYuekeTime();
+        max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
+        max_sijiao = PreferenceHelper.getInstance().getMaxSijiao();
+
+    }
+
+    private int getDelayTime() {
+        int randTime = CommonUntils.getRandomInt(min_time,max_time);
+        Log.d("test","randTime = " + randTime);
+        return randTime;
     }
 
     @Override
@@ -370,7 +391,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
             }
 
             @Override
@@ -410,7 +431,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
             }
 
             @Override
@@ -426,7 +447,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     msg.obj = guanzhuListModel;
                     msg.sendToTarget();
                 }else{
-                    mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,DEELAY_TIME);
+                    mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
                 }
 
             }
@@ -452,7 +473,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
             }
 
             @Override
@@ -465,7 +486,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     msg.obj = courseListModel;
                     msg.sendToTarget();
                 }else{
-                    mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,DEELAY_TIME);
+                    mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
                 }
             }
         });
@@ -487,20 +508,25 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,getDelayTime());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Gson gson = new Gson();
-                GroupbuyUserModel groupbuyUserModel = gson.fromJson(response.body().charStream(), GroupbuyUserModel.class);
-                //获取成功之后
-                if(groupbuyUserModel.isSucceed()) {
-                    Message msg = mHandler.obtainMessage(GET_COURSE_USERS_SUCESS);
-                    msg.obj = groupbuyUserModel;
-                    msg.sendToTarget();
-                }else{
-                   mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,DEELAY_TIME);
+                try {
+                    GroupbuyUserModel groupbuyUserModel = gson.fromJson(response.body().charStream(), GroupbuyUserModel.class);
+                    //获取成功之后
+                    if(groupbuyUserModel.isSucceed()) {
+                        Message msg = mHandler.obtainMessage(GET_COURSE_USERS_SUCESS);
+                        msg.obj = groupbuyUserModel;
+                        msg.sendToTarget();
+                    }else{
+                        mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,getDelayTime());
+                    }
+
+                }catch (Exception e){
+
                 }
             }
         });
@@ -521,7 +547,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());
             }
 
             @Override
@@ -534,7 +560,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     msg.obj = courseDetailModel;
                     msg.sendToTarget();
                 }else {
-                    mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,DEELAY_TIME);
+                    mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());
                 }
             }
         });
@@ -567,7 +593,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(YUE_KE_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(YUE_KE_FAILED,getDelayTime());
             }
 
             @Override

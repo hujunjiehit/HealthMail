@@ -61,4 +61,6 @@
     <color name="bg_item_press_color">#e3e3e3</color>
     <color name="bg_btn_normal_color_hui">#d2d2d2</color>
     <color name="bg_btn_press_color_hui">#c1c1c1</color>
+
+    <color name="setup_title_color">#000000</color>
     </resources>

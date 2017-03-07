@@ -84,6 +84,9 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
     private static final int DEELAY_TIME = 1000;
 
+    private int min_time;
+    private int max_time;
+
     private Handler mHandler = new Handler(){
 
         @Override
@@ -197,21 +200,21 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                 case PING_JIA_ONE_COURSE_SUCCESS:
                     showTheResult("评价成功\n");
                     courseIndex++;
-                    this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,getDelayTime());
                     break;
 
                 case PING_JIA_ONE_COURSE_FAILED:
                     showTheResult("评价失败，继续尝试\n");
-                    this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,getDelayTime());
                     break;
                 case GET_ORDER_LIST_FAILED:
                     showTheResult("订单列表获取失败，继续尝试\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_ORDER_LIST,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_GET_ORDER_LIST,getDelayTime());
                     break;
 
                 case GET_TOKEN_FAILED:
                     showTheResult("--获取token失败，重新开始该小号\n");
-                    this.sendEmptyMessageDelayed(START_TO_PING_JIA,DEELAY_TIME);
+                    this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
                     break;
                 default:
                     Log.e("test","undefined message");
@@ -269,6 +272,14 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             }while(cursor.moveToNext());
         }
 
+        min_time = PreferenceHelper.getInstance().getMinPingjiaTime();
+        max_time = PreferenceHelper.getInstance().getMaxPingjiaTime();
+    }
+
+    private int getDelayTime() {
+        int randTime = CommonUntils.getRandomInt(min_time,max_time);
+        Log.d("test","randTime = " + randTime);
+        return randTime;
     }
 
     @Override
@@ -322,7 +333,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
             }
 
             @Override
@@ -340,11 +351,11 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
                 accessToken = tokenmodel.getData().getAccessToken();
 
-                Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
-                msg.sendToTarget();
+                mHandler.sendEmptyMessageDelayed(GET_TOKEN_SUCCESS,getDelayTime());
             }
         });
     }
+
 
     private void getOrderList() {
 
@@ -365,8 +376,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
-                Message msg = mHandler.obtainMessage(GET_ORDER_LIST_FAILED);
+                mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
             }
 
             @Override
@@ -419,7 +429,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,DEELAY_TIME);
+                mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
             }
 
             @Override
@@ -428,9 +438,9 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                 PingjiaModel pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
                 Log.e("test","succeed = " + pingjiaModel.getSucceed());
                 if(pingjiaModel.getSucceed()){
-                    mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,DEELAY_TIME);
+                    mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
                 } else {
-                    mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,DEELAY_TIME);
+                    mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
                 }
             }
         });

@@ -4,27 +4,28 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="text">#252525</color>
-    <color name="dark">#4f4f4f</color>
-    <color name="gold">#d78f2f</color>
+
+
     <color name="white">#ffffff</color>
     <color name="gray">#9c9c9c</color>
-    <color name="lightgray">#a0a0a0</color>
     <color name="darkgray">#7b7b7b</color>
     <color name="dimgray">#5b5b5b</color>
     <color name="red">#ff0000</color>
+    <color name="text">#252525</color>
+    <color name="dark">#4f4f4f</color>
+    <color name="gold">#d78f2f</color>
+    <color name="lightgray">#a0a0a0</color>
+
     <color name="pink">#f76d6d</color>
-    <color name="blue">#0000ff</color>
     <color name="brown">#f2af19</color>
-    <color name="green">#9cbe08</color>
-    <color name="black">#000000</color>
     <color name="light_gold">#ccca6e</color>
+
+    <color name="black">#000000</color>
 
     <color name="login_button">#ff775025</color>
 
-    <color name="hintColor">#d7d7d7</color>
-    <color name="pressBarBg">#f2f2f2</color>
-    <color name="lightBg">#fefefe</color>
+
+
 
     <color name="btn_login_press">#a83a3a</color>
     <color name="btn_login_normal">#f15353</color>
@@ -34,31 +35,30 @@
     <color name="bg_topbar">#fbfbfb</color>
 
     <!-- 分隔条颜色 -->
-    <color name="divider_color">#cccccc</color>
 
     <color name="titleColor">#757575</color>
     <color name="titleColorSelected">#F54D33</color>
     <color name="transparent">#00000000</color>
 
-    <color name="color_std_black">#333333</color>
-    <color name="color_std_black2">#666666</color>
-    <color name="color_std_white">#ffffff</color>
+
+
 
     <!-- 文字颜色 -->
-    <color name="text_color_light_grey">#c2c2c2</color>
-    <color name="text_color_light_grey2">#c1c1c1</color>
-    <color name="text_color_light_grey3">#7b7b7b</color>
+
+
 
     <color name="div_line_color">#88252525</color>
     <color name="main_font_color">#9a9a9a</color>
+
+    <color name="bg_btn_normal_color">#ed4444</color>
+    <color name="bg_btn_press_color">#d81e06</color>
+
     <color name="text_red">#ffff5b3b</color>
     <color name="line_bg">#ffbababa</color>
     <color name="main_bg_color">#ed4444</color>
     <color name="layout_bg_color">#f8f8f8</color>
     <color name="bg_item_normal_color">#ffffff</color>
     <color name="bg_item_press_color">#e3e3e3</color>
-    <color name="bg_btn_normal_color">#ed4444</color>
-    <color name="bg_btn_press_color">#d81e06</color>
     <color name="bg_btn_normal_color_hui">#d2d2d2</color>
     <color name="bg_btn_press_color_hui">#c1c1c1</color>
-</resources>
+    </resources>

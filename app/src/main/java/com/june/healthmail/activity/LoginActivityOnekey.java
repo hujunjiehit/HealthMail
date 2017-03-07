@@ -110,7 +110,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
           showProgress.dismiss();
         }
         if(e==null){
-          Log.e("test","注册成功,userInfo = " + user.toString());
+          Log.d("test","注册成功,userInfo = " + user.toString());
           toast("注册成功，请用您注册的手机号和密码登录" );
           finish();
         }else{

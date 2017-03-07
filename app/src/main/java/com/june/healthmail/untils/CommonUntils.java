@@ -37,22 +37,32 @@ public class CommonUntils {
     try {
       byte[] mac;
       String ip = getLocalIpAddress();
-      Log.e("test","ip = " + ip);
+      Log.d("test","ip = " + ip);
       NetworkInterface ne=NetworkInterface.getByInetAddress(InetAddress.getByName(getLocalIpAddress()));
       mac = ne.getHardwareAddress();
-      mac_s = byte2hex(mac);
+      if(mac != null){
+        mac_s = byte2hex(mac);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
-    StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < mac_s.length(); i++){
-      sb.append(mac_s.charAt(i));
-      if(i % 2 == 1 && i < mac_s.length() - 1){
-        sb.append(":");
+
+    if(mac_s != null && !TextUtils.isEmpty(mac_s)){
+      StringBuilder sb = new StringBuilder();
+      for(int i = 0; i < mac_s.length(); i++){
+        sb.append(mac_s.charAt(i));
+        if(i % 2 == 1 && i < mac_s.length() - 1){
+          sb.append(":");
+        }
       }
+      mac_s =  sb.toString();
+      PreferenceHelper.getInstance().saveMacAddress(mac_s);
+    }else {
+      //数据流量的时候,需要从sharepreference获取mac地址
+      mac_s = PreferenceHelper.getInstance().getMacAddress();
     }
-    Log.e("test","mac_s = " + sb.toString());
-    return sb.toString();
+    Log.d("test","mac_s = " + mac_s);
+    return mac_s;
   }
 
   public static  String byte2hex(byte[] b) {

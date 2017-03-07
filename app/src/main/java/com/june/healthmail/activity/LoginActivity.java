@@ -61,15 +61,15 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     public void handleMessage(Message msg) {
       switch (msg.what) {
         case USER_LOGIN_SUCESS:
-          Log.e("test","用户登录成功,处理后续mac地址绑定");
+          Log.d("test","用户登录成功,处理后续mac地址绑定");
           UserInfo userInfo = (UserInfo) msg.obj;
-          Log.e("test","userInfo = " + userInfo.toString());
+          Log.d("test","userInfo = " + userInfo.toString());
           objectUid = userInfo.getObjectId();
           if(userInfo.getBindMac() == null || TextUtils.isEmpty(userInfo.getBindMac())){
             //该用户暂未绑定设备
             String mac = CommonUntils.getLocalMacAddressFromIp(LoginActivity.this);
             String deviceDesc =  CommonUntils.getUserAgent(LoginActivity.this);
-            Log.e("test","mac address is: " + mac + "   desc:" + deviceDesc);
+            Log.d("test","mac address is: " + mac + "   desc:" + deviceDesc);
             userInfo.setBindMac(mac);
             userInfo.setBindDesc(deviceDesc);
 
@@ -78,7 +78,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
               @Override
               public void done(BmobException e) {
                 if(e==null){
-                  Log.e("test","更新用户信息成功");
+                  Log.d("test","更新用户信息成功");
                   mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
                 }else{
                   toast("更新用户信息失败:" + e.getMessage());
@@ -91,9 +91,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
             String bindMac = userInfo.getBindMac().trim();
             String userAgent = CommonUntils.getUserAgent(LoginActivity.this).trim();
             String bindAgent = userInfo.getBindDesc().trim();
-            Log.e("test","userMac address is: " + userMac + "   bindMac:" + bindMac);
-            Log.e("test","userAgentis: " + userAgent + "   bindAgent:" + bindAgent);
-            if(userMac.equals(bindMac) && userAgent.equals(bindAgent)){
+            Log.d("test","userMac address is: " + userMac + "   bindMac:" + bindMac);
+            Log.d("test","userAgentis: " + userAgent + "   bindAgent:" + bindAgent);
+            if(userMac.equals(bindMac)){
               //设备信息验证正确
               mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
             }else{
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           }
           break;
         case GO_TO_MAIN_ACTIVITY:
-          Log.e("test","go to main activity");
+          Log.d("test","go to main activity");
           if(showProgress != null && showProgress.isShowing()){
             showProgress.dismiss();
           }
@@ -286,7 +286,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_login:	//登录
-        login();
+        if(TextUtils.isEmpty(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this))){
+          showInfoDialog();
+        }else {
+          login();
+        }
         break;
       case R.id.img_back:	//返回
         finish();
@@ -310,18 +314,31 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
 
   private void showDeviceErrorDialog(UserInfo userInfo) {
-    Log.e("test","DEVICE_ERROR");
+    Log.d("test","DEVICE_ERROR");
     if(showProgress != null && showProgress.isShowing()){
       showProgress.dismiss();
     }
     AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
         .setTitle("提醒")
-        .setMessage("次帐号已经绑定了另外一台设备("+userInfo.getBindDesc()+")" +
+        .setMessage("此帐号已经绑定了另外一台设备("+userInfo.getBindDesc()+")" +
             " 如需继续,请先解除绑定")
         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
               dialog.dismiss();
+          }
+        }).create();
+    dialog.show();
+  }
+
+  private void showInfoDialog() {
+    AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
+        .setTitle("提醒")
+        .setMessage("首次登录需要在WIFI环境下登录,请连接WIFI之后再继续登录.")
+        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
           }
         }).create();
     dialog.show();

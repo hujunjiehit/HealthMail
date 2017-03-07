@@ -49,9 +49,7 @@ public class HttpUntils {
         builder.addHeader("timeStamp",String.valueOf(System.currentTimeMillis()));  //必须
         builder.addHeader("versionCode","67"); //非必须
         builder.addHeader("versionName","2.5.2.1"); //非必须
-
         Request request = builder.build();
-
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }

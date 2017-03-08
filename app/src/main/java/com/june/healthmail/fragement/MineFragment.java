@@ -188,7 +188,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private String getLeftTimeDesc(int leftHours) {
     Log.e("test","leftHours = " + leftHours);
     StringBuilder sb = new StringBuilder();
-    if(leftHours > 24) {
+    if(leftHours >= 24) {
       sb.append(leftHours/24+"天");
     }
     sb.append(leftHours%24 + "小时");

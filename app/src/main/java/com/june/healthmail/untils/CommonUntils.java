@@ -1,6 +1,8 @@
 package com.june.healthmail.untils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -125,5 +127,36 @@ public class CommonUntils {
     Random random = new Random();
     result = random.nextInt(max - min + 1) + min;
     return result;
+  }
+
+  /**
+   * 获取版本号
+   * @return 当前应用的版本号
+   */
+  public static String getVersion(Context mContext) {
+    try {
+      PackageManager manager = mContext.getPackageManager();
+      PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
+      String version = info.versionName;
+      return "当前应用版本：" + version;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return "未找到当前版本信息";
+    }
+  }
+
+  /**
+   * 检查该包名下的应用是否存在
+   */
+  public static boolean checkPackage(Context context ,String packageName){
+    if (packageName == null || "".equals(packageName)){
+      return false;
+    }
+    try{
+      context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
+      return true;
+    }catch (PackageManager.NameNotFoundException e){
+      return false;
+    }
   }
 }

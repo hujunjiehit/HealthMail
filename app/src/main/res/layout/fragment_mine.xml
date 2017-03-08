@@ -142,22 +142,59 @@
         <!--</LinearLayout>-->
 
 
-    <Button
-        android:id="@+id/btn_unbind_device"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:padding="4dp"
-        android:background="@drawable/bg_btn_press_selector_1"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:textColor="@color/text_press"
-        android:textSize="16sp"
-        android:text="解除绑定"
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        />
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_unbind_device"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="24dp"
+                android:padding="4dp"
+                android:background="@drawable/bg_btn_press_selector_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="解除绑定"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_check_update"
+                android:layout_centerInParent="true"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="24dp"
+                android:padding="4dp"
+                android:background="@drawable/bg_btn_press_selector_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="检查更新"
+            />
+        </RelativeLayout>
+    </LinearLayout>
 
     <TextView
-        android:layout_above="@id/btn_unbind_device"
+        android:id="@+id/tv_qq_group"
+        android:layout_above="@id/layout_bottom"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -166,4 +203,19 @@
         android:textSize="15sp"
         android:textColor="@color/red"
         android:text="QQ交流群：524326010"/>
+
+
+    <TextView
+        android:id="@+id/tv_go_to_taobao"
+        android:layout_above="@id/tv_qq_group"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textColor="@color/text_press"
+        android:textSize="20sp"
+        android:autoLink="all"
+        android:text="@string/click_me"/>
+
 </RelativeLayout>

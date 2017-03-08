@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -19,13 +20,16 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.LoginActivity;
 import com.june.healthmail.activity.MainActivity;
+import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.untils.CommonUntils;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
  * Created by bjhujunjie on 2017/3/2.
@@ -47,6 +51,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private UserInfo userInfo;
 
+  private TextView tvGoToTaobao;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (layout != null) {
@@ -67,11 +72,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mImgUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     mTvUserType = (TextView) layout.findViewById(R.id.tv_user_type);
     mTvAllowDays = (TextView) layout.findViewById(R.id.tv_allow_days);
+    tvGoToTaobao = (TextView) layout.findViewById(R.id.tv_go_to_taobao);
   }
 
   private void setOnListener() {
     layout.findViewById(R.id.tv_log_out).setOnClickListener(this);
     layout.findViewById(R.id.btn_unbind_device).setOnClickListener(this);
+    layout.findViewById(R.id.btn_check_update).setOnClickListener(this);
+    tvGoToTaobao.setOnClickListener(this);
   }
 
   /**
@@ -112,20 +120,24 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       //普通用户
       mTvUserType.setText("普通用户");
       mTvAllowDays.setText("暂无授权，请联系软件作者购买");
+      tvGoToTaobao.setVisibility(View.VISIBLE);
     }else if (userInfo.getUserType() == 1){
       //月卡用户
       mTvUserType.setText("月卡用户");
       getServerTime();
       mTvAllowDays.setVisibility(View.INVISIBLE);
       //mTvAllowDays.setText("剩余授权时间：" + allowTime);
+      tvGoToTaobao.setVisibility(View.VISIBLE);
     } else if (userInfo.getUserType() == 2){
       //永久用户
       mTvUserType.setText("永久用户");
       mTvAllowDays.setVisibility(View.GONE);
+      tvGoToTaobao.setVisibility(View.GONE);
     } else {
       //过期用户
       mTvUserType.setText("过期用户");
       mTvAllowDays.setText("授权已过期，请联系软件作者续费");
+      tvGoToTaobao.setVisibility(View.VISIBLE);
     }
   }
 
@@ -254,8 +266,29 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           dialog.show();
         }
         break;
+      case R.id.btn_check_update: // 点击检查更新按钮
+        Toast.makeText(getActivity(), CommonUntils.getVersion(getActivity()),Toast.LENGTH_LONG).show();
+        BmobUpdateAgent.forceUpdate(getActivity());
+        break;
+      case R.id.tv_go_to_taobao: // 点击购买链接
+        openTaobaoShopping();
+        break;
       default:
         break;
+    }
+  }
+
+  private void openTaobaoShopping() {
+    String url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
+    if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
+      Log.e("test","taobao is not installed");
+      Intent intent = new Intent();
+      intent.setAction("android.intent.action.VIEW");
+      Uri uri = Uri.parse(url);
+      intent.setData(uri);
+      startActivity(intent);
+    } else {
+      startActivity(new Intent(getActivity(),WebViewActivity.class));
     }
   }
 }

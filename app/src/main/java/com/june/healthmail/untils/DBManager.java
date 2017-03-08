@@ -80,4 +80,15 @@ public class DBManager {
         db.execSQL("update account set nickName = ? where phoneNumber = ?",
                 new String[]{nickName,phoneNumber});
     }
+
+    //设置账号密码不可用
+    public void setPwdInvailed(String phoneNumber){
+        db.execSQL("update account set status = ? where phoneNumber = ?",
+                new String[]{"-1",phoneNumber});
+    }
+
+    public void updateAccountInfo(int id, String phonenumber, String pwd) {
+        db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
+                new String[]{phonenumber,pwd,1+"",id+""});
+    }
 }

@@ -86,6 +86,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
     private static final int GET_COURSE_LIST_FAILED = 16;
     private static final int GET_COURSE_USERS_FAILED = 17;
     private static final int GET_COURSE_DETAILS_FAILED = 18;
+    private static final int USER_PWD_WRONG = 19;
 
     private int accountIndex = 0;
     private int sijiaoIndex = 0;
@@ -102,6 +103,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
     private int min_time;
     private int max_time;
     private int max_sijiao;
+    private String errmsg;
 
     private Handler mHandler = new Handler(){
 
@@ -266,6 +268,13 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     showTheResult("--获取token失败，重新开始该小号\n");
                     this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
                     break;
+                case USER_PWD_WRONG:
+                    showTheResult("***错误信息："+ errmsg + "\n");
+                    showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
+                    accountIndex++;
+                    accountIndex++;
+                    this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
+                    break;
                 case GET_GUANZHU_LIST_FAILED:
                     showTheResult("--获取关注列表失败，重新获取关注列表\n");
                     this.sendEmptyMessageDelayed(START_TO_GET_GUANZHU_LIST,getDelayTime());
@@ -401,15 +410,22 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 Gson gson = new Gson();
                 TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
 
-                Log.e("test","message = " + tokenmodel.getMsg());
+                if(tokenmodel.getData() == null){
+                    //一般是用户名或者密码错误
+                    Log.e("test","message = " + tokenmodel.getMsg());
+                    errmsg = tokenmodel.getMsg();
+                    DBManager.getInstance(YuekeActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                    mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
 
-                //更新小号昵称
-                DBManager.getInstance(YuekeActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                        tokenmodel.getData().getHmMemberUserVo().getNickName());
+                } else {
+                    //更新小号昵称
+                    DBManager.getInstance(YuekeActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
+                            tokenmodel.getData().getHmMemberUserVo().getNickName());
+                    accessToken = tokenmodel.getData().getAccessToken();
+                    Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
+                    msg.sendToTarget();
+                }
 
-                accessToken = tokenmodel.getData().getAccessToken();
-                Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
-                msg.sendToTarget();
             }
         });
     }

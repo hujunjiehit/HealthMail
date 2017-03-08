@@ -67,8 +67,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           objectUid = userInfo.getObjectId();
           if(userInfo.getBindMac() == null || TextUtils.isEmpty(userInfo.getBindMac())){
             //该用户暂未绑定设备
-            String mac = CommonUntils.getLocalMacAddressFromIp(LoginActivity.this);
-            String deviceDesc =  CommonUntils.getUserAgent(LoginActivity.this);
+            String mac = CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim();
+            String deviceDesc =  CommonUntils.getUserAgent(LoginActivity.this).trim();
             Log.d("test","mac address is: " + mac + "   desc:" + deviceDesc);
             userInfo.setBindMac(mac);
             userInfo.setBindDesc(deviceDesc);
@@ -93,7 +93,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
             String bindAgent = userInfo.getBindDesc().trim();
             Log.d("test","userMac address is: " + userMac + "   bindMac:" + bindMac);
             Log.d("test","userAgentis: " + userAgent + "   bindAgent:" + bindAgent);
-            if(userMac.equals(bindMac)){
+            if(userMac.equals(bindMac) || userAgent.equals(bindAgent)){
               //设备信息验证正确
               mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
             }else{

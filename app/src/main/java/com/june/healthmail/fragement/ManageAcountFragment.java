@@ -4,17 +4,24 @@ package com.june.healthmail.fragement;
  * Created by bjhujunjie on 2017/3/2.
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.AcountListAdapter;
@@ -50,6 +57,12 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     setOnListener();
     initData();
     return layout;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    initData();
   }
 
   private void initView() {
@@ -141,6 +154,48 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    showEditAccountDialog(accountList.get(position),position);
+  }
 
+  private void showEditAccountDialog(final AccountInfo accountInfo,final int position) {
+    View diaog_view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_edit_account_layout,null);
+    final EditText edit_text_phonenumber = (EditText) diaog_view.findViewById(R.id.edit_text_phonenumber);
+    final EditText edit_text_pwd = (EditText) diaog_view.findViewById(R.id.edit_text_pwd);
+    edit_text_phonenumber.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    edit_text_phonenumber.setText(accountInfo.getPhoneNumber());
+    edit_text_pwd.setText(accountInfo.getPassWord());
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setTitle("修改账号密码");
+    builder.setView(diaog_view);
+    builder.setNegativeButton("取消修改", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+    builder.setPositiveButton("确定修改", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        String phonenumber = edit_text_phonenumber.getText().toString().trim();
+        String pwd = edit_text_pwd.getText().toString().trim();
+        if(TextUtils.isEmpty(phonenumber)){
+          Toast.makeText(getActivity(),"账号不能为空",Toast.LENGTH_LONG).show();
+          return;
+        }
+        if(TextUtils.isEmpty(pwd)){
+          Toast.makeText(getActivity(),"密码不能为空",Toast.LENGTH_LONG).show();
+          return;
+        }
+        accountList.get(position).setPhoneNumber(phonenumber);
+        accountList.get(position).setPassWord(pwd);
+        accountList.get(position).setStatus(1);
+        DBManager.getInstance(getActivity()).updateAccountInfo(accountInfo.getId(),phonenumber,pwd);
+        mAdapter.notifyDataSetChanged();
+        dialog.dismiss();
+      }
+    });
+    builder.create().show();
   }
 }

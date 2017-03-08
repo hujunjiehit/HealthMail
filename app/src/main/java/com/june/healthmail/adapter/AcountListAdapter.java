@@ -1,6 +1,7 @@
 package com.june.healthmail.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.model.AccountInfo;
@@ -77,16 +79,31 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
             holder.tvNickName.setText(acountInfo.getNickName());
         }
         holder.cbStatus.setTag(position);
-        if(selected.containsKey(position)){
+        holder.cbStatus.setOnClickListener(this);
+        if(selected.containsKey(position) && acountInfo.getStatus() != -1){
             holder.cbStatus.setChecked(true);
         }else {
             if(acountInfo.getStatus() == 1){
                 holder.cbStatus.setChecked(true);
                 selected.put((Integer) holder.cbStatus.getTag(),position);
+            }else if(acountInfo.getStatus() == 0) {
+                holder.cbStatus.setChecked(false);
+                selected.remove((Integer) holder.cbStatus.getTag());
             }else {
+                //-1
                 holder.cbStatus.setChecked(false);
                 selected.remove((Integer) holder.cbStatus.getTag());
             }
+        }
+
+        if(acountInfo.getStatus() == -1){
+            holder.tvPhonenumber.setTextColor(mContext.getResources().getColor(R.color.red));
+            holder.tvIndex.setTextColor(mContext.getResources().getColor(R.color.red));
+            holder.tvNickName.setTextColor(mContext.getResources().getColor(R.color.red));
+        }else {
+            holder.tvPhonenumber.setTextColor(mContext.getResources().getColor(R.color.gray));
+            holder.tvIndex.setTextColor(mContext.getResources().getColor(R.color.gray));
+            holder.tvNickName.setTextColor(mContext.getResources().getColor(R.color.gray));
         }
         addListener(holder,position);
         return convertView;
@@ -96,6 +113,11 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
         holder.cbStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(mAcountList.get(Integer.parseInt(buttonView.getTag().toString())).getStatus() == -1){
+                    buttonView.setChecked(false);
+                    //Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(isChecked){
                     if(!selected.containsKey(buttonView.getTag())){
                         selected.put((Integer) buttonView.getTag(),position);
@@ -110,7 +132,9 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //mCallback.click(v);
+        if(mAcountList.get(Integer.parseInt(v.getTag().toString())).getStatus() == -1){
+            Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
+        }
     }
 
     static class ViewHolder {

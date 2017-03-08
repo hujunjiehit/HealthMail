@@ -71,6 +71,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
     private static final int PING_JIA_ONE_COURSE_FAILED = 7;
     private static final int GET_ORDER_LIST_FAILED = 8;
     private static final int GET_TOKEN_FAILED = 9;
+    private static final int USER_PWD_WRONG = 10;
 
 
     private int accountIndex = 0;
@@ -86,6 +87,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
     private int min_time;
     private int max_time;
+    private String errmsg;
 
     private Handler mHandler = new Handler(){
 
@@ -216,6 +218,12 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     showTheResult("--获取token失败，重新开始该小号\n");
                     this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
                     break;
+                case USER_PWD_WRONG:
+                    showTheResult("***错误信息："+ errmsg + "\n");
+                    showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
+                    accountIndex++;
+                    this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
+                    break;
                 default:
                     Log.e("test","undefined message");
                     break;
@@ -343,15 +351,20 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                 Gson gson = new Gson();
                 TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
 
-                Log.e("test","message = " + tokenmodel.getMsg());
 
-                //更新小号昵称
-                DBManager.getInstance(PingjiaActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                        tokenmodel.getData().getHmMemberUserVo().getNickName());
-
-                accessToken = tokenmodel.getData().getAccessToken();
-
-                mHandler.sendEmptyMessageDelayed(GET_TOKEN_SUCCESS,getDelayTime());
+                if(tokenmodel.getData() == null){
+                    //一般是用户名或者密码错误
+                    Log.e("test","message = " + tokenmodel.getMsg());
+                    errmsg = tokenmodel.getMsg();
+                    DBManager.getInstance(PingjiaActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                    mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+                } else {
+                    //更新小号昵称
+                    DBManager.getInstance(PingjiaActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
+                            tokenmodel.getData().getHmMemberUserVo().getNickName());
+                    accessToken = tokenmodel.getData().getAccessToken();
+                    mHandler.sendEmptyMessageDelayed(GET_TOKEN_SUCCESS,getDelayTime());
+                }
             }
         });
     }

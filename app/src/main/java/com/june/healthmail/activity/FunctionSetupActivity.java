@@ -60,7 +60,6 @@ public class FunctionSetupActivity extends Activity implements View.OnClickListe
 
         tvMaxSijiao = (TextView) findViewById(R.id.tv_max_sijiao);
         editMaxSijiao = (Button) findViewById(R.id.edit_max_sijiao);
-
     }
 
     private void setListener() {

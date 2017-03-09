@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.FukuanActivity;
 import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.YuekeActivity;
@@ -36,6 +37,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 
   private Button btnPingjia;
   private Button btnYueke;
+  private Button btnFukuan;
   private Button btnSetup;
 
   @Override
@@ -54,6 +56,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private void initView() {
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
+    btnFukuan = (Button) layout.findViewById(R.id.btn_operition_fukuan);
     btnSetup = (Button) layout.findViewById(R.id.btn_operition_setup);
   }
 
@@ -61,6 +64,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private void setOnListener() {
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
+    btnFukuan.setOnClickListener(this);
     btnSetup.setOnClickListener(this);
   }
 
@@ -75,10 +79,11 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 
   @Override
   public void onClick(View v) {
+    Intent intent = null;
       switch (v.getId()){
         case R.id.btn_operition_pingjia:
           if(hasPermission()){
-            Intent intent = new Intent(getActivity(),PingjiaActivity.class);
+            intent = new Intent(getActivity(),PingjiaActivity.class);
             startActivity(intent);
           }else {
             Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
@@ -93,8 +98,12 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           }
           break;
         case R.id.btn_operition_setup:
-          Intent it = new Intent(getActivity(),FunctionSetupActivity.class);
-          startActivity(it);
+          intent = new Intent(getActivity(),FunctionSetupActivity.class);
+          startActivity(intent);
+          break;
+        case R.id.btn_operition_fukuan:
+          intent = new Intent(getActivity(),FukuanActivity.class);
+          startActivity(intent);
           break;
         default:
           break;

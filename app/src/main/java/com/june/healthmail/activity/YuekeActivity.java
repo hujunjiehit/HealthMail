@@ -284,7 +284,6 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     showTheResult("***错误信息："+ errmsg + "\n");
                     showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
                     accountIndex++;
-                    accountIndex++;
                     this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
                     break;
                 case GET_GUANZHU_LIST_FAILED:
@@ -356,7 +355,6 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         min_time = PreferenceHelper.getInstance().getMinYuekeTime();
         max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
         max_sijiao = PreferenceHelper.getInstance().getMaxSijiao();
-
     }
 
     private int getDelayTime() {
@@ -443,7 +441,6 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
     }
 
     private void getTheGuanzhuList() {
-
         String url = "http://api.healthmall.cn/Post";
         JsonObject job = new JsonObject();
         job.addProperty("count","20");
@@ -454,20 +451,15 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 .add("accessToken",accessToken)
                 .add("data",job.toString())
                 .build();
-
-
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
                 Gson gson = new Gson();
                 GuanzhuListModel guanzhuListModel = gson.fromJson(response.body().charStream(), GuanzhuListModel.class);
-
                 //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
                 //获取成功之后
                 if(guanzhuListModel.isSucceed()){
@@ -477,11 +469,8 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 }else{
                     mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
                 }
-
             }
         });
-
-
     }
 
     private void getTheCourseList(String userId) {

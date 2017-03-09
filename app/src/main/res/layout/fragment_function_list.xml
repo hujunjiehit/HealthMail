@@ -41,7 +41,7 @@
 
             <Button
                 android:id="@+id/btn_operition_yueke"
-                android:layout_marginTop="66dp"
+                android:layout_marginTop="36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_press"
@@ -49,8 +49,17 @@
                 android:text="自动约课"/>
 
             <Button
+                android:id="@+id/btn_operition_fukuan"
+                android:layout_marginTop="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="26sp"
+                android:text="自动付款"/>
+
+            <Button
                 android:id="@+id/btn_operition_setup"
-                android:layout_marginTop="66dp"
+                android:layout_marginTop="36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_press"
@@ -59,11 +68,4 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-    </LinearLayout>
-
 </LinearLayout>

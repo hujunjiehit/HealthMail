@@ -15,7 +15,7 @@ public class GroupbuyUserModel {
     private String RequestAccessToken;
     private AccessToken accessToken;
     private String msg;
-    private String Request;
+    private Request Request;
 
     public int getErrmsg() {
         return errmsg;
@@ -81,11 +81,11 @@ public class GroupbuyUserModel {
         this.msg = msg;
     }
 
-    public String getRequest() {
+    public Request getRequest() {
         return Request;
     }
 
-    public void setRequest(String request) {
+    public void setRequest(Request request) {
         Request = request;
     }
 }

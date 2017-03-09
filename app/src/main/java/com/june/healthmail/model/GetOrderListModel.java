@@ -3,14 +3,14 @@ package com.june.healthmail.model;
 import java.util.List;
 
 /**
- * Created by june on 2017/3/5.
+ * Created by june on 2017/3/9.
  */
 
-public class GuanzhuListModel {
+public class GetOrderListModel {
     private int errmsg;
     private boolean succeed;
     private String MsgTime;
-    private List<Guanzhu> valuse;
+    private List<HmOrder> valuse;
     private String valuseex;
     private String RequestAccessToken;
     private AccessToken accessToken;
@@ -41,11 +41,11 @@ public class GuanzhuListModel {
         MsgTime = msgTime;
     }
 
-    public List<Guanzhu> getValuse() {
+    public List<HmOrder> getValuse() {
         return valuse;
     }
 
-    public void setValuse(List<Guanzhu> valuse) {
+    public void setValuse(List<HmOrder> valuse) {
         this.valuse = valuse;
     }
 

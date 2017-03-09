@@ -21,7 +21,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.model.AccountInfo;
+import com.june.healthmail.model.GetAllPaymentModel;
+import com.june.healthmail.model.GetOrderListModel;
 import com.june.healthmail.model.GetUserModel;
+import com.june.healthmail.model.HmOrder;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
@@ -58,14 +61,23 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   private static final int START_TO_GET_USERINFO = 5;
   private static final int GET_USERINFO_SUCCESS = 6;
   private static final int GET_USERINFO_FAILED = 7;
+  private static final int START_TO_GET_ORDER_LIST = 8;
+  private static final int GET_ORDER_LIST_SUCCESS = 9;
+    private static final int START_TO_GET_ALL_PAYMENT = 10;
+    private static final int GET_ALL_PAYMENT_SUCCESS = 11;
+
+
 
   private int accountIndex = 0;
 
   private Message message;
   private String accessToken;
+  private String user_id;
   private int min_time;
   private int max_time;
   private String errmsg;
+
+  private ArrayList<HmOrder> hmOrders = new ArrayList<>();
 
   private Handler mHandler = new Handler() {
 
@@ -103,9 +115,31 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           getUserInfo();
           break;
         case GET_USERINFO_SUCCESS:
-          showTheResult("----获取个人信息：");
-          getUserInfo();
+          showTheResult("----成功\n");
+          GetUserModel getUserModel = (GetUserModel)msg.obj;
+          user_id = getUserModel.getValuse().getUserModel().getUser_Id();
+          this.sendEmptyMessageDelayed(START_TO_GET_ORDER_LIST,getDelayTime());
           break;
+        case START_TO_GET_ORDER_LIST:
+          showTheResult("------开始获取订单列表\n");
+          getOrderList(user_id);
+          break;
+        case GET_ORDER_LIST_SUCCESS:
+          showTheResult("---------订单列表获取成功\n");
+          hmOrders.clear();
+          GetOrderListModel getOrderListModel = (GetOrderListModel)msg.obj;
+            if(getOrderListModel.getValuse() != null){
+                for(int i = 0; i < getOrderListModel.getValuse().size(); i++){
+                    hmOrders.add(getOrderListModel.getValuse().get(i));
+                }
+                showTheResult("------------共有" + hmOrders.size() + "个订单\n");
+                this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+            }
+          break;
+          case START_TO_GET_ALL_PAYMENT:
+              showTheResult("-------------开始获取支付方式\n");
+              getAllPayment();
+              break;
         case GET_TOKEN_FAILED:
           showTheResult("---获取token失败，重新开始该小号\n");
           this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
@@ -274,6 +308,68 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       }
     });
   }
+
+  private void getOrderList(String userId) {
+    String url = "http://api.healthmall.cn/Post";
+    JsonObject job = new JsonObject();
+    job.addProperty("whichFunc","GETNEEDMERGEDORDER");
+    job.addProperty("user_id",userId);
+
+    FormBody body = new FormBody.Builder()
+            .add("accessToken",accessToken)
+            .add("data",job.toString())
+            .build();
+    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+      @Override
+      public void onFailure(Call call, IOException e) {
+        //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+      }
+      @Override
+      public void onResponse(Call call, Response response) throws IOException {
+        Gson gson = new Gson();
+        GetOrderListModel getOrderListModel = gson.fromJson(response.body().charStream(), GetOrderListModel.class);
+        //获取成功之后
+        if(getOrderListModel.isSucceed()){
+          Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
+          msg.obj = getOrderListModel;
+          msg.sendToTarget();
+        }else{
+          //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+        }
+      }
+    });
+  }
+
+
+    private void getAllPayment() {
+        String url = "http://api.healthmall.cn/Post";
+        JsonObject job = new JsonObject();
+        job.addProperty("whichFunc","GetAllPayment");
+
+        FormBody body = new FormBody.Builder()
+                .add("accessToken",accessToken)
+                .add("data",job.toString())
+                .build();
+        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Gson gson = new Gson();
+                GetAllPaymentModel getAllPaymentModel = gson.fromJson(response.body().charStream(), GetAllPaymentModel.class);
+                //获取成功之后
+                if(getAllPaymentModel.isSucceed()){
+                    Message msg = mHandler.obtainMessage(GET_ALL_PAYMENT_SUCCESS);
+                    msg.obj = getAllPaymentModel;
+                    msg.sendToTarget();
+                }else{
+                    //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+                }
+            }
+        });
+    }
 
   private void startToFuKuan() {
     Message msg = mHandler.obtainMessage(START_TO_FU_KUAN);

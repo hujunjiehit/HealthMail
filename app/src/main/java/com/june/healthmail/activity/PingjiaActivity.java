@@ -141,32 +141,36 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     courseIndex = 0;
                     coureseList.clear();
                     OrdersModel ordersModel = (OrdersModel)msg.obj;
-                    boolean needPingjia = false;
-                    for(int i = 0; i < ordersModel.getValuse().size(); i++){
+                    if(ordersModel.getValuse() != null){
+                      boolean needPingjia = false;
+                      for(int i = 0; i < ordersModel.getValuse().size(); i++){
                         coureseList.add(ordersModel.getValuse().get(i));
                         if(ordersModel.getValuse().get(i).getHm_go_orderstatus() == 9){
-                            needPingjia = true;
+                          needPingjia = true;
                         }
-                    }
-                    if(needPingjia){
+                      }
+                      if(needPingjia){
                         //有待评价的课程
                         message = this.obtainMessage(START_TO_PING_JIA_ONE_COURSE);
                         message.sendToTarget();
-                    }else {
+                      }else {
                         showTheResult("------当前页无可评价订单\n");
                         if(coureseList.size() < 20){
-                            showTheResult("******第" + (pageIndex +1) + "页订单小于20，继续评价下一个小号\n");
-                            showTheResult("此账号评价结束************************\n\n\n");
-                            accountIndex++;
-                            message = this.obtainMessage(START_TO_PING_JIA);
-                            message.sendToTarget();
+                          showTheResult("******第" + (pageIndex +1) + "页订单小于20，继续评价下一个小号\n");
+                          showTheResult("此账号评价结束************************\n\n\n");
+                          accountIndex++;
+                          message = this.obtainMessage(START_TO_PING_JIA);
+                          message.sendToTarget();
                         }else {
-                            pageIndex++;
-                            message = this.obtainMessage(START_TO_GET_ORDER_LIST);
-                            message.sendToTarget();
+                          pageIndex++;
+                          message = this.obtainMessage(START_TO_GET_ORDER_LIST);
+                          message.sendToTarget();
                         }
+                      }
+                    }else {
+                      showTheResult("--------订单列表为空，重新获取\n");
+                      this.sendEmptyMessageDelayed(START_TO_GET_ORDER_LIST,getDelayTime());
                     }
-
                     break;
 
                 case START_TO_PING_JIA_ONE_COURSE:
@@ -206,7 +210,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     break;
 
                 case PING_JIA_ONE_COURSE_FAILED:
-                    showTheResult("评价失败，继续尝试\n");
+                    showTheResult("评价失败，继续尝试 错误信息:"+errmsg+"\n");
                     this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,getDelayTime());
                     break;
                 case GET_ORDER_LIST_FAILED:
@@ -303,10 +307,10 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     if (isRunning == false) {
                         isRunning = true;
                         btn_start.setText("停止评价");
-
                         startToPingjia();
                     } else {
                         isRunning = false;
+                        mHandler.removeCallbacksAndMessages(null);
                         btn_start.setText("开始评价");
                     }
                 }
@@ -350,7 +354,6 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
                 Gson gson = new Gson();
                 TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
-
 
                 if(tokenmodel.getData() == null){
                     //一般是用户名或者密码错误
@@ -399,11 +402,14 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                 OrdersModel ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
 
                 //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
-
+              if(ordersModel.isSucceed()){
                 //获取成功之后
                 Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
                 msg.obj = ordersModel;
                 msg.sendToTarget();
+              }else {
+                mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+              }
             }
         });
 
@@ -449,10 +455,11 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             public void onResponse(Call call, Response response) throws IOException {
                 Gson gson = new Gson();
                 PingjiaModel pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
-                Log.e("test","succeed = " + pingjiaModel.getSucceed());
-                if(pingjiaModel.getSucceed()){
+                Log.e("test","succeed = " + pingjiaModel.isSucceed());
+                if(pingjiaModel.isSucceed()){
                     mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
                 } else {
+                    errmsg = pingjiaModel.getErrmsg();
                     mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
                 }
             }

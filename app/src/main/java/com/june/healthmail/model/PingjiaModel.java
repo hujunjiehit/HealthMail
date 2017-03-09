@@ -7,20 +7,8 @@ package com.june.healthmail.model;
 public class PingjiaModel {
 
     private String errmsg;
-    private Boolean succeed;
+    private boolean succeed;
     private String MsgTime;
-
-    public Boolean getSucceed() {
-        return succeed;
-    }
-
-    public String getMsgTime() {
-        return MsgTime;
-    }
-
-    public void setMsgTime(String msgTime) {
-        MsgTime = msgTime;
-    }
 
     public String getErrmsg() {
         return errmsg;
@@ -30,11 +18,19 @@ public class PingjiaModel {
         this.errmsg = errmsg;
     }
 
-    public Boolean isSucceed() {
+    public boolean isSucceed() {
         return succeed;
     }
 
-    public void setSucceed(Boolean succeed) {
+    public void setSucceed(boolean succeed) {
         this.succeed = succeed;
+    }
+
+    public String getMsgTime() {
+        return MsgTime;
+    }
+
+    public void setMsgTime(String msgTime) {
+        MsgTime = msgTime;
     }
 }

@@ -191,11 +191,18 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     coureseList.clear();
 
                     CourseListModel courseListModel = (CourseListModel)msg.obj;
-                    for(int i = 0; i < courseListModel.getValuse().size(); i++){
-                        coureseList.add(courseListModel.getValuse().get(i));
+
+                    if(courseListModel.getValuse() != null){
+                        for(int i = 0; i < courseListModel.getValuse().size(); i++){
+                            coureseList.add(courseListModel.getValuse().get(i));
+                        }
+                        showTheResult("--------私教"+ (sijiaoIndex+1) + "有" + coureseList.size() + "节课程\n");
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
+                    }else {
+                        showTheResult("--------私教"+ (sijiaoIndex+1) + "暂时没有发布课程，继续下一个私教\n");
+                        sijiaoIndex++;
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
                     }
-                    showTheResult("--------私教"+ (sijiaoIndex+1) + "有" + coureseList.size() + "节课程\n");
-                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
 
                 case START_TO_GET_COURSE_USERS:
@@ -215,22 +222,27 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
                     GroupbuyUserModel groupbuyUserModel = (GroupbuyUserModel)msg.obj;
                     boolean isIntheList = false;
-                    String mallId = groupbuyUserModel.getAccessToken().getMallId();
-                    for(GroupbuyUser groupbuyUser:groupbuyUserModel.getValuse()){
-                        if(mallId.equals(groupbuyUser.getUser_id())){
-                            isIntheList = true;
+                    if(groupbuyUserModel.getValuse() != null){
+                        String mallId = groupbuyUserModel.getAccessToken().getMallId();
+                        for(GroupbuyUser groupbuyUser:groupbuyUserModel.getValuse()){
+                            if(mallId.equals(groupbuyUser.getUser_id())){
+                                isIntheList = true;
+                            }
                         }
-                    }
-                    if(isIntheList == true){
-                        showTheResult("---------------------已经约过课了\n");
-                        courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
-                    }else if(groupbuyUserModel.getValuse().size() >= 50){
-                        showTheResult("---------------------课程已经约满了\n");
-                        courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
+                        if(isIntheList == true){
+                            showTheResult("---------------------已经约过课了\n");
+                            courseIndex++;
+                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
+                        }else if(groupbuyUserModel.getValuse().size() >= 50){
+                            showTheResult("---------------------课程已经约满了\n");
+                            courseIndex++;
+                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
+                        }else {
+                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,getDelayTime());
+                        }
                     }else {
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,getDelayTime());
+                        showTheResult("---------------------约课名单为空，重新获取\n");
+                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }
                     break;
 
@@ -363,10 +375,10 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     if (isRunning == false) {
                         isRunning = true;
                         btn_start.setText("停止约课");
-
                         startToYueke();
                     } else {
                         isRunning = false;
+                        mHandler.removeCallbacksAndMessages(null);
                         btn_start.setText("开始约课");
                     }
                 }

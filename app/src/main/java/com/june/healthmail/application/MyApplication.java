@@ -25,6 +25,6 @@ public class MyApplication extends Application{
 
     PreferenceHelper.getInstance().setContext(this);
 
-    CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", true);
+    CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
   }
 }

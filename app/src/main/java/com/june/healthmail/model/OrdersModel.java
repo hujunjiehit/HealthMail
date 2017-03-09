@@ -8,9 +8,18 @@ import java.util.List;
 
 public class OrdersModel {
     private int errmsg;
-    private Boolean succeed;
+    private boolean succeed;
     private String MsgTime;
     private List<Order> valuse;
+
+    public boolean isSucceed() {
+        return succeed;
+    }
+
+    public void setSucceed(boolean succeed) {
+        this.succeed = succeed;
+    }
+
     private String valuseex;
     private String RequestAccessToken;
     private AccessToken accessToken;
@@ -25,13 +34,6 @@ public class OrdersModel {
         this.errmsg = errmsg;
     }
 
-    public Boolean getSucced() {
-        return succeed;
-    }
-
-    public void setSucced(Boolean succed) {
-        this.succeed = succed;
-    }
 
     public String getMsgTime() {
         return MsgTime;

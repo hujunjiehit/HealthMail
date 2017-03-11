@@ -3,6 +3,7 @@ package com.june.healthmail.untils;
 import android.content.Context;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,7 +39,11 @@ public class HttpUntils {
     }
 
     public void postForm(String url, FormBody body, Callback callback){
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10,TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
         Request.Builder builder  = new Request.Builder().url(url).post(body);
 
         //builder.addHeader(key,value);  //将请求头以键值对形式添加，可添加多个请求头

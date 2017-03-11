@@ -8,7 +8,6 @@ public class PostYuekeModel {
     private int errmsg;
     private boolean succeed;
     private String MsgTime;
-    private String valuse;
     private String valuseex;
     private String RequestAccessToken;
     private AccessToken accessToken;
@@ -37,14 +36,6 @@ public class PostYuekeModel {
 
     public void setMsgTime(String msgTime) {
         MsgTime = msgTime;
-    }
-
-    public String getValuse() {
-        return valuse;
-    }
-
-    public void setValuse(String valuse) {
-        this.valuse = valuse;
     }
 
     public String getValuseex() {

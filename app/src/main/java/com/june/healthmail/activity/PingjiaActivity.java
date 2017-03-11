@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -397,19 +398,23 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
-                Gson gson = new Gson();
-                OrdersModel ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
-
-                //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
-              if(ordersModel.isSucceed()){
-                //获取成功之后
-                Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
-                msg.obj = ordersModel;
-                msg.sendToTarget();
-              }else {
-                mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
-              }
+                try{
+                    Gson gson = new Gson(); //java.lang.IllegalStateException
+                    OrdersModel ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
+                    //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
+                    if(ordersModel.isSucceed()){
+                        //获取成功之后
+                        Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
+                        msg.obj = ordersModel;
+                        msg.sendToTarget();
+                    }else {
+                        mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+                    }
+                }catch (IllegalStateException e){
+                    Log.e("test","IllegalStateException");
+                    e.printStackTrace();
+                    mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+                }
             }
         });
 
@@ -453,13 +458,17 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
-                PingjiaModel pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
-                Log.e("test","succeed = " + pingjiaModel.isSucceed());
-                if(pingjiaModel.isSucceed()){
-                    mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
-                } else {
-                    errmsg = pingjiaModel.getErrmsg();
+                try {
+                    Gson gson = new Gson();
+                    PingjiaModel pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
+                    Log.e("test","succeed = " + pingjiaModel.isSucceed());
+                    if(pingjiaModel.isSucceed()){
+                        mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
+                    } else {
+                        errmsg = pingjiaModel.getErrmsg();
+                        mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
+                    }
+                }catch (Exception e){
                     mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
                 }
             }

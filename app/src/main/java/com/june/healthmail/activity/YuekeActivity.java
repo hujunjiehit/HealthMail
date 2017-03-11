@@ -458,15 +458,19 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
-                GuanzhuListModel guanzhuListModel = gson.fromJson(response.body().charStream(), GuanzhuListModel.class);
-                //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
-                //获取成功之后
-                if(guanzhuListModel.isSucceed()){
-                    Message msg = mHandler.obtainMessage(GET_GUANZHU_LIST_SUCCESS);
-                    msg.obj = guanzhuListModel;
-                    msg.sendToTarget();
-                }else{
+                try{
+                    Gson gson = new Gson();
+                    GuanzhuListModel guanzhuListModel = gson.fromJson(response.body().charStream(), GuanzhuListModel.class);
+                    //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
+                    //获取成功之后
+                    if(guanzhuListModel.isSucceed()){
+                        Message msg = mHandler.obtainMessage(GET_GUANZHU_LIST_SUCCESS);
+                        msg.obj = guanzhuListModel;
+                        msg.sendToTarget();
+                    }else{
+                        mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+                    }
+                }catch (Exception e){
                     mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
                 }
             }
@@ -486,7 +490,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 .add("data",job.toString())
                 .build();
 
-
+        //try
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -495,14 +499,17 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
-                Gson gson = new Gson();
-                CourseListModel courseListModel = gson.fromJson(response.body().charStream(), CourseListModel.class);
-                if(courseListModel.isSucceed()) {
-                    Message msg = mHandler.obtainMessage(GET_COURSE_LIST_SUCESS);
-                    msg.obj = courseListModel;
-                    msg.sendToTarget();
-                }else{
+                try{
+                    Gson gson = new Gson();
+                    CourseListModel courseListModel = gson.fromJson(response.body().charStream(), CourseListModel.class);
+                    if(courseListModel.isSucceed()) {
+                        Message msg = mHandler.obtainMessage(GET_COURSE_LIST_SUCESS);
+                        msg.obj = courseListModel;
+                        msg.sendToTarget();
+                    }else{
+                        mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
+                    }
+                }catch (Exception e){
                     mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
                 }
             }
@@ -530,8 +537,8 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
                 try {
+                    Gson gson = new Gson();
                     GroupbuyUserModel groupbuyUserModel = gson.fromJson(response.body().charStream(), GroupbuyUserModel.class);
                     //获取成功之后
                     if(groupbuyUserModel.isSucceed()) {
@@ -543,7 +550,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                     }
 
                 }catch (Exception e){
-
+                    mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,getDelayTime());
                 }
             }
         });
@@ -569,14 +576,18 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
-                CourseDetailModel courseDetailModel = gson.fromJson(response.body().charStream(), CourseDetailModel.class);
-                //获取成功之后
-                if(courseDetailModel.isSucceed()) {
-                    Message msg = mHandler.obtainMessage(GET_COURSE_DETAILS_SUCESS);
-                    msg.obj = courseDetailModel;
-                    msg.sendToTarget();
-                }else {
+                try {
+                    Gson gson = new Gson();
+                    CourseDetailModel courseDetailModel = gson.fromJson(response.body().charStream(), CourseDetailModel.class);
+                    //获取成功之后
+                    if(courseDetailModel.isSucceed()) {
+                        Message msg = mHandler.obtainMessage(GET_COURSE_DETAILS_SUCESS);
+                        msg.obj = courseDetailModel;
+                        msg.sendToTarget();
+                    }else {
+                        mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());
+                    }
+                }catch (Exception e){
                     mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());
                 }
             }
@@ -615,14 +626,20 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = new Gson();
-                PostYuekeModel postYuekeModel = gson.fromJson(response.body().charStream(), PostYuekeModel.class);
-                //获取成功之后
-                if(postYuekeModel.isSucceed()){
-                    Message msg = mHandler.obtainMessage(YUE_KE_SUCESS);
-                    //msg.obj = ordersModel;
-                    msg.sendToTarget();
-                }else{
+                try {
+                    Gson gson = new Gson();//java.lang.IllegalStateException
+                    PostYuekeModel postYuekeModel = gson.fromJson(response.body().charStream(), PostYuekeModel.class);
+                    //获取成功之后
+                    if(postYuekeModel.isSucceed()){
+                        Message msg = mHandler.obtainMessage(YUE_KE_SUCESS);
+                        //msg.obj = ordersModel;
+                        msg.sendToTarget();
+                    }else{
+                        Message msg = mHandler.obtainMessage(YUE_KE_FAILED);
+                        //msg.obj = ordersModel;
+                        msg.sendToTarget();
+                    }
+                }catch (Exception e){
                     Message msg = mHandler.obtainMessage(YUE_KE_FAILED);
                     //msg.obj = ordersModel;
                     msg.sendToTarget();

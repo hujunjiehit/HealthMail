@@ -280,15 +280,17 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private void openTaobaoShopping() {
     String url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
+    Intent intent = new Intent();
     if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
       Log.e("test","taobao is not installed");
-      Intent intent = new Intent();
       intent.setAction("android.intent.action.VIEW");
       Uri uri = Uri.parse(url);
       intent.setData(uri);
       startActivity(intent);
     } else {
-      startActivity(new Intent(getActivity(),WebViewActivity.class));
+      intent.putExtra("url",url);
+      intent.setClass(getActivity(),WebViewActivity.class);
+      startActivity(intent);
     }
   }
 }

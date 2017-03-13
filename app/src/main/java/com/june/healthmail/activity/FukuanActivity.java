@@ -283,6 +283,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       popwindow.dismiss();
     }
     switch (v.getId()){
+      case R.id.img_back:	//返回
+        finish();
+        break;
       case R.id.btn_start:
         if("付款完成".equals(btn_start.getText().toString().trim())){
           Toast.makeText(this,"付款已完成，如需继续付款请重新进入本页面",Toast.LENGTH_LONG).show();

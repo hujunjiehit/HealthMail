@@ -64,6 +64,7 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_close:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.tv_more_info:

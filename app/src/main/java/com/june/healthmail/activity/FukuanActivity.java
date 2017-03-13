@@ -1,6 +1,8 @@
 package com.june.healthmail.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,8 +52,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.AsyncCustomEndpoints;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -453,7 +457,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         });
     }
 
-  private void getPayinfo(int payType) {
+  private void getPayinfo(final int payType) {
     String url = "http://api.healthmall.cn/Post";
 
     List<String> ordIds = new ArrayList<>();
@@ -481,14 +485,26 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         Gson gson = new Gson();
-        GetPayInfoTonglianModel getPayInfoTonglianModel = gson.fromJson(response.body().charStream(), GetPayInfoTonglianModel.class);
-        //获取成功之后
-        if(getPayInfoTonglianModel.isSucceed()){
-          Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
-          msg.obj = getPayInfoTonglianModel;
-          msg.sendToTarget();
-        }else{
-          //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+        if (payType == 3){
+          GetPayInfoModel getPayInfoModel = gson.fromJson(response.body().charStream(), GetPayInfoModel.class);
+          //获取成功之后
+          if(getPayInfoModel.isSucceed()){
+            Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
+            msg.obj = getPayInfoModel;
+            msg.sendToTarget();
+          }else{
+            //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+          }
+        }else if(payType == 7){
+          GetPayInfoTonglianModel getPayInfoTonglianModel = gson.fromJson(response.body().charStream(), GetPayInfoTonglianModel.class);
+          //获取成功之后
+          if(getPayInfoTonglianModel.isSucceed()){
+            Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
+            msg.obj = getPayInfoTonglianModel;
+            msg.sendToTarget();
+          }else{
+            //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+          }
         }
       }
     });
@@ -535,8 +551,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           intent.putExtra("orders",(Serializable)hmOrders);
           //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
-          startActivity(intent);
-
+          startActivityForResult(intent,payTypeFlag);
         }else {
           Log.e("test","云端逻辑调用失败：" + e.toString());
         }
@@ -598,7 +613,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           intent.putExtra("orders",(Serializable)hmOrders);
           //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
-          startActivity(intent);
+          startActivityForResult(intent,payTypeFlag);
         }else {
           Log.e("test","云端逻辑调用失败：" + e.toString());
         }
@@ -673,6 +688,41 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     startActivity(intent);
   }
 
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Log.e("test","onActivityResult requestCode = " + requestCode);
+    if(requestCode == PAY_TYPE_TONGLIAN_ZHIFU || requestCode == PAY_TYPE_KUAIQIAN_ZHIFU){
+        showContinueDialog();
+    }
+  }
+
+  private void showContinueDialog(){
+    AlertDialog dialog = new AlertDialog.Builder(FukuanActivity.this)
+            .setTitle("下一步")
+            .setMessage("请选择下一步操作(如果支付成功，请选择继续付款，如果付款失败请选择重新付款)")
+            .setNegativeButton("继续付款", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Log.e("test","继续付款,开始付款下一个帐号");
+                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
+                accountIndex++;
+                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+              }
+            })
+            .setPositiveButton("重新付款", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Log.e("test","重新付款,重新开始付款此帐号");
+                showTheResult("----------------重新付款此小号\n");
+                mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+              }
+            }).create();
+    dialog.show();
+  }
+
   private void showChooseFukuanMode(){
     //显示popupwindow
     popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
@@ -686,6 +736,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha=1f;
         getWindow().setAttributes(lp);
+        //showContinueDialog();
       }
     });
   }

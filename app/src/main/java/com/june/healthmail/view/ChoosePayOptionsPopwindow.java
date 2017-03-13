@@ -49,10 +49,10 @@ public class ChoosePayOptionsPopwindow extends PopupWindow{
 
       this.setFocusable(true);
 
-      // 实例化一个ColorDrawable颜色为半透明
-      ColorDrawable dw = new ColorDrawable(0xb0000000);
-      // 设置弹出窗体的背景
-      this.setBackgroundDrawable(dw);
+//      // 实例化一个ColorDrawable颜色为半透明
+//      ColorDrawable dw = new ColorDrawable(0xb0000000);
+//      // 设置弹出窗体的背景
+//      this.setBackgroundDrawable(dw);
 
       // 设置弹出窗体显示时的动画，从底部向上弹出
       this.setAnimationStyle(R.style.popup_window_anim);

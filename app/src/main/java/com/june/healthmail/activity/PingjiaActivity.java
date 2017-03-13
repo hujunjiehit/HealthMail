@@ -410,8 +410,8 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     }else {
                         mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
                     }
-                }catch (IllegalStateException e){
-                    Log.e("test","IllegalStateException");
+                }catch (Exception e){
+                    Log.e("test","Exception:" + e.toString());
                     e.printStackTrace();
                     mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
                 }

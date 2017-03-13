@@ -248,7 +248,9 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
 
                 case START_TO_GET_COURSE_DETAILS:
                     showTheResult("----------------------------可以约课-获取课程详情\n");
-                    getCourseDetails(coureseList.get(courseIndex).getGroupbuy_id());
+                    if(courseIndex < coureseList.size()){
+                        getCourseDetails(coureseList.get(courseIndex).getGroupbuy_id());
+                    }
                     break;
                 case GET_COURSE_DETAILS_SUCESS:
                     CourseDetailModel courseDetailModel = (CourseDetailModel)msg.obj;

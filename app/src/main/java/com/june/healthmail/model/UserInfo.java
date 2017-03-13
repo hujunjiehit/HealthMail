@@ -15,6 +15,25 @@ public class UserInfo extends BmobUser {
   private String bindDesc;
   private Integer unbindTimes;
 
+  private Integer coinsNumber;  //金币数量
+  private String invitePeoplePhone;  //邀请人手机号
+
+  public Integer getCoinsNumber() {
+    return coinsNumber;
+  }
+
+  public void setCoinsNumber(Integer coinsNumber) {
+    this.coinsNumber = coinsNumber;
+  }
+
+  public String getInvitePeoplePhone() {
+    return invitePeoplePhone;
+  }
+
+  public void setInvitePeoplePhone(String invitePeoplePhone) {
+    this.invitePeoplePhone = invitePeoplePhone;
+  }
+
   public Integer getUserType() {
     return userType;
   }
@@ -67,6 +86,6 @@ public class UserInfo extends BmobUser {
   public String toString() {
     return "objectId:" + this.getObjectId() + "  userName:" + this.getUsername() + "  CreatedAt:" + this.getCreatedAt() + "  UpdatedAt:" + this.getUpdatedAt() +
         "  userType:" + this.getUserType() + "  allowDays:" + this.getAllowDays() + "  bindMac:" + this.getBindMac() + "  bindDesc:" + this.getBindDesc() +
-        "  unbindTimes:" + this.getUnbindTimes() + "  beginTime:" + this.getBeginTime();
+        "  unbindTimes:" + this.getUnbindTimes() + "  coinsNumber:" + this.getCoinsNumber();
   }
 }

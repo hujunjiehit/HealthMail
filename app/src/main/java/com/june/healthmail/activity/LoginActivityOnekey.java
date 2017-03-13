@@ -13,14 +13,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.model.CoinDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ShowProgress;
 
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by bjhujunjie on 2017/3/6.
@@ -34,6 +40,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
   private EditText et_code;
   private Button btn_send;
   private EditText et_pwd;
+  private EditText et_envite_people;
   private Button btn_regist;
 
   @Override
@@ -50,6 +57,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
     et_phone = (EditText) findViewById(R.id.et_phone);
     et_pwd = (EditText) findViewById(R.id.et_pwd);
     et_code = (EditText) findViewById(R.id.et_verify_code);
+    et_envite_people = (EditText) findViewById(R.id.et_invite_people);
     btn_send = (Button)findViewById(R.id.btn_send);
     btn_regist = (Button)findViewById(R.id.btn_regist);
   }
@@ -78,9 +86,11 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
   }
 
   private void signOrLogin() {
-    final String code = et_code.getText().toString();
-    final String pwd = et_pwd.getText().toString();
-    final String phoneNumber = et_phone.getText().toString();
+    final String code = et_code.getText().toString().trim();
+    final String pwd = et_pwd.getText().toString().trim();
+    final String phoneNumber = et_phone.getText().toString().trim();
+    final String invitePeoplePhone = et_envite_people.getText().toString().trim();
+
     if (TextUtils.isEmpty(code)) {
       toast("验证码不能为空");
       return;
@@ -89,35 +99,153 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
       toast("密码不能为空");
       return;
     }
+    if(!TextUtils.isEmpty(invitePeoplePhone)){
+      if(invitePeoplePhone.length() < 11){
+          toast("邀请人手机号小于11位");
+          return;
+      }
+    }
     final ShowProgress showProgress = new ShowProgress(LoginActivityOnekey.this);
     showProgress.setMessage("正在注册...");
     showProgress.setCanceledOnTouchOutside(false);
     showProgress.show();
 
-    UserInfo user = new UserInfo();
-    user.setMobilePhoneNumber(phoneNumber); //设置手机号码（必填）
-    user.setUsername(phoneNumber);          //设置用户名，如果没有传用户名，则默认为手机号码
-    user.setPassword(pwd);                  //设置用户密码
-    user.setUserType(1);
-    user.setAllowDays(1);
-    user.setUnbindTimes(3);
-    user.setBindMac("");
-    user.setBindDesc("");
-    user.signOrLogin(code, new SaveListener<UserInfo>() {
-      @Override
-      public void done(UserInfo user,BmobException e) {
-        if(showProgress != null && showProgress.isShowing()) {
-          showProgress.dismiss();
+    if(!TextUtils.isEmpty(invitePeoplePhone)){
+      //判断邀请人存不存在
+      BmobQuery<UserInfo> query = new BmobQuery<UserInfo>();
+      query.addWhereEqualTo("username",invitePeoplePhone);
+      query.findObjects(new FindListener<UserInfo>() {
+        @Override
+        public void done(final List<UserInfo> object, BmobException e) {
+          if(e==null){
+            if(object.size() == 0){
+              if(showProgress != null && showProgress.isShowing()) {
+                showProgress.dismiss();
+              }
+              toast("邀请人不存在，请确认之后再输入");
+            }else {
+              Log.d("test","邀请人信息：" + object.size());
+
+              //开始注册
+              UserInfo user = new UserInfo();
+              user.setMobilePhoneNumber(phoneNumber); //设置手机号码（必填）
+              user.setUsername(phoneNumber);          //设置用户名，如果没有传用户名，则默认为手机号码
+              user.setPassword(pwd);                  //设置用户密码
+              user.setUserType(1);
+              user.setAllowDays(1);
+              user.setUnbindTimes(3);
+              user.setBindMac("");
+              user.setBindDesc("");
+              user.setCoinsNumber(0); //每个用户初始金币数量为100个
+              user.setInvitePeoplePhone("");
+              user.signOrLogin(code, new SaveListener<UserInfo>() {
+                @Override
+                public void done(UserInfo user,BmobException e) {
+                  if(showProgress != null && showProgress.isShowing()) {
+                    showProgress.dismiss();
+                  }
+                  if(e==null){
+                    Log.d("test","注册成功,userInfo = " + user.toString());
+                    //插入邀请人积分记录
+                    CoinDetails coinDetails = new CoinDetails();
+                    coinDetails.setUserNmae(object.get(0).getUsername());
+                    coinDetails.setStatus(1);
+                    coinDetails.setScore(88);
+                    coinDetails.setType(1);
+                    coinDetails.setReasons("邀请用户注册赠送金币88");
+                    coinDetails.setRelatedUserName(phoneNumber);
+                    coinDetails.save(new SaveListener<String>() {
+                      @Override
+                      public void done(String s, BmobException e) {
+                        if(e==null){
+                          Log.d("test","邀请用户注册赠送金币88成功：" + s);
+                        }else{
+                          Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                        }
+                      }
+                    });
+
+                    //插入自己积分记录
+                    CoinDetails myCoinDetails = new CoinDetails();
+                    myCoinDetails.setUserNmae(phoneNumber);
+                    myCoinDetails.setStatus(1);
+                    myCoinDetails.setScore(100);
+                    myCoinDetails.setType(0);
+                    myCoinDetails.setReasons("首次注册赠送金币100");
+                    myCoinDetails.setRelatedUserName("");
+                    myCoinDetails.save(new SaveListener<String>() {
+                      @Override
+                      public void done(String s, BmobException e) {
+                        finish();
+                        if(e==null){
+                          Log.d("test","首次注册赠送金币100成功：" + s);
+                        }else{
+                          Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                        }
+                      }
+                    });
+                    toast("注册成功，请用您注册的手机号和密码登录" );
+                  }else{
+                    toast("注册失败:" + e.getMessage());
+                  }
+                }
+              });
+            }
+          }else{
+            if(showProgress != null && showProgress.isShowing()) {
+              showProgress.dismiss();
+            }
+            toast("查询邀请人信息失败:" + e.getMessage());
+          }
         }
-        if(e==null){
-          Log.d("test","注册成功,userInfo = " + user.toString());
-          toast("注册成功，请用您注册的手机号和密码登录" );
-          finish();
-        }else{
-          toast("注册失败:" + e.getMessage());
+      });
+
+    }else {
+      UserInfo user = new UserInfo();
+      user.setMobilePhoneNumber(phoneNumber); //设置手机号码（必填）
+      user.setUsername(phoneNumber);          //设置用户名，如果没有传用户名，则默认为手机号码
+      user.setPassword(pwd);                  //设置用户密码
+      user.setUserType(1);
+      user.setAllowDays(1);
+      user.setUnbindTimes(3);
+      user.setBindMac("");
+      user.setBindDesc("");
+      user.setCoinsNumber(0); //每个用户初始金币数量为100个
+      user.setInvitePeoplePhone("");
+      user.signOrLogin(code, new SaveListener<UserInfo>() {
+        @Override
+        public void done(UserInfo user,BmobException e) {
+          if(showProgress != null && showProgress.isShowing()) {
+            showProgress.dismiss();
+          }
+          if(e==null){
+            Log.d("test","注册成功,userInfo = " + user.toString());
+            toast("注册成功，请用您注册的手机号和密码登录" );
+            //插入积分记录
+            CoinDetails coinDetails = new CoinDetails();
+            coinDetails.setUserNmae(phoneNumber);
+            coinDetails.setStatus(1);
+            coinDetails.setScore(100);
+            coinDetails.setType(0);
+            coinDetails.setReasons("首次注册赠送金币100");
+            coinDetails.setRelatedUserName("");
+            coinDetails.save(new SaveListener<String>() {
+              @Override
+              public void done(String s, BmobException e) {
+                finish();
+                if(e==null){
+                  Log.d("test","首次注册赠送金币100成功：" + s);
+                }else{
+                  Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                }
+              }
+            });
+          }else{
+            toast("注册失败:" + e.getMessage());
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   private void requestSMSCode() {

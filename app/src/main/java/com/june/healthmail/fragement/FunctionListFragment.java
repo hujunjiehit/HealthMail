@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
@@ -38,7 +39,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private Button btnPingjia;
   private Button btnYueke;
   private Button btnFukuan;
-  private Button btnSetup;
+  private ImageView imgSetup;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
     btnFukuan = (Button) layout.findViewById(R.id.btn_operition_fukuan);
-    btnSetup = (Button) layout.findViewById(R.id.btn_operition_setup);
+    imgSetup = (ImageView) layout.findViewById(R.id.img_setup);
   }
 
 
@@ -65,7 +66,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
     btnFukuan.setOnClickListener(this);
-    btnSetup.setOnClickListener(this);
+    imgSetup.setOnClickListener(this);
   }
 
 
@@ -97,7 +98,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
           }
           break;
-        case R.id.btn_operition_setup:
+        case R.id.img_setup:
           intent = new Intent(getActivity(),FunctionSetupActivity.class);
           startActivity(intent);
           break;

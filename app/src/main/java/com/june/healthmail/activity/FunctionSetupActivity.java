@@ -202,7 +202,7 @@ public class FunctionSetupActivity extends Activity implements View.OnClickListe
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("修改约课最小延迟");
+        builder.setTitle("修改约课和付款最小延迟");
         builder.setView(diaog_view);
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -242,7 +242,7 @@ public class FunctionSetupActivity extends Activity implements View.OnClickListe
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("修改约课最大延迟");
+        builder.setTitle("修改约课和付款最大延迟");
         builder.setView(diaog_view);
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/medium_text_size"
         android:textColor="@color/setup_title_color"
-        android:text="约课功能设置："/>
+        android:text="约课和付款功能设置："/>
 
     <LinearLayout
         android:layout_marginLeft="24dp"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_text_size"
             android:textColor="@color/setup_title_color"
-            android:text="约课最小延迟："/>
+            android:text="约课和付款最小延迟："/>
 
         <TextView
             android:id="@+id/tv_min_yueke_time"
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_text_size"
             android:textColor="@color/setup_title_color"
-            android:text="约课最大延迟："/>
+            android:text="约课和付款最大延迟："/>
 
         <TextView
             android:id="@+id/tv_max_yueke_time"

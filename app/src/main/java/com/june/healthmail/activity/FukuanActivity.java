@@ -26,9 +26,11 @@ import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.GetAllPaymentModel;
 import com.june.healthmail.model.GetOrderListModel;
 import com.june.healthmail.model.GetPayInfoModel;
+import com.june.healthmail.model.GetPayInfoTonglianModel;
 import com.june.healthmail.model.GetUserModel;
 import com.june.healthmail.model.HmOrder;
 import com.june.healthmail.model.PayinfoDetail;
+import com.june.healthmail.model.PayinfoTonglianDetail;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
@@ -84,6 +86,12 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   private static final int GET_PAYINFO_SUCCESS = 13;
 
 
+  private static final int PAY_TYPE_KUAIQIAN_ZHIFU = 20;
+  private static final int PAY_TYPE_TONGLIAN_ZHIFU = 21;
+  private static final int PAY_TYPE_KUAIJIE_ZHIFU = 22;
+  private static final int PAY_TYPE_JINGDONG_ZHIFU = 23;
+  private static final int PAY_TYPE_YILIAN_ZHIFU = 24;
+
 
   private int accountIndex = 0;
 
@@ -96,8 +104,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
 
   private ArrayList<HmOrder> hmOrders = new ArrayList<>();
 
+
   private int[] fukuanChoice = {0,0,0,0,0};
   private ChoosePayOptionsPopwindow popwindow;
+  private int payTypeFlag;
 
   private Handler mHandler = new Handler() {
 
@@ -181,15 +191,27 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
             break;
 
         case START_TO_GET_PAYINFO:
-          showTheResult("---------------用户选择块钱支付\n");
-          getPayinfo();
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
+            showTheResult("---------------用户选择快钱支付\n");
+            //payType = 3 表示快钱支付
+            getPayinfo(3);
+          }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
+            showTheResult("---------------用户选择通联支付\n");
+            //payType = 7 表示通联支付
+            getPayinfo(7);
+          }
           break;
 
         case GET_PAYINFO_SUCCESS:
           showTheResult("------------------获取支付详情成功，前往支付页面\n");
-          //----
-          GetPayInfoModel payInfoModel = (GetPayInfoModel) msg.obj;
-          getPageInfo(payInfoModel);
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
+            GetPayInfoModel payInfoModel = (GetPayInfoModel) msg.obj;
+            getKuaiqianPageInfo(payInfoModel);
+          }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
+            GetPayInfoTonglianModel payInfoTonglianModel = (GetPayInfoTonglianModel) msg.obj;
+            getTonglianPageInfo(payInfoTonglianModel);
+          }
+
           break;
 
           case GET_TOKEN_FAILED:
@@ -208,9 +230,6 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       }
     }
   };
-
-
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -280,6 +299,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         break;
       case R.id.btn_fukuan_kuaiqian://块钱支付
         Log.e("test","click btn_fukuan_kuaiqian");
+        payTypeFlag = PAY_TYPE_KUAIQIAN_ZHIFU;
         mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_jingdong://京东支付
@@ -287,6 +307,8 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         break;
       case R.id.btn_fukuan_tonglian://通联支付
         Log.e("test","click btn_fukuan_tonglian");
+        payTypeFlag = PAY_TYPE_TONGLIAN_ZHIFU;
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_yilian://易联支付
         Log.e("test","click btn_fukuan_yilian");
@@ -431,7 +453,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         });
     }
 
-  private void getPayinfo() {
+  private void getPayinfo(int payType) {
     String url = "http://api.healthmall.cn/Post";
 
     List<String> ordIds = new ArrayList<>();
@@ -444,7 +466,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     JsonObject job = new JsonObject();
     job.addProperty("whichFunc","GETPAYINFO");
     job.addProperty("OrderType","mergerpayment");
-    job.addProperty("PayType",3);
+    job.addProperty("PayType",payType);
     job.add("OrderIds",jsonArray);
 
     FormBody body = new FormBody.Builder()
@@ -459,11 +481,11 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         Gson gson = new Gson();
-        GetPayInfoModel getPayInfoModel = gson.fromJson(response.body().charStream(), GetPayInfoModel.class);
+        GetPayInfoTonglianModel getPayInfoTonglianModel = gson.fromJson(response.body().charStream(), GetPayInfoTonglianModel.class);
         //获取成功之后
-        if(getPayInfoModel.isSucceed()){
+        if(getPayInfoTonglianModel.isSucceed()){
           Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
-          msg.obj = getPayInfoModel;
+          msg.obj = getPayInfoTonglianModel;
           msg.sendToTarget();
         }else{
           //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
@@ -472,7 +494,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     });
   }
 
-  private void getPageInfo(GetPayInfoModel payInfoModel) {
+  private void getKuaiqianPageInfo(GetPayInfoModel payInfoModel) {
     PayinfoDetail payinfoDetail = payInfoModel.getValuse();
     String cloudCodeName = "getPayPage";
     JSONObject job = new JSONObject();
@@ -515,6 +537,68 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
           startActivity(intent);
 
+        }else {
+          Log.e("test","云端逻辑调用失败：" + e.toString());
+        }
+      }
+    });
+  }
+
+  private void getTonglianPageInfo(GetPayInfoTonglianModel payInfoTonglianModel) {
+    PayinfoTonglianDetail payinfoDetail = payInfoTonglianModel.getValuse();
+    String cloudCodeName = "getTonglianPayPage";
+    JSONObject job = new JSONObject();
+    try {
+      job.put("action",payinfoDetail.getServerUrl());
+
+      job.put("payerIDCard",payinfoDetail.getPayerIDCard());
+      job.put("signType",payinfoDetail.getSignType());
+      job.put("payerEmail",payinfoDetail.getPayerEmail());
+      job.put("version",payinfoDetail.getVersion());
+      job.put("inputCharset",payinfoDetail.getInputCharset());
+      job.put("receiveUrl",payinfoDetail.getReceiveUrl());
+      job.put("orderAmount",payinfoDetail.getOrderAmount());
+      job.put("productNum",payinfoDetail.getProductNum());
+      job.put("merchantId",payinfoDetail.getMerchantId());
+      job.put("tradeNature",payinfoDetail.getTradeNature());
+      job.put("extTL",payinfoDetail.getExtTL());
+      job.put("pickupUrl",payinfoDetail.getPickupUrl());
+      job.put("pid",payinfoDetail.getPid());
+      job.put("orderCurrency",payinfoDetail.getOrderCurrency());
+      job.put("payerTelephone",payinfoDetail.getPayerTelephone());
+      job.put("pan",payinfoDetail.getPan());
+      job.put("productId",payinfoDetail.getProductId());
+
+      job.put("issuerId",payinfoDetail.getIssuerId());
+      job.put("productDesc",payinfoDetail.getProductDesc());
+      job.put("orderNo",payinfoDetail.getOrderNo());
+      job.put("ext1",payinfoDetail.getExt1());
+      job.put("ext2",payinfoDetail.getExt2());
+      job.put("orderExpireDatetime",payinfoDetail.getOrderExpireDatetime());
+      job.put("signMsg",payinfoDetail.getSignMsg());
+      job.put("payType",payinfoDetail.getPayType());
+      job.put("language",payinfoDetail.getLanguage());
+      job.put("orderDatetime",payinfoDetail.getOrderDatetime());
+      job.put("productPrice",payinfoDetail.getProductPrice());
+      job.put("productName",payinfoDetail.getProductName());
+      job.put("payerName",payinfoDetail.getPayerName());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    //创建云端逻辑
+    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+      @Override
+      public void done(Object o, BmobException e) {
+        if(e == null){
+          Log.e("test","云端逻辑调用成功：" + o.toString());
+          Intent intent = new Intent();
+          intent.putExtra("data",o.toString());
+          intent.putExtra("orders",(Serializable)hmOrders);
+          //showTheResult(o.toString());
+          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+          startActivity(intent);
         }else {
           Log.e("test","云端逻辑调用失败：" + e.toString());
         }

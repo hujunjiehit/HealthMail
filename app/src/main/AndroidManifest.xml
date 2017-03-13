@@ -59,13 +59,17 @@
 
         <activity
             android:name=".activity.FukuanActivity"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
 
         <activity
             android:name=".activity.WebViewActivity"
             android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".activity.PayWebviewActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
 

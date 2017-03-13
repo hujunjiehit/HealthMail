@@ -1,10 +1,14 @@
 package com.june.healthmail.model;
 
+import java.io.Serializable;
+
 /**
  * Created by june on 2017/3/9.
  */
 
-public class HmOrder {
+public class HmOrder implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private String HM_OrderId;
     private int HM_OrderType;
     private String User_Id;

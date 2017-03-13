@@ -1,6 +1,9 @@
 package com.june.healthmail.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,7 +13,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -18,13 +20,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.R;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.GetAllPaymentModel;
 import com.june.healthmail.model.GetOrderListModel;
+import com.june.healthmail.model.GetPayInfoModel;
+import com.june.healthmail.model.GetPayInfoTonglianModel;
 import com.june.healthmail.model.GetUserModel;
 import com.june.healthmail.model.HmOrder;
+import com.june.healthmail.model.PayinfoDetail;
+import com.june.healthmail.model.PayinfoTonglianDetail;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
@@ -32,9 +40,22 @@ import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.view.ChoosePayOptionsPopwindow;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.AsyncCustomEndpoints;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.CloudCodeListener;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -63,9 +84,17 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   private static final int GET_USERINFO_FAILED = 7;
   private static final int START_TO_GET_ORDER_LIST = 8;
   private static final int GET_ORDER_LIST_SUCCESS = 9;
-    private static final int START_TO_GET_ALL_PAYMENT = 10;
-    private static final int GET_ALL_PAYMENT_SUCCESS = 11;
+  private static final int START_TO_GET_ALL_PAYMENT = 10;
+  private static final int GET_ALL_PAYMENT_SUCCESS = 11;
+  private static final int START_TO_GET_PAYINFO = 12;
+  private static final int GET_PAYINFO_SUCCESS = 13;
 
+
+  private static final int PAY_TYPE_KUAIQIAN_ZHIFU = 20;
+  private static final int PAY_TYPE_TONGLIAN_ZHIFU = 21;
+  private static final int PAY_TYPE_KUAIJIE_ZHIFU = 22;
+  private static final int PAY_TYPE_JINGDONG_ZHIFU = 23;
+  private static final int PAY_TYPE_YILIAN_ZHIFU = 24;
 
 
   private int accountIndex = 0;
@@ -78,6 +107,11 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   private String errmsg;
 
   private ArrayList<HmOrder> hmOrders = new ArrayList<>();
+
+
+  private int[] fukuanChoice = {0,0,0,0,0};
+  private ChoosePayOptionsPopwindow popwindow;
+  private int payTypeFlag;
 
   private Handler mHandler = new Handler() {
 
@@ -99,10 +133,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
             } else {
               showTheResult("******所有账号约课结束**********\n");
               isRunning = false;
-              btn_start.setText("约课完成");
+              btn_start.setText("付款完成");
             }
           } else {
-            showTheResult("**用户自己终止约课**当前已经执行完成" + accountIndex + "个小号\n");
+            showTheResult("**用户自己终止付款**当前已经执行完成" + accountIndex + "个小号\n");
           }
           break;
         case GET_TOKEN_SUCCESS:
@@ -132,24 +166,69 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
                 for(int i = 0; i < getOrderListModel.getValuse().size(); i++){
                     hmOrders.add(getOrderListModel.getValuse().get(i));
                 }
-                showTheResult("------------共有" + hmOrders.size() + "个订单\n");
-                this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                if(hmOrders.size() > 0){
+                  showTheResult("------------共有" + hmOrders.size() + "个订单\n");
+                  this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                }else {
+                  showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
+                  accountIndex++;
+                  this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+                }
             }
           break;
+
           case START_TO_GET_ALL_PAYMENT:
               showTheResult("-------------开始获取支付方式\n");
               getAllPayment();
               break;
-        case GET_TOKEN_FAILED:
-          showTheResult("---获取token失败，重新开始该小号\n");
-          this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+
+          case GET_ALL_PAYMENT_SUCCESS:
+            GetAllPaymentModel getAllPaymentModel = (GetAllPaymentModel) msg.obj;
+            for(int i = 0; i < getAllPaymentModel.getValuse().size(); i++){
+              if (getAllPaymentModel.getValuse().get(i).getChannelamount() > 0) {
+                fukuanChoice[i] = 1;
+              } else {
+                fukuanChoice[i] = 0;
+              }
+            }
+            showChooseFukuanMode();
+            break;
+
+        case START_TO_GET_PAYINFO:
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
+            showTheResult("---------------用户选择快钱支付\n");
+            //payType = 3 表示快钱支付
+            getPayinfo(3);
+          }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
+            showTheResult("---------------用户选择通联支付\n");
+            //payType = 7 表示通联支付
+            getPayinfo(7);
+          }
           break;
-        case USER_PWD_WRONG:
-          showTheResult("***错误信息："+ errmsg + "\n");
-          showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
-          accountIndex++;
-          this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+
+        case GET_PAYINFO_SUCCESS:
+          showTheResult("------------------获取支付详情成功，前往支付页面\n");
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
+            GetPayInfoModel payInfoModel = (GetPayInfoModel) msg.obj;
+            getKuaiqianPageInfo(payInfoModel);
+          }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
+            GetPayInfoTonglianModel payInfoTonglianModel = (GetPayInfoTonglianModel) msg.obj;
+            getTonglianPageInfo(payInfoTonglianModel);
+          }
+
           break;
+
+          case GET_TOKEN_FAILED:
+            showTheResult("---获取token失败，重新开始该小号\n");
+            this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+            break;
+
+          case USER_PWD_WRONG:
+            showTheResult("***错误信息："+ errmsg + "\n");
+            showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
+            accountIndex++;
+            this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+            break;
         default:
           break;
       }
@@ -200,6 +279,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
 
   @Override
   public void onClick(View v) {
+    if(popwindow != null && popwindow.isShowing()){
+      popwindow.dismiss();
+    }
     switch (v.getId()){
       case R.id.btn_start:
         if("付款完成".equals(btn_start.getText().toString().trim())){
@@ -221,12 +303,16 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         break;
       case R.id.btn_fukuan_kuaiqian://块钱支付
         Log.e("test","click btn_fukuan_kuaiqian");
+        payTypeFlag = PAY_TYPE_KUAIQIAN_ZHIFU;
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_jingdong://京东支付
         Log.e("test","click btn_fukuan_jingdong");
         break;
       case R.id.btn_fukuan_tonglian://通联支付
         Log.e("test","click btn_fukuan_tonglian");
+        payTypeFlag = PAY_TYPE_TONGLIAN_ZHIFU;
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_yilian://易联支付
         Log.e("test","click btn_fukuan_yilian");
@@ -371,14 +457,275 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         });
     }
 
-  private void startToFuKuan() {
-    Message msg = mHandler.obtainMessage(START_TO_FU_KUAN);
-    msg.sendToTarget();
+  private void getPayinfo(final int payType) {
+    String url = "http://api.healthmall.cn/Post";
 
-    //--------------
-    int[] data = {1,1,1,1,1};
+    List<String> ordIds = new ArrayList<>();
+    ordIds.clear();
+    for(HmOrder order:hmOrders){
+      ordIds.add(order.getHM_OrderId());
+    }
+    JsonArray jsonArray = new Gson().toJsonTree(ordIds, new TypeToken<List<String>>() {}.getType()).getAsJsonArray();
+
+    JsonObject job = new JsonObject();
+    job.addProperty("whichFunc","GETPAYINFO");
+    job.addProperty("OrderType","mergerpayment");
+    job.addProperty("PayType",payType);
+    job.add("OrderIds",jsonArray);
+
+    FormBody body = new FormBody.Builder()
+            .add("accessToken",accessToken)
+            .add("data",job.toString())
+            .build();
+    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+      @Override
+      public void onFailure(Call call, IOException e) {
+        //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+      }
+      @Override
+      public void onResponse(Call call, Response response) throws IOException {
+        Gson gson = new Gson();
+        if (payType == 3){
+          GetPayInfoModel getPayInfoModel = gson.fromJson(response.body().charStream(), GetPayInfoModel.class);
+          //获取成功之后
+          if(getPayInfoModel.isSucceed()){
+            Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
+            msg.obj = getPayInfoModel;
+            msg.sendToTarget();
+          }else{
+            //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+          }
+        }else if(payType == 7){
+          GetPayInfoTonglianModel getPayInfoTonglianModel = gson.fromJson(response.body().charStream(), GetPayInfoTonglianModel.class);
+          //获取成功之后
+          if(getPayInfoTonglianModel.isSucceed()){
+            Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
+            msg.obj = getPayInfoTonglianModel;
+            msg.sendToTarget();
+          }else{
+            //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+          }
+        }
+      }
+    });
+  }
+
+  private void getKuaiqianPageInfo(GetPayInfoModel payInfoModel) {
+    PayinfoDetail payinfoDetail = payInfoModel.getValuse();
+    String cloudCodeName = "getPayPage";
+    JSONObject job = new JSONObject();
+    try {
+      job.put("action",payinfoDetail.getPostUrl());
+
+      job.put("signType",payinfoDetail.getSignType());
+      job.put("merchantAcctId",payinfoDetail.getMerchantAcctId());
+      job.put("orderTime",payinfoDetail.getOrderTime());
+      job.put("version",payinfoDetail.getVersion());
+      job.put("payerIdType",payinfoDetail.getPayerIdType());
+      job.put("productDesc",payinfoDetail.getProductDesc());
+      job.put("inputCharset",payinfoDetail.getInputCharset());
+      job.put("bgUrl",payinfoDetail.getBg_Url());
+      job.put("ext1",payinfoDetail.getExt1());
+      job.put("orderAmount",payinfoDetail.getOrderAmount());
+      job.put("productNum",payinfoDetail.getProductNum());
+      job.put("signMsg",payinfoDetail.getSignMsg());
+      job.put("payType",payinfoDetail.getPayType());
+      job.put("payerId",payinfoDetail.getPayerId());
+      job.put("language",payinfoDetail.getLanguage());
+      job.put("productName",payinfoDetail.getProductName());
+      job.put("orderId",payinfoDetail.getOrderId());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    //创建云端逻辑
+    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+      @Override
+      public void done(Object o, BmobException e) {
+        if(e == null){
+          Log.e("test","云端逻辑调用成功：" + o.toString());
+
+          Intent intent = new Intent();
+          intent.putExtra("data",o.toString());
+          intent.putExtra("orders",(Serializable)hmOrders);
+          //showTheResult(o.toString());
+          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+          startActivityForResult(intent,payTypeFlag);
+        }else {
+          Log.e("test","云端逻辑调用失败：" + e.toString());
+        }
+      }
+    });
+  }
+
+  private void getTonglianPageInfo(GetPayInfoTonglianModel payInfoTonglianModel) {
+    PayinfoTonglianDetail payinfoDetail = payInfoTonglianModel.getValuse();
+    String cloudCodeName = "getTonglianPayPage";
+    JSONObject job = new JSONObject();
+    try {
+      job.put("action",payinfoDetail.getServerUrl());
+
+      job.put("payerIDCard",payinfoDetail.getPayerIDCard());
+      job.put("signType",payinfoDetail.getSignType());
+      job.put("payerEmail",payinfoDetail.getPayerEmail());
+      job.put("version",payinfoDetail.getVersion());
+      job.put("inputCharset",payinfoDetail.getInputCharset());
+      job.put("receiveUrl",payinfoDetail.getReceiveUrl());
+      job.put("orderAmount",payinfoDetail.getOrderAmount());
+      job.put("productNum",payinfoDetail.getProductNum());
+      job.put("merchantId",payinfoDetail.getMerchantId());
+      job.put("tradeNature",payinfoDetail.getTradeNature());
+      job.put("extTL",payinfoDetail.getExtTL());
+      job.put("pickupUrl",payinfoDetail.getPickupUrl());
+      job.put("pid",payinfoDetail.getPid());
+      job.put("orderCurrency",payinfoDetail.getOrderCurrency());
+      job.put("payerTelephone",payinfoDetail.getPayerTelephone());
+      job.put("pan",payinfoDetail.getPan());
+      job.put("productId",payinfoDetail.getProductId());
+
+      job.put("issuerId",payinfoDetail.getIssuerId());
+      job.put("productDesc",payinfoDetail.getProductDesc());
+      job.put("orderNo",payinfoDetail.getOrderNo());
+      job.put("ext1",payinfoDetail.getExt1());
+      job.put("ext2",payinfoDetail.getExt2());
+      job.put("orderExpireDatetime",payinfoDetail.getOrderExpireDatetime());
+      job.put("signMsg",payinfoDetail.getSignMsg());
+      job.put("payType",payinfoDetail.getPayType());
+      job.put("language",payinfoDetail.getLanguage());
+      job.put("orderDatetime",payinfoDetail.getOrderDatetime());
+      job.put("productPrice",payinfoDetail.getProductPrice());
+      job.put("productName",payinfoDetail.getProductName());
+      job.put("payerName",payinfoDetail.getPayerName());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    //创建云端逻辑
+    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+      @Override
+      public void done(Object o, BmobException e) {
+        if(e == null){
+          Log.e("test","云端逻辑调用成功：" + o.toString());
+          Intent intent = new Intent();
+          intent.putExtra("data",o.toString());
+          intent.putExtra("orders",(Serializable)hmOrders);
+          //showTheResult(o.toString());
+          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+          startActivityForResult(intent,payTypeFlag);
+        }else {
+          Log.e("test","云端逻辑调用失败：" + e.toString());
+        }
+      }
+    });
+  }
+
+  private void openWebviewActivity(GetPayInfoModel payInfoModel){
+    PayinfoDetail payinfoDetail = payInfoModel.getValuse();
+    StringBuilder sb = new StringBuilder();
+
+    String url = payinfoDetail.getPostUrl();
+
+    JsonObject job = new JsonObject();
+    job.addProperty("MerchantAcctId",payinfoDetail.getMerchantAcctId());
+    job.addProperty("Bg_Url",payinfoDetail.getBg_Url());
+    job.addProperty("PostUrl",payinfoDetail.getPostUrl());
+    job.addProperty("SignMsg",payinfoDetail.getSignMsg());
+    job.addProperty("InputCharset",payinfoDetail.getInputCharset());
+    job.addProperty("Version",payinfoDetail.getVersion());
+    job.addProperty("Language",payinfoDetail.getLanguage());
+    job.addProperty("SignType",payinfoDetail.getSignType());
+    job.addProperty("ext1",payinfoDetail.getExt1());
+    job.addProperty("PayerIdType",payinfoDetail.getPayerIdType());
+    job.addProperty("PayType",payinfoDetail.getPayType());
+    job.addProperty("productDesc",payinfoDetail.getProductDesc());
+    job.addProperty("orderAmount",payinfoDetail.getOrderAmount());
+    job.addProperty("productName",payinfoDetail.getProductName());
+    job.addProperty("productNum",payinfoDetail.getProductNum());
+    job.addProperty("orderId",payinfoDetail.getOrderId());
+    job.addProperty("orderTime",payinfoDetail.getOrderTime());
+    job.addProperty("payerId",payinfoDetail.getPayerId());
+    job.addProperty("pageUrl",payinfoDetail.getPageUrl());
+
+
+//    FormBody body = new FormBody.Builder()
+//            .add("orderId",payinfoDetail.getOrderId())
+//            .add("orderAmount",payinfoDetail.getOrderAmount())
+//            .add("productName",payinfoDetail.getProductName())
+//            .add("productNum",payinfoDetail.getProductNum())
+//            .add("productDesc",payinfoDetail.getProductDesc())
+//            .add("ext1",payinfoDetail.getExt1())
+//            .add("signMsg",payinfoDetail.getSignMsg())
+//            .add("merchantAcctId",payinfoDetail.getMerchantAcctId())
+//            .add("inputCharset",payinfoDetail.getInputCharset())
+//            .add("bgUrl",payinfoDetail.getBg_Url())
+//            .add("version",payinfoDetail.getVersion())
+//            .add("language",payinfoDetail.getLanguage())
+//            .add("signType",payinfoDetail.getSignType())
+//            .add("payerIdType",payinfoDetail.getPayerIdType())
+//            .add("payerId",payinfoDetail.getPayerId())
+//            .add("orderTime",payinfoDetail.getOrderTime())
+//            .add("payType",payinfoDetail.getPayType())
+//            .build();
+//
+//    HttpUntils.getInstance(this).postForm(url,body,new Callback() {
+//      @Override
+//      public void onFailure(Call call, IOException e) {
+//        //mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
+//      }
+//      @Override
+//      public void onResponse(Call call, Response response) throws IOException {
+//
+//      }
+//    });
+
+    Intent intent = new Intent();
+    intent.putExtra("url","http://mao.yikey.net/payMoneyType.do?"+"type=" + payinfoDetail.getPayerIdType() + "&token="+accessToken+
+    "&data="+job.toString());
+    showTheResult(url);
+    intent.setClass(this,WebViewActivity.class);
+    startActivity(intent);
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Log.e("test","onActivityResult requestCode = " + requestCode);
+    if(requestCode == PAY_TYPE_TONGLIAN_ZHIFU || requestCode == PAY_TYPE_KUAIQIAN_ZHIFU){
+        showContinueDialog();
+    }
+  }
+
+  private void showContinueDialog(){
+    AlertDialog dialog = new AlertDialog.Builder(FukuanActivity.this)
+            .setTitle("下一步")
+            .setMessage("请选择下一步操作(如果支付成功，请选择继续付款，如果付款失败请选择重新付款)")
+            .setNegativeButton("继续付款", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Log.e("test","继续付款,开始付款下一个帐号");
+                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
+                accountIndex++;
+                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+              }
+            })
+            .setPositiveButton("重新付款", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Log.e("test","重新付款,重新开始付款此帐号");
+                showTheResult("----------------重新付款此小号\n");
+                mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+              }
+            }).create();
+    dialog.show();
+  }
+
+  private void showChooseFukuanMode(){
     //显示popupwindow
-    ChoosePayOptionsPopwindow popwindow = new ChoosePayOptionsPopwindow(this,data,this);
+    popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
     popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
     WindowManager.LayoutParams lp = getWindow().getAttributes();
     lp.alpha = 0.5f;
@@ -389,9 +736,16 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha=1f;
         getWindow().setAttributes(lp);
+        //showContinueDialog();
       }
     });
   }
+
+  private void startToFuKuan() {
+    Message msg = mHandler.obtainMessage(START_TO_FU_KUAN);
+    msg.sendToTarget();
+  }
+
 
   private int getDelayTime() {
     int randTime = CommonUntils.getRandomInt(min_time,max_time);

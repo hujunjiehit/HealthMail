@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,6 +20,7 @@ import com.june.healthmail.R;
 public class WebViewActivity extends Activity {
 
   private WebView webView;
+  private String url;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +29,27 @@ public class WebViewActivity extends Activity {
     init();
   }
 
-  private void init() {
-    String url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
-    webView = (WebView) findViewById(R.id.webview);
+  @Override
+  protected void onPause() {
+    super.onPause();
+    webView.pauseTimers();
+  }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+    webView.resumeTimers();
+  }
+
+  private void init() {
+    url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
+    webView = (WebView) findViewById(R.id.webview);
     //启用支持javascript
     WebSettings settings = webView.getSettings();
     settings.setJavaScriptEnabled(true);
 
     webView.loadUrl(url);
+
     //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
     webView.setWebViewClient(new WebViewClient(){
       @Override
@@ -47,12 +62,5 @@ public class WebViewActivity extends Activity {
         return false;
       }
     });
-  }
-
-  public static void open(Context context, String url){
-    Intent intent = new Intent();
-    intent.setClass(context,WebViewActivity.class);
-    intent.putExtra("webUrl",url);
-    context.startActivity(intent);
   }
 }

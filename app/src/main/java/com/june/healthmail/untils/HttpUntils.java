@@ -58,4 +58,25 @@ public class HttpUntils {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }
+
+    public void get(String url,Callback callback){
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10,TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+        Request.Builder builder  = new Request.Builder().url(url);
+
+        //builder.addHeader(key,value);  //将请求头以键值对形式添加，可添加多个请求头
+        builder.addHeader("User-Agent", CommonUntils.getUserAgent(mContext)); //必须
+        builder.addHeader("appId","101"); //必须
+        builder.addHeader("deviceId","android_" + CommonUntils.getLocalMacAddressFromIp(mContext)); //非必须
+        builder.addHeader("deviceType","1"); //非必须
+        builder.addHeader("timeStamp",String.valueOf(System.currentTimeMillis()));  //必须
+        builder.addHeader("versionCode","67"); //非必须
+        builder.addHeader("versionName","2.5.2.1"); //非必须
+        Request request = builder.build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
+    }
 }

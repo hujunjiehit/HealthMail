@@ -55,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_press"
                 android:textSize="26sp"
-                android:visibility="gone"
                 android:text="自动付款"/>
 
             <Button

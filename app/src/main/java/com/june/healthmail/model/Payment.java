@@ -89,7 +89,7 @@ public class Payment {
         this.remainamount = remainamount;
     }
 
-    public double isChannelamount() {
+    public double getChannelamount() {
         return channelamount;
     }
 

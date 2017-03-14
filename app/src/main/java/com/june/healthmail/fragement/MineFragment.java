@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.LoginActivity;
 import com.june.healthmail.activity.MainActivity;
+import com.june.healthmail.activity.SuperRootActivity;
 import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
@@ -52,6 +54,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private UserInfo userInfo;
 
   private TextView tvGoToTaobao;
+  private ImageView ivUserIcon;
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (layout != null) {
@@ -73,6 +77,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mTvUserType = (TextView) layout.findViewById(R.id.tv_user_type);
     mTvAllowDays = (TextView) layout.findViewById(R.id.tv_allow_days);
     tvGoToTaobao = (TextView) layout.findViewById(R.id.tv_go_to_taobao);
+    ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
   }
 
   private void setOnListener() {
@@ -80,6 +85,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     layout.findViewById(R.id.btn_unbind_device).setOnClickListener(this);
     layout.findViewById(R.id.btn_check_update).setOnClickListener(this);
     tvGoToTaobao.setOnClickListener(this);
+    ivUserIcon.setOnClickListener(this);
   }
 
   /**
@@ -272,6 +278,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         break;
       case R.id.tv_go_to_taobao: // 点击购买链接
         openTaobaoShopping();
+        break;
+      case R.id.user_icon: // 点击用户头像，拉起超级用户配置管理界面
+        if(userInfo != null && (userInfo.getUsername().equals("13027909110") || userInfo.getUsername().equals("18002570032"))){
+          Intent intent = new Intent(getActivity(),SuperRootActivity.class);
+          startActivity(intent);
+        }
         break;
       default:
         break;

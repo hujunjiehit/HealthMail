@@ -100,8 +100,8 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
       return;
     }
     if(!TextUtils.isEmpty(invitePeoplePhone)){
-      if(invitePeoplePhone.length() < 11){
-          toast("邀请人手机号小于11位");
+      if(invitePeoplePhone.length() != 11){
+          toast("请输入正确的手机号码(11位数字)");
           return;
       }
     }
@@ -137,7 +137,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
               user.setBindMac("");
               user.setBindDesc("");
               user.setCoinsNumber(0); //每个用户初始金币数量为100个
-              user.setInvitePeoplePhone("");
+              user.setInvitePeoplePhone(object.get(0).getUsername());
               user.signOrLogin(code, new SaveListener<UserInfo>() {
                 @Override
                 public void done(UserInfo user,BmobException e) {

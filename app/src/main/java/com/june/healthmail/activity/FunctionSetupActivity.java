@@ -110,7 +110,6 @@ public class FunctionSetupActivity extends Activity implements View.OnClickListe
 
     private void toast(String str){
         Toast.makeText(FunctionSetupActivity.this,str,Toast.LENGTH_LONG).show();
-
     }
 
     private void showEditMinPingjiaDialog() {

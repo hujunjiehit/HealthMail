@@ -1,7 +1,6 @@
 package com.june.healthmail.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -13,20 +12,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.model.CoinDetails;
+import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ShowProgress;
 
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by bjhujunjie on 2017/3/6.
@@ -147,14 +144,14 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
                   if(e==null){
                     Log.d("test","注册成功,userInfo = " + user.toString());
                     //插入邀请人积分记录
-                    CoinDetails coinDetails = new CoinDetails();
-                    coinDetails.setUserNmae(object.get(0).getUsername());
-                    coinDetails.setStatus(1);
-                    coinDetails.setScore(88);
-                    coinDetails.setType(1);
-                    coinDetails.setReasons("邀请用户注册赠送金币88");
-                    coinDetails.setRelatedUserName(phoneNumber);
-                    coinDetails.save(new SaveListener<String>() {
+                    MessageDetails messageDetails = new MessageDetails();
+                    messageDetails.setUserName(object.get(0).getUsername());
+                    messageDetails.setStatus(1);
+                    messageDetails.setScore(88);
+                    messageDetails.setType(1);
+                    messageDetails.setReasons("邀请用户注册赠送金币88");
+                    messageDetails.setRelatedUserName(phoneNumber);
+                    messageDetails.save(new SaveListener<String>() {
                       @Override
                       public void done(String s, BmobException e) {
                         if(e==null){
@@ -166,14 +163,14 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
                     });
 
                     //插入自己积分记录
-                    CoinDetails myCoinDetails = new CoinDetails();
-                    myCoinDetails.setUserNmae(phoneNumber);
-                    myCoinDetails.setStatus(1);
-                    myCoinDetails.setScore(100);
-                    myCoinDetails.setType(0);
-                    myCoinDetails.setReasons("首次注册赠送金币100");
-                    myCoinDetails.setRelatedUserName("");
-                    myCoinDetails.save(new SaveListener<String>() {
+                    MessageDetails myMessageDetails = new MessageDetails();
+                    myMessageDetails.setUserName(phoneNumber);
+                    myMessageDetails.setStatus(1);
+                    myMessageDetails.setScore(100);
+                    myMessageDetails.setType(0);
+                    myMessageDetails.setReasons("首次注册赠送金币100");
+                    myMessageDetails.setRelatedUserName("");
+                    myMessageDetails.save(new SaveListener<String>() {
                       @Override
                       public void done(String s, BmobException e) {
                         finish();
@@ -222,14 +219,14 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
             Log.d("test","注册成功,userInfo = " + user.toString());
             toast("注册成功，请用您注册的手机号和密码登录" );
             //插入积分记录
-            CoinDetails coinDetails = new CoinDetails();
-            coinDetails.setUserNmae(phoneNumber);
-            coinDetails.setStatus(1);
-            coinDetails.setScore(100);
-            coinDetails.setType(0);
-            coinDetails.setReasons("首次注册赠送金币100");
-            coinDetails.setRelatedUserName("");
-            coinDetails.save(new SaveListener<String>() {
+            MessageDetails messageDetails = new MessageDetails();
+            messageDetails.setUserName(phoneNumber);
+            messageDetails.setStatus(1);
+            messageDetails.setScore(100);
+            messageDetails.setType(0);
+            messageDetails.setReasons("首次注册赠送金币100");
+            messageDetails.setRelatedUserName("");
+            messageDetails.save(new SaveListener<String>() {
               @Override
               public void done(String s, BmobException e) {
                 finish();

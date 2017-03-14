@@ -87,8 +87,8 @@
             android:background="@drawable/personel_user_head_bg">
             <ImageView
             android:id="@+id/user_icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -110,26 +110,43 @@
             android:textSize="@dimen/small_medium_text_size" />
 
             <TextView
-            android:id="@+id/tv_user_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_uid"
-            android:layout_centerVertical="true"
-            android:text="铜牌用户"
-            android:textColor="@color/white"
-            android:textSize="@dimen/small_medium_text_size" />
+                android:id="@+id/tv_user_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_uid"
+                android:layout_toRightOf="@id/user_icon"
+                android:layout_centerVertical="true"
+                android:text="铜牌用户"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_medium_text_size" />
 
             <TextView
                 android:id="@+id/tv_allow_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:layout_alignLeft="@id/tv_uid"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/user_icon"
                 android:layout_below="@id/tv_user_type"
                 android:layout_centerVertical="true"
                 android:text="剩余授权时间"
                 android:textColor="@color/white"
                 android:textSize="@dimen/small_medium_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_coins_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/user_icon"
+                    android:layout_below="@id/tv_allow_days"
+                    android:layout_centerVertical="true"
+                    android:text="金币余额："
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_medium_text_size" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

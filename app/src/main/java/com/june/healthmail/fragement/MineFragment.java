@@ -7,29 +7,36 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.LoginActivity;
 import com.june.healthmail.activity.MainActivity;
 import com.june.healthmail.activity.SuperRootActivity;
 import com.june.healthmail.activity.WebViewActivity;
+import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 
@@ -50,11 +57,46 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private TextView mTvUserType;
   private TextView mTvAllowDays;
+  private TextView mTvCoinsNumber;
 
   private UserInfo userInfo;
 
   private TextView tvGoToTaobao;
   private ImageView ivUserIcon;
+
+  private static final int HANDLER_THE_MESSAGES = 1;
+
+  private ArrayList<MessageDetails> messageList = new ArrayList<>();
+  private int messageIndex = 0;
+
+  private Handler mHandler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case HANDLER_THE_MESSAGES:
+          Log.d("test","开始处理消息,messgaeIndex = " + messageIndex);
+          if(messageIndex < messageList.size()){
+            dealTheMessage(messageList.get(messageIndex));
+          }else {
+            Log.d("test","消息处理完毕，更新用户信息");
+            userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e==null){
+                  Log.e("test","更新用户信息成功");
+                  setUserDetails();
+                }else{
+                  Log.e("test","更新用户信息失败");
+                }
+              }
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +111,16 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     return layout;
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    //更新金币信息
+    if(userInfo != null){
+      userInfo = BmobUser.getCurrentUser(UserInfo.class);
+      setUserDetails();
+    }
+  }
+
   private void initView() {
     mViewNotLogined = layout.findViewById(R.id.layout_not_logined);
     mViewLogined = layout.findViewById(R.id.layout_logined);
@@ -76,6 +128,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mImgUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     mTvUserType = (TextView) layout.findViewById(R.id.tv_user_type);
     mTvAllowDays = (TextView) layout.findViewById(R.id.tv_allow_days);
+    mTvCoinsNumber = (TextView) layout.findViewById(R.id.tv_coins_number);
     tvGoToTaobao = (TextView) layout.findViewById(R.id.tv_go_to_taobao);
     ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
   }
@@ -115,6 +168,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       mViewLogined.setVisibility(View.VISIBLE);
       mTvUid.setText(userName);
       setUserDetails();
+      getMessagesFromServer();
     } else {
       mViewNotLogined.setVisibility(View.VISIBLE);
       mViewLogined.setVisibility(View.GONE);
@@ -122,6 +176,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   }
 
   private void setUserDetails() {
+    mTvCoinsNumber.setText("金币余额：" + userInfo.getCoinsNumber());
     if (userInfo.getUserType() == 0) {
       //普通用户
       mTvUserType.setText("普通用户");
@@ -131,8 +186,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       //月卡用户
       mTvUserType.setText("月卡用户");
       getServerTime();
-      mTvAllowDays.setVisibility(View.INVISIBLE);
-      //mTvAllowDays.setText("剩余授权时间：" + allowTime);
       tvGoToTaobao.setVisibility(View.VISIBLE);
     } else if (userInfo.getUserType() == 2){
       //永久用户
@@ -288,6 +341,115 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       default:
         break;
     }
+  }
+
+  private void getMessagesFromServer() {
+    BmobQuery<MessageDetails> query = new BmobQuery<MessageDetails>();
+    query.addWhereEqualTo("username",userInfo.getUsername());
+    query.addWhereEqualTo("status",1);
+    query.findObjects(new FindListener<MessageDetails>() {
+      @Override
+      public void done(List<MessageDetails> object, BmobException e) {
+        if(e==null){
+          Log.d("test","查询消息成功：共"+object.size()+"条数据。");
+          messageList.clear();
+          for(MessageDetails message:object){
+            messageList.add(message);
+          }
+          messageIndex = 0;
+          mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+        }else{
+          Log.i("bmob","查询失败："+e.getMessage()+","+e.getErrorCode());
+        }
+      }
+    });
+  }
+
+
+  private void dealTheMessage(final MessageDetails messageDetails) {
+    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setCancelable(false);
+    int messageType = messageDetails.getType();
+      if(messageType == 0 || messageType == 1 || messageType == 2 || messageType == 3 || messageType == 4){
+        //金币入账消息
+          builder.setTitle("金币入账通知");
+          if(messageType == 1 || messageType == 2 || messageType == 3){
+            builder.setMessage(messageDetails.getReasons() + "\n邀请人电话：" + messageDetails.getRelatedUserName());
+          }else {
+            builder.setMessage(messageDetails.getReasons());
+          }
+          builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    messageDetails.setStatus(0);
+                    messageDetails.update(messageDetails.getObjectId(), new UpdateListener() {
+                      @Override
+                      public void done(BmobException e) {
+                        if(e == null) {
+                          Log.d("test","消息处理成功，开始处理下一条消息");
+                          if(userInfo.getCoinsNumber() == null){
+                            userInfo.setCoinsNumber(messageDetails.getScore());
+                          }else {
+                            userInfo.setCoinsNumber(userInfo.getCoinsNumber() + messageDetails.getScore());
+                          }
+                          messageIndex++;
+                          mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                        }else {
+                          Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
+                        }
+                      }
+                    });
+                  }
+                });
+          builder.create().show();
+      }else if(messageType == 5 || messageType == 6 ){
+        //授权变动消息
+        builder.setTitle("授权变动通知");
+        if(messageType == 5){
+          builder.setMessage("月卡授权开通成功，本次开通了" + messageDetails.getScore() + "天授权");
+          if(userInfo.getUserType() == 1){
+            //试用时间未过期
+            userInfo.setAllowDays(userInfo.getAllowDays() + messageDetails.getScore());
+          }else {
+            userInfo.setUserType(1);
+            userInfo.setAllowDays(messageDetails.getScore());
+          }
+        }else if(messageType == 6){
+          builder.setMessage("永久授权开通成功");
+          userInfo.setUserType(2);
+        }
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            messageDetails.setStatus(0);
+            messageDetails.update(messageDetails.getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e == null) {
+                  Log.d("test","消息处理成功，开始处理下一条消息");
+                  messageIndex++;
+                  mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                }else {
+                  Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
+                }
+              }
+            });
+          }
+        });
+        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+          @Override
+          public void done(BmobException e) {
+            if(e==null){
+              Log.e("test","更新用户信息成功");
+              builder.create().show();
+            }else{
+              Log.e("test","更新用户信息失败");
+            }
+          }
+        });
+      }
   }
 
   private void openTaobaoShopping() {

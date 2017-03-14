@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.model.CoinDetails;
+import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ShowProgress;
 
@@ -147,14 +147,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
 
     private void authorizeUserForever() {
         //永久授权该用户
-        CoinDetails coinDetails = new CoinDetails();
-        coinDetails.setUserNmae(mUserInfo.getUsername());
-        coinDetails.setStatus(1);
-        coinDetails.setScore(0);
-        coinDetails.setType(6);
-        coinDetails.setReasons("用户开通永久授权");
-        coinDetails.setRelatedUserName("");
-        coinDetails.save(new SaveListener<String>() {
+        MessageDetails messageDetails = new MessageDetails();
+        messageDetails.setUserName(mUserInfo.getUsername());
+        messageDetails.setStatus(1);
+        messageDetails.setScore(0);
+        messageDetails.setType(6);
+        messageDetails.setReasons("用户开通永久授权");
+        messageDetails.setRelatedUserName("");
+        messageDetails.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
@@ -168,14 +168,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         });
         if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone())){
             Log.d("test","有邀请人，邀请人电话：" + mUserInfo.getInvitePeoplePhone());
-            CoinDetails inviteCoinDetails = new CoinDetails();
-            inviteCoinDetails.setUserNmae(mUserInfo.getInvitePeoplePhone());
-            inviteCoinDetails.setStatus(1);
-            inviteCoinDetails.setScore(1888);
-            inviteCoinDetails.setType(3);
-            inviteCoinDetails.setReasons("邀请人升级永久授权，赠送金币1888");
-            inviteCoinDetails.setRelatedUserName(mUserInfo.getUsername());
-            inviteCoinDetails.save(new SaveListener<String>() {
+            MessageDetails inviteMessageDetails = new MessageDetails();
+            inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());
+            inviteMessageDetails.setStatus(1);
+            inviteMessageDetails.setScore(1888);
+            inviteMessageDetails.setType(3);
+            inviteMessageDetails.setReasons("邀请人升级永久授权，赠送金币1888");
+            inviteMessageDetails.setRelatedUserName(mUserInfo.getUsername());
+            inviteMessageDetails.save(new SaveListener<String>() {
                 @Override
                 public void done(String s, BmobException e) {
                     if(e==null){
@@ -218,14 +218,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 dialog.dismiss();
                 Log.d("test","daysNum = " + daysNum);
 
-                CoinDetails coinDetails = new CoinDetails();
-                coinDetails.setUserNmae(mUserInfo.getUsername());
-                coinDetails.setStatus(1);
-                coinDetails.setScore(Integer.parseInt(daysNum));
-                coinDetails.setType(5);
-                coinDetails.setReasons("用户开通月卡授权，授权天数见score字段");
-                coinDetails.setRelatedUserName("");
-                coinDetails.save(new SaveListener<String>() {
+                MessageDetails messageDetails = new MessageDetails();
+                messageDetails.setUserName(mUserInfo.getUsername());
+                messageDetails.setStatus(1);
+                messageDetails.setScore(Integer.parseInt(daysNum));
+                messageDetails.setType(5);
+                messageDetails.setReasons("用户开通月卡授权，授权天数见score字段");
+                messageDetails.setRelatedUserName("");
+                messageDetails.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
                         if(e==null){
@@ -239,14 +239,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 });
                 if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone())){
                     Log.d("test","有邀请人，邀请人电话：" + mUserInfo.getInvitePeoplePhone());
-                    CoinDetails inviteCoinDetails = new CoinDetails();
-                    inviteCoinDetails.setUserNmae(mUserInfo.getInvitePeoplePhone());
-                    inviteCoinDetails.setStatus(1);
-                    inviteCoinDetails.setScore(688);
-                    inviteCoinDetails.setType(2);
-                    inviteCoinDetails.setReasons("邀请人开通月卡授权，赠送金币688");
-                    inviteCoinDetails.setRelatedUserName(mUserInfo.getUsername());
-                    inviteCoinDetails.save(new SaveListener<String>() {
+                    MessageDetails inviteMessageDetails = new MessageDetails();
+                    inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());
+                    inviteMessageDetails.setStatus(1);
+                    inviteMessageDetails.setScore(688);
+                    inviteMessageDetails.setType(2);
+                    inviteMessageDetails.setReasons("邀请人开通月卡授权，赠送金币688");
+                    inviteMessageDetails.setRelatedUserName(mUserInfo.getUsername());
+                    inviteMessageDetails.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
                             if(e==null){
@@ -281,14 +281,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 final String coinsNum = edit_text.getText().toString().trim();
                 dialog.dismiss();
                 Log.d("test","coinsNum = " + coinsNum);
-                CoinDetails coinDetails = new CoinDetails();
-                coinDetails.setUserNmae(mUserInfo.getUsername());
-                coinDetails.setStatus(1);
-                coinDetails.setScore(Integer.parseInt(coinsNum));
-                coinDetails.setType(4); //4代表金币充值或者管理员赠送
-                coinDetails.setReasons("管理员赠送金币");
-                coinDetails.setRelatedUserName("");
-                coinDetails.save(new SaveListener<String>() {
+                MessageDetails messageDetails = new MessageDetails();
+                messageDetails.setUserName(mUserInfo.getUsername());
+                messageDetails.setStatus(1);
+                messageDetails.setScore(Integer.parseInt(coinsNum));
+                messageDetails.setType(4); //4代表金币充值或者管理员赠送
+                messageDetails.setReasons("管理员赠送金币，数量：" + Integer.parseInt(coinsNum));
+                messageDetails.setRelatedUserName("");
+                messageDetails.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
                         if(e==null){

@@ -36,6 +36,7 @@ import com.june.healthmail.model.PayinfoDetail;
 import com.june.healthmail.model.PayinfoKuaijieDetail;
 import com.june.healthmail.model.PayinfoTonglianDetail;
 import com.june.healthmail.model.TokenModel;
+import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
@@ -71,6 +72,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
 
   private Button btn_start;
   private TextView tvShowResult;
+  private TextView tvCoinsNumber;
 
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
@@ -112,7 +114,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   private String errmsg;
 
   private ArrayList<HmOrder> hmOrders = new ArrayList<>();
-
+  private UserInfo userInfo;
 
   private int[] fukuanChoice = {0,0,0,0,0};
   private ChoosePayOptionsPopwindow popwindow;
@@ -270,6 +272,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fukuan);
+    userInfo = BmobUser.getCurrentUser(UserInfo.class);
     initView();
     setListener();
     initData();
@@ -281,6 +284,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     btn_start = (Button) findViewById(R.id.btn_start);
     tvShowResult = (TextView) findViewById(R.id.et_show_result);
     tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
+    tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
   }
 
   private void setListener() {
@@ -290,6 +294,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
 
   private void initData() {
     accountList.clear();
+   tvCoinsNumber.setText(userInfo.getCoinsNumber() + "");
     SQLiteDatabase db = DBManager.getInstance(this).getDb();
     Cursor cursor = db.rawQuery("select * from account",null);
     if(cursor.moveToFirst()){
@@ -768,10 +773,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Log.e("test","继续付款,开始付款下一个帐号");
-                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
-                accountIndex++;
-                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+                updateTheCoinsNumber();
               }
             })
             .setPositiveButton("重新付款", new DialogInterface.OnClickListener() {
@@ -814,6 +816,22 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     int randTime = CommonUntils.getRandomInt(min_time,max_time);
     Log.d("test","randTime = " + randTime);
     return randTime;
+  }
+
+  private void updateTheCoinsNumber(){
+    userInfo.setCoinsNumber(userInfo.getCoinsNumber() - 1);
+    userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+      @Override
+      public void done(BmobException e) {
+        if(e == null){
+          Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+          tvCoinsNumber.setText(userInfo.getCoinsNumber());
+          showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
+          accountIndex++;
+          mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+        }
+      }
+    });
   }
 
   private void showTheResult(String str){

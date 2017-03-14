@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.june.healthmail.model.UserInfo;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -13,6 +15,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Random;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by bjhujunjie on 2017/3/3.
@@ -156,6 +160,15 @@ public class CommonUntils {
       context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
       return true;
     }catch (PackageManager.NameNotFoundException e){
+      return false;
+    }
+  }
+
+  public static boolean hasPermission() {
+    UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
+    if(userInfo.getUserType() == 1 || userInfo.getUserType() == 2 || userInfo.getUserType() >= 99){
+      return true;
+    }else {
       return false;
     }
   }

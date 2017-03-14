@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private TextView mTvUserType;
   private TextView mTvAllowDays;
   private TextView mTvCoinsNumber;
+  private RelativeLayout ivGetHelp;
 
   private UserInfo userInfo;
 
@@ -131,6 +133,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mTvCoinsNumber = (TextView) layout.findViewById(R.id.tv_coins_number);
     tvGoToTaobao = (TextView) layout.findViewById(R.id.tv_go_to_taobao);
     ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
+    ivGetHelp = (RelativeLayout) layout.findViewById(R.id.iv_get_help);
   }
 
   private void setOnListener() {
@@ -139,6 +142,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     layout.findViewById(R.id.btn_check_update).setOnClickListener(this);
     tvGoToTaobao.setOnClickListener(this);
     ivUserIcon.setOnClickListener(this);
+    ivGetHelp.setOnClickListener(this);
   }
 
   /**
@@ -192,11 +196,21 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       mTvUserType.setText("永久用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setVisibility(View.GONE);
-    } else {
+    } else if(userInfo.getUserType() == 1){
       //过期用户
       mTvUserType.setText("过期用户");
       mTvAllowDays.setText("授权已过期，请联系软件作者续费");
       tvGoToTaobao.setVisibility(View.VISIBLE);
+    }else if(userInfo.getUserType() == 99){
+      //管理员用户
+      mTvUserType.setText("管理员用户");
+      mTvAllowDays.setVisibility(View.GONE);
+      tvGoToTaobao.setVisibility(View.GONE);
+    } else if(userInfo.getUserType() == 100){
+      //超级管理员用户
+      mTvUserType.setText("超级管理员用户");
+      mTvAllowDays.setVisibility(View.GONE);
+      tvGoToTaobao.setVisibility(View.GONE);
     }
   }
 
@@ -333,14 +347,31 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         openTaobaoShopping();
         break;
       case R.id.user_icon: // 点击用户头像，拉起超级用户配置管理界面
-        if(userInfo != null && (userInfo.getUsername().equals("13027909110") || userInfo.getUsername().equals("18002570032"))){
+        if(userInfo != null && (userInfo.getUserType() == 99 || userInfo.getUserType() == 100)){
           Intent intent = new Intent(getActivity(),SuperRootActivity.class);
           startActivity(intent);
         }
         break;
+      case R.id.iv_get_help: // 金币帮助问号
+        showGethelpDialog();
+        break;
       default:
         break;
     }
+  }
+
+  private void showGethelpDialog() {
+    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+            .setTitle("金币获得途径")
+            .setMessage(" 1. 首次注册赠送100金币\n\n 2. 注册时填写邀请人手机号，双方各额外获得88金币\n\n 3. 邀请的用户开通月卡授权，获得588金币\n\n"+
+            " 4. 邀请的用户开通永久授权，获得1888金币\n\n 5. 参加群内活动获得金币")
+            .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+              }
+            }).create();
+    dialog.show();
   }
 
   private void getMessagesFromServer() {
@@ -374,7 +405,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         //金币入账消息
           builder.setTitle("金币入账通知");
           if(messageType == 1 || messageType == 2 || messageType == 3){
-            builder.setMessage(messageDetails.getReasons() + "\n邀请人电话：" + messageDetails.getRelatedUserName());
+            builder.setMessage(messageDetails.getReasons() + "\n被邀请人账号：" + messageDetails.getRelatedUserName());
           }else {
             builder.setMessage(messageDetails.getReasons());
           }

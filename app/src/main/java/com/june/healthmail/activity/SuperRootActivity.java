@@ -51,6 +51,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
 
     private ShowProgress showProgress;
     private UserInfo mUserInfo;
+    private UserInfo currentUser;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -68,8 +69,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserInfo currentUser = BmobUser.getCurrentUser(UserInfo.class);
-        if(!currentUser.getUsername().equals("18002570032") && !currentUser.getUsername().equals("13027909110")) {
+        currentUser = BmobUser.getCurrentUser(UserInfo.class);
+        if(currentUser.getUserType() != 99 && currentUser.getUserType() != 100) {
             Toast.makeText(this,"当前用户非管理员，无法进入管理页面",Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -89,6 +90,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
         tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
+        if(currentUser.getUserType() == 99){
+            btnAuthorizeForever.setVisibility(View.GONE);
+            btnAuthorizeByDays.setVisibility(View.GONE);
+        }
     }
 
     private void setListener() {
@@ -103,6 +108,35 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:    //返回
+//                BmobQuery<UserInfo> query = new BmobQuery<UserInfo>();
+//                query.findObjects(new FindListener<UserInfo>() {
+//                    @Override
+//                    public void done(List<UserInfo> list, BmobException e) {
+//                        if(e==null){
+//                            Log.e("test","查询成功，size = " + list.size());
+//                            for(UserInfo userInfo:list){
+//                                MessageDetails messageDetails = new MessageDetails();
+//                                messageDetails.setUserName(userInfo.getUsername());
+//                                messageDetails.setStatus(1);
+//                                messageDetails.setScore(100);
+//                                messageDetails.setType(0);
+//                                messageDetails.setReasons("首次注册赠送金币100");
+//                                messageDetails.setRelatedUserName("");
+//                                messageDetails.save(new SaveListener<String>() {
+//                                    @Override
+//                                    public void done(String s, BmobException e) {
+//                                        finish();
+//                                        if(e==null){
+//                                            Log.d("test","首次注册赠送金币100成功：" + s);
+//                                        }else{
+//                                            Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    }
+//                });
                 finish();
                 break;
             case R.id.btn_get_user_info:
@@ -242,15 +276,15 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                     MessageDetails inviteMessageDetails = new MessageDetails();
                     inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());
                     inviteMessageDetails.setStatus(1);
-                    inviteMessageDetails.setScore(688);
+                    inviteMessageDetails.setScore(588);
                     inviteMessageDetails.setType(2);
-                    inviteMessageDetails.setReasons("邀请人开通月卡授权，赠送金币688");
+                    inviteMessageDetails.setReasons("邀请人开通月卡授权，赠送金币588");
                     inviteMessageDetails.setRelatedUserName(mUserInfo.getUsername());
                     inviteMessageDetails.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
                             if(e==null){
-                                Log.d("test","邀请人开通月卡赠送金币688成功" + s);
+                                Log.d("test","邀请人开通月卡赠送金币588成功" + s);
                             }else{
                                 Log.e("test","邀请人开通月卡赠送金币失败："+e.getMessage()+","+e.getErrorCode());
                             }

@@ -38,12 +38,14 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     private TextView tvMoreInfo;
     private TextView tvClose;
     private TextView tvTitle;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_webview_layout);
         if(getIntent() != null){
+            title = getIntent().getStringExtra("title");
             data = getIntent().getStringExtra("data");
             ordersList = (ArrayList<HmOrder>) getIntent().getSerializableExtra("orders");
         }
@@ -58,6 +60,7 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
         tvClose = (TextView) findViewById(R.id.tv_close);
         tvMoreInfo.setOnClickListener(this);
         tvClose.setOnClickListener(this);
+        tvTitle.setText(title);
     }
 
     @Override

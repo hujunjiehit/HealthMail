@@ -27,12 +27,14 @@ import com.june.healthmail.R;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.GetAllPaymentModel;
 import com.june.healthmail.model.GetOrderListModel;
+import com.june.healthmail.model.GetPayInfoJingdongModel;
 import com.june.healthmail.model.GetPayInfoKuaijieModel;
 import com.june.healthmail.model.GetPayInfoModel;
 import com.june.healthmail.model.GetPayInfoTonglianModel;
 import com.june.healthmail.model.GetUserModel;
 import com.june.healthmail.model.HmOrder;
 import com.june.healthmail.model.PayinfoDetail;
+import com.june.healthmail.model.PayinfoJingdongDetail;
 import com.june.healthmail.model.PayinfoKuaijieDetail;
 import com.june.healthmail.model.PayinfoTonglianDetail;
 import com.june.healthmail.model.TokenModel;
@@ -127,20 +129,26 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       switch (msg.what) {
         case START_TO_FU_KUAN:
           if (isRunning) {
-            if (accountIndex < accountList.size()) {
-              showTheResult("开始付款第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
-              if (accountList.get(accountIndex).getStatus() == 1) {
-                getAccountToken();
+            if(userInfo.getCoinsNumber() > 0) {
+              if (accountIndex < accountList.size()) {
+                showTheResult("开始付款第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
+                if (accountList.get(accountIndex).getStatus() == 1) {
+                  getAccountToken();
+                } else {
+                  showTheResult("******当前小号未启用，跳过，继续下一个小号\n\n\n");
+                  accountIndex++;
+                  message = this.obtainMessage(START_TO_FU_KUAN);
+                  message.sendToTarget();
+                }
               } else {
-                showTheResult("******当前小号未启用，跳过，继续下一个小号\n\n\n");
-                accountIndex++;
-                message = this.obtainMessage(START_TO_FU_KUAN);
-                message.sendToTarget();
+                showTheResult("******所有账号付款结束**********\n");
+                isRunning = false;
+                btn_start.setText("付款完成");
               }
-            } else {
-              showTheResult("******所有账号付款结束**********\n");
+            }else {
+              showTheResult("******金币余额不足，付款结束**********\n");
               isRunning = false;
-              btn_start.setText("付款完成");
+              btn_start.setText("开始付款");
             }
           } else {
             showTheResult("**用户自己终止付款**当前已经执行完成" + accountIndex + "个小号\n");
@@ -175,6 +183,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
                 }
                 if(hmOrders.size() > 0){
                   showTheResult("------------共有" + hmOrders.size() + "个订单\n");
+                  updateTheCoinsNumber();
+                  tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
+                  showTheResult("--------------金币余额-1\n");
                   this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
                 }else {
                   showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
@@ -213,6 +224,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           }else if(payTypeFlag == PAY_TYPE_KUAIJIE_ZHIFU){
             //payType = 6 表示快捷支付
             getPayinfo(6);
+          }else if(payTypeFlag == PAY_TYPE_JINGDONG_ZHIFU){
+            //payType = 5 表示京东支付
+            getPayinfo(5);
           }
           break;
 
@@ -227,6 +241,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
           } else if(payTypeFlag == PAY_TYPE_KUAIJIE_ZHIFU){
             GetPayInfoKuaijieModel payInfoKuaijieModel = (GetPayInfoKuaijieModel) msg.obj;
             getKuaijiePageInfo(payInfoKuaijieModel);
+          } else if(payTypeFlag == PAY_TYPE_JINGDONG_ZHIFU){
+            GetPayInfoJingdongModel getPayInfoJingdongModel = (GetPayInfoJingdongModel) msg.obj;
+            getJingdongPageInfo(getPayInfoJingdongModel);
           }
 
           break;
@@ -320,6 +337,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         finish();
         break;
       case R.id.btn_start:
+        if(userInfo != null && userInfo.getCoinsNumber() <= 0){
+          Toast.makeText(this,"金币余额不足，无法使用付款功能",Toast.LENGTH_LONG).show();
+          return;
+        }
         if("付款完成".equals(btn_start.getText().toString().trim())){
           Toast.makeText(this,"付款已完成，如需继续付款请重新进入本页面",Toast.LENGTH_LONG).show();
         }else {
@@ -352,7 +373,11 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         break;
       case R.id.btn_fukuan_jingdong://京东支付
         Log.e("test","click btn_fukuan_jingdong");
-        toast("暂不支持京东支付，请耐心等待下次更新");
+        if(popwindow != null && popwindow.isShowing()){
+          popwindow.dismiss();
+        }
+        payTypeFlag = PAY_TYPE_JINGDONG_ZHIFU;
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_tonglian://通联支付
         Log.e("test","click btn_fukuan_tonglian");
@@ -578,6 +603,16 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
             }else{
               mHandler.sendEmptyMessageDelayed(GET_PAYINFO_FAILED,getDelayTime());
             }
+          }else if(payType == 5) {
+            GetPayInfoJingdongModel getPayInfoJingdongModel = gson.fromJson(response.body().charStream(), GetPayInfoJingdongModel.class);
+            //获取成功之后
+            if(getPayInfoJingdongModel.isSucceed()){
+              Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
+              msg.obj = getPayInfoJingdongModel;
+              msg.sendToTarget();
+            }else{
+              mHandler.sendEmptyMessageDelayed(GET_PAYINFO_FAILED,getDelayTime());
+            }
           }
         }catch (Exception e){
           mHandler.sendEmptyMessageDelayed(GET_PAYINFO_FAILED,getDelayTime());
@@ -620,10 +655,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void done(Object o, BmobException e) {
         if(e == null){
-          Log.e("test","云端逻辑调用成功：" + o.toString());
-
+          //Log.e("test","云端逻辑调用成功：" + o.toString());
           Intent intent = new Intent();
           intent.putExtra("data",o.toString());
+          intent.putExtra("title","快钱支付");
           intent.putExtra("orders",(Serializable)hmOrders);
           //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
@@ -683,9 +718,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void done(Object o, BmobException e) {
         if(e == null){
-          Log.e("test","云端逻辑调用成功：" + o.toString());
+          //Log.e("test","云端逻辑调用成功：" + o.toString());
           Intent intent = new Intent();
           intent.putExtra("data",o.toString());
+          intent.putExtra("title","通联支付");
           intent.putExtra("orders",(Serializable)hmOrders);
           //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
@@ -741,9 +777,10 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void done(Object o, BmobException e) {
         if(e == null){
-          Log.e("test","云端逻辑调用成功：" + o.toString());
+          //Log.e("test","云端逻辑调用成功：" + o.toString());
           Intent intent = new Intent();
           intent.putExtra("data",o.toString());
+          intent.putExtra("title","快捷支付");
           intent.putExtra("orders",(Serializable)hmOrders);
           //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
@@ -753,6 +790,54 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         }
       }
     });
+  }
+
+  private void getJingdongPageInfo(GetPayInfoJingdongModel getPayInfoJingdongModel) {
+    PayinfoJingdongDetail payinfoDetail = getPayInfoJingdongModel.getValuse();
+    String cloudCodeName = "getJingdongPayPage";
+    JSONObject job = new JSONObject();
+    try {
+      job.put("action",payinfoDetail.getServerUrl());
+
+      job.put("successCallbackUrl",payinfoDetail.getSuccessCallbackUrl());
+      job.put("tradeDescription",payinfoDetail.getTradeDescription());
+      job.put("tradeTime",payinfoDetail.getTradeTime());
+      job.put("tradeNum",payinfoDetail.getTradeNum());
+      job.put("tradeName",payinfoDetail.getTradeName());
+      job.put("merchantRemark",payinfoDetail.getMerchantRemark());
+      job.put("version",payinfoDetail.getVersion());
+      job.put("currency",payinfoDetail.getCurrency());
+      job.put("merchantSign",payinfoDetail.getMerchantSign());
+      job.put("token",payinfoDetail.getToken());
+
+      job.put("tradeAmount",payinfoDetail.getTradeAmount());
+      job.put("notifyUrl",payinfoDetail.getNotifyUrl());
+      job.put("merchantNum",payinfoDetail.getMerchantNum());
+      job.put("failCallbackUrl",payinfoDetail.getFailCallbackUrl());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    //创建云端逻辑
+    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+      @Override
+      public void done(Object o, BmobException e) {
+        if(e == null){
+          //Log.e("test","云端逻辑调用成功：" + o.toString());
+          Intent intent = new Intent();
+          intent.putExtra("data",o.toString());
+          intent.putExtra("title","京东支付");
+          intent.putExtra("orders",(Serializable)hmOrders);
+          //showTheResult(o.toString());
+          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+          startActivityForResult(intent,payTypeFlag);
+        }else {
+          Log.e("test","云端逻辑调用失败：" + e.toString());
+        }
+      }
+    });
+
   }
 
 
@@ -773,7 +858,9 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                updateTheCoinsNumber();
+                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
+                accountIndex++;
+                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
               }
             })
             .setPositiveButton("重新付款", new DialogInterface.OnClickListener() {
@@ -825,10 +912,6 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       public void done(BmobException e) {
         if(e == null){
           Log.e("test","updateTheCoinsNumber 更新用户积分成功");
-          tvCoinsNumber.setText(userInfo.getCoinsNumber());
-          showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
-          accountIndex++;
-          mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
         }
       }
     });

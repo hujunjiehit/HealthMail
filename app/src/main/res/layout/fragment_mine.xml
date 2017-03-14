@@ -135,18 +135,38 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/small_medium_text_size" />
 
-                <TextView
-                    android:id="@+id/tv_coins_number"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/user_icon"
                     android:layout_below="@id/tv_allow_days"
-                    android:layout_centerVertical="true"
-                    android:text="金币余额："
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/small_medium_text_size" />
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:id="@+id/tv_coins_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="金币余额："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/small_medium_text_size" />
+
+                    <RelativeLayout
+                        android:id="@+id/iv_get_help"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:clickable="true"
+                        android:layout_marginLeft="2dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/question_yellow"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

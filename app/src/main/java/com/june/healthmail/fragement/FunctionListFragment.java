@@ -83,7 +83,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     Intent intent = null;
       switch (v.getId()){
         case R.id.btn_operition_pingjia:
-          if(hasPermission()){
+          if(CommonUntils.hasPermission()){
             intent = new Intent(getActivity(),PingjiaActivity.class);
             startActivity(intent);
           }else {
@@ -91,7 +91,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           }
           break;
         case R.id.btn_operition_yueke:
-          if(hasPermission()){
+          if(CommonUntils.hasPermission()){
             Intent it = new Intent(getActivity(),YuekeActivity.class);
             startActivity(it);
           }else {
@@ -109,14 +109,5 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
         default:
           break;
       }
-  }
-
-  private boolean hasPermission() {
-    UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
-    if(userInfo.getUserType() == 1 || userInfo.getUserType() == 2){
-      return true;
-    }else {
-      return false;
-    }
   }
 }

@@ -241,7 +241,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!hasPermission()){
+        if(!CommonUntils.hasPermission()){
             Toast.makeText(this,"当前用户无授权，无法进入本页面",Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -505,14 +505,5 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             }
         });
         builder.create().show();
-    }
-
-    private boolean hasPermission() {
-        UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
-        if(userInfo.getUserType() == 1 || userInfo.getUserType() == 2){
-            return true;
-        }else {
-            return false;
-        }
     }
 }

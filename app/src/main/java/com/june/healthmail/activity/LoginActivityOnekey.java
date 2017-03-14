@@ -166,9 +166,9 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
                     MessageDetails myMessageDetails = new MessageDetails();
                     myMessageDetails.setUserName(phoneNumber);
                     myMessageDetails.setStatus(1);
-                    myMessageDetails.setScore(100);
+                    myMessageDetails.setScore(188);
                     myMessageDetails.setType(0);
-                    myMessageDetails.setReasons("首次注册赠送金币100");
+                    myMessageDetails.setReasons("首次注册赠送100金币，填写邀请人额外获赠88金币，一共188金币");
                     myMessageDetails.setRelatedUserName("");
                     myMessageDetails.save(new SaveListener<String>() {
                       @Override

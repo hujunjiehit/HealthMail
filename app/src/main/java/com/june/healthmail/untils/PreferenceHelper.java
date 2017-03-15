@@ -105,7 +105,7 @@ public class PreferenceHelper extends BasePerference{
         int time = 800;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MIN_PINGJIA_TIME,800);
+            time = prefs.getInt(KEY_MIN_PINGJIA_TIME,1000);
         }
         return time;
     }
@@ -128,7 +128,7 @@ public class PreferenceHelper extends BasePerference{
         int time = 1000;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MAX_PINGJIA_TIME,1000);
+            time = prefs.getInt(KEY_MAX_PINGJIA_TIME,1500);
         }
         return time;
     }
@@ -151,7 +151,7 @@ public class PreferenceHelper extends BasePerference{
         int time = 800;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MIN_YUEKE_TIME,800);
+            time = prefs.getInt(KEY_MIN_YUEKE_TIME,1000);
         }
         return time;
     }
@@ -174,7 +174,7 @@ public class PreferenceHelper extends BasePerference{
         int time = 1000;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MAX_YUEKE_TIME,1000);
+            time = prefs.getInt(KEY_MAX_YUEKE_TIME,1500);
         }
         return time;
     }

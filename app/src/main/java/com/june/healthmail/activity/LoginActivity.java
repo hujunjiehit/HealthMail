@@ -209,6 +209,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     findViewById(R.id.img_back).setOnClickListener(this);
     findViewById(R.id.btn_login_wb).setOnClickListener(this);
     findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
+    findViewById(R.id.tv_find_back_psw).setOnClickListener(this);
   }
 
   /**
@@ -306,6 +307,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         break;
       case R.id.tv_quick_sign_up:	//快速注册
         startActivity(new Intent(this, LoginActivityOnekey.class));
+        break;
+      case R.id.tv_find_back_psw:	//找回密码
+        startActivity(new Intent(this, ResetPasswordActivity.class));
         break;
       default:
         break;

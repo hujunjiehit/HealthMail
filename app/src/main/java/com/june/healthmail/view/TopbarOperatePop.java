@@ -134,7 +134,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
     final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-    builder.setTitle("按照\"账号|密码\"或者\"帐号,密码\"的格式输入小号，每行一个小号,支持多行");
+    builder.setTitle("按照\"账号,密码\"或者\"帐号|密码\"的格式输入小号，每行一个小号,支持多行");
     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {

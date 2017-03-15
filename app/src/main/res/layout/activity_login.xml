@@ -254,7 +254,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="6dp"
                 android:padding="10dp"
-                android:visibility="gone"
                 android:text="找回密码"/>
 
         </RelativeLayout>

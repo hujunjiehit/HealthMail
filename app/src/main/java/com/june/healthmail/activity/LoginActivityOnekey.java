@@ -98,7 +98,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
     }
     if(!TextUtils.isEmpty(invitePeoplePhone)){
       if(invitePeoplePhone.length() != 11){
-          toast("请输入正确的手机号码(11位数字)");
+          toast("请输入正确的邀请人手机号码(11位数字)");
           return;
       }
     }
@@ -128,8 +128,8 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
               user.setMobilePhoneNumber(phoneNumber); //设置手机号码（必填）
               user.setUsername(phoneNumber);          //设置用户名，如果没有传用户名，则默认为手机号码
               user.setPassword(pwd);                  //设置用户密码
-              user.setUserType(1);
-              user.setAllowDays(1);
+              user.setUserType(0);
+              user.setAllowDays(0);
               user.setUnbindTimes(3);
               user.setBindMac("");
               user.setBindDesc("");
@@ -202,12 +202,12 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
       user.setMobilePhoneNumber(phoneNumber); //设置手机号码（必填）
       user.setUsername(phoneNumber);          //设置用户名，如果没有传用户名，则默认为手机号码
       user.setPassword(pwd);                  //设置用户密码
-      user.setUserType(1);
-      user.setAllowDays(1);
+      user.setUserType(0);
+      user.setAllowDays(0);
       user.setUnbindTimes(3);
       user.setBindMac("");
       user.setBindDesc("");
-      user.setCoinsNumber(0); //每个用户初始金币数量为100个
+      user.setCoinsNumber(0);
       user.setInvitePeoplePhone("");
       user.signOrLogin(code, new SaveListener<UserInfo>() {
         @Override

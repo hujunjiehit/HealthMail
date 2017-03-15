@@ -442,7 +442,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           if(userInfo.getUserType() == 1){
             //试用时间未过期
             userInfo.setAllowDays(userInfo.getAllowDays() + messageDetails.getScore());
-          }else {
+          }else if(userInfo.getUserType() == 0){
             userInfo.setUserType(1);
             userInfo.setAllowDays(messageDetails.getScore());
           }

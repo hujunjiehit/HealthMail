@@ -14,6 +14,7 @@ public class UserInfo extends BmobUser {
   private String bindMac;
   private String bindDesc;
   private Integer unbindTimes;
+  private Integer appVersion;
 
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
@@ -80,6 +81,14 @@ public class UserInfo extends BmobUser {
 
   public void setBeginTime(Long beginTime) {
     this.beginTime = beginTime;
+  }
+
+  public Integer getAppVersion() {
+    return appVersion;
+  }
+
+  public void setAppVersion(Integer appVersion) {
+    this.appVersion = appVersion;
   }
 
   @Override

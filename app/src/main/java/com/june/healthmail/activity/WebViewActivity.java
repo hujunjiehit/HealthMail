@@ -41,6 +41,15 @@ public class WebViewActivity extends Activity {
     webView.resumeTimers();
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if(webView != null) {
+      webView.destroy();
+      webView = null;
+    }
+  }
+
   private void init() {
     url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
     webView = (WebView) findViewById(R.id.webview);

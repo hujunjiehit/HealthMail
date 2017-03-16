@@ -81,6 +81,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             dealTheMessage(messageList.get(messageIndex));
           }else {
             Log.d("test","消息处理完毕，更新用户信息");
+            userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
             userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
               @Override
               public void done(BmobException e) {
@@ -226,6 +227,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             mTvAllowDays.setText("剩余授权时间：" + userInfo.getAllowDays() + "天");
             BmobUser bmobUser = BmobUser.getCurrentUser();
             userInfo.setBeginTime(aLong);
+            userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
             userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
               @Override
               public void done(BmobException e) {
@@ -253,6 +255,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
               BmobUser bmobUser = BmobUser.getCurrentUser();
               userInfo.setBeginTime((long) 0);
               userInfo.setUserType(-1);
+              userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
               userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
@@ -340,7 +343,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         }
         break;
       case R.id.btn_check_update: // 点击检查更新按钮
-        Toast.makeText(getActivity(), CommonUntils.getVersion(getActivity()),Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "当前应用版本：" + CommonUntils.getVersion(getActivity()),Toast.LENGTH_LONG).show();
         BmobUpdateAgent.forceUpdate(getActivity());
         break;
       case R.id.tv_go_to_taobao: // 点击购买链接
@@ -459,9 +462,19 @@ public class MineFragment extends Fragment implements View.OnClickListener{
               @Override
               public void done(BmobException e) {
                 if(e == null) {
-                  Log.d("test","消息处理成功，开始处理下一条消息");
-                  messageIndex++;
-                  mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                  Log.e("test","消息更新成功");
+                  userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                      if(e==null){
+                        Log.d("test","用户信息更新成功，开始处理下一条消息");
+                        messageIndex++;
+                        mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                      }else{
+                        Log.e("test","更新用户信息失败");
+                      }
+                    }
+                  });
                 }else {
                   Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
                 }
@@ -469,17 +482,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             });
           }
         });
-        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
-          @Override
-          public void done(BmobException e) {
-            if(e==null){
-              Log.e("test","更新用户信息成功");
-              builder.create().show();
-            }else{
-              Log.e("test","更新用户信息失败");
-            }
-          }
-        });
+        builder.create().show();
       }
   }
 

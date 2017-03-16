@@ -142,10 +142,33 @@ public class CommonUntils {
       PackageManager manager = mContext.getPackageManager();
       PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
       String version = info.versionName;
-      return "当前应用版本：" + version;
+      return version;
     } catch (Exception e) {
       e.printStackTrace();
       return "未找到当前版本信息";
+    }
+  }
+
+  /**
+   * 获取版本号
+   * @return 当前应用的版本号
+   */
+  public static int getVersionInt(Context mContext) {
+    int result = 0;
+    try {
+      PackageManager manager = mContext.getPackageManager();
+      PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
+      String version = info.versionName;
+      String[] array = version.split("\\.");
+      if(array.length > 0){
+        for(String s:array){
+          result = result*10 + Integer.parseInt(s);
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return 0;
     }
   }
 

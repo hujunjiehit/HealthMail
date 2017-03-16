@@ -424,22 +424,25 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         //获取token成功之后Log.e("test","response = " + response.body().toString());
-        Gson gson = new Gson();
-        TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
-
-        if(tokenmodel.getData() == null){
-          //一般是用户名或者密码错误
-          Log.e("test","message = " + tokenmodel.getMsg());
-          errmsg = tokenmodel.getMsg();
-          DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
-          mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
-        } else {
-          //更新小号昵称
-          DBManager.getInstance(FukuanActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-              tokenmodel.getData().getHmMemberUserVo().getNickName());
-          accessToken = tokenmodel.getData().getAccessToken();
-          Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
-          msg.sendToTarget();
+        try{
+          Gson gson = new Gson();
+          TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
+          if(tokenmodel.getData() == null){
+            //一般是用户名或者密码错误
+            Log.e("test","message = " + tokenmodel.getMsg());
+            errmsg = tokenmodel.getMsg();
+            DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+            mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+          } else {
+            //更新小号昵称
+            DBManager.getInstance(FukuanActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
+                    tokenmodel.getData().getHmMemberUserVo().getNickName());
+            accessToken = tokenmodel.getData().getAccessToken();
+            Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
+            msg.sendToTarget();
+          }
+        }catch (Exception e){
+          mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
         }
       }
     });

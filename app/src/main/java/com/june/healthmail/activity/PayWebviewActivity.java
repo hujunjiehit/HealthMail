@@ -64,6 +64,15 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(webView != null) {
+            webView.destroy();
+            webView = null;
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_close:

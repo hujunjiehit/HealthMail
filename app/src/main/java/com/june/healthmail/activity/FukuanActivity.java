@@ -204,7 +204,12 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
             GetAllPaymentModel getAllPaymentModel = (GetAllPaymentModel) msg.obj;
             for(int i = 0; i < getAllPaymentModel.getValuse().size(); i++){
               //testcode
-              showTheResult("---------------支付方式" + (i + 1) + "剩余金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount()+ "\n");
+              if(userInfo != null &&
+                      (userInfo.getUsername().equals("13027909110") ||
+                              userInfo.getUsername().equals("18002570032") ||
+                              userInfo.getUsername().equals("18671400766"))){
+                showTheResult("---------------支付方式" + (i + 1) + "剩余金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount() + "\n");
+              }
               if (getAllPaymentModel.getValuse().get(i).getChannelamount() > 0) {
                 fukuanChoice[i] = 1;
               } else {

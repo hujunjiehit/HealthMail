@@ -47,7 +47,7 @@ public class HttpUntils {
         Request.Builder builder  = new Request.Builder().url(url).post(body);
 
         //builder.addHeader(key,value);  //将请求头以键值对形式添加，可添加多个请求头
-        builder.addHeader("User-Agent", CommonUntils.getUserAgent(mContext)); //必须
+        builder.addHeader("User-Agent","okhttp/2.5.0"); //必须
         builder.addHeader("appId","101"); //必须
         builder.addHeader("deviceId","android_" + CommonUntils.getLocalMacAddressFromIp(mContext)); //非必须
         builder.addHeader("deviceType","1"); //非必须

@@ -271,7 +271,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                         }
                     }
                 });
-                if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone())){
+                if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone()) && Integer.parseInt(daysNum) >= 30){
                     Log.d("test","有邀请人，邀请人电话：" + mUserInfo.getInvitePeoplePhone());
                     MessageDetails inviteMessageDetails = new MessageDetails();
                     inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());

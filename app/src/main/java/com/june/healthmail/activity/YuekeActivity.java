@@ -353,6 +353,7 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
                 accountList.add(info);
             }while(cursor.moveToNext());
         }
+        cursor.close();
         min_time = PreferenceHelper.getInstance().getMinYuekeTime();
         max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
         max_sijiao = PreferenceHelper.getInstance().getMaxSijiao();

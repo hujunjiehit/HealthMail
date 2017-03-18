@@ -6,7 +6,9 @@ import com.june.healthmail.Config.BmobConfig;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
@@ -19,6 +21,11 @@ public class MyApplication extends Application{
   public void onCreate() {
     super.onCreate();
     Bmob.initialize(this, BmobConfig.applicationId);
+
+    // 使用推送服务时的初始化操作
+   // BmobInstallation.getCurrentInstallation().save();
+    // 启动推送服务
+    //BmobPush.startWork(this);
 
     //创建appversion表，只需执行一次
     //BmobUpdateAgent.initAppVersion();

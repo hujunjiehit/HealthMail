@@ -263,7 +263,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           if(showProgress != null && showProgress.isShowing()){
             showProgress.dismiss();
           }
-          Toast.makeText(LoginActivity.this, "登录失败，请确认帐号和密码是否正确"+e.toString(), Toast.LENGTH_LONG).show();
+          Toast.makeText(LoginActivity.this, "登录失败:"+e.getMessage(), Toast.LENGTH_LONG).show();
         }
       }
     });

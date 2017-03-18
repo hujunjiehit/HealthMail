@@ -90,6 +90,10 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
     private int max_time;
     private String errmsg;
 
+    private Gson gson = new Gson(); //java.lang.IllegalStateException
+    private OrdersModel ordersModel;
+    private PingjiaModel pingjiaModel;
+
     private Handler mHandler = new Handler(){
 
         @Override
@@ -141,7 +145,6 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                     //保存可以评价的课程列表
                     courseIndex = 0;
                     coureseList.clear();
-                    OrdersModel ordersModel = (OrdersModel)msg.obj;
                     if(ordersModel.getValuse() != null){
                       boolean needPingjia = false;
                       for(int i = 0; i < ordersModel.getValuse().size(); i++){
@@ -284,6 +287,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
                 accountList.add(info);
             }while(cursor.moveToNext());
         }
+        cursor.close();
 
         min_time = PreferenceHelper.getInstance().getMinPingjiaTime();
         max_time = PreferenceHelper.getInstance().getMaxPingjiaTime();
@@ -401,13 +405,11 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try{
-                    Gson gson = new Gson(); //java.lang.IllegalStateException
-                    OrdersModel ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
+                    ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
                     //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
                     if(ordersModel.isSucceed()){
                         //获取成功之后
                         Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
-                        msg.obj = ordersModel;
                         msg.sendToTarget();
                     }else {
                         mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
@@ -461,8 +463,7 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    Gson gson = new Gson();
-                    PingjiaModel pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
+                    pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
                     Log.e("test","succeed = " + pingjiaModel.isSucceed());
                     if(pingjiaModel.isSucceed()){
                         mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
@@ -507,5 +508,11 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,8 @@ import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.Installation;
+import com.june.healthmail.untils.ShowProgress;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           }else {
             Log.d("test","消息处理完毕，更新用户信息");
             userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
+            if(TextUtils.isEmpty(userInfo.getInstallId())){
+              userInfo.setInstallId(Installation.id(getActivity()));
+            }
             userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
               @Override
               public void done(BmobException e) {
@@ -197,7 +203,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       mTvUserType.setText("永久用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setVisibility(View.GONE);
-    } else if(userInfo.getUserType() == 1){
+    } else if(userInfo.getUserType() == -1){
       //过期用户
       mTvUserType.setText("过期用户");
       mTvAllowDays.setText("授权已过期，请联系软件作者续费");
@@ -227,6 +233,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             mTvAllowDays.setText("剩余授权时间：" + userInfo.getAllowDays() + "天");
             BmobUser bmobUser = BmobUser.getCurrentUser();
             userInfo.setBeginTime(aLong);
+            if(TextUtils.isEmpty(userInfo.getInstallId())){
+              userInfo.setInstallId(Installation.id(getActivity()));
+            }
             userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
             userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
               @Override
@@ -256,6 +265,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
               userInfo.setBeginTime((long) 0);
               userInfo.setUserType(-1);
               userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
+              if(TextUtils.isEmpty(userInfo.getInstallId())){
+                userInfo.setInstallId(Installation.id(getActivity()));
+              }
               userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
@@ -319,6 +331,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                       userInfo.setUnbindTimes(userInfo.getUnbindTimes() - 1);
                       userInfo.setBindMac("");
                       userInfo.setBindDesc("");
+                      if(TextUtils.isEmpty(userInfo.getInstallId())){
+                        userInfo.setInstallId(Installation.id(getActivity()));
+                      }
                       BmobUser bmobUser = BmobUser.getCurrentUser();
                       userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
                         @Override
@@ -445,7 +460,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           if(userInfo.getUserType() == 1){
             //试用时间未过期
             userInfo.setAllowDays(userInfo.getAllowDays() + messageDetails.getScore());
-          }else if(userInfo.getUserType() == 0){
+          }else if(userInfo.getUserType() == 0 || userInfo.getUserType() == -1){
             userInfo.setUserType(1);
             userInfo.setAllowDays(messageDetails.getScore());
           }
@@ -483,6 +498,34 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           }
         });
         builder.create().show();
+      } else if(messageType == 99){
+        //系统公告消息
+        builder.setTitle("系统公告");
+        builder.setMessage(messageDetails.getReasons());
+        builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            messageDetails.setStatus(0);
+            messageDetails.update(messageDetails.getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e == null) {
+                  Log.e("test","消息更新成功");
+                  messageIndex++;
+                  mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                }else {
+                  Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
+                }
+              }
+            });
+          }
+        });
+        builder.create().show();
+      }else {
+        //未知消息类型，不处理，继续下一个
+        messageIndex++;
+        mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
       }
   }
 

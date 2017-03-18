@@ -15,6 +15,7 @@ public class UserInfo extends BmobUser {
   private String bindDesc;
   private Integer unbindTimes;
   private Integer appVersion;
+  private String installId;
 
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
@@ -89,6 +90,14 @@ public class UserInfo extends BmobUser {
 
   public void setAppVersion(Integer appVersion) {
     this.appVersion = appVersion;
+  }
+
+  public String getInstallId() {
+    return installId;
+  }
+
+  public void setInstallId(String installId) {
+    this.installId = installId;
   }
 
   @Override

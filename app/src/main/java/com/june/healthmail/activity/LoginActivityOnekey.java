@@ -15,6 +15,7 @@ import com.june.healthmail.R;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.ShowProgress;
 
 import java.util.List;
@@ -135,6 +136,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
               user.setBindMac("");
               user.setBindDesc("");
               user.setCoinsNumber(0); //每个用户初始金币数量为100个
+              user.setInstallId(Installation.id(LoginActivityOnekey.this));
               user.setInvitePeoplePhone(object.get(0).getUsername());
               user.setAppVersion(CommonUntils.getVersionInt(LoginActivityOnekey.this));
               user.signOrLogin(code, new SaveListener<UserInfo>() {
@@ -211,6 +213,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
       user.setBindDesc("");
       user.setCoinsNumber(0);
       user.setInvitePeoplePhone("");
+      user.setInstallId(Installation.id(LoginActivityOnekey.this));
       user.setAppVersion(CommonUntils.getVersionInt(LoginActivityOnekey.this));
       user.signOrLogin(code, new SaveListener<UserInfo>() {
         @Override

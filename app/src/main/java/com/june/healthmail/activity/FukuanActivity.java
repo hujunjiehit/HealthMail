@@ -332,7 +332,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         accountList.add(info);
       }while(cursor.moveToNext());
     }
-
+    cursor.close();
     min_time = PreferenceHelper.getInstance().getMinYuekeTime();
     max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
   }

@@ -110,6 +110,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         accountList.add(info);
       }while(cursor.moveToNext());
     }
+    cursor.close();
     mAdapter.notifyDataSetChanged();
 
   }

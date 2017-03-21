@@ -24,14 +24,21 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.june.healthmail.R;
+import com.june.healthmail.model.DeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.ShowProgress;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
  * Created by bjhujunjie on 2016/9/18.
@@ -40,9 +47,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
   /**通过Bmob登录*/
   private final int LOG_BY_BMOB = 1;
-  /**通过微博登录*/
-  private final int LOG_BY_WEIBO = 2;
 
+  private static final int START_TO_LOGIN = 2;
   private static final int USER_LOGIN_SUCESS = 3;
   private static final int GO_TO_MAIN_ACTIVITY = 4;
 
@@ -55,50 +61,59 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private ShowProgress showProgress;
 
   private String objectUid;
+  private DeviceInfo deviceInfo;
 
   private Handler mHandler = new Handler(){
     @Override
     public void handleMessage(Message msg) {
       switch (msg.what) {
+        case START_TO_LOGIN:
+          login();
+          break;
         case USER_LOGIN_SUCESS:
-          Log.d("test","用户登录成功,处理后续mac地址绑定");
+          Log.d("test","用户登录成功,处理后续设备绑定");
           UserInfo userInfo = (UserInfo) msg.obj;
           Log.d("test","userInfo = " + userInfo.toString());
           objectUid = userInfo.getObjectId();
-          if(userInfo.getBindMac() == null || TextUtils.isEmpty(userInfo.getBindMac())){
-            //该用户暂未绑定设备
-            String mac = CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim();
-            String deviceDesc =  CommonUntils.getUserAgent(LoginActivity.this).trim();
-            Log.d("test","mac address is: " + mac + "   desc:" + deviceDesc);
-            userInfo.setBindMac(mac);
-            userInfo.setBindDesc(deviceDesc);
-
-            BmobUser bmobUser = BmobUser.getCurrentUser();
-            userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
+          if(deviceInfo == null){
+            Log.d("test","用户第一次登录，插入设备信息");
+            deviceInfo = new DeviceInfo();
+            deviceInfo.setUsername(userInfo.getUsername());
+            deviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
+            deviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
+            deviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
+            deviceInfo.setUnbindTimes(3);
+            deviceInfo.save(new SaveListener<String>() {
               @Override
-              public void done(BmobException e) {
-                if(e==null){
-                  Log.d("test","更新用户信息成功");
+              public void done(String s, BmobException e) {
+                if(e == null){
+                  Log.d("test","插入设备信息成功," + s + ":" + deviceInfo.toString());
                   mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
-                }else{
-                  toast("更新用户信息失败:" + e.getMessage());
+                }else {
+                  Log.d("test","插入设备信息失败，" + e.getMessage());
                 }
               }
             });
           }else {
-            //用户已经绑定了设备  bindMac不为null
-            String userMac = CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim();
-            String bindMac = userInfo.getBindMac().trim();
-            String userAgent = CommonUntils.getUserAgent(LoginActivity.this).trim();
-            String bindAgent = userInfo.getBindDesc().trim();
-            Log.d("test","userMac address is: " + userMac + "   bindMac:" + bindMac);
-            Log.d("test","userAgentis: " + userAgent + "   bindAgent:" + bindAgent);
-            if(userMac.equals(bindMac) || userAgent.equals(bindAgent)){
-              //设备信息验证正确
+            if(TextUtils.isEmpty(deviceInfo.getDeviceId())){
+              Log.d("test","设备id为空，更新设备信息");
+              deviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
+              deviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
+              deviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
+              deviceInfo.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                  if(e == null){
+                    Log.d("test","更新设备信息成功");
+                    mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
+                  }else{
+                    Log.d("test","更新设备信息失败，" + e.getMessage());
+                  }
+                }
+              });
+            }else {
+              Log.d("test","设备id不为空，直接登录");
               mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
-            }else{
-              //设备信息验证不通过
-              showDeviceErrorDialog(userInfo);
             }
           }
           break;
@@ -210,6 +225,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     findViewById(R.id.btn_login_wb).setOnClickListener(this);
     findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
     findViewById(R.id.tv_find_back_psw).setOnClickListener(this);
+    findViewById(R.id.btn_unbind_device).setOnClickListener(this);
+    findViewById(R.id.btn_check_update).setOnClickListener(this);
   }
 
   /**
@@ -234,10 +251,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
    * 登录按钮
    */
   private void login() {
-    if(showProgress != null && !showProgress.isShowing()){
-      showProgress.setMessage("正在登陆,请稍后...");
-      showProgress.show();
-    }
     String userName = mEditUid.getText().toString();
     String pwd = mEditPsw.getText().toString();
     final UserInfo user = new UserInfo();
@@ -287,11 +300,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_login:	//登录
-        if(TextUtils.isEmpty(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this))){
-          showInfoDialog();
-        }else {
-          login();
-        }
+        prepareLogin();
         break;
       case R.id.img_back:	//返回
         finish();
@@ -311,20 +320,156 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
       case R.id.tv_find_back_psw:	//找回密码
         startActivity(new Intent(this, ResetPasswordActivity.class));
         break;
+      case R.id.btn_unbind_device: //解除设备绑定
+        startToUnbindDevice();
+        break;
+      case R.id.btn_check_update: // 点击检查更新按钮
+        toast("当前应用版本：" + CommonUntils.getVersion(LoginActivity.this));
+        BmobUpdateAgent.forceUpdate(LoginActivity.this);
+        break;
       default:
         break;
     }
   }
 
+  private void prepareLogin() {
+    //登录前需要先获取设备信息
+    String userName = mEditUid.getText().toString();
+    if(TextUtils.isEmpty(userName)){
+      toast("请先输入需要登录的手机号");
+    }else {
+      if(showProgress != null && !showProgress.isShowing()){
+        showProgress.setMessage("正在登陆,请稍后...");
+        showProgress.show();
+      }
 
-  private void showDeviceErrorDialog(UserInfo userInfo) {
+      //判断邀请人存不存在
+      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      query.addWhereEqualTo("username",userName);
+      query.findObjects(new FindListener<DeviceInfo>() {
+        @Override
+        public void done(List<DeviceInfo> list, BmobException e) {
+          if(e == null){
+            if(list.size() == 0){
+              Log.d("test","设备信息不存在");
+              deviceInfo = null;
+              mHandler.sendEmptyMessage(START_TO_LOGIN);
+            }else {
+              deviceInfo = list.get(0);
+              Log.d("test","设备信息存在:" + list.get(0).toString());
+              if(TextUtils.isEmpty(deviceInfo.getDeviceId())
+                      || deviceInfo.getDeviceId().equals(Installation.id(LoginActivity.this))){
+                //设备信息验证成功
+                Log.d("test","设备信息验证通过");
+                mHandler.sendEmptyMessage(START_TO_LOGIN);
+              }else {
+                showDeviceErrorDialog(deviceInfo);
+              }
+            }
+          }else {
+            if(e.getErrorCode() == 101){
+              deviceInfo = null;
+              mHandler.sendEmptyMessage(START_TO_LOGIN);
+            }else{
+              if(showProgress != null && showProgress.isShowing()){
+                showProgress.dismiss();
+              }
+              toast("验证设备信息异常，请检查网络，" + e.getMessage());
+            }
+          }
+        }
+      });
+    }
+  }
+
+  private void startToUnbindDevice() {
+    String userName = mEditUid.getText().toString();
+    if(TextUtils.isEmpty(userName)){
+      toast("请先在账号输入框输入账号再解绑");
+    }else {
+      if (showProgress != null && !showProgress.isShowing()) {
+        showProgress.setMessage("正在查询设备信息...");
+        showProgress.show();
+      }
+      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      query.addWhereEqualTo("username", userName);
+      query.findObjects(new FindListener<DeviceInfo>() {
+        @Override
+        public void done(List<DeviceInfo> list, BmobException e) {
+          if (showProgress != null && showProgress.isShowing()) {
+            showProgress.dismiss();
+          }
+          if (e == null) {
+            if (list.size() > 0) {
+              deviceInfo = list.get(0);
+              showUnbindDeviceDialog();
+            } else {
+              toast("没有查到该账号的对应的设备信息，请确认账号是否正确");
+            }
+          } else {
+            toast("查询设备信息异常，请检查网络，" + e.getMessage());
+          }
+        }
+      });
+    }
+  }
+
+  private void showUnbindDeviceDialog() {
+    if(deviceInfo != null) {
+      if(TextUtils.isEmpty(deviceInfo.getDeviceId())){
+        toast("当前账号暂无绑定设备，无需解绑");
+        return;
+      }
+      AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
+              .setTitle("重要提示")
+              .setMessage("每个帐号可以解除三次设备绑定，当前剩余解绑次数：" + deviceInfo.getUnbindTimes() + "\n\n是否确定解绑?")
+              .setNegativeButton("取消解绑", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+                }
+              })
+              .setPositiveButton("确定解绑", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+                  Log.d("test", "用户选择确定解绑");
+                  if (showProgress != null && !showProgress.isShowing()) {
+                    showProgress.setMessage("正在解绑...");
+                    showProgress.show();
+                  }
+                  deviceInfo.setDeviceId("");
+                  deviceInfo.setDeviceMac("");
+                  deviceInfo.setDeviceDesc("");
+                  deviceInfo.setUnbindTimes(deviceInfo.getUnbindTimes()-1);
+                  deviceInfo.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                      if (showProgress != null && showProgress.isShowing()) {
+                        showProgress.dismiss();
+                      }
+                      if(e == null){
+                        Log.d("test","解绑成功");
+                        toast("解绑成功");
+                      }else{
+                        toast("解绑失败，请重试");
+                        Log.d("test","解绑失败，" + e.getMessage());
+                      }
+                    }
+                  });
+                }
+              }).create();
+      dialog.show();
+    }
+  }
+  private void showDeviceErrorDialog(DeviceInfo deviceInfo) {
     Log.d("test","DEVICE_ERROR");
     if(showProgress != null && showProgress.isShowing()){
       showProgress.dismiss();
     }
     AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
         .setTitle("提醒")
-        .setMessage("此帐号已经绑定了另外一台设备("+userInfo.getBindDesc()+")" +
+        .setMessage("此帐号已经绑定了另外一台设备("+deviceInfo.getDeviceDesc()+")" +
             " 如需继续,请先解除绑定")
         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
           @Override

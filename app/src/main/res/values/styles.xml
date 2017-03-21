@@ -16,7 +16,8 @@
     </style>
 
     <!-- 应用主题  -->
-    <style name="SplashTheme" parent="SplashBaseTheme">
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/drawable_start_window</item>
     </style>
 
     <!-- 标题栏 -->

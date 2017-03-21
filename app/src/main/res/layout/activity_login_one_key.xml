@@ -213,7 +213,7 @@
             android:gravity="center"
             android:textColor="@color/red"
             android:lineSpacingExtra="4dp"
-            android:text="输入邀请人手机之后，双方各获赠88个金币\n备注：自动付款功能需要消耗金币"/>
+            android:text="输入邀请人手机之后，可额外获赠88个金币\n备注：自动付款功能需要消耗金币"/>
 
         <Button
             android:id="@+id/btn_regist"

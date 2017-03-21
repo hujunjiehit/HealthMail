@@ -31,13 +31,18 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.ShowProgress;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.AsyncCustomEndpoints;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.CloudCodeListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -66,8 +71,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private UserInfo userInfo;
 
+  private TextView tvGoToBuyConins;
   private TextView tvGoToTaobao;
   private ImageView ivUserIcon;
+  private ShowProgress showProgress;
 
   private static final int HANDLER_THE_MESSAGES = 1;
 
@@ -139,15 +146,15 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mTvAllowDays = (TextView) layout.findViewById(R.id.tv_allow_days);
     mTvCoinsNumber = (TextView) layout.findViewById(R.id.tv_coins_number);
     tvGoToTaobao = (TextView) layout.findViewById(R.id.tv_go_to_taobao);
+    tvGoToBuyConins = (TextView) layout.findViewById(R.id.tv_go_to_buy_coins);
     ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     ivGetHelp = (RelativeLayout) layout.findViewById(R.id.iv_get_help);
   }
 
   private void setOnListener() {
     layout.findViewById(R.id.tv_log_out).setOnClickListener(this);
-    layout.findViewById(R.id.btn_unbind_device).setOnClickListener(this);
-    layout.findViewById(R.id.btn_check_update).setOnClickListener(this);
     tvGoToTaobao.setOnClickListener(this);
+    tvGoToBuyConins.setOnClickListener(this);
     ivUserIcon.setOnClickListener(this);
     ivGetHelp.setOnClickListener(this);
   }
@@ -311,58 +318,11 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         startActivity(new Intent(getActivity(), LoginActivity.class));
         getActivity().finish();
         break;
-      case R.id.btn_unbind_device: //解除设备绑定
-        if(userInfo != null) {
-          AlertDialog dialog = new AlertDialog.Builder(getActivity())
-              .setTitle("重要提示")
-              .setMessage("每个帐号可以解除三次设备绑定，当前剩余解绑次数：" + userInfo.getUnbindTimes() + "\n\n是否确定解绑?")
-              .setNegativeButton("取消解绑", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  dialog.dismiss();
-                }
-              })
-              .setPositiveButton("确定解绑", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  dialog.dismiss();
-                  Log.e("test", "用户选择确定解绑");
-                  if(userInfo.getUnbindTimes() > 0){
-                      userInfo.setUnbindTimes(userInfo.getUnbindTimes() - 1);
-                      userInfo.setBindMac("");
-                      userInfo.setBindDesc("");
-                      if(TextUtils.isEmpty(userInfo.getInstallId())){
-                        userInfo.setInstallId(Installation.id(getActivity()));
-                      }
-                      BmobUser bmobUser = BmobUser.getCurrentUser();
-                      userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                          if(e==null){
-                              Log.e("test","解绑成功");
-                              BmobUser.logOut();
-                              startActivity(new Intent(getActivity(), LoginActivity.class));
-                              getActivity().finish();
-                          }else{
-                            Log.e("test","解绑失败，请重试");
-                            Toast.makeText(getActivity(),"解绑失败，请重试",Toast.LENGTH_LONG).show();
-                          }
-                        }
-                      });
-                  }else {
-                    Toast.makeText(getActivity(),"解绑失败，当前帐号无剩余解绑次数",Toast.LENGTH_LONG).show();
-                  }
-                }
-              }).create();
-          dialog.show();
-        }
+      case R.id.tv_go_to_taobao: // 点击购买授权链接
+        openTaobaoShopping("buyAuthUrl");
         break;
-      case R.id.btn_check_update: // 点击检查更新按钮
-        Toast.makeText(getActivity(), "当前应用版本：" + CommonUntils.getVersion(getActivity()),Toast.LENGTH_LONG).show();
-        BmobUpdateAgent.forceUpdate(getActivity());
-        break;
-      case R.id.tv_go_to_taobao: // 点击购买链接
-        openTaobaoShopping();
+      case R.id.tv_go_to_buy_coins: // 点击购买金币链接
+        openTaobaoShopping("buyCoinsUrl");
         break;
       case R.id.user_icon: // 点击用户头像，拉起超级用户配置管理界面
         if(userInfo != null && (userInfo.getUserType() == 99 || userInfo.getUserType() == 100)){
@@ -381,7 +341,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private void showGethelpDialog() {
     AlertDialog dialog = new AlertDialog.Builder(getActivity())
             .setTitle("金币获得途径")
-            .setMessage(" 1. 首次注册赠送100金币\n\n 2. 注册时填写邀请人手机号，双方各额外获得88金币\n\n 3. 邀请的用户开通月卡授权，获得588金币\n\n"+
+            .setMessage(" 1. 首次注册赠送100金币\n\n 2. 注册时填写邀请人手机号,额外获得88金币\n\n 3. 邀请的用户开通月卡授权，获得588金币\n\n"+
             " 4. 邀请的用户开通永久授权，获得1888金币\n\n 5. 参加群内活动获得金币")
             .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
               @Override
@@ -529,19 +489,49 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       }
   }
 
-  private void openTaobaoShopping() {
-    String url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
-    Intent intent = new Intent();
-    if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
-      Log.e("test","taobao is not installed");
-      intent.setAction("android.intent.action.VIEW");
-      Uri uri = Uri.parse(url);
-      intent.setData(uri);
-      startActivity(intent);
-    } else {
-      intent.putExtra("url",url);
-      intent.setClass(getActivity(),WebViewActivity.class);
-      startActivity(intent);
+  private void openTaobaoShopping(final String action){
+    String cloudCodeName = "getTaobaoUrl";
+    JSONObject job = new JSONObject();
+    if(showProgress == null){
+      showProgress = new ShowProgress(getActivity());
     }
+    if(!showProgress.isShowing()){
+      showProgress.setMessage("正在获取购买链接...");
+      showProgress.show();
+    }
+    try {
+      job.put("action",action);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    //创建云端逻辑
+    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+      @Override
+      public void done(Object o, BmobException e) {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
+        if(e == null){
+          Log.e("test","云端逻辑调用成功：" + o.toString());
+          Intent intent = new Intent();
+          String url = o.toString();
+          if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
+            Log.e("test","taobao is not installed");
+            intent.setAction("android.intent.action.VIEW");
+            Uri uri = Uri.parse(url);
+            intent.setData(uri);
+            startActivity(intent);
+          } else {
+            intent.putExtra("url",url);
+            intent.setClass(getActivity(),WebViewActivity.class);
+            startActivity(intent);
+          }
+        }else {
+          Toast.makeText(getActivity(),"获取购买链接异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+      }
+    });
   }
 }

@@ -370,7 +370,7 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
         payTypeFlag = PAY_TYPE_KUAIJIE_ZHIFU;
         mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
-      case R.id.btn_fukuan_kuaiqian://块钱支付
+      case R.id.btn_fukuan_kuaiqian://快钱支付
         if(popwindow != null && popwindow.isShowing()){
           popwindow.dismiss();
         }

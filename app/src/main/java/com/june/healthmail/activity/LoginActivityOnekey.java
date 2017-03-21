@@ -147,24 +147,24 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
                   }
                   if(e==null){
                     Log.d("test","注册成功,userInfo = " + user.toString());
-                    //插入邀请人积分记录
-                    MessageDetails messageDetails = new MessageDetails();
-                    messageDetails.setUserName(object.get(0).getUsername());
-                    messageDetails.setStatus(1);
-                    messageDetails.setScore(88);
-                    messageDetails.setType(1);
-                    messageDetails.setReasons("邀请用户注册赠送金币88");
-                    messageDetails.setRelatedUserName(phoneNumber);
-                    messageDetails.save(new SaveListener<String>() {
-                      @Override
-                      public void done(String s, BmobException e) {
-                        if(e==null){
-                          Log.d("test","邀请用户注册赠送金币88成功：" + s);
-                        }else{
-                          Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
-                        }
-                      }
-                    });
+                    //取消邀请人赠送积分
+//                    MessageDetails messageDetails = new MessageDetails();
+//                    messageDetails.setUserName(object.get(0).getUsername());
+//                    messageDetails.setStatus(1);
+//                    messageDetails.setScore(88);
+//                    messageDetails.setType(1);
+//                    messageDetails.setReasons("邀请用户注册赠送金币88");
+//                    messageDetails.setRelatedUserName(phoneNumber);
+//                    messageDetails.save(new SaveListener<String>() {
+//                      @Override
+//                      public void done(String s, BmobException e) {
+//                        if(e==null){
+//                          Log.d("test","邀请用户注册赠送金币88成功：" + s);
+//                        }else{
+//                          Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+//                        }
+//                      }
+//                    });
 
                     //插入自己积分记录
                     MessageDetails myMessageDetails = new MessageDetails();

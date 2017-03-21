@@ -115,8 +115,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           startActivity(intent);
           break;
         case R.id.btn_operition_fukuan:
-          intent = new Intent(getActivity(),FukuanActivity.class);
-          startActivity(intent);
+          checkPermission(FukuanActivity.class);
+//          intent = new Intent(getActivity(),FukuanActivity.class);
+//          startActivity(intent);
           break;
         default:
           break;

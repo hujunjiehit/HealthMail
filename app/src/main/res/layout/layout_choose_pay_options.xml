@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_pay_option"
             android:textSize="16sp"
-            android:text="块钱支付"/>
+            android:text="快钱支付"/>
 
         <Button
             android:id="@+id/btn_fukuan_tonglian"

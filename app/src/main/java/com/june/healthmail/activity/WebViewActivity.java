@@ -26,6 +26,9 @@ public class WebViewActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_webview_layout);
+    if(getIntent() != null){
+      url = getIntent().getStringExtra("url");
+    }
     init();
   }
 
@@ -51,7 +54,9 @@ public class WebViewActivity extends Activity {
   }
 
   private void init() {
-    url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
+    if(url == null){
+      url = "https://item.taobao.com/item.htm?spm=a230r.1.14.21.2l6ruV&id=540430775263";
+    }
     webView = (WebView) findViewById(R.id.webview);
     //启用支持javascript
     WebSettings settings = webView.getSettings();

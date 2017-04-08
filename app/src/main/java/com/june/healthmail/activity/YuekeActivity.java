@@ -57,7 +57,7 @@ import okhttp3.Response;
  * Created by june on 2017/3/4.
  */
 
-public class YuekeActivity extends Activity implements View.OnClickListener{
+public class YuekeActivity extends BaseActivity implements View.OnClickListener{
 
     private Button btn_start;
     private TextView tvShowResult;
@@ -325,6 +325,12 @@ public class YuekeActivity extends Activity implements View.OnClickListener{
         initView();
         setListener();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupSpotAd();
     }
 
     private void initView() {

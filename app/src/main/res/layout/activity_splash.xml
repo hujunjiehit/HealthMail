@@ -1,46 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splash_bg_1" >
-
-    <ImageView
-        android:id="@+id/splash_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/login_dog" />
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/splash_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" >
-
+        android:id="@+id/splash_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_bg_1" >
         <ImageView
+            android:id="@+id/splash_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/login_dog" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/new_startimage_loadingbg" />
+
+            <ImageView
+                android:id="@+id/splash_loading_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/new_startimage_loadingitem" />
+        </RelativeLayout>
+
+        <ImageView
             android:layout_centerInParent="true"
-            android:background="@drawable/new_startimage_loadingbg" />
-
-        <ImageView
-            android:id="@+id/splash_loading_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/new_startimage_loadingitem" />
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/relativeLayout1"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@color/transparent"
+            android:src="@drawable/words_2"/>
     </RelativeLayout>
 
-    <ImageView
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/relativeLayout1"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:background="@color/transparent"
-        android:src="@drawable/words_2"/>
+
+    <RelativeLayout
+        android:id="@+id/ad_content"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp">
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_divider"
+            />
+    </RelativeLayout >
 
 </RelativeLayout>

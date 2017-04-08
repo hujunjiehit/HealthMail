@@ -49,7 +49,7 @@ import okhttp3.Response;
  * Created by june on 2017/3/4.
  */
 
-public class PingjiaActivity extends Activity implements View.OnClickListener{
+public class PingjiaActivity extends BaseActivity implements View.OnClickListener{
 
     private Button btn_edit_words;
     private TextView tv_show_words;
@@ -252,6 +252,12 @@ public class PingjiaActivity extends Activity implements View.OnClickListener{
         initView();
         setListener();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupSpotAd();
     }
 
     private void initView() {

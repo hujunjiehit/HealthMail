@@ -63,4 +63,13 @@
     <color name="bg_btn_press_color_hui">#c1c1c1</color>
 
     <color name="setup_title_color">#000000</color>
+
+    <!-- 文字颜色 -->
+    <color name="text_color_light_grey">#c2c2c2</color>
+    <color name="text_color_light_grey2">#c1c1c1</color>
+    <color name="text_color_light_grey3">#7b7b7b</color>
+
+    <color name="color_std_black">#333333</color>
+    <color name="color_std_black2">#666666</color>
+    <color name="color_std_white">#ffffff</color>
     </resources>

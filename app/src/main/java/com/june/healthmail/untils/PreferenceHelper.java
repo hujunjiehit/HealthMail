@@ -14,11 +14,16 @@ public class PreferenceHelper extends BasePerference{
     public final static String PREFERENCE_KEY_PINGJIA_WORD = "pingjia_words";//评价语
     public final static String MAC_ADDRESS = "mac_address";//本机Mac地址
 
-    public final static String KEY_MIN_PINGJIA_TIME = "min_pingjia_time";//本机Mac地址
-    public final static String KEY_MAX_PINGJIA_TIME = "max_pingjia_time";//本机Mac地址
-    public final static String KEY_MIN_YUEKE_TIME = "min_yeke_time";//本机Mac地址
-    public final static String KEY_MAX_YUEKE_TIME = "max_yueke_time";//本机Mac地址
-    public final static String KEY_MAX_SIJIAO = "max_sijiao";//本机Mac地址
+    public final static String KEY_MIN_PINGJIA_TIME = "min_pingjia_time";//最小评价时间
+    public final static String KEY_MAX_PINGJIA_TIME = "max_pingjia_time";//最大评价时间
+    public final static String KEY_MIN_YUEKE_TIME = "min_yeke_time";//最小约课时间
+    public final static String KEY_MAX_YUEKE_TIME = "max_yueke_time";//最大约课时间
+    public final static String KEY_MAX_SIJIAO = "max_sijiao";//最大约课私教数
+
+    public final static String KEY_BUY_AUTH_URL = "bug_auth_url";//购买授权淘宝地址
+    public final static String KEY_BUY_COINS_URL = "bug_coins_url";//购买金币淘宝地址
+    public final static String KEY_COINS_COST_FOR_POST = "coins_cost_for_post";//发帖金币消耗数量
+    public final static String KEY_COINS_COST_FOR_POST_WITH_PICTURE = "coins_cost_for_post_with_picture";//发带图片的帖子金币消耗数量
 
     private static PreferenceHelper instance;
 
@@ -198,6 +203,94 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getInt(KEY_MAX_SIJIAO,20);
+        }
+        return value;
+    }
+
+    public void setBuyAuthUrl(String url) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_BUY_AUTH_URL,url);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getBuyAuthUrl() {
+        String url = "https://www.baidu.com/";
+        checkPrefs();
+        if (prefs != null) {
+            url = prefs.getString(KEY_BUY_AUTH_URL,url);
+        }
+        return url;
+    }
+
+    public void setBuyConisUrl(String url) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_BUY_COINS_URL,url);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getBuyCoinsUrl() {
+        String url = "https://www.baidu.com/";
+        checkPrefs();
+        if (prefs != null) {
+            url = prefs.getString(KEY_BUY_COINS_URL,url);
+        }
+        return url;
+    }
+
+    public void setCoinsCostForPost(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_COINS_COST_FOR_POST,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getCoinsCostForPost() {
+        int value = 1;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_COINS_COST_FOR_POST,value);
+        }
+        return value;
+    }
+
+    public void setCoinsCostForPostWithPicture(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_COINS_COST_FOR_POST_WITH_PICTURE,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getCoinsCostForPostWithPicture() {
+        int value = 2;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_COINS_COST_FOR_POST_WITH_PICTURE,value);
         }
         return value;
     }

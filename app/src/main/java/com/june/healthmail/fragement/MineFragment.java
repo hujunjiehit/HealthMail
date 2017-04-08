@@ -29,6 +29,7 @@ import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
+import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 
 import org.json.JSONException;
@@ -124,6 +125,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     initView();
     setOnListener();
     initLogin();
+    getConfigs();
     return layout;
   }
 
@@ -319,10 +321,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         getActivity().finish();
         break;
       case R.id.tv_go_to_taobao: // 点击购买授权链接
-        openTaobaoShopping("buyAuthUrl");
+        openTaobaoShopping(PreferenceHelper.getInstance().getBuyAuthUrl());
         break;
       case R.id.tv_go_to_buy_coins: // 点击购买金币链接
-        openTaobaoShopping("buyCoinsUrl");
+        openTaobaoShopping(PreferenceHelper.getInstance().getBuyCoinsUrl());
         break;
       case R.id.user_icon: // 点击用户头像，拉起超级用户配置管理界面
         if(userInfo != null && (userInfo.getUserType() == 99 || userInfo.getUserType() == 100)){
@@ -489,49 +491,45 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       }
   }
 
-  private void openTaobaoShopping(final String action){
-    String cloudCodeName = "getTaobaoUrl";
+  private void getConfigs() {
+    String cloudCodeName = "getConfigs";
     JSONObject job = new JSONObject();
-    if(showProgress == null){
-      showProgress = new ShowProgress(getActivity());
-    }
-    if(!showProgress.isShowing()){
-      showProgress.setMessage("正在获取购买链接...");
-      showProgress.show();
-    }
     try {
-      job.put("action",action);
+      job.put("action","getConfigs");
     } catch (JSONException e) {
       e.printStackTrace();
     }
-
     //创建云端逻辑
     AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
     cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
       @Override
       public void done(Object o, BmobException e) {
-        if(showProgress != null && showProgress.isShowing()){
-          showProgress.dismiss();
-        }
         if(e == null){
           Log.e("test","云端逻辑调用成功：" + o.toString());
-          Intent intent = new Intent();
-          String url = o.toString();
-          if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
-            Log.e("test","taobao is not installed");
-            intent.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent.setData(uri);
-            startActivity(intent);
-          } else {
-            intent.putExtra("url",url);
-            intent.setClass(getActivity(),WebViewActivity.class);
-            startActivity(intent);
-          }
+          String [] arrays = o.toString().split("::");
+          PreferenceHelper.getInstance().setBuyAuthUrl(arrays[0]);
+          PreferenceHelper.getInstance().setBuyConisUrl(arrays[1]);
+          PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(arrays[2]));
+          PreferenceHelper.getInstance().setCoinsCostForPostWithPicture(Integer.parseInt(arrays[3]));
         }else {
-          Toast.makeText(getActivity(),"获取购买链接异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
+          Log.e("test","云端逻辑调用异常：" + e.toString());
         }
       }
     });
+  }
+
+  private void openTaobaoShopping(final String url){
+    Intent intent = new Intent();
+    if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
+      Log.e("test","taobao is not installed");
+      intent.setAction("android.intent.action.VIEW");
+      Uri uri = Uri.parse(url);
+      intent.setData(uri);
+      startActivity(intent);
+    } else {
+      intent.putExtra("url",url);
+      intent.setClass(getActivity(),WebViewActivity.class);
+      startActivity(intent);
+    }
   }
 }

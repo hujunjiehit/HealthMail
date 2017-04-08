@@ -70,7 +70,7 @@ import okhttp3.Response;
  * Created by bjhujunjie on 2017/3/9.
  */
 
-public class FukuanActivity extends Activity implements View.OnClickListener{
+public class FukuanActivity extends BaseActivity implements View.OnClickListener{
 
   private Button btn_start;
   private TextView tvShowResult;
@@ -302,7 +302,11 @@ public class FukuanActivity extends Activity implements View.OnClickListener{
     initData();
   }
 
-
+  @Override
+  protected void onResume() {
+    super.onResume();
+    setupSpotAd();
+  }
 
   private void initView() {
     btn_start = (Button) findViewById(R.id.btn_start);

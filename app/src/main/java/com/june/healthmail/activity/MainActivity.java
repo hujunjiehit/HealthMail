@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.june.healthmail.R;
+import com.june.healthmail.fragement.DiscoveryFragment;
 import com.june.healthmail.fragement.ManageAcountFragment;
 import com.june.healthmail.fragement.FunctionListFragment;
 import com.june.healthmail.fragement.MineFragment;
@@ -22,7 +23,7 @@ public class MainActivity extends FragmentActivity {
   private String uid;
   private String userName;
 
-  private Class[] mFragments = new Class[] { FunctionListFragment.class,
+  private Class[] mFragments = new Class[] { DiscoveryFragment.class,
       FunctionListFragment.class, ManageAcountFragment.class, MineFragment.class};
 
   private int[] mTabSelectors = new int[] {

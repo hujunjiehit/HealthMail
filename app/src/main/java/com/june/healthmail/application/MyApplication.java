@@ -6,6 +6,8 @@ import com.june.healthmail.Config.BmobConfig;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import net.youmi.android.normal.spot.SpotManager;
+
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
@@ -33,5 +35,11 @@ public class MyApplication extends Application{
     PreferenceHelper.getInstance().setContext(this);
 
     CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
+  }
+
+  @Override
+  public void onTerminate() {
+    super.onTerminate();
+    SpotManager.getInstance(getApplicationContext()).onAppExit();
   }
 }

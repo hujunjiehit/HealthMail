@@ -21,7 +21,7 @@ import com.june.healthmail.untils.PreferenceHelper;
  * Created by june on 2017/3/7.
  */
 
-public class FunctionSetupActivity extends Activity implements View.OnClickListener{
+public class FunctionSetupActivity extends BaseActivity implements View.OnClickListener{
 
     private TextView tvMinPingjiaTime;
     private TextView tvMaxPingjiaTime;
@@ -45,6 +45,12 @@ public class FunctionSetupActivity extends Activity implements View.OnClickListe
         initView();
         setListener();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupSpotAd();
     }
 
     private void initView() {

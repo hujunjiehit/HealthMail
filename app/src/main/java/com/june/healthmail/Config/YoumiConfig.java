@@ -7,6 +7,6 @@ package com.june.healthmail.Config;
 public class YoumiConfig {
     public static final String appId = "073bbaf51abda1cf";
     public static final String appSecret = "ab445ef964da36ba";
-    public static final boolean isTestModel = true;
-    public static final boolean isEnableYoumiLog = true;
+    public static final boolean isTestModel = false;
+    public static final boolean isEnableYoumiLog = false;
 }

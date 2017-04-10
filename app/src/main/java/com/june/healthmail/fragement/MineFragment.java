@@ -418,7 +418,11 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         //授权变动消息
         builder.setTitle("授权变动通知");
         if(messageType == 5){
-          builder.setMessage("月卡授权开通成功，本次开通了" + messageDetails.getScore() + "天授权");
+          if(messageDetails.getScore() == 1){
+            builder.setMessage("试用授权开通成功");
+          }else{
+            builder.setMessage("月卡授权开通成功，本次开通了" + messageDetails.getScore() + "天授权");
+          }
           if(userInfo.getUserType() == 1){
             //试用时间未过期
             userInfo.setAllowDays(userInfo.getAllowDays() + messageDetails.getScore());

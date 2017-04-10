@@ -68,8 +68,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -193,17 +192,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
         <Button
-            android:id="@+id/btn_authorize_by_days"
+            android:id="@+id/btn_authorize_one_day"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_margin="4dp"
             android:layout_height="wrap_content"
             android:textColor="@color/text_press"
             android:textSize="@dimen/medium_text_size"
-            android:text="按天授权"/>
+            android:text="试用授权"/>
 
         <Button
             android:id="@+id/btn_give_the_coins"
@@ -215,6 +215,22 @@
             android:textSize="@dimen/medium_text_size"
             android:text="赠送金币"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_authorize_by_days"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="按天授权"/>
+
         <Button
             android:id="@+id/btn_authorize_forever"
             android:layout_weight="1"
@@ -224,6 +240,5 @@
             android:textColor="@color/text_press"
             android:textSize="@dimen/medium_text_size"
             android:text="永久授权"/>
-
     </LinearLayout>
 </LinearLayout>

@@ -39,6 +39,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
 
     private Button btnGetUserInfo;
     private Button btnAuthorizeByDays;
+    private Button btnAuthorizeOneDay;
     private Button btnAuthorizeForever;
     private Button btnGiveTheCoins;
 
@@ -84,6 +85,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         etInputPhonenumber = (EditText) findViewById(R.id.et_input_phone_number);
         btnGetUserInfo = (Button) findViewById(R.id.btn_get_user_info);
         btnAuthorizeByDays = (Button) findViewById(R.id.btn_authorize_by_days);
+        btnAuthorizeOneDay = (Button) findViewById(R.id.btn_authorize_one_day);
         btnAuthorizeForever = (Button) findViewById(R.id.btn_authorize_forever);
         btnGiveTheCoins = (Button) findViewById(R.id.btn_give_the_coins);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
@@ -99,6 +101,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private void setListener() {
         btnGetUserInfo.setOnClickListener(this);
         btnAuthorizeByDays.setOnClickListener(this);
+        btnAuthorizeOneDay.setOnClickListener(this);
         btnAuthorizeForever.setOnClickListener(this);
         btnGiveTheCoins.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
@@ -108,35 +111,6 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:    //返回
-//                BmobQuery<UserInfo> query = new BmobQuery<UserInfo>();
-//                query.findObjects(new FindListener<UserInfo>() {
-//                    @Override
-//                    public void done(List<UserInfo> list, BmobException e) {
-//                        if(e==null){
-//                            Log.e("test","查询成功，size = " + list.size());
-//                            for(UserInfo userInfo:list){
-//                                MessageDetails messageDetails = new MessageDetails();
-//                                messageDetails.setUserName(userInfo.getUsername());
-//                                messageDetails.setStatus(1);
-//                                messageDetails.setScore(100);
-//                                messageDetails.setType(0);
-//                                messageDetails.setReasons("首次注册赠送金币100");
-//                                messageDetails.setRelatedUserName("");
-//                                messageDetails.save(new SaveListener<String>() {
-//                                    @Override
-//                                    public void done(String s, BmobException e) {
-//                                        finish();
-//                                        if(e==null){
-//                                            Log.d("test","首次注册赠送金币100成功：" + s);
-//                                        }else{
-//                                            Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    }
-//                });
                 finish();
                 break;
             case R.id.btn_get_user_info:
@@ -146,6 +120,13 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             case R.id.btn_authorize_by_days:
                 if(mUserInfo != null){
                     authorizeUserByDays();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_authorize_one_day:
+                if(mUserInfo != null){
+                    authorizeUserOneDay();
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
@@ -169,6 +150,35 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    private void authorizeUserOneDay() {
+        if(mUserInfo.getUserType() == 1 || mUserInfo.getUserType() == 2) {
+            toast("该用户已有授权，无需开通试用权限");
+        } else {
+            //开通试用授权
+            MessageDetails messageDetails = new MessageDetails();
+            messageDetails.setUserName(mUserInfo.getUsername());
+            messageDetails.setStatus(1);
+            messageDetails.setScore(1);
+            messageDetails.setType(5);
+            messageDetails.setReasons("用户开通试用授权");
+            messageDetails.setRelatedUserName("");
+            messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+            messageDetails.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if(e==null){
+                        Log.d("test","用户开通月卡成功：" + s);
+                        toast("试用授权开通成功，请让对方重新登录");
+                        mUserInfo.setUserType(1);
+                    }else{
+                        Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                        toast("试用授权开通失败:" + e.getMessage()+","+e.getErrorCode());
+                    }
+                }
+            });
+        }
+    }
+
     private void giveTheConisToUser() {
         showInputCoinsDialog();
     }
@@ -188,6 +198,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         messageDetails.setType(6);
         messageDetails.setReasons("用户开通永久授权");
         messageDetails.setRelatedUserName("");
+        messageDetails.setNotice("操作人员：" + currentUser.getUsername());
         messageDetails.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
@@ -258,6 +269,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 messageDetails.setScore(Integer.parseInt(daysNum));
                 messageDetails.setType(5);
                 messageDetails.setReasons("用户开通月卡授权，授权天数见score字段");
+                messageDetails.setNotice("操作人员：" + currentUser.getUsername());
                 messageDetails.setRelatedUserName("");
                 messageDetails.save(new SaveListener<String>() {
                     @Override
@@ -321,6 +333,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 messageDetails.setScore(Integer.parseInt(coinsNum));
                 messageDetails.setType(4); //4代表金币充值或者管理员赠送
                 messageDetails.setReasons("管理员赠送金币，数量：" + Integer.parseInt(coinsNum));
+                messageDetails.setNotice("操作人员：" + currentUser.getUsername());
                 messageDetails.setRelatedUserName("");
                 messageDetails.save(new SaveListener<String>() {
                     @Override

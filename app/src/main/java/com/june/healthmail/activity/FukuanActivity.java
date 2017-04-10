@@ -37,6 +37,7 @@ import com.june.healthmail.model.PayinfoDetail;
 import com.june.healthmail.model.PayinfoJingdongDetail;
 import com.june.healthmail.model.PayinfoKuaijieDetail;
 import com.june.healthmail.model.PayinfoTonglianDetail;
+import com.june.healthmail.model.Payment;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
@@ -210,12 +211,8 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                               userInfo.getUsername().equals("18671400766"))){
                 showTheResult("---------------支付方式" + (i + 1) + "剩余金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount() + "\n");
               }
-              if (getAllPaymentModel.getValuse().get(i).getChannelamount() > 0) {
-                fukuanChoice[i] = 1;
-              } else {
-                fukuanChoice[i] = 0;
-              }
             }
+            initFukuanChoice(getAllPaymentModel.getValuse());
             showChooseFukuanMode();
             break;
 
@@ -292,6 +289,48 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     }
   };
 
+  private void initFukuanChoice(List<Payment> allpayments) {
+      int index = 0;
+      fukuanChoice[index] = 0;
+      for(Payment pyment:allpayments){
+        if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快捷支付")){
+          fukuanChoice[index] = 1;
+        }
+      }
+
+    index = 1;
+    fukuanChoice[index] = 0;
+    for(Payment pyment:allpayments){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快钱支付")){
+        fukuanChoice[index] = 1;
+      }
+    }
+
+    index = 2;
+    fukuanChoice[index] = 0;
+    for(Payment pyment:allpayments){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("通联支付")){
+        fukuanChoice[index] = 1;
+      }
+    }
+
+    index = 3;
+    fukuanChoice[index] = 0;
+    for(Payment pyment:allpayments){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("京东支付")){
+        fukuanChoice[index] = 1;
+      }
+    }
+
+    index = 4;
+    fukuanChoice[index] = 0;
+    for(Payment pyment:allpayments){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("易联支付")){
+        fukuanChoice[index] = 1;
+      }
+    }
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -300,12 +339,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     initView();
     setListener();
     initData();
+    setupSpotAd();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    setupSpotAd();
   }
 
   private void initView() {

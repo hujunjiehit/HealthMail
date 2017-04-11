@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "com.june.healthmail"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 16
         versionCode 15
         versionName "2.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

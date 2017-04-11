@@ -42,6 +42,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private Button btnAuthorizeOneDay;
     private Button btnAuthorizeForever;
     private Button btnGiveTheCoins;
+    private Button btnAddTheCoins;
 
     private TextView tvUserName;
     private TextView tvUserType;
@@ -88,6 +89,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnAuthorizeOneDay = (Button) findViewById(R.id.btn_authorize_one_day);
         btnAuthorizeForever = (Button) findViewById(R.id.btn_authorize_forever);
         btnGiveTheCoins = (Button) findViewById(R.id.btn_give_the_coins);
+        btnAddTheCoins = (Button) findViewById(R.id.btn_add_coins);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
@@ -95,6 +97,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         if(currentUser.getUserType() == 99){
             btnAuthorizeForever.setVisibility(View.GONE);
             btnAuthorizeByDays.setVisibility(View.GONE);
+            btnAddTheCoins.setVisibility(View.GONE);
         }
     }
 
@@ -104,6 +107,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnAuthorizeOneDay.setOnClickListener(this);
         btnAuthorizeForever.setOnClickListener(this);
         btnGiveTheCoins.setOnClickListener(this);
+        btnAddTheCoins.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 
@@ -140,7 +144,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.btn_give_the_coins:
                 if(mUserInfo != null){
-                    giveTheConisToUser();
+                    giveTheConisToUser(true);
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_add_coins:
+                if(mUserInfo != null){
+                    giveTheConisToUser(false);
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
@@ -179,8 +190,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         }
     }
 
-    private void giveTheConisToUser() {
-        showInputCoinsDialog();
+    private void giveTheConisToUser(boolean isGive) {
+        showInputCoinsDialog(isGive);
     }
 
 
@@ -310,7 +321,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         builder.create().show();
     }
 
-    private void showInputCoinsDialog() {
+    private void showInputCoinsDialog(final boolean isGive) {
         View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pingjia_word_layout,null);
         final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
         final TextView tv_text = (TextView) diaog_view.findViewById(R.id.tv_desc);
@@ -332,7 +343,13 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 messageDetails.setStatus(1);
                 messageDetails.setScore(Integer.parseInt(coinsNum));
                 messageDetails.setType(4); //4代表金币充值或者管理员赠送
-                messageDetails.setReasons("管理员赠送金币，数量：" + Integer.parseInt(coinsNum));
+                if(isGive) {
+                    //赠送金币
+                    messageDetails.setReasons("管理员赠送金币，数量：" + Integer.parseInt(coinsNum));
+                }else {
+                    //充值金币
+                    messageDetails.setReasons("充值金币成功，数量：" + Integer.parseInt(coinsNum));
+                }
                 messageDetails.setNotice("操作人员：" + currentUser.getUsername());
                 messageDetails.setRelatedUserName("");
                 messageDetails.save(new SaveListener<String>() {
@@ -340,7 +357,11 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                     public void done(String s, BmobException e) {
                         if(e==null){
                             Log.d("test","管理员赠送金币成功：" + s);
-                            toast("管理员赠送金币成功，赠送金币数量：" + Integer.parseInt(coinsNum));
+                            if(isGive) {
+                                toast("管理员赠送金币成功，赠送金币数量：" + Integer.parseInt(coinsNum));
+                            }else {
+                                toast("金币充值成功，充值金币数量：" + Integer.parseInt(coinsNum));
+                            }
                         }else{
                             Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
                             toast("管理员赠送金币失败:" + e.getMessage()+","+e.getErrorCode());
@@ -360,6 +381,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             typeDesc = "月卡用户";
         }else if(userType == 2) {
             typeDesc = "永久用户";
+        }else if(userType == 99) {
+            typeDesc = "管理员用户";
+        }else if(userType == 100) {
+            typeDesc = "超级管理员用户";
         }else {
             typeDesc = "过期用户";
         }

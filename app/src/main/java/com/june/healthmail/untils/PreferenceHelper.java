@@ -3,6 +3,7 @@ package com.june.healthmail.untils;
 import android.content.SharedPreferences;
 import android.nfc.tech.NfcA;
 
+import com.june.healthmail.Config.CommonConfig;
 import com.june.healthmail.base.BasePerference;
 
 /**
@@ -107,10 +108,14 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMinPingjiaTime() {
-        int time = 800;
+        int time = CommonConfig.MinDelayTime;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MIN_PINGJIA_TIME,1000);
+            time = prefs.getInt(KEY_MIN_PINGJIA_TIME,time);
+        }
+        if(time < CommonConfig.MinDelayTime) {
+            time = CommonConfig.MinDelayTime;
+            setMinPingjiaTime(time);
         }
         return time;
     }
@@ -130,10 +135,14 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxPingjiaTime() {
-        int time = 1000;
+        int time = CommonConfig.MinDelayTime + 300;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MAX_PINGJIA_TIME,1500);
+            time = prefs.getInt(KEY_MAX_PINGJIA_TIME,time);
+        }
+        if(time < CommonConfig.MinDelayTime) {
+            time = CommonConfig.MinDelayTime;
+            setMaxPingjiaTime(time);
         }
         return time;
     }
@@ -153,10 +162,14 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMinYuekeTime() {
-        int time = 800;
+        int time = CommonConfig.MinDelayTime;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MIN_YUEKE_TIME,1000);
+            time = prefs.getInt(KEY_MIN_YUEKE_TIME,time);
+        }
+        if(time < CommonConfig.MinDelayTime) {
+            time = CommonConfig.MinDelayTime;
+            setMinYuekeTime(time);
         }
         return time;
     }
@@ -176,10 +189,14 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxYuekeTime() {
-        int time = 1000;
+        int time = CommonConfig.MinDelayTime + 300;
         checkPrefs();
         if (prefs != null) {
-            time = prefs.getInt(KEY_MAX_YUEKE_TIME,1500);
+            time = prefs.getInt(KEY_MAX_YUEKE_TIME,time);
+        }
+        if(time < CommonConfig.MinDelayTime) {
+            time = CommonConfig.MinDelayTime;
+            setMaxYuekeTime(time);
         }
         return time;
     }

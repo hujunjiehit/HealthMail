@@ -330,7 +330,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        setupSpotAd();
+        //setupSpotAd();
     }
 
     private void initView() {

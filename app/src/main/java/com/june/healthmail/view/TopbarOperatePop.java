@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.AcountListAdapter;
@@ -32,6 +35,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
   private TextView tvOperate3;
   private TextView tvOperate4;
   private TextView tvOperate5;
+  private TextView tvOperate6;
   private DBManager mDBManger;
 
   private List<AccountInfo> accountList;
@@ -50,6 +54,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
     tvOperate3 = (TextView) mMenuView.findViewById(R.id.tv_operate_3);
     tvOperate4 = (TextView) mMenuView.findViewById(R.id.tv_operate_4);
     tvOperate5 = (TextView) mMenuView.findViewById(R.id.tv_operate_5);
+    tvOperate6 = (TextView) mMenuView.findViewById(R.id.tv_operate_6);
 
     setContentView(mMenuView);
     setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -61,6 +66,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
     tvOperate3.setOnClickListener(this);
     tvOperate4.setOnClickListener(this);
     tvOperate5.setOnClickListener(this);
+    tvOperate6.setOnClickListener(this);
 
     ColorDrawable cdw = new ColorDrawable(00000000);
     setBackgroundDrawable(cdw);
@@ -123,9 +129,72 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
         mAdapter.getSelected().clear();
         mAdapter.notifyDataSetChanged();
         break;
+      case R.id.tv_operate_6:
+        //按编号启用小号
+        dismiss();
+        showInputDialog();
+//        mDBManger.setStatus(0);
+//        for(AccountInfo info:accountList){
+//          info.setStatus(0);
+//        }
+//        mAdapter.getSelected().clear();
+//        mAdapter.notifyDataSetChanged();
+        break;
       default:
         break;
     }
+  }
+
+  private void showInputDialog() {
+    View diaog_view = LayoutInflater.from(mContext).inflate(R.layout.dialog_inout_number,null);
+    final EditText edit_text_begin = (EditText) diaog_view.findViewById(R.id.et_begin_number);
+    final EditText edit_text_end = (EditText) diaog_view.findViewById(R.id.et_end_number);
+    edit_text_begin.setInputType(InputType.TYPE_CLASS_NUMBER);
+    edit_text_end.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+    builder.setTitle("输入开始和结束编号");
+    builder.setView(diaog_view);
+    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text_begin.getText().toString().trim())
+                || TextUtils.isEmpty(edit_text_end.getText().toString().trim())){
+          toast("编号不能为空！");
+          return;
+        }
+        int begin,end;
+        begin = Integer.valueOf(edit_text_begin.getText().toString().trim());
+        end = Integer.valueOf(edit_text_end.getText().toString().trim());
+        if(begin > end) {
+          toast("开始编号不能大于结束编号");
+          return;
+        }
+        if(end > accountList.size()) {
+          toast("结束编号不能大于最大编号");
+          return;
+        }
+        mDBManger.setStatus(1,begin,end);
+        Log.e("test", "begin = " + begin + "   end = " + end);
+        for(int i = begin; i <= end; i++){
+          Log.e("test", "i = " + i);
+          accountList.get(i-1).setStatus(1);
+          mAdapter.getSelected().put(i-1,i-1);
+        }
+        mAdapter.notifyDataSetChanged();
+      }
+    });
+    builder.create().show();
+  }
+
+  private void toast(String str){
+    Toast.makeText(mContext,str,Toast.LENGTH_SHORT).show();
   }
 
   private void showAddAcountDialog() {

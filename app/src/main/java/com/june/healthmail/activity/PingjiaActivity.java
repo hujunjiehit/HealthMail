@@ -257,7 +257,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        setupSpotAd();
+        //setupSpotAd();
     }
 
     private void initView() {

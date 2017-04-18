@@ -76,6 +76,13 @@ public class DBManager {
                 new String[]{status+""});
     }
 
+    public void setStatus(int status, int begin, int end){
+        for(int i = begin; i <= end; i++) {
+            db.execSQL("update account set status = ? where id = ?",
+                    new String[]{status+"",i+""});
+        }
+    }
+
     public void updateNickName(String phoneNumber, String nickName){
         db.execSQL("update account set nickName = ? where phoneNumber = ?",
                 new String[]{nickName,phoneNumber});

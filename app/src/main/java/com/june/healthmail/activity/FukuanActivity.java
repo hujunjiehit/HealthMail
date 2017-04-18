@@ -339,7 +339,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     initView();
     setListener();
     initData();
-    setupSpotAd();
+    //setupSpotAd();
   }
 
   @Override

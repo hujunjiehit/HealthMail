@@ -2,6 +2,188 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="#f4f4f4">
+
+  <RelativeLayout
+      android:id="@+id/layout_login_topbar"
+      style="@style/TopbarStyle">
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="6dp"
+        android:src="@drawable/flight_title_back_normal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="解绑设备"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text_size"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+  </RelativeLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="40dp"
+      android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#444444"
+            android:textSize="16sp"
+            android:text="手     机     号"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="#d2d2d2" />
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textColor="#444444"
+            android:textSize="16sp"
+            android:text="未获取"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+      <TextView
+          android:layout_marginLeft="30dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="剩  余  金  币"/>
+      <View
+          android:layout_width="1px"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="10dp"
+          android:background="#d2d2d2" />
+      <TextView
+          android:id="@+id/tv_coins_number"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_marginLeft="10dp"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="未获取"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+      <TextView
+          android:layout_marginLeft="30dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="剩余解绑次数"/>
+      <View
+          android:layout_width="1px"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="10dp"
+          android:background="#d2d2d2" />
+      <TextView
+          android:id="@+id/tv_unbind_times"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_marginLeft="10dp"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="未获取"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+      <TextView
+          android:layout_marginLeft="30dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="绑 定 状 态"/>
+      <View
+          android:layout_width="1px"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="10dp"
+          android:background="#d2d2d2" />
+      <TextView
+          android:id="@+id/tv_bind_status"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_marginLeft="10dp"
+          android:layout_height="wrap_content"
+          android:textColor="#444444"
+          android:textSize="16sp"
+          android:text="未获取"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_go_to_buy_coins"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textColor="@color/text_press"
+        android:textSize="20sp"
+        android:autoLink="all"
+        android:layout_gravity="center"
+        android:text="@string/click_me_for_coins"/>
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:orientation="horizontal"
+      android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/btn_unbind_free"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_margin="4dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_press"
+        android:textSize="@dimen/medium_text_size"
+        android:text="免费解绑"/>
+
+    <Button
+        android:id="@+id/btn_unbind_use_coins"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_margin="4dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_press"
+        android:textSize="@dimen/medium_text_size"
+        android:text="金币解绑"/>
+  </LinearLayout>
 
 </LinearLayout>

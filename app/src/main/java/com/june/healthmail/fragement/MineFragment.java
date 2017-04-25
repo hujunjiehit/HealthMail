@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.untils.TimeUntils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,10 +79,20 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private ImageView ivUserIcon;
   private ShowProgress showProgress;
 
+  private TextView tvYuekeTimes;
+  private TextView tvPingjiaTimes;
+  private Button btnAddYuekeTimes;
+  private Button btnAddPingjiaTimes;
+
   private static final int HANDLER_THE_MESSAGES = 1;
+  private static final int UPDATE_THE_TIMES = 2;
+  private static final int UPDATE_USER_INFO = 3;
 
   private ArrayList<MessageDetails> messageList = new ArrayList<>();
   private int messageIndex = 0;
+
+  private boolean success1 = false;
+  private boolean success2 = false;
 
   private Handler mHandler = new Handler(){
     @Override
@@ -96,18 +108,67 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             if(TextUtils.isEmpty(userInfo.getInstallId())){
               userInfo.setInstallId(Installation.id(getActivity()));
             }
-            userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
-              @Override
-              public void done(BmobException e) {
-                if(e==null){
-                  Log.e("test","更新用户信息成功");
-                  setUserDetails();
-                }else{
-                  Log.e("test","更新用户信息失败");
+            success1 = true;
+            userInfo.setBindMac("hujunjie");
+            Log.e("test","success1 ");
+            if(success1 && success2) {
+              mHandler.sendEmptyMessage(UPDATE_USER_INFO);
+            }
+          }
+          break;
+        case UPDATE_THE_TIMES:
+          Bmob.getServerTime(new QueryListener<Long>() {
+            @Override
+            public void done(Long aLong, BmobException e) {
+              if (e == null) {
+                String serverDay = TimeUntils.transForDate1(new Integer(String.valueOf(aLong)));
+                Log.e("test"," serverDay = " + serverDay);
+                Log.e("test"," lastDay = " + userInfo.getLastDay());
+                if(TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {
+                  Log.e("test","null or today");
+                  if(TextUtils.isEmpty(userInfo.getLastDay())) {
+                    userInfo.setLastDay(serverDay);
+                    userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                    userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                  }
+                  PreferenceHelper.getInstance().setRemainYuekeTimes(userInfo.getYuekeTimes());
+                  PreferenceHelper.getInstance().setRemainPingjiaTimes(userInfo.getPingjiaTimes());
+                  if(TextUtils.isEmpty(userInfo.getLastDay())) {
+                    userInfo.setLastDay(serverDay);
+                  }
+                } else {
+                  Log.e("test","not today");
+                  userInfo.setLastDay(serverDay);
+                  userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                  userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                  PreferenceHelper.getInstance().setRemainYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                  PreferenceHelper.getInstance().setRemainPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                }
+                success2 = true;
+                Log.e("test","success2 ");
+                if(success1 && success2) {
+                  mHandler.sendEmptyMessage(UPDATE_USER_INFO);
                 }
               }
-            });
-          }
+            }
+          });
+//          tvYuekeTimes.setText(PreferenceHelper.getInstance().getFreeTimesPerday() + "次");
+//          tvPingjiaTimes.setText(PreferenceHelper.getInstance().getFreeTimesPerday() + "次");
+          break;
+        case UPDATE_USER_INFO:
+          userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+              if(e==null){
+                Log.e("test","更新用户信息成功");
+                setUserDetails();
+                tvYuekeTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "次");
+                tvPingjiaTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "次");
+              }else{
+                Log.e("test","更新用户信息失败");
+              }
+            }
+          });
           break;
         default:
           break;
@@ -151,6 +212,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     tvGoToBuyConins = (TextView) layout.findViewById(R.id.tv_go_to_buy_coins);
     ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     ivGetHelp = (RelativeLayout) layout.findViewById(R.id.iv_get_help);
+    tvYuekeTimes = (TextView) layout.findViewById(R.id.tv_yueke_times);
+    tvPingjiaTimes = (TextView) layout.findViewById(R.id.tv_pingjia_times);
+    btnAddPingjiaTimes = (Button) layout.findViewById(R.id.btn_add_pingjia_times);
+    btnAddYuekeTimes = (Button) layout.findViewById(R.id.btn_add_yueke_times);
   }
 
   private void setOnListener() {
@@ -515,6 +580,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setBuyConisUrl(arrays[1]);
           PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(arrays[2]));
           PreferenceHelper.getInstance().setCoinsCostForPostWithPicture(Integer.parseInt(arrays[3]));
+          PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(arrays[4]));
+          mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
         }else {
           Log.e("test","云端逻辑调用异常：" + e.toString());
         }

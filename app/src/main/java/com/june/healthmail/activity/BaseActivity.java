@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.youmi.android.normal.common.ErrorCode;
 import net.youmi.android.normal.spot.SpotListener;
@@ -23,6 +24,9 @@ public class BaseActivity extends Activity{
         mContext = this;
     }
 
+    protected void toast(String str){
+        Toast.makeText(this,str,Toast.LENGTH_LONG).show();
+    }
 
 //
 //    @Override

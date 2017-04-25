@@ -26,6 +26,10 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_COINS_COST_FOR_POST = "coins_cost_for_post";//发帖金币消耗数量
     public final static String KEY_COINS_COST_FOR_POST_WITH_PICTURE = "coins_cost_for_post_with_picture";//发带图片的帖子金币消耗数量
 
+    public final static String KEY_FREE_TIMES_A_DAY = "free_times_a_day";//每天免费的评价、约课次数
+    public final static String KEY_REMAIN_YUEKE_TIMES = "remain_yueke_times";//剩余约课次数
+    public final static String KEY_REMAIN_PINGJIA_TIMES = "remain_pingjia_times";//剩余评价次数
+
     private static PreferenceHelper instance;
 
     public static PreferenceHelper getInstance() {
@@ -308,6 +312,72 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getInt(KEY_COINS_COST_FOR_POST_WITH_PICTURE,value);
+        }
+        return value;
+    }
+
+    public void setFreeTimesPerday(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_FREE_TIMES_A_DAY,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getFreeTimesPerday() {
+        int value = 500;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_FREE_TIMES_A_DAY,value);
+        }
+        return value;
+    }
+
+    public void setRemainYuekeTimes(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_REMAIN_YUEKE_TIMES,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getRemainYuekeTimes() {
+        int value = 500;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_REMAIN_YUEKE_TIMES,value);
+        }
+        return value;
+    }
+
+    public void setRemainPingjiaTimes(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_REMAIN_PINGJIA_TIMES,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getRemainPingjiaTimes() {
+        int value = 500;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_REMAIN_PINGJIA_TIMES,value);
         }
         return value;
     }

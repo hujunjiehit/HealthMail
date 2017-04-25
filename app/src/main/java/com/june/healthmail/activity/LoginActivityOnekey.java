@@ -1,6 +1,9 @@
 package com.june.healthmail.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -71,6 +74,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.img_back:	//返回
+        setResult(RESULT_CANCELED);
         finish();
         break;
       case R.id.btn_send:
@@ -177,6 +181,10 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
                     myMessageDetails.save(new SaveListener<String>() {
                       @Override
                       public void done(String s, BmobException e) {
+                        Intent intent = new Intent(LoginActivityOnekey.this,LoginActivity.class);
+                        intent.putExtra("userName",phoneNumber);
+                        intent.putExtra("passWord",pwd);
+                        setResult(RESULT_OK,intent);
                         finish();
                         if(e==null){
                           Log.d("test","首次注册赠送金币100成功：" + s);
@@ -224,6 +232,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
           if(e==null){
             Log.d("test","注册成功,userInfo = " + user.toString());
             toast("注册成功，请用您注册的手机号和密码登录" );
+
             //插入积分记录
             MessageDetails messageDetails = new MessageDetails();
             messageDetails.setUserName(phoneNumber);
@@ -235,6 +244,10 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
             messageDetails.save(new SaveListener<String>() {
               @Override
               public void done(String s, BmobException e) {
+                Intent intent = new Intent(LoginActivityOnekey.this,LoginActivity.class);
+                intent.putExtra("userName",phoneNumber);
+                intent.putExtra("passWord",pwd);
+                setResult(RESULT_OK,intent);
                 finish();
                 if(e==null){
                   Log.d("test","首次注册赠送金币100成功：" + s);

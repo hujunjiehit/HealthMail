@@ -28,35 +28,35 @@
             android:textAppearance="?android:attr/textAppearanceLarge"/>
     </RelativeLayout>
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="44dp"
-         android:layout_marginLeft="12dp"
-         android:layout_marginRight="12dp"
-         android:orientation="horizontal">
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/darkgray"
-             android:textSize="@dimen/medium_text_size"
-             android:text="当前评价语："/>
-         <TextView
-             android:id="@+id/tv_show_words"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:textColor="@color/black"
-             android:textSize="@dimen/medium_text_size"
-             android:text="很好非常好"/>
-         <Button
-             android:id="@+id/btn_edit_words"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/text_press"
-             android:textSize="@dimen/medium_text_size"
-             android:text="修改评价语"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkgray"
+            android:textSize="@dimen/medium_text_size"
+            android:text="当前评价语："/>
+        <TextView
+            android:id="@+id/tv_show_words"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text_size"
+            android:text="很好非常好"/>
+        <Button
+            android:id="@+id/btn_edit_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="修改评价语"/>
 
-     </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_start"

@@ -115,11 +115,6 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
 
     }
 
-
-    private void toast(String str){
-        Toast.makeText(FunctionSetupActivity.this,str,Toast.LENGTH_LONG).show();
-    }
-
     private void showEditMinPingjiaDialog() {
         View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pingjia_word_layout,null);
         final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);

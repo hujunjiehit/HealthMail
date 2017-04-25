@@ -365,6 +365,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 try{
                     Gson gson = new Gson();
                     TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
+                    response.body().close();
                     if(tokenmodel.getData() == null){
                         //一般是用户名或者密码错误
                         Log.e("test","message = " + tokenmodel.getMsg());
@@ -412,6 +413,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call call, Response response) throws IOException {
                 try{
                     ordersModel = gson.fromJson(response.body().charStream(), OrdersModel.class);
+                    response.body().close();
                     //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
                     if(ordersModel.isSucceed()){
                         //获取成功之后
@@ -470,6 +472,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     pingjiaModel = gson.fromJson(response.body().charStream(), PingjiaModel.class);
+                    response.body().close();
                     Log.e("test","succeed = " + pingjiaModel.isSucceed());
                     if(pingjiaModel.isSucceed()){
                         mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());

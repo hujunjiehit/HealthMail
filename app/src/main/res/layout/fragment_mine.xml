@@ -91,14 +91,14 @@
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/login_user_icon_bg_new"
             android:padding="3dp"
             android:src="@drawable/login_dog" />
 
             <TextView
             android:id="@+id/tv_uid"
-            android:layout_width="110dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/user_icon"
             android:layout_marginLeft="15dp"
@@ -168,6 +168,78 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:layout_margin="6dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:textSize="16sp"
+                    android:text="今日剩余评价次数"/>
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="#d2d2d2" />
+                <TextView
+                    android:id="@+id/tv_pingjia_times"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:textSize="16sp"
+                    android:text="--"/>
+                <Button
+                    android:id="@+id/btn_add_pingjia_times"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_press"
+                    android:textSize="@dimen/medium_text_size"
+                    android:text="充值"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_margin="6dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:textSize="16sp"
+                    android:text="今日剩余约课次数"/>
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="#d2d2d2" />
+                <TextView
+                    android:id="@+id/tv_yueke_times"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:textSize="16sp"
+                    android:text="--"/>
+                <Button
+                    android:id="@+id/btn_add_yueke_times"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_press"
+                    android:textSize="@dimen/medium_text_size"
+                    android:text="充值"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -185,7 +257,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:textSize="15sp"
         android:textColor="@color/red"
@@ -196,10 +268,10 @@
         android:id="@+id/tv_go_to_taobao"
         android:layout_above="@id/tv_qq_group"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:padding="4dp"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/text_press"
         android:textSize="20sp"
         android:autoLink="all"
@@ -209,10 +281,10 @@
         android:id="@+id/tv_go_to_buy_coins"
         android:layout_above="@id/tv_go_to_taobao"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:padding="4dp"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/text_press"
         android:textSize="20sp"
         android:autoLink="all"

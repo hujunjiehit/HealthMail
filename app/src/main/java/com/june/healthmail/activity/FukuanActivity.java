@@ -470,6 +470,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         try{
           Gson gson = new Gson();
           TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
+          response.body().close();
           if(tokenmodel.getData() == null){
             //一般是用户名或者密码错误
             Log.e("test","message = " + tokenmodel.getMsg());
@@ -510,6 +511,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         try{
           Gson gson = new Gson();
           GetUserModel getUserModel = gson.fromJson(response.body().charStream(), GetUserModel.class);
+          response.body().close();
           //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
           //获取成功之后
           if(getUserModel.isSucceed()){
@@ -547,6 +549,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         try {
           Gson gson = new Gson();
           GetOrderListModel getOrderListModel = gson.fromJson(response.body().charStream(), GetOrderListModel.class);
+          response.body().close();
           //获取成功之后
           if(getOrderListModel.isSucceed()){
             Message msg = mHandler.obtainMessage(GET_ORDER_LIST_SUCCESS);
@@ -582,6 +585,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
               try {
                 Gson gson = new Gson();
                 GetAllPaymentModel getAllPaymentModel = gson.fromJson(response.body().charStream(), GetAllPaymentModel.class);
+                response.body().close();
                 //获取成功之后
                 if(getAllPaymentModel.isSucceed()){
                   Message msg = mHandler.obtainMessage(GET_ALL_PAYMENT_SUCCESS);
@@ -628,6 +632,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           Gson gson = new Gson();
           if (payType == 3){
             GetPayInfoModel getPayInfoModel = gson.fromJson(response.body().charStream(), GetPayInfoModel.class);
+            response.body().close();
             //获取成功之后
             if(getPayInfoModel.isSucceed()){
               Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
@@ -638,6 +643,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             }
           }else if(payType == 7){
             GetPayInfoTonglianModel getPayInfoTonglianModel = gson.fromJson(response.body().charStream(), GetPayInfoTonglianModel.class);
+            response.body().close();
             //获取成功之后
             if(getPayInfoTonglianModel.isSucceed()){
               Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
@@ -648,6 +654,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             }
           }else if(payType == 6) {
             GetPayInfoKuaijieModel getPayInfoKuaijieModel = gson.fromJson(response.body().charStream(), GetPayInfoKuaijieModel.class);
+            response.body().close();
             //获取成功之后
             if(getPayInfoKuaijieModel.isSucceed()){
               Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
@@ -658,6 +665,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             }
           }else if(payType == 5) {
             GetPayInfoJingdongModel getPayInfoJingdongModel = gson.fromJson(response.body().charStream(), GetPayInfoJingdongModel.class);
+            response.body().close();
             //获取成功之后
             if(getPayInfoJingdongModel.isSucceed()){
               Message msg = mHandler.obtainMessage(GET_PAYINFO_SUCCESS);
@@ -976,8 +984,5 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(offset > tvShowResult.getHeight()){
       tvShowResult.scrollTo(0,offset- tvShowResult.getHeight());
     }
-  }
-  private void toast(String msg){
-    Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
   }
 }

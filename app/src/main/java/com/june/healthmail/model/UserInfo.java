@@ -17,8 +17,37 @@ public class UserInfo extends BmobUser {
   private Integer appVersion;
   private String installId;
 
+  private String lastDay;
+  private Integer yuekeTimes;
+  private Integer pingjiaTimes;
+
+
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
+
+  public String getLastDay() {
+    return lastDay;
+  }
+
+  public void setLastDay(String lastDay) {
+    this.lastDay = lastDay;
+  }
+
+  public Integer getYuekeTimes() {
+    return yuekeTimes;
+  }
+
+  public void setYuekeTimes(Integer yuekeTimes) {
+    this.yuekeTimes = yuekeTimes;
+  }
+
+  public Integer getPingjiaTimes() {
+    return pingjiaTimes;
+  }
+
+  public void setPingjiaTimes(Integer pingjiaTimes) {
+    this.pingjiaTimes = pingjiaTimes;
+  }
 
   public Integer getCoinsNumber() {
     return coinsNumber;

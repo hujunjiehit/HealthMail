@@ -427,6 +427,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try {
                     Gson gson = new Gson();
                     TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
+                    response.body().close();
                     if(tokenmodel.getData() == null){
                         //一般是用户名或者密码错误
                         Log.e("test","message = " + tokenmodel.getMsg());
@@ -469,6 +470,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try{
                     Gson gson = new Gson();
                     GuanzhuListModel guanzhuListModel = gson.fromJson(response.body().charStream(), GuanzhuListModel.class);
+                    response.body().close();
                     //Log.e("test","userName = " + ordersModel.getAccessToken().getUserName());
                     //获取成功之后
                     if(guanzhuListModel.isSucceed()){
@@ -510,6 +512,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try{
                     Gson gson = new Gson();
                     CourseListModel courseListModel = gson.fromJson(response.body().charStream(), CourseListModel.class);
+                    response.body().close();
                     if(courseListModel.isSucceed()) {
                         Message msg = mHandler.obtainMessage(GET_COURSE_LIST_SUCESS);
                         msg.obj = courseListModel;
@@ -548,6 +551,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try {
                     Gson gson = new Gson();
                     GroupbuyUserModel groupbuyUserModel = gson.fromJson(response.body().charStream(), GroupbuyUserModel.class);
+                    response.body().close();
                     //获取成功之后
                     if(groupbuyUserModel.isSucceed()) {
                         Message msg = mHandler.obtainMessage(GET_COURSE_USERS_SUCESS);
@@ -587,6 +591,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try {
                     Gson gson = new Gson();
                     CourseDetailModel courseDetailModel = gson.fromJson(response.body().charStream(), CourseDetailModel.class);
+                    response.body().close();
                     //获取成功之后
                     if(courseDetailModel.isSucceed()) {
                         Message msg = mHandler.obtainMessage(GET_COURSE_DETAILS_SUCESS);
@@ -637,6 +642,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 try {
                     Gson gson = new Gson();//java.lang.IllegalStateException
                     PostYuekeModel postYuekeModel = gson.fromJson(response.body().charStream(), PostYuekeModel.class);
+                    response.body().close();
                     //获取成功之后
                     if(postYuekeModel.isSucceed()){
                         Message msg = mHandler.obtainMessage(YUE_KE_SUCESS);

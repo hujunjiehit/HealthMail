@@ -51,7 +51,6 @@
 
         <activity
             android:name=".activity.LoginActivityOnekey"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
 
@@ -78,6 +77,11 @@
 
         <activity
             android:name=".activity.FukuanActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".activity.UnbindActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
 

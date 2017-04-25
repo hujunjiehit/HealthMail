@@ -29,13 +29,17 @@ import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.untils.TimeUntils;
 
+import java.sql.Time;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
@@ -51,6 +55,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private static final int START_TO_LOGIN = 2;
   private static final int USER_LOGIN_SUCESS = 3;
   private static final int GO_TO_MAIN_ACTIVITY = 4;
+  private static final int GO_TO_UNBIND_ACTIVITY = 5;
+  private static final int REQUEST_CODE_REGISTER = 6;
+
 
   private ToggleButton mTgBtnShowPsw;
   private EditText mEditPsw;
@@ -66,6 +73,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private Handler mHandler = new Handler(){
     @Override
     public void handleMessage(Message msg) {
+      Intent intent;
       switch (msg.what) {
         case START_TO_LOGIN:
           login();
@@ -122,13 +130,21 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           if(showProgress != null && showProgress.isShowing()){
             showProgress.dismiss();
           }
-          Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+          intent = new Intent(LoginActivity.this, MainActivity.class);
           if(objectUid != null) {
             intent.putExtra("uid",objectUid);
           }
           startActivity(intent);
           overridePendingTransition(0, 0);
           LoginActivity.this.finish();
+          break;
+        case GO_TO_UNBIND_ACTIVITY:
+          Log.d("test","go to unbind activity");
+          intent = new Intent(LoginActivity.this, UnbindActivity.class);
+          Bundle bundle = new Bundle();
+          bundle.putSerializable("deviceInfo",deviceInfo);
+          intent.putExtras(bundle);
+          startActivity(intent);
           break;
         default:
           break;
@@ -276,7 +292,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           if(showProgress != null && showProgress.isShowing()){
             showProgress.dismiss();
           }
-          Toast.makeText(LoginActivity.this, "登录失败:"+e.getMessage(), Toast.LENGTH_LONG).show();
+          if (e.getErrorCode() == 101) {
+            Toast.makeText(LoginActivity.this, "用户名或者密码不正确，请重试", Toast.LENGTH_LONG).show();
+          } else {
+            Toast.makeText(LoginActivity.this, "登录失败:"+e.getMessage(), Toast.LENGTH_LONG).show();
+          }
+
         }
       }
     });
@@ -315,7 +336,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         clearText(mEditPsw);
         break;
       case R.id.tv_quick_sign_up:	//快速注册
-        startActivity(new Intent(this, LoginActivityOnekey.class));
+        //startActivity(new Intent(this, LoginActivityOnekey.class));
+        Intent intent = new Intent(this,LoginActivityOnekey.class);
+        startActivityForResult(intent,REQUEST_CODE_REGISTER);
         break;
       case R.id.tv_find_back_psw:	//找回密码
         startActivity(new Intent(this, ResetPasswordActivity.class));
@@ -384,8 +407,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
   private void startToUnbindDevice() {
     String userName = mEditUid.getText().toString();
-    if(TextUtils.isEmpty(userName)){
-      toast("请先在账号输入框输入账号再解绑");
+    String pwd = mEditPsw.getText().toString();
+    if(TextUtils.isEmpty(userName) || TextUtils.isEmpty(pwd)){
+      toast("请先输入账号密码再解绑");
     }else {
       if (showProgress != null && !showProgress.isShowing()) {
         showProgress.setMessage("正在查询设备信息...");
@@ -417,49 +441,42 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private void showUnbindDeviceDialog() {
     if(deviceInfo != null) {
       if(TextUtils.isEmpty(deviceInfo.getDeviceId())){
-        toast("当前账号暂无绑定设备，无需解绑");
+        toast("当前账号暂未绑定设备，无需解绑");
         return;
       }
-      AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
-              .setTitle("重要提示")
-              .setMessage("每个帐号可以解除三次设备绑定，当前剩余解绑次数：" + deviceInfo.getUnbindTimes() + "\n\n是否确定解绑?")
-              .setNegativeButton("取消解绑", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  dialog.dismiss();
-                }
-              })
-              .setPositiveButton("确定解绑", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  dialog.dismiss();
-                  Log.d("test", "用户选择确定解绑");
-                  if (showProgress != null && !showProgress.isShowing()) {
-                    showProgress.setMessage("正在解绑...");
-                    showProgress.show();
-                  }
-                  deviceInfo.setDeviceId("");
-                  deviceInfo.setDeviceMac("");
-                  deviceInfo.setDeviceDesc("");
-                  deviceInfo.setUnbindTimes(deviceInfo.getUnbindTimes()-1);
-                  deviceInfo.update(new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                      if (showProgress != null && showProgress.isShowing()) {
-                        showProgress.dismiss();
-                      }
-                      if(e == null){
-                        Log.d("test","解绑成功");
-                        toast("解绑成功");
-                      }else{
-                        toast("解绑失败，请重试");
-                        Log.d("test","解绑失败，" + e.getMessage());
-                      }
-                    }
-                  });
-                }
-              }).create();
-      dialog.show();
+
+      //登录才能解绑
+      String userName = mEditUid.getText().toString();
+      String pwd = mEditPsw.getText().toString();
+      final UserInfo user = new UserInfo();
+      user.setUsername(userName);
+      user.setPassword(pwd);
+      user.login(new SaveListener<Object>() {
+        @Override
+        public void done(Object o, BmobException e) {
+          //密码验证成功才能解绑
+          if( e == null) {
+            //将用户名和密码保存到Preference
+            SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putString("uid", mEditUid.getText().toString());
+            edit.putString("pwd", mEditPsw.getText().toString());
+            edit.commit();
+
+            Log.d("test","登陆成功，跳转到解绑界面");
+            Message msg = mHandler.obtainMessage();
+            //msg.obj = deviceInfo;
+            mHandler.sendEmptyMessage(GO_TO_UNBIND_ACTIVITY);
+          } else {
+            if (e.getErrorCode() == 101) {
+              Toast.makeText(LoginActivity.this, "用户名或者密码不正确，请重试", Toast.LENGTH_LONG).show();
+            } else {
+              Toast.makeText(LoginActivity.this, "登录失败:"+e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+          }
+        }
+      });
+
     }
   }
   private void showDeviceErrorDialog(DeviceInfo deviceInfo) {
@@ -503,6 +520,16 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
       //隐藏密码
       mEditPsw.setTransformationMethod(
           PasswordTransformationMethod.getInstance());
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    Log.e("test","onActivityResult, requestCode = " + requestCode + "  resultCode = " + resultCode);
+    if(requestCode == REQUEST_CODE_REGISTER && resultCode == RESULT_OK) {
+      Log.e("test","userName = " + data.getExtras().getString("userName"));
+      mEditUid.setText(data.getExtras().getString("userName"));
+      mEditPsw.setText(data.getExtras().getString("passWord"));
     }
   }
 }

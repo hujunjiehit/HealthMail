@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -56,7 +58,8 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
 
     private Button btn_start;
     private TextView tvShowResult;
-
+    private TextView tvRemainTimes;
+    private UserInfo userInfo;
     private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
     private Boolean isRunning = false;
@@ -102,6 +105,13 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 case START_TO_PING_JIA:
                     if(isRunning) {
                         if (accountIndex < accountList.size()) {
+                            if (PreferenceHelper.getInstance().getRemainPingjiaTimes() <= 0) {
+                                showTheResult("剩余评价次数不足，请先充值");
+                                toast("剩余评价次数不足，请先充值");
+                                isRunning = false;
+                                btn_start.setText("评价完成");
+                                return;
+                            }
                             showTheResult("开始评价第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
                             if (accountList.get(accountIndex).getStatus() == 1) {
                                 getAccountToken();
@@ -197,6 +207,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                             showTheResult("******第" + (pageIndex +1) + "页订单小于20，继续评价下一个小号\n");
                             showTheResult("此账号评价结束************************\n\n\n");
                             accountIndex++;
+                            updateUserInfo();
                             message = this.obtainMessage(START_TO_PING_JIA);
                             message.sendToTarget();
                         }else {
@@ -210,6 +221,8 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 case PING_JIA_ONE_COURSE_SUCCESS:
                     showTheResult("评价成功\n");
                     courseIndex++;
+                    CommonUntils.minusPingjiaTimes();
+                    tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "");
                     this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,getDelayTime());
                     break;
 
@@ -249,6 +262,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
             finish();
         }
         setContentView(R.layout.activity_pingjia);
+        userInfo = BmobUser.getCurrentUser(UserInfo.class);
         initView();
         setListener();
         initData();
@@ -266,6 +280,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
         btn_start = (Button) findViewById(R.id.btn_start);
         tvShowResult = (TextView) findViewById(R.id.et_show_result);
         tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
+        tvRemainTimes = (TextView) findViewById(R.id.tv_remmain_times);
     }
 
     private void setListener() {
@@ -279,6 +294,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
         if(pingjiaWord != null){
             tv_show_words.setText(pingjiaWord);
         }
+        tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "");
 
         SQLiteDatabase db = DBManager.getInstance(this).getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
@@ -315,6 +331,10 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 if("评价完成".equals(btn_start.getText().toString().trim())){
                     Toast.makeText(this,"评价已完成，如需继续评价请重新进入本页面",Toast.LENGTH_LONG).show();
                 }else {
+                    if(PreferenceHelper.getInstance().getRemainPingjiaTimes() <= 0) {
+                        toast("今日评价次数已用完，请充值");
+                        return;
+                    }
                     if (isRunning == false) {
                         isRunning = true;
                         btn_start.setText("停止评价");
@@ -523,5 +543,21 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        updateUserInfo();
+    }
+
+    public void updateUserInfo(){
+        userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+        userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
+        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    Log.e("test","更新用户信息成功");
+                }else{
+                    Log.e("test","更新用户信息失败");
+                }
+            }
+        });
     }
 }

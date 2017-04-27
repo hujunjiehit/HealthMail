@@ -202,36 +202,13 @@ public class CommonUntils {
     }
   }
 
-  public static void initYuekePingjiaTimes(Long aLong) {
-    UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
-    String serverDay = TimeUntils.transForDate1(new Integer(String.valueOf(aLong)));
-    Log.e("test"," serverDay = " + serverDay);
-    Log.e("test"," lastDay = " + userInfo.getLastDay());
-    if(TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {
-      Log.e("test","null or today");
-      PreferenceHelper.getInstance().setRemainYuekeTimes(userInfo.getYuekeTimes());
-      PreferenceHelper.getInstance().setRemainPingjiaTimes(userInfo.getPingjiaTimes());
-      if(TextUtils.isEmpty(userInfo.getLastDay())) {
-        userInfo.setLastDay(serverDay);
-      }
-    } else {
-      Log.e("test","not today");
-      userInfo.setLastDay(serverDay);
-      userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-      userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-      PreferenceHelper.getInstance().setRemainYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-      PreferenceHelper.getInstance().setRemainPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-    }
+  public static void minusPingjiaTimes() {
+    PreferenceHelper mHelper = PreferenceHelper.getInstance();
+    mHelper.setRemainPingjiaTimes(mHelper.getRemainPingjiaTimes() - 1);
+  }
 
-    userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
-      @Override
-      public void done(BmobException e) {
-        if(e == null) {
-          Log.e("test","userInfo update sucess");
-        } else {
-          Log.e("test","e = " + e.getMessage());
-        }
-      }
-    });
+  public static void minusYuekeTimes() {
+    PreferenceHelper mHelper = PreferenceHelper.getInstance();
+    mHelper.setRemainYuekeTimes(mHelper.getRemainYuekeTimes() - 1);
   }
 }

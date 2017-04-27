@@ -352,7 +352,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getRemainYuekeTimes() {
-        int value = 500;
+        int value = getFreeTimesPerday();
         checkPrefs();
         if (prefs != null) {
             value = prefs.getInt(KEY_REMAIN_YUEKE_TIMES,value);
@@ -374,7 +374,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getRemainPingjiaTimes() {
-        int value = 500;
+        int value = getFreeTimesPerday();
         checkPrefs();
         if (prefs != null) {
             value = prefs.getInt(KEY_REMAIN_PINGJIA_TIMES,value);

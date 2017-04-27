@@ -48,6 +48,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -61,6 +63,8 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
 
     private Button btn_start;
     private TextView tvShowResult;
+    private TextView tvRemainTimes;
+    private UserInfo userInfo;
 
     private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
@@ -113,6 +117,13 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 case START_TO_YUE_KE:
                     if(isRunning) {
                         if (accountIndex < accountList.size()) {
+                            if (PreferenceHelper.getInstance().getRemainYuekeTimes() <= 0) {
+                                showTheResult("剩余约课次数不足，请先充值");
+                                toast("剩余约课次数不足，请先充值");
+                                isRunning = false;
+                                btn_start.setText("约课完成");
+                                return;
+                            }
                             showTheResult("开始约课第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
                             if (accountList.get(accountIndex).getStatus() == 1) {
                                 getAccountToken();
@@ -175,6 +186,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                         }else {
                             showTheResult("*******用户设置了最多只约"+max_sijiao+"个私教，开始下一个小号\n\n\n");
                             accountIndex++;
+                            updateUserInfo();
                             message = this.obtainMessage(START_TO_YUE_KE);
                             message.sendToTarget();
                         }
@@ -182,6 +194,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     }else {
                         showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
                         accountIndex++;
+                        updateUserInfo();
                         message = this.obtainMessage(START_TO_YUE_KE);
                         message.sendToTarget();
                     }
@@ -271,6 +284,8 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 case YUE_KE_SUCESS:
                     showTheResult("----------------------------------约课成功\n");
                     courseIndex++;
+                    CommonUntils.minusYuekeTimes();
+                    tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "");
                     this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     break;
                 case YUE_KE_FAILED:
@@ -322,6 +337,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
             finish();
         }
         setContentView(R.layout.activity_yueke);
+        userInfo = BmobUser.getCurrentUser(UserInfo.class);
         initView();
         setListener();
         initData();
@@ -337,6 +353,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         btn_start = (Button) findViewById(R.id.btn_start);
         tvShowResult = (TextView) findViewById(R.id.et_show_result);
         tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
+        tvRemainTimes = (TextView) findViewById(R.id.tv_remmain_times);
     }
 
     private void setListener() {
@@ -346,6 +363,8 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
 
     private void initData() {
         accountList.clear();
+        tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "");
+
         SQLiteDatabase db = DBManager.getInstance(this).getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
         if(cursor.moveToFirst()){
@@ -378,6 +397,10 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 if("约课完成".equals(btn_start.getText().toString().trim())){
                     Toast.makeText(this,"约课已完成，如需继续约课请重新进入本页面",Toast.LENGTH_LONG).show();
                 }else {
+                    if(PreferenceHelper.getInstance().getRemainYuekeTimes() <= 0) {
+                        toast("今日约课次数已用完，请充值");
+                        return;
+                    }
                     if (isRunning == false) {
                         isRunning = true;
                         btn_start.setText("停止约课");
@@ -668,5 +691,27 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         if(offset > tvShowResult.getHeight()){
             tvShowResult.scrollTo(0,offset- tvShowResult.getHeight());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        updateUserInfo();
+    }
+
+    public void updateUserInfo(){
+        userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+        userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
+        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    Log.e("test","更新用户信息成功");
+                }else{
+                    Log.e("test","更新用户信息失败");
+                }
+            }
+        });
     }
 }

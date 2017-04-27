@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,6 +75,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private TextView mTvAllowDays;
   private TextView mTvCoinsNumber;
   private RelativeLayout ivGetHelp;
+  private RelativeLayout ivGetHelpAddPingjia;
+  private RelativeLayout ivGetHelpAddYueke;
 
   private UserInfo userInfo;
 
@@ -93,6 +99,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private boolean success1 = false;
   private boolean success2 = false;
+  private PreferenceHelper sph;
 
   private Handler mHandler = new Handler(){
     @Override
@@ -183,6 +190,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       return layout;
     }
     layout = inflater.inflate(R.layout.fragment_mine, container, false);
+    sph = PreferenceHelper.getInstance();
     initView();
     setOnListener();
     initLogin();
@@ -197,6 +205,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     if(userInfo != null){
       userInfo = BmobUser.getCurrentUser(UserInfo.class);
       setUserDetails();
+      tvYuekeTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "次");
+      tvPingjiaTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "次");
     }
   }
 
@@ -212,6 +222,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     tvGoToBuyConins = (TextView) layout.findViewById(R.id.tv_go_to_buy_coins);
     ivUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     ivGetHelp = (RelativeLayout) layout.findViewById(R.id.iv_get_help);
+    ivGetHelpAddPingjia = (RelativeLayout) layout.findViewById(R.id.iv_get_help_add_pigjia);
+    ivGetHelpAddYueke = (RelativeLayout) layout.findViewById(R.id.iv_get_help_add_yueke);
     tvYuekeTimes = (TextView) layout.findViewById(R.id.tv_yueke_times);
     tvPingjiaTimes = (TextView) layout.findViewById(R.id.tv_pingjia_times);
     btnAddPingjiaTimes = (Button) layout.findViewById(R.id.btn_add_pingjia_times);
@@ -224,6 +236,11 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     tvGoToBuyConins.setOnClickListener(this);
     ivUserIcon.setOnClickListener(this);
     ivGetHelp.setOnClickListener(this);
+    btnAddPingjiaTimes.setOnClickListener(this);
+    btnAddYuekeTimes.setOnClickListener(this);
+    ivGetHelpAddPingjia.setOnClickListener(this);
+    ivGetHelpAddYueke.setOnClickListener(this);
+
   }
 
   /**
@@ -400,9 +417,47 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       case R.id.iv_get_help: // 金币帮助问号
         showGethelpDialog();
         break;
+      case R.id.iv_get_help_add_pigjia: // 金币帮助问号
+        showAddPingjiaDialog();
+        break;
+      case R.id.iv_get_help_add_yueke: // 金币帮助问号
+        showAddYuekeDialog();
+        break;
+      case R.id.btn_add_pingjia_times: //充值评价次数
+        showAddPingjiaTimesDialog();
+        break;
+      case R.id.btn_add_yueke_times:  //充值约课次数
+        showAddYuekeTimesDialog();
+        break;
       default:
         break;
     }
+  }
+
+  private void showAddYuekeDialog() {
+    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+        .setTitle("约课次数说明")
+        .setMessage("1.每成功约一节课消耗一次约课次数\n\n2. 每天的免费约课次数过了晚上十二点，重新登陆之后，自动恢复\n\n3. 免费次数用完的，如果还想继续使用，需要充值约课次数\n\n4.消耗一个金币可以充值10次约课次数")
+        .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+          }
+        }).create();
+    dialog.show();
+  }
+
+  private void showAddPingjiaDialog() {
+    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+        .setTitle("评价次数说明")
+        .setMessage("1.每成功评价一节课消耗一次评价次数\n\n2. 每天的免费评价次数过了晚上十二点，重新登陆之后，自动恢复\n\n3. 免费次数用完的，如果还想继续使用，需要充值评价次数\n\n4.消耗一个金币可以充值10次评价次数")
+        .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+          }
+        }).create();
+    dialog.show();
   }
 
   private void showGethelpDialog() {
@@ -602,5 +657,149 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       intent.setClass(getActivity(),WebViewActivity.class);
       startActivity(intent);
     }
+  }
+
+  private void showAddPingjiaTimesDialog(){
+    View diaog_view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_times,null);
+    final EditText et_input_times = (EditText) diaog_view.findViewById(R.id.et_input_add_times);
+    final TextView tv_show_cost_coins = (TextView) diaog_view.findViewById(R.id.tv_cost_coins);
+    et_input_times.setInputType(InputType.TYPE_CLASS_NUMBER);
+    et_input_times.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(!TextUtils.isEmpty(s)) {
+          tv_show_cost_coins.setText((Integer.valueOf(s.toString()) - 1)/10 + 1 + "个金币");
+        } else {
+          tv_show_cost_coins.setText("");
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+      }
+    });
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setTitle("充值评价次数");
+    builder.setView(diaog_view);
+    builder.setNegativeButton("取消充值", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+    builder.setPositiveButton("确定充值", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(et_input_times.getText().toString().trim())){
+          toast("充值次数不能为空！");
+          return;
+        }
+        final int number,cost;
+        number = Integer.valueOf(et_input_times.getText().toString().trim());
+        cost = (number - 1)/10 + 1;
+        Log.e("test", "充值消耗金币数量：" + cost);
+        Log.e("test","用户当前金币数量:" + userInfo.getCoinsNumber());
+        if(userInfo.getCoinsNumber() < cost) {
+          toast("金币余额不足，请先购买金币！");
+          return;
+        }
+        userInfo.setCoinsNumber(userInfo.getCoinsNumber() - cost);
+        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+          @Override
+          public void done(BmobException e) {
+            if(e==null){
+              Log.e("test", "扣除" + cost + "个金币");
+              toast("扣除" + cost + "个金币");
+              sph.setRemainPingjiaTimes(sph.getRemainPingjiaTimes() + number);
+              userInfo.setPingjiaTimes(sph.getRemainPingjiaTimes());
+              mHandler.sendEmptyMessage(UPDATE_USER_INFO);
+            }else{
+              Log.e("test","金币扣除失败");
+            }
+          }
+        });
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showAddYuekeTimesDialog(){
+    View diaog_view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_times,null);
+    final EditText et_input_times = (EditText) diaog_view.findViewById(R.id.et_input_add_times);
+    final TextView tv_show_cost_coins = (TextView) diaog_view.findViewById(R.id.tv_cost_coins);
+    et_input_times.setInputType(InputType.TYPE_CLASS_NUMBER);
+    et_input_times.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(!TextUtils.isEmpty(s)) {
+          tv_show_cost_coins.setText((Integer.valueOf(s.toString()) - 1)/10 + 1 + "个金币");
+        } else {
+          tv_show_cost_coins.setText("");
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+      }
+    });
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setTitle("充值约课次数");
+    builder.setView(diaog_view);
+    builder.setNegativeButton("取消充值", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+    builder.setPositiveButton("确定充值", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(et_input_times.getText().toString().trim())){
+          toast("充值次数不能为空！");
+          return;
+        }
+        final int number,cost;
+        number = Integer.valueOf(et_input_times.getText().toString().trim());
+        cost = (number - 1)/10 + 1;
+        Log.e("test", "充值消耗金币数量：" + cost);
+        Log.e("test","用户当前金币数量:" + userInfo.getCoinsNumber());
+        if(userInfo.getCoinsNumber() < cost) {
+          toast("金币余额不足，请先购买金币！");
+          return;
+        }
+        userInfo.setCoinsNumber(userInfo.getCoinsNumber() - cost);
+        userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+          @Override
+          public void done(BmobException e) {
+            if(e==null){
+              Log.e("test", "扣除" + cost + "个金币");
+              toast("扣除" + cost + "个金币");
+              sph.setRemainYuekeTimes(sph.getRemainYuekeTimes() + number);
+              userInfo.setYuekeTimes(sph.getRemainYuekeTimes());
+              mHandler.sendEmptyMessage(UPDATE_USER_INFO);
+            }else{
+              Log.e("test","金币扣除失败");
+            }
+          }
+        });
+      }
+    });
+    builder.create().show();
+  }
+
+  private void toast(String str){
+    Toast.makeText(getActivity(),str,Toast.LENGTH_SHORT).show();
   }
 }

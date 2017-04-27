@@ -1,6 +1,7 @@
 package com.june.healthmail.application;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.june.healthmail.Config.BmobConfig;
 import com.june.healthmail.untils.PreferenceHelper;
@@ -39,7 +40,10 @@ public class MyApplication extends Application{
 
   @Override
   public void onTerminate() {
-    super.onTerminate();
     SpotManager.getInstance(getApplicationContext()).onAppExit();
+    Log.e("test","application onTerminate");
+    super.onTerminate();
   }
+
+
 }

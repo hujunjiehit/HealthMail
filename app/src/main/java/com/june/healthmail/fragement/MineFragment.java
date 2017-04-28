@@ -131,25 +131,27 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 String serverDay = TimeUntils.transForDate1(new Integer(String.valueOf(aLong)));
                 Log.e("test"," serverDay = " + serverDay);
                 Log.e("test"," lastDay = " + userInfo.getLastDay());
+                int x = 1;
+                if (userInfo.getUserType() == 3) {
+                  //高级永久用户
+                  x = 2;
+                }
                 if(TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {
                   Log.e("test","null or today");
                   if(TextUtils.isEmpty(userInfo.getLastDay())) {
                     userInfo.setLastDay(serverDay);
-                    userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-                    userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                    userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
+                    userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
                   }
                   PreferenceHelper.getInstance().setRemainYuekeTimes(userInfo.getYuekeTimes());
                   PreferenceHelper.getInstance().setRemainPingjiaTimes(userInfo.getPingjiaTimes());
-                  if(TextUtils.isEmpty(userInfo.getLastDay())) {
-                    userInfo.setLastDay(serverDay);
-                  }
                 } else {
                   Log.e("test","not today");
                   userInfo.setLastDay(serverDay);
-                  userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-                  userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-                  PreferenceHelper.getInstance().setRemainYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
-                  PreferenceHelper.getInstance().setRemainPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday());
+                  userInfo.setYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
+                  userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
+                  PreferenceHelper.getInstance().setRemainYuekeTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
+                  PreferenceHelper.getInstance().setRemainPingjiaTimes(PreferenceHelper.getInstance().getFreeTimesPerday() * x);
                 }
                 success2 = true;
                 Log.e("test","success2 ");
@@ -289,9 +291,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       mTvUserType.setText("月卡用户");
       getServerTime();
       tvGoToTaobao.setVisibility(View.VISIBLE);
-    } else if (userInfo.getUserType() == 2){
+    } else if (userInfo.getUserType() == 2) {
       //永久用户
       mTvUserType.setText("永久用户");
+      mTvAllowDays.setVisibility(View.GONE);
+      tvGoToTaobao.setVisibility(View.GONE);
+    } else if (userInfo.getUserType() == 3) {
+      //永久用户
+      mTvUserType.setText("高级永久用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setVisibility(View.GONE);
     } else if(userInfo.getUserType() == -1){

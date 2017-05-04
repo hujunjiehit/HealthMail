@@ -272,16 +272,21 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     }
                     break;
                 case GET_COURSE_DETAILS_SUCESS:
-                    CourseDetailModel courseDetailModel = (CourseDetailModel)msg.obj;
+                  CourseDetailModel courseDetailModel = (CourseDetailModel)msg.obj;
+                  if(courseDetailModel.getValuse() == null) {
+                    showTheResult("---------------------课程详情有误，重新获取\n");
+                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS,getDelayTime());
+                  }else {
                     if(courseDetailModel.getValuse().getHm_gbc_currnum() < courseDetailModel.getValuse().getHm_gbc_maxnum()
-                            && courseDetailModel.getValuse().getHm_gbc_status() == 1){
-                        currentCourseDetail = courseDetailModel.getValuse();
-                        this.sendEmptyMessageDelayed(POST_YUE_KE_APPLAY,getDelayTime());
+                        && courseDetailModel.getValuse().getHm_gbc_status() == 1){
+                      currentCourseDetail = courseDetailModel.getValuse();
+                      this.sendEmptyMessageDelayed(POST_YUE_KE_APPLAY,getDelayTime());
                     }else {
-                        showTheResult("---------------------课程已经约满了\n");
-                        courseIndex++;
-                        this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
+                      showTheResult("---------------------课程已经约满了\n");
+                      courseIndex++;
+                      this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }
+                  }
                     break;
                 case POST_YUE_KE_APPLAY:
                     showTheResult("------------------------------发送约课申请\n");

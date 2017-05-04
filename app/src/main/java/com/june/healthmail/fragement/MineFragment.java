@@ -134,8 +134,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 int x = 1;
                 if (userInfo.getUserType() == 3) {
                   //高级永久用户
-                  x = 2;
+                  x = 3;
                 }
+
                 if(TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {
                   Log.e("test","null or today");
                   if(TextUtils.isEmpty(userInfo.getLastDay())) {

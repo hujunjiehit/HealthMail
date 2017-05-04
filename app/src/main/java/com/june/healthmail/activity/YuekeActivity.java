@@ -69,6 +69,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
     private Boolean isRunning = false;
+    private String mallId;
 
     private int offset;
 
@@ -103,11 +104,13 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     private ArrayList<Course> coureseList = new ArrayList<>();
     private CourseDetail currentCourseDetail;
 
+
     private static final int DEELAY_TIME = 1000;
     private int min_time;
     private int max_time;
     private int max_sijiao;
     private String errmsg;
+    private int max_courses = 50;
 
     private Handler mHandler = new Handler(){
 
@@ -164,6 +167,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                         for (int i = 0; i < guanzhuListModel.getValuse().size(); i++) {
                             guanzhuList.add(guanzhuListModel.getValuse().get(i));
                         }
+                        mallId = guanzhuListModel.getValuse().get(0).getUser_id_fans();
                         message = this.obtainMessage(START_TO_GET_COURSE_LIST);
                         message.sendToTarget();
                     }else {
@@ -236,17 +240,19 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     GroupbuyUserModel groupbuyUserModel = (GroupbuyUserModel)msg.obj;
                     boolean isIntheList = false;
                     if(groupbuyUserModel.getValuse() != null){
-                        String mallId = groupbuyUserModel.getAccessToken().getMallId();
-                        for(GroupbuyUser groupbuyUser:groupbuyUserModel.getValuse()){
-                            if(mallId.equals(groupbuyUser.getUser_id())){
-                                isIntheList = true;
+                        //String mallId = groupbuyUserModel.getAccessToken().getMallId();
+                        if (mallId != null) {
+                            for(GroupbuyUser groupbuyUser:groupbuyUserModel.getValuse()){
+                                if(mallId.equals(groupbuyUser.getUser_id())){
+                                    isIntheList = true;
+                                }
                             }
                         }
                         if(isIntheList == true){
                             showTheResult("---------------------已经约过课了\n");
                             courseIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
-                        }else if(groupbuyUserModel.getValuse().size() >= 50){
+                        }else if(groupbuyUserModel.getValuse().size() >= max_courses){
                             showTheResult("---------------------课程已经约满了\n");
                             courseIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
@@ -338,6 +344,11 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         }
         setContentView(R.layout.activity_yueke);
         userInfo = BmobUser.getCurrentUser(UserInfo.class);
+        if(userInfo.getUserType() == 3) {
+            max_courses = 100;
+        } else {
+            max_courses = 50;
+        }
         initView();
         setListener();
         initData();

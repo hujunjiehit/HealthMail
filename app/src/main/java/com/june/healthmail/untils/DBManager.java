@@ -98,4 +98,10 @@ public class DBManager {
         db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
                 new String[]{phonenumber,pwd,1+"",id+""});
     }
+
+    public void deleteAccountInfo(String phonenumber) {
+        //db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
+           // new String[]{phonenumber,pwd,1+"",id+""});
+        db.delete("account","phonenumber = ?", new String[]{phonenumber});
+    }
 }

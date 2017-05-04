@@ -71,7 +71,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
             holder = (ViewHolder) convertView.getTag();
         }
         AccountInfo acountInfo = getItem(position);
-        holder.tvIndex.setText(""+acountInfo.getId());
+        holder.tvIndex.setText(""+ (position + 1));
         holder.tvPhonenumber.setText(acountInfo.getPhoneNumber());
         if(acountInfo.getNickName().equals("")){
             holder.tvNickName.setText("未知");

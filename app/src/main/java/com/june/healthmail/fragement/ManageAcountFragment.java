@@ -34,7 +34,7 @@ import java.util.ArrayList;
 /**
  * 小号管理fragment
  */
-public class ManageAcountFragment extends Fragment implements View.OnClickListener, AcountListAdapter.Callback, AdapterView.OnItemClickListener {
+public class ManageAcountFragment extends Fragment implements View.OnClickListener, AcountListAdapter.Callback, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
   private View layout;
 
@@ -76,6 +76,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   private void setOnListener() {
     ivAddButton.setOnClickListener(this);
     mListView.setOnItemClickListener(this);
+    mListView.setOnItemLongClickListener(this);
   }
 
   private void initData() {
@@ -194,6 +195,44 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         accountList.get(position).setStatus(1);
         DBManager.getInstance(getActivity()).updateAccountInfo(accountInfo.getId(),phonenumber,pwd);
         mAdapter.notifyDataSetChanged();
+        dialog.dismiss();
+      }
+    });
+    builder.create().show();
+  }
+
+  @Override
+  public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    showDeleteAccountDialog(accountList.get(position),position);
+    return true;
+  }
+
+  private void showDeleteAccountDialog(final AccountInfo accountInfo, final int position) {
+    View diaog_view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_edit_account_layout,null);
+    final EditText edit_text_phonenumber = (EditText) diaog_view.findViewById(R.id.edit_text_phonenumber);
+    final EditText edit_text_pwd = (EditText) diaog_view.findViewById(R.id.edit_text_pwd);
+    edit_text_phonenumber.setInputType(InputType.TYPE_CLASS_NUMBER);
+    edit_text_phonenumber.setText(accountInfo.getPhoneNumber());
+    edit_text_pwd.setText(accountInfo.getPassWord());
+
+    edit_text_phonenumber.setEnabled(false);
+    edit_text_pwd.setEnabled(false);
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setTitle("删除小号--" + (position + 1));
+    builder.setView(diaog_view);
+    builder.setNegativeButton("取消删除", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+    builder.setPositiveButton("确定删除", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        accountList.remove(position);
+        mAdapter.notifyDataSetChanged();
+        DBManager.getInstance(getActivity()).deleteAccountInfo(accountInfo.getPhoneNumber());
+        Toast.makeText(getActivity(),"小号" + (position + 1) + "删除成功",Toast.LENGTH_LONG).show();
         dialog.dismiss();
       }
     });

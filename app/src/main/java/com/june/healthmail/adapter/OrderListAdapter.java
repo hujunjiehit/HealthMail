@@ -49,6 +49,7 @@ public class OrderListAdapter extends BaseAdapter{
             holder = new ViewHolder();
             holder.tvNum = (TextView) convertView.findViewById(R.id.tv_num);
             holder.tvNickName = (TextView) convertView.findViewById(R.id.tv_nick_name);
+            holder.tvTime = (TextView) convertView.findViewById(R.id.tv_course_time);
             holder.tvPrice = (TextView) convertView.findViewById(R.id.tv_price);
             convertView.setTag(holder);
         } else {
@@ -57,6 +58,7 @@ public class OrderListAdapter extends BaseAdapter{
         HmOrder hmOrder = mOrderList.get(position);
         holder.tvNum.setText((position + 1) + "");
         holder.tvNickName.setText(hmOrder.getTrainerNick());
+        holder.tvTime.setText(hmOrder.getHM_GBC_ServerTime());
         holder.tvPrice.setText(hmOrder.getHM_OrderPrice()+"");
         return convertView;
     }
@@ -64,6 +66,7 @@ public class OrderListAdapter extends BaseAdapter{
     static class ViewHolder {
         TextView tvNum;
         TextView tvNickName;
+        TextView tvTime;
         TextView tvPrice;
     }
 }

@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +117,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
               userInfo.setInstallId(Installation.id(getActivity()));
             }
             success1 = true;
-            userInfo.setBindMac("hujunjie");
+            userInfo.setBindMac("testmac");
             Log.e("test","success1 ");
             if(success1 && success2) {
               mHandler.sendEmptyMessage(UPDATE_USER_INFO);
@@ -132,7 +133,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 Log.e("test"," serverDay = " + serverDay);
                 Log.e("test"," lastDay = " + userInfo.getLastDay());
                 int x = 1;
-                if (userInfo.getUserType() == 3) {
+                if (userInfo.getUserType() >= 3) {
                   //高级永久用户
                   x = 3;
                 }
@@ -296,9 +297,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       //永久用户
       mTvUserType.setText("永久用户");
       mTvAllowDays.setVisibility(View.GONE);
-      tvGoToTaobao.setVisibility(View.GONE);
+      tvGoToTaobao.setText("点击升级高级永久");
+      tvGoToTaobao.setVisibility(View.VISIBLE);
     } else if (userInfo.getUserType() == 3) {
-      //永久用户
+      //高级永久用户
       mTvUserType.setText("高级永久用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setVisibility(View.GONE);
@@ -542,7 +544,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                   }
                 });
           builder.create().show();
-      }else if(messageType == 5 || messageType == 6 ){
+      }else if(messageType == 5 || messageType == 6 || messageType == 7 || messageType == 8){
         //授权变动消息
         builder.setTitle("授权变动通知");
         if(messageType == 5){
@@ -561,6 +563,13 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         }else if(messageType == 6){
           builder.setMessage("永久授权开通成功");
           userInfo.setUserType(2);
+        }else if(messageType == 7){
+          builder.setMessage("成功升级高级永久");
+          userInfo.setUserType(3);
+          userInfo.setLastDay("");
+        }else if(messageType == 8){
+          builder.setMessage("成功开通付款永久");
+          userInfo.setPayStatus(1);
         }
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
           @Override

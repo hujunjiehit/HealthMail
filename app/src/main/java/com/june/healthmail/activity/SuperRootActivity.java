@@ -42,6 +42,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private Button btnAuthorizeOneDay;
     private Button btnAuthorizeForever;
     private Button btnGiveTheCoins;
+    private Button btnUpgradeUserLevel;
+    private Button btnUpdatePaystatus;
     private Button btnAddTheCoins;
 
     private TextView tvUserName;
@@ -89,6 +91,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnAuthorizeOneDay = (Button) findViewById(R.id.btn_authorize_one_day);
         btnAuthorizeForever = (Button) findViewById(R.id.btn_authorize_forever);
         btnGiveTheCoins = (Button) findViewById(R.id.btn_give_the_coins);
+        btnUpgradeUserLevel = (Button) findViewById(R.id.btn_upgrade_user_level);
+        btnUpdatePaystatus = (Button) findViewById(R.id.btn_update_pay_status);
         btnAddTheCoins = (Button) findViewById(R.id.btn_add_coins);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
@@ -98,6 +102,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             btnAuthorizeForever.setVisibility(View.GONE);
             btnAuthorizeByDays.setVisibility(View.GONE);
             btnAddTheCoins.setVisibility(View.GONE);
+            btnUpdatePaystatus.setVisibility(View.GONE);
         }
     }
 
@@ -107,6 +112,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnAuthorizeOneDay.setOnClickListener(this);
         btnAuthorizeForever.setOnClickListener(this);
         btnGiveTheCoins.setOnClickListener(this);
+        btnUpgradeUserLevel.setOnClickListener(this);
+        btnUpdatePaystatus.setOnClickListener(this);
         btnAddTheCoins.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
     }
@@ -130,14 +137,48 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.btn_authorize_one_day:
                 if(mUserInfo != null){
-                    authorizeUserOneDay();
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("提醒")
+                        .setMessage("是否为该用户开通试用授权？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                authorizeUserOneDay();
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                    dialog.show();
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
                 break;
             case R.id.btn_authorize_forever:
                 if(mUserInfo != null){
-                    authorizeUserForever();
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("提醒")
+                        .setMessage("是否为该用户开通永久授权？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                authorizeUserForever();
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                    dialog.show();
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
@@ -156,9 +197,126 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
                 break;
+            case R.id.btn_upgrade_user_level:
+                //升级高级永久
+                if(mUserInfo != null){
+                    if(mUserInfo.getUserType() != 2) {
+                        toast("只有永久用户才能升级高级永久");
+                        return;
+                    }
+
+                    //管理员用户不让升级高级永久，超级管理员才行
+                    if (currentUser.getUserType() == 99) {
+                        return;
+                    }
+
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("提醒")
+                        .setMessage("是否为该用户升级高级永久？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                upgradeUserLevel();
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                    dialog.show();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_update_pay_status:
+                if(mUserInfo != null){
+                    if(mUserInfo.getUserType() != 2) {
+                        toast("只有永久用户才能开通付款永久");
+                        return;
+                    }
+
+                    //管理员用户不让开通付款永久，超级管理员才行
+                    if (currentUser.getUserType() == 99) {
+                        return;
+                    }
+
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("提醒")
+                        .setMessage("是否为该用户开通付款永久？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updatePaystatus();
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                    dialog.show();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
             default:
                 break;
         }
+    }
+
+    private void updatePaystatus() {
+        //开通付款永久
+        MessageDetails messageDetails = new MessageDetails();
+        messageDetails.setUserName(mUserInfo.getUsername());
+        messageDetails.setStatus(1);
+        messageDetails.setScore(0);
+        messageDetails.setType(8);
+        messageDetails.setReasons("用户开通付款永久");
+        messageDetails.setRelatedUserName("");
+        messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+        messageDetails.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if(e==null){
+                    Log.d("test","用户开通付款永久成功：" + s);
+                    toast("用户开通付款永久成功");
+                }else{
+                    Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                    toast("用户开通付款永久失败:" + e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
+    }
+
+    private void upgradeUserLevel() {
+        //升级高级永久
+        MessageDetails messageDetails = new MessageDetails();
+        messageDetails.setUserName(mUserInfo.getUsername());
+        messageDetails.setStatus(1);
+        messageDetails.setScore(0);
+        messageDetails.setType(7);
+        messageDetails.setReasons("用户升级高级永久");
+        messageDetails.setRelatedUserName("");
+        messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+        messageDetails.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if(e==null){
+                    Log.d("test","用户升级高级永久成功：" + s);
+                    toast("用户升级高级永久成功");
+                }else{
+                    Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                    toast("用户升级高级永久失败:" + e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
     }
 
     private void authorizeUserOneDay() {
@@ -381,6 +539,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             typeDesc = "月卡用户";
         }else if(userType == 2) {
             typeDesc = "永久用户";
+        }else if(userType == 3) {
+            typeDesc = "高级永久用户";
         }else if(userType == 99) {
             typeDesc = "管理员用户";
         }else if(userType == 100) {

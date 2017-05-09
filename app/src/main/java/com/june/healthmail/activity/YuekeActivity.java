@@ -253,7 +253,11 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                             courseIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                         }else if(groupbuyUserModel.getValuse().size() >= max_courses){
-                            showTheResult("---------------------课程已经约满了\n");
+                            if(userInfo.getUserType() == 3) {
+                                showTheResult("---------------------课程已经约满了\n");
+                            } else {
+                                showTheResult("********请升级高级永久，普通永久只能约50节课\n");
+                            }
                             courseIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                         }else {
@@ -349,7 +353,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         }
         setContentView(R.layout.activity_yueke);
         userInfo = BmobUser.getCurrentUser(UserInfo.class);
-        if(userInfo.getUserType() == 3) {
+        if(userInfo.getUserType() >= 3) {
             max_courses = 100;
         } else {
             max_courses = 50;

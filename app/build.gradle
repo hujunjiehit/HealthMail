@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'android-apt'
+apply plugin: 'bugly'
 
 android {
     signingConfigs {
@@ -12,8 +13,8 @@ android {
         applicationId "com.june.healthmail"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 22
-        versionName "2.5.3"
+        versionCode 24
+        versionName "2.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -58,4 +59,10 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile project(path: ':pullToRefresh')
+}
+
+bugly {
+    appId = "c3044648f0" // 注册时分配的App ID
+    appKey = "024f968d-9b3d-4870-9fd8-006ebd74ca0b" // 注册时分配的App Key
+    debug = false
 }

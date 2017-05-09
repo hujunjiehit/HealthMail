@@ -36,6 +36,7 @@ public class MyApplication extends Application{
     PreferenceHelper.getInstance().setContext(this);
 
     CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
+    CrashReport.setUserId(PreferenceHelper.getInstance().getUid());
   }
 
   @Override
@@ -44,6 +45,5 @@ public class MyApplication extends Application{
     Log.e("test","application onTerminate");
     super.onTerminate();
   }
-
 
 }

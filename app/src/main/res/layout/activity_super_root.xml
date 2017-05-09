@@ -192,7 +192,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content">
 
         <Button
@@ -240,6 +240,32 @@
             android:textColor="@color/text_press"
             android:textSize="@dimen/medium_text_size"
             android:text="永久授权"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_update_pay_status"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="开通付款永久"/>
+
+        <Button
+            android:id="@+id/btn_upgrade_user_level"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="升级高级永久"/>
     </LinearLayout>
 
     <LinearLayout

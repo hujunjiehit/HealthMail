@@ -24,6 +24,15 @@ public class UserInfo extends BmobUser {
 
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
+  private Integer payStatus;  //付款插件开通状态
+
+  public Integer getPayStatus() {
+    return payStatus;
+  }
+
+  public void setPayStatus(Integer payStatus) {
+    this.payStatus = payStatus;
+  }
 
   public String getLastDay() {
     return lastDay;

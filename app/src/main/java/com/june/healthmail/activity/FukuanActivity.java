@@ -76,6 +76,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private Button btn_start;
   private TextView tvShowResult;
   private TextView tvCoinsNumber;
+  private TextView tvCoinsDesc;
 
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
@@ -184,9 +185,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                 }
                 if(hmOrders.size() > 0){
                   showTheResult("------------共有" + hmOrders.size() + "个订单\n");
-                  updateTheCoinsNumber();
-                  tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                  showTheResult("--------------金币余额-1\n");
+                  if(userInfo.getPayStatus() == null) {
+                    updateTheCoinsNumber();
+                    tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
+                    showTheResult("--------------金币余额-1\n");
+                  } else {
+                    if(userInfo.getPayStatus() != 1) {
+                      updateTheCoinsNumber();
+                      tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
+                      showTheResult("--------------金币余额-1\n");
+                    }
+                  }
                   this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
                 }else {
                   showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
@@ -352,6 +361,11 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     tvShowResult = (TextView) findViewById(R.id.et_show_result);
     tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
     tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
+    tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
+    if(userInfo.getPayStatus() != null && userInfo.getPayStatus() == 1) {
+      tvCoinsNumber.setVisibility(View.GONE);
+      tvCoinsDesc.setText("付款永久用户(付款时不消耗金币)");
+    }
   }
 
   private void setListener() {

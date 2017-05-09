@@ -30,6 +30,8 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_REMAIN_YUEKE_TIMES = "remain_yueke_times";//剩余约课次数
     public final static String KEY_REMAIN_PINGJIA_TIMES = "remain_pingjia_times";//剩余评价次数
 
+    public final static String KEY_UID = "uid";//存储的uid
+
     private static PreferenceHelper instance;
 
     public static PreferenceHelper getInstance() {
@@ -37,6 +39,35 @@ public class PreferenceHelper extends BasePerference{
             instance = new PreferenceHelper();
         }
         return instance;
+    }
+
+    /**
+     * 存储uid
+     */
+    public void saveUid(String uid) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_UID, uid);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+
+    }
+
+    /**
+     * 获取uid
+     */
+    public String getUid() {
+        String word = null;
+        checkPrefs();
+        if (prefs != null) {
+            word = prefs.getString(KEY_UID,"empty");
+        }
+        return word;
     }
 
     /**

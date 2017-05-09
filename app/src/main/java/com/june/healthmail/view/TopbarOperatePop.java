@@ -172,6 +172,10 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
         int begin,end;
         begin = Integer.valueOf(edit_text_begin.getText().toString().trim());
         end = Integer.valueOf(edit_text_end.getText().toString().trim());
+        if(begin <= 0) {
+          toast("开始编号必须大于0");
+          return;
+        }
         if(begin > end) {
           toast("开始编号不能大于结束编号");
           return;
@@ -180,7 +184,10 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
           toast("结束编号不能大于最大编号");
           return;
         }
-        mDBManger.setStatus(1,begin,end);
+        for (int i = begin; i <= end; i++) {
+          mDBManger.setStatus(accountList.get(i-1),1);
+        }
+        //mDBManger.setStatus(1,begin,end);
         Log.e("test", "begin = " + begin + "   end = " + end);
         for(int i = begin; i <= end; i++){
           Log.e("test", "i = " + i);

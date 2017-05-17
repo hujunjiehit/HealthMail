@@ -410,7 +410,11 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             tvUserName.setText(mUserInfo.getUsername());
             tvUserType.setText(getUserTypeDsec(mUserInfo.getUserType()));
             tvAllowDays.setText(mUserInfo.getAllowDays()+"");
-            tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"");
+            if(mUserInfo.getPayStatus() != null && mUserInfo.getPayStatus() == 1) {
+                tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"(付款永久用户)");
+            } else {
+                tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"");
+            }
         }
     }
 

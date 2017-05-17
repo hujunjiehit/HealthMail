@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/trade_oprate_bar"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp">
+    <TextView
+        android:id="@+id/tv_operate_1"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="备份小号到云端"
+        android:textColor="@color/text_press"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tv_operate_2"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="从云端恢复小号"
+        android:textColor="@color/text_press"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tv_operate_3"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="清空云端小号"
+        android:textColor="@color/text_press"
+        android:textSize="13sp"/>
+</LinearLayout>

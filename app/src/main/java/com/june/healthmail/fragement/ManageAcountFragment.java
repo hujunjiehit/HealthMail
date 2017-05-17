@@ -20,16 +20,18 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.AcountListAdapter;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.untils.DBManager;
-import com.june.healthmail.view.TopbarOperatePop;
+import com.june.healthmail.view.LeftTopbarOperatePop;
+import com.june.healthmail.view.RightTopbarOperatePop;
 
 import java.util.ArrayList;
+
+import cn.bmob.v3.BmobObject;
 
 /**
  * 小号管理fragment
@@ -39,11 +41,13 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   private View layout;
 
   private ListView mListView;
-  private ArrayList<AccountInfo> accountList = new ArrayList<>();
+  private ArrayList<BmobObject> accountList = new ArrayList<>();
   private AcountListAdapter mAdapter;
   private ImageView ivAddButton;
+  private ImageView ivCloudOpButton;
 
-  private TopbarOperatePop operateBarPop;
+  private RightTopbarOperatePop rightOperateBarPop;
+  private LeftTopbarOperatePop leftOperateBarPop;
   private DBManager mDBmanager;
 
   @Override
@@ -71,10 +75,12 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     mListView.setAdapter(mAdapter);
 
     ivAddButton = (ImageView) layout.findViewById(R.id.iv_add_btn);
+    ivCloudOpButton = (ImageView) layout.findViewById(R.id.iv_cloud_op);
   }
 
   private void setOnListener() {
     ivAddButton.setOnClickListener(this);
+    ivCloudOpButton.setOnClickListener(this);
     mListView.setOnItemClickListener(this);
     mListView.setOnItemLongClickListener(this);
   }
@@ -129,12 +135,19 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   @Override
   public void onClick(View v) {
     if(v.getId() == R.id.iv_add_btn){
-        if (operateBarPop != null && operateBarPop.isShowing()){
-          operateBarPop.dismiss();
+        if (rightOperateBarPop != null && rightOperateBarPop.isShowing()){
+          rightOperateBarPop.dismiss();
         } else {
-          operateBarPop =  new TopbarOperatePop(getActivity(),accountList,mAdapter);
-          operateBarPop.showAsDropDown(ivAddButton,0,0);
+          rightOperateBarPop =  new RightTopbarOperatePop(getActivity(),accountList,mAdapter);
+          rightOperateBarPop.showAsDropDown(ivAddButton,0,0);
         }
+    } else if (v.getId() == R.id.iv_cloud_op) {
+      if (leftOperateBarPop != null && leftOperateBarPop.isShowing()){
+        leftOperateBarPop.dismiss();
+      } else {
+        leftOperateBarPop =  new LeftTopbarOperatePop(getActivity(),accountList,mAdapter);
+        leftOperateBarPop.showAsDropDown(ivCloudOpButton,0,0);
+      }
     }
   }
 
@@ -142,7 +155,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   public void click(View v) {
 //    Toast.makeText(getActivity(), "listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag()
 //            + ",内容是-->" + accountList.get((Integer) v.getTag()), Toast.LENGTH_SHORT).show();
-    AccountInfo info = accountList.get((Integer) v.getTag());
+    AccountInfo info = (AccountInfo) accountList.get((Integer) v.getTag());
     if (mAdapter.getSelected().containsKey((Integer) v.getTag()) && info.getStatus() != 1) {
       Log.d("test","set status checked, phone = " + info.getPhoneNumber());
       info.setStatus(1);
@@ -156,7 +169,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    showEditAccountDialog(accountList.get(position),position);
+    showEditAccountDialog((AccountInfo) accountList.get(position),position);
   }
 
   private void showEditAccountDialog(final AccountInfo accountInfo,final int position) {
@@ -190,9 +203,10 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
           Toast.makeText(getActivity(),"密码不能为空",Toast.LENGTH_LONG).show();
           return;
         }
-        accountList.get(position).setPhoneNumber(phonenumber);
-        accountList.get(position).setPassWord(pwd);
-        accountList.get(position).setStatus(1);
+        AccountInfo accountInfo = (AccountInfo) accountList.get(position);
+        accountInfo.setPhoneNumber(phonenumber);
+        accountInfo.setPassWord(pwd);
+        accountInfo.setStatus(1);
         DBManager.getInstance(getActivity()).updateAccountInfo(accountInfo.getId(),phonenumber,pwd);
         mAdapter.notifyDataSetChanged();
         dialog.dismiss();
@@ -203,7 +217,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 
   @Override
   public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-    showDeleteAccountDialog(accountList.get(position),position);
+    showDeleteAccountDialog((AccountInfo) accountList.get(position),position);
     return true;
   }
 

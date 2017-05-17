@@ -55,13 +55,30 @@ public class DBManager {
     public boolean addAccount(String phone, String pwd){
         boolean result = true;
         Cursor cursor = db.rawQuery("select * from account where phoneNumber = ?",new String[]{phone});
-        Log.d("test","count = " + cursor.getCount());
         if(cursor.getCount() > 0){
             //电话已存在
             result = false;
         }else {
             db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
                 new String[]{phone,pwd,"", 1+""});
+        }
+        return  result;
+    }
+
+    /**
+     * 添加小号
+     * @param accountInfo
+     * @return true 添加成功   false 账号存在，添加失败
+     */
+    public boolean addAccount(AccountInfo accountInfo){
+        boolean result = true;
+        Cursor cursor = db.rawQuery("select * from account where phoneNumber = ?",new String[]{accountInfo.getPhoneNumber()});
+        if(cursor.getCount() > 0){
+            //电话已存在
+            result = false;
+        }else {
+            db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
+                new String[]{accountInfo.getPhoneNumber(),accountInfo.getPassWord(),accountInfo.getNickName(), accountInfo.getStatus()+""});
         }
         return  result;
     }

@@ -1,11 +1,14 @@
 package com.june.healthmail.model;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by june on 2017/3/2.
  */
 
-public class AccountInfo {
+public class AccountInfo extends BmobObject{
     private int id;
+    private String userName;
     private String phoneNumber;
     private String nickName;
     private String passWord;
@@ -49,5 +52,13 @@ public class AccountInfo {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

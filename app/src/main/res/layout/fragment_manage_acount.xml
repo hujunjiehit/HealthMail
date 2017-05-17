@@ -9,6 +9,17 @@
         android:id="@+id/layout_category_topbar"
         style="@style/TopbarStyle" >
 
+        <ImageView
+            android:id="@+id/iv_cloud_op"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:clickable="true"
+            android:src="@drawable/cloud_op_icon"
+            android:textSize="@dimen/small_medium_text_size" />
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -22,13 +33,13 @@
 
         <ImageView
             android:id="@+id/iv_add_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:clickable="true"
-            android:src="@drawable/icon_topbar_add"
+            android:src="@drawable/add_btn_icon"
             android:textSize="@dimen/small_medium_text_size" />
     </RelativeLayout>
 
@@ -68,10 +79,12 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:divider="@color/div_line_color"
         android:dividerHeight="1px"
         android:fadingEdge="none"
         android:listSelector="@color/transparent"
         android:cacheColorHint="@color/transparent"
         android:footerDividersEnabled="false" />
+
 </LinearLayout>

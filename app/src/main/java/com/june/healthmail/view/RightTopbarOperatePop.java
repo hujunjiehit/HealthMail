@@ -22,11 +22,13 @@ import com.june.healthmail.untils.DBManager;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by bjhujunjie on 2017/3/3.
  */
 
-public class TopbarOperatePop extends PopupWindow implements View.OnClickListener{
+public class RightTopbarOperatePop extends PopupWindow implements View.OnClickListener{
 
   private View mMenuView;
   private Context mContext;
@@ -38,10 +40,10 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
   private TextView tvOperate6;
   private DBManager mDBManger;
 
-  private List<AccountInfo> accountList;
+  private List<BmobObject> accountList;
   private AcountListAdapter mAdapter;
 
-  public TopbarOperatePop(Context context, List<AccountInfo> list, AcountListAdapter adapter) {
+  public RightTopbarOperatePop(Context context, List<BmobObject> list, AcountListAdapter adapter) {
     super(context);
     mContext = context;
     accountList = list;
@@ -114,7 +116,7 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
         dismiss();
         mDBManger.setStatus(1);
         for(int i = 0; i < accountList.size(); i++){
-          accountList.get(i).setStatus(1);
+          ((AccountInfo)accountList.get(i)).setStatus(1);
           mAdapter.getSelected().put(i,i);
         }
         mAdapter.notifyDataSetChanged();
@@ -123,8 +125,8 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
         //全部反选小号
         dismiss();
         mDBManger.setStatus(0);
-        for(AccountInfo info:accountList){
-          info.setStatus(0);
+        for(BmobObject info:accountList){
+          ((AccountInfo)info).setStatus(0);
         }
         mAdapter.getSelected().clear();
         mAdapter.notifyDataSetChanged();
@@ -185,13 +187,13 @@ public class TopbarOperatePop extends PopupWindow implements View.OnClickListene
           return;
         }
         for (int i = begin; i <= end; i++) {
-          mDBManger.setStatus(accountList.get(i-1),1);
+          mDBManger.setStatus((AccountInfo)accountList.get(i-1),1);
         }
         //mDBManger.setStatus(1,begin,end);
         Log.e("test", "begin = " + begin + "   end = " + end);
         for(int i = begin; i <= end; i++){
           Log.e("test", "i = " + i);
-          accountList.get(i-1).setStatus(1);
+          ((AccountInfo)accountList.get(i-1)).setStatus(1);
           mAdapter.getSelected().put(i-1,i-1);
         }
         mAdapter.notifyDataSetChanged();

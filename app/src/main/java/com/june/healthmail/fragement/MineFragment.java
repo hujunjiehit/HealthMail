@@ -413,7 +413,11 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         getActivity().finish();
         break;
       case R.id.tv_go_to_taobao: // 点击购买授权链接
-        openTaobaoShopping(PreferenceHelper.getInstance().getBuyAuthUrl());
+        if(userInfo.getUserType() == 2) {
+          openTaobaoShopping(PreferenceHelper.getInstance().getUpdateLevelUrl());
+        } else {
+          openTaobaoShopping(PreferenceHelper.getInstance().getBuyAuthUrl());
+        }
         break;
       case R.id.tv_go_to_buy_coins: // 点击购买金币链接
         openTaobaoShopping(PreferenceHelper.getInstance().getBuyCoinsUrl());
@@ -653,6 +657,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(arrays[2]));
           PreferenceHelper.getInstance().setCoinsCostForPostWithPicture(Integer.parseInt(arrays[3]));
           PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(arrays[4]));
+          PreferenceHelper.getInstance().setUpdateLevelUrl(arrays[5]);
           mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
         }else {
           Log.e("test","云端逻辑调用异常：" + e.toString());

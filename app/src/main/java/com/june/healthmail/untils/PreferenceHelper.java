@@ -23,6 +23,7 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_BUY_AUTH_URL = "bug_auth_url";//购买授权淘宝地址
     public final static String KEY_BUY_COINS_URL = "bug_coins_url";//购买金币淘宝地址
+    public final static String KEY_UPDATE_LEVEL_URL = "update_level_url";//升级高级永久淘宝地址
     public final static String KEY_COINS_COST_FOR_POST = "coins_cost_for_post";//发帖金币消耗数量
     public final static String KEY_COINS_COST_FOR_POST_WITH_PICTURE = "coins_cost_for_post_with_picture";//发带图片的帖子金币消耗数量
 
@@ -170,7 +171,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxPingjiaTime() {
-        int time = CommonConfig.MinDelayTime + 300;
+        int time = CommonConfig.MinDelayTime + 800;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_PINGJIA_TIME,time);
@@ -224,7 +225,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxYuekeTime() {
-        int time = CommonConfig.MinDelayTime + 300;
+        int time = CommonConfig.MinDelayTime + 800;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_YUEKE_TIME,time);
@@ -299,6 +300,28 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             url = prefs.getString(KEY_BUY_COINS_URL,url);
+        }
+        return url;
+    }
+
+    public void setUpdateLevelUrl(String url) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_UPDATE_LEVEL_URL,url);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getUpdateLevelUrl() {
+        String url = "https://www.baidu.com/";
+        checkPrefs();
+        if (prefs != null) {
+            url = prefs.getString(KEY_UPDATE_LEVEL_URL,url);
         }
         return url;
     }

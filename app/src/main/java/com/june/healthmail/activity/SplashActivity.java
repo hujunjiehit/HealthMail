@@ -41,10 +41,10 @@ public class SplashActivity extends Activity {
     public void handleMessage(Message msg) {
       switch (msg.what) {
         case ON_ANIMATION_END:
-          setupSplashAd();
-//          startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-//          overridePendingTransition(0, 0);
-//          SplashActivity.this.finish();
+          //setupSplashAd();
+          startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+          overridePendingTransition(0, 0);
+          SplashActivity.this.finish();
           break;
         default:
           break;
@@ -56,8 +56,9 @@ public class SplashActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mContext = this;
+
     //有米测试广告
-    AdManager.getInstance(this).init(YoumiConfig.appId, YoumiConfig.appSecret,YoumiConfig.isTestModel, YoumiConfig.isEnableYoumiLog);
+    //AdManager.getInstance(this).init(YoumiConfig.appId, YoumiConfig.appSecret,YoumiConfig.isTestModel, YoumiConfig.isEnableYoumiLog);
 
     setContentView(R.layout.activity_splash);
     mSplashItem_iv = (ImageView) findViewById(R.id.splash_loading_item);

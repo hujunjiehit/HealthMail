@@ -17,6 +17,8 @@ import com.june.healthmail.model.AccountInfo;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by june on 2017/3/2.
  */
@@ -24,13 +26,13 @@ import java.util.List;
 public class AcountListAdapter extends BaseAdapter implements View.OnClickListener{
 
     private Context mContext;
-    private List<AccountInfo> mAcountList;
+    private List<BmobObject> mAcountList;
     private Callback mCallback;
 
     //用来记录所有ListView记录对应checkbox的状态
     public HashMap<Integer, Integer> selected;
 
-    public AcountListAdapter(Context mContext, List<AccountInfo> mAcountList, Callback callback) {
+    public AcountListAdapter(Context mContext, List<BmobObject> mAcountList, Callback callback) {
         this.mContext = mContext;
         this.mAcountList = mAcountList;
         this.mCallback = callback;
@@ -47,7 +49,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
     }
 
     @Override
-    public AccountInfo getItem(int position) {
+    public BmobObject getItem(int position) {
         return mAcountList.get(position);
     }
 
@@ -70,7 +72,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        AccountInfo acountInfo = getItem(position);
+        AccountInfo acountInfo = (AccountInfo) getItem(position);
         holder.tvIndex.setText(""+ (position + 1));
         holder.tvPhonenumber.setText(acountInfo.getPhoneNumber());
         if(acountInfo.getNickName().equals("")){
@@ -113,7 +115,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
         holder.cbStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(mAcountList.get(Integer.parseInt(buttonView.getTag().toString())).getStatus() == -1){
+                if(((AccountInfo)mAcountList.get(Integer.parseInt(buttonView.getTag().toString()))).getStatus() == -1){
                     buttonView.setChecked(false);
                     //Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
                     return;
@@ -132,7 +134,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if(mAcountList.get(Integer.parseInt(v.getTag().toString())).getStatus() == -1){
+        if(((AccountInfo)mAcountList.get(Integer.parseInt(v.getTag().toString()))).getStatus() == -1){
             Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
         }
     }

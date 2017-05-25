@@ -116,7 +116,7 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
 
     BmobQuery<AccountInfo> query = new BmobQuery<AccountInfo>();
     query.addWhereEqualTo("userName",mUserInfo.getUsername());
-    query.setLimit(210);
+    query.setLimit(310);
     query.order("id");
     query.findObjects(new FindListener<AccountInfo>() {
       @Override
@@ -151,8 +151,8 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 dismiss();
-                if (object.size() >= 200) {
-                  toast("最多只能备份恢复200个小号");
+                if (object.size() >= 300) {
+                  toast("最多只能备份恢复300个小号");
                   return;
                 }
                 for(BmobObject obj:newList) {
@@ -190,19 +190,47 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
       ((AccountInfo)accountList.get(i)).setUserName(mUserInfo.getUsername());
     }
 
-    new BmobBatch().insertBatch(accountList).doBatch(new QueryListListener<BatchResult>() {
-      @Override
-      public void done(List<BatchResult> list, BmobException e) {
-        if(showProgress != null && showProgress.isShowing()){
-          showProgress.dismiss();
-        }
-        if(e == null) {
-          toast("备份成功");
-        } else {
-          toast("备份失败，错误信息：" + e.getMessage());
-        }
+    if (accountList.size() >= 300) {
+      toast("最多只能备份恢复300个小号");
+      return;
+    }
+
+    int times = (accountList.size() - 1)/50 + 1;
+    Log.e("test","需要上传次数：" + times);
+    for(int i = 0; i < times; i++) {
+      if(i == (times - 1)) {
+        //最后一页 i * 50 ~ size() - 1
+        new BmobBatch().insertBatch(accountList.subList(i*50,accountList.size())).doBatch(new QueryListListener<BatchResult>() {
+          @Override
+          public void done(List<BatchResult> list, BmobException e) {
+            if(showProgress != null && showProgress.isShowing()){
+              showProgress.dismiss();
+            }
+            if(e == null) {
+              toast("备份成功");
+              Log.e("test","最后页备份成功");
+            } else {
+              toast("备份失败，错误信息：" + e.getMessage());
+            }
+          }
+        });
+      } else {
+        //完整一页 0~49 50~99 ... i*50~i*50+49
+        new BmobBatch().insertBatch(accountList.subList(i*50,i*50+50)).doBatch(new QueryListListener<BatchResult>() {
+          @Override
+          public void done(List<BatchResult> list, BmobException e) {
+            if(showProgress != null && showProgress.isShowing()){
+              showProgress.setMessage("数据上传中，请稍后");
+            }
+            if(e == null) {
+              Log.e("test","中间页备份成功");
+            } else {
+              toast("备份失败，错误信息：" + e.getMessage());
+            }
+          }
+        });
       }
-    });
+    }
   }
 
   private void deleteAccount() {
@@ -216,7 +244,7 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
     query.order("id");
     query.findObjects(new FindListener<AccountInfo>() {
       @Override
-      public void done(final List<AccountInfo> list, BmobException e) {
+      public void done(final List<AccountInfo> list, final BmobException e) {
         if(showProgress != null && showProgress.isShowing()){
           showProgress.dismiss();
         }
@@ -247,19 +275,41 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
                 for (BmobObject obj : list) {
                   newList.add(obj);
                 }
-                new BmobBatch().deleteBatch(newList).doBatch(new QueryListListener<BatchResult>() {
-                  @Override
-                  public void done(List<BatchResult> list, BmobException e) {
-                    if (showProgress != null && showProgress.isShowing()) {
-                      showProgress.dismiss();
-                    }
-                    if (e == null) {
-                      toast("清空云端小号成功");
-                    } else {
-                      toast("清空云端小号成功失败，错误信息：" + e.getMessage());
-                    }
+
+                int times = (newList.size() - 1)/50 + 1;
+                Log.e("test","需要删除次数：" + times);
+                for(int i = 0; i < times; i++) {
+                  if (i == (times - 1)) {
+                    new BmobBatch().deleteBatch(newList.subList(i*50,newList.size())).doBatch(new QueryListListener<BatchResult>() {
+                      @Override
+                      public void done(List<BatchResult> list, BmobException e) {
+                        if (showProgress != null && showProgress.isShowing()) {
+                          showProgress.dismiss();
+                        }
+                        if (e == null) {
+                          toast("清空云端小号成功");
+                          Log.e("test","最后页清空成功");
+                        } else {
+                          toast("清空云端小号成功失败，错误信息：" + e.getMessage());
+                        }
+                      }
+                    });
+                  } else {
+                    new BmobBatch().deleteBatch(newList.subList(i*50,i*50+50)).doBatch(new QueryListListener<BatchResult>() {
+                      @Override
+                      public void done(List<BatchResult> list, BmobException e) {
+                        if (showProgress != null && showProgress.isShowing()) {
+                          showProgress.setMessage("数据清除中，请稍后");
+                        }
+                        if (e == null) {
+                          Log.e("test","中间页清空成功");
+                        } else {
+                          toast("清空云端小号成功失败，错误信息：" + e.getMessage());
+                        }
+                      }
+                    });
                   }
-                });
+                }
               }
             });
           } else {

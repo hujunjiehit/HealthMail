@@ -101,11 +101,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private static final int GET_ALL_PAYMENT_FAILED = 15;
   private static final int GET_PAYINFO_FAILED = 16;
 
-  private static final int PAY_TYPE_KUAIQIAN_ZHIFU = 20;
+  private static final int PAY_TYPE_KUAIQIAN_ZHIFU_1 = 20;
   private static final int PAY_TYPE_TONGLIAN_ZHIFU = 21;
   private static final int PAY_TYPE_KUAIJIE_ZHIFU = 22;
   private static final int PAY_TYPE_JINGDONG_ZHIFU = 23;
   private static final int PAY_TYPE_YILIAN_ZHIFU = 24;
+  private static final int PAY_TYPE_KUAIQIAN_ZHIFU_2 = 25;
 
 
   private int accountIndex = 0;
@@ -120,7 +121,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private ArrayList<HmOrder> hmOrders = new ArrayList<>();
   private UserInfo userInfo;
 
-  private int[] fukuanChoice = {0,0,0,0,0};
+  private int[] fukuanChoice = {0,0,0,0,0,0};
   private ChoosePayOptionsPopwindow popwindow;
   private int payTypeFlag;
   ArrayList<Double> values;
@@ -234,10 +235,14 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             break;
 
         case START_TO_GET_PAYINFO:
-          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
-            showTheResult("---------------用户选择快钱支付\n");
-            //payType = 3 表示快钱支付
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU_1){
+            showTheResult("---------------用户选择快钱支付--储蓄卡\n");
+            //payType = 3 表示快钱支付-储蓄卡
             getPayinfo(3);
+          }else if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU_2){
+            showTheResult("---------------用户选择快钱支付--信用卡\n");
+            //payType = 13 表示快钱支付-信用卡
+            getPayinfo(13);
           }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
             showTheResult("---------------用户选择通联支付\n");
             //payType = 7 表示通联支付
@@ -253,7 +258,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
         case GET_PAYINFO_SUCCESS:
           showTheResult("------------------获取支付详情成功，前往支付页面\n");
-          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU){
+          if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU_1){
+            GetPayInfoModel payInfoModel = (GetPayInfoModel) msg.obj;
+            getKuaiqianPageInfo(payInfoModel);
+          }else if(payTypeFlag == PAY_TYPE_KUAIQIAN_ZHIFU_2){
             GetPayInfoModel payInfoModel = (GetPayInfoModel) msg.obj;
             getKuaiqianPageInfo(payInfoModel);
           }else if(payTypeFlag == PAY_TYPE_TONGLIAN_ZHIFU){
@@ -318,7 +326,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     index = 1;
     fukuanChoice[index] = 0;
     for(Payment pyment:allpayments){
-      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快钱支付")){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快钱支付(储蓄卡)")){
         fukuanChoice[index] = 1;
       }
     }
@@ -334,7 +342,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     index = 3;
     fukuanChoice[index] = 0;
     for(Payment pyment:allpayments){
-      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("京东支付")){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("易联支付")){
         fukuanChoice[index] = 1;
       }
     }
@@ -342,7 +350,15 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     index = 4;
     fukuanChoice[index] = 0;
     for(Payment pyment:allpayments){
-      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("易联支付")){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("汇付支付")){
+        fukuanChoice[index] = 1;
+      }
+    }
+
+    index = 5;
+    fukuanChoice[index] = 0;
+    for(Payment pyment:allpayments){
+      if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快钱支付(信用卡)")){
         fukuanChoice[index] = 1;
       }
     }
@@ -435,21 +451,31 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         payTypeFlag = PAY_TYPE_KUAIJIE_ZHIFU;
         mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
-      case R.id.btn_fukuan_kuaiqian://快钱支付
+      case R.id.btn_fukuan_kuaiqian_1://快钱支付 储蓄卡
         if(popwindow != null && popwindow.isShowing()){
           popwindow.dismiss();
         }
-        Log.e("test","click btn_fukuan_kuaiqian");
-        payTypeFlag = PAY_TYPE_KUAIQIAN_ZHIFU;
+        Log.e("test","click btn_fukuan_kuaiqian_1 chuxuka");
+        payTypeFlag = PAY_TYPE_KUAIQIAN_ZHIFU_1;
         mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
-      case R.id.btn_fukuan_jingdong://京东支付
-        Log.e("test","click btn_fukuan_jingdong");
+      case R.id.btn_fukuan_kuaiqian_2://快钱支付 信用卡
+//        if(popwindow != null && popwindow.isShowing()){
+//          popwindow.dismiss();
+//        }
+//        Log.e("test","click btn_fukuan_kuaiqian_2 xinyongka");
+//        payTypeFlag = PAY_TYPE_KUAIQIAN_ZHIFU_2;
+//        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
+        Log.e("test","click btn_fukuan_yilian");
+        toast("暂不支持快钱支付信用卡");
+        break;
+      case R.id.btn_fukuan_huifu://汇付支付
+        Log.e("test","click btn_fukuan_huifu");
         if(popwindow != null && popwindow.isShowing()){
           popwindow.dismiss();
         }
-        payTypeFlag = PAY_TYPE_JINGDONG_ZHIFU;
-        mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
+        //payTypeFlag = PAY_TYPE_JINGDONG_ZHIFU;
+        //mHandler.sendEmptyMessageDelayed(START_TO_GET_PAYINFO,getDelayTime());
         break;
       case R.id.btn_fukuan_tonglian://通联支付
         Log.e("test","click btn_fukuan_tonglian");
@@ -652,7 +678,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       public void onResponse(Call call, Response response) throws IOException {
         try {
           Gson gson = new Gson();
-          if (payType == 3){
+          if (payType == 3 || payType == 13){
             GetPayInfoModel getPayInfoModel = gson.fromJson(response.body().charStream(), GetPayInfoModel.class);
             response.body().close();
             //获取成功之后
@@ -928,7 +954,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     Log.e("test","onActivityResult requestCode = " + requestCode);
-    if(requestCode == PAY_TYPE_TONGLIAN_ZHIFU || requestCode == PAY_TYPE_KUAIQIAN_ZHIFU || requestCode == PAY_TYPE_KUAIJIE_ZHIFU){
+    if(requestCode == PAY_TYPE_TONGLIAN_ZHIFU || requestCode == PAY_TYPE_KUAIQIAN_ZHIFU_1 || requestCode == PAY_TYPE_KUAIQIAN_ZHIFU_2 || requestCode == PAY_TYPE_KUAIJIE_ZHIFU){
         showContinueDialog();
     }
   }

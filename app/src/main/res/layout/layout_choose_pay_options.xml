@@ -32,13 +32,13 @@
             android:text="快捷支付"/>
 
         <Button
-            android:id="@+id/btn_fukuan_kuaiqian"
+            android:id="@+id/btn_fukuan_kuaiqian_1"
             android:layout_marginTop="10dp"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_pay_option"
             android:textSize="16sp"
-            android:text="快钱支付"/>
+            android:text="快钱支付(储蓄卡)"/>
 
         <Button
             android:id="@+id/btn_fukuan_tonglian"
@@ -50,15 +50,6 @@
             android:text="通联付款"/>
 
         <Button
-            android:id="@+id/btn_fukuan_jingdong"
-            android:layout_marginTop="10dp"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_pay_option"
-            android:textSize="16sp"
-            android:text="京东支付"/>
-
-        <Button
             android:id="@+id/btn_fukuan_yilian"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -67,5 +58,26 @@
             android:textColor="@color/text_color_pay_option"
             android:textSize="16sp"
             android:text="易联支付"/>
+
+        <Button
+            android:id="@+id/btn_fukuan_huifu"
+            android:layout_marginTop="10dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_pay_option"
+            android:textSize="16sp"
+            android:text="汇付支付"/>
+
+
+
+        <Button
+            android:id="@+id/btn_fukuan_kuaiqian_2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_pay_option"
+            android:textSize="16sp"
+            android:text="快钱支付(信用卡)"/>
     </LinearLayout>
 </RelativeLayout>

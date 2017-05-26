@@ -19,19 +19,20 @@ public class ChoosePayOptionsPopwindow extends PopupWindow{
     private Context mContext;
     private View view;
 
-    private Button[] btns = new Button[5];
+    private Button[] btns = new Button[6];
 
     public ChoosePayOptionsPopwindow(Context context, int[] data,View.OnClickListener listener){
       this.mContext = context;
       this.view = LayoutInflater.from(context).inflate(R.layout.layout_choose_pay_options, null);
 
       btns[0] = (Button) view.findViewById(R.id.btn_fukuan_kuaijie);
-      btns[1] = (Button) view.findViewById(R.id.btn_fukuan_kuaiqian);
+      btns[1] = (Button) view.findViewById(R.id.btn_fukuan_kuaiqian_1);
       btns[2] = (Button) view.findViewById(R.id.btn_fukuan_tonglian);
-      btns[3] = (Button) view.findViewById(R.id.btn_fukuan_jingdong);
-      btns[4] = (Button) view.findViewById(R.id.btn_fukuan_yilian);
+      btns[3] = (Button) view.findViewById(R.id.btn_fukuan_yilian);
+      btns[4] = (Button) view.findViewById(R.id.btn_fukuan_huifu);
+      btns[5] = (Button) view.findViewById(R.id.btn_fukuan_kuaiqian_2);
 
-      for (int i = 0; i < 5; i++){
+      for (int i = 0; i < 6; i++){
         btns[i].setOnClickListener(listener);
         if(data[i] == 1){
           btns[i].setVisibility(View.VISIBLE);

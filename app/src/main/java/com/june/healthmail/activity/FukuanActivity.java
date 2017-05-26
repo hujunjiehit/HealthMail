@@ -123,6 +123,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private int[] fukuanChoice = {0,0,0,0,0};
   private ChoosePayOptionsPopwindow popwindow;
   private int payTypeFlag;
+  ArrayList<Double> values;
 
   private Handler mHandler = new Handler() {
 
@@ -131,7 +132,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       switch (msg.what) {
         case START_TO_FU_KUAN:
           if (isRunning) {
-            if(userInfo.getCoinsNumber() > 0) {
+            if(userInfo.getCoinsNumber() > 0 || CommonUntils.isPayUser(userInfo)) {
               if (accountIndex < accountList.size()) {
                 showTheResult("开始付款第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
                 if (accountList.get(accountIndex).getStatus() == 1) {
@@ -212,15 +213,22 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
           case GET_ALL_PAYMENT_SUCCESS:
             GetAllPaymentModel getAllPaymentModel = (GetAllPaymentModel) msg.obj;
+            if(values == null) {
+              values = new ArrayList<>();
+            }
+            values.clear();
             for(int i = 0; i < getAllPaymentModel.getValuse().size(); i++){
+              values.add(i,getAllPaymentModel.getValuse().get(i).getChannelamount());
               //testcode
               if(userInfo != null &&
                       (userInfo.getUsername().equals("13027909110") ||
                               userInfo.getUsername().equals("18002570032") ||
                               userInfo.getUsername().equals("18671400766"))){
-                showTheResult("---------------支付方式" + (i + 1) + "剩余金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount() + "\n");
+                showTheResult("---------------支付方式" + (i + 1) + "剩余支付金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount() + "\n");
               }
             }
+            //上传金额到服务器
+            //CommonUntils.update(getAllPaymentModel.getMsgTime(),values);
             initFukuanChoice(getAllPaymentModel.getValuse());
             showChooseFukuanMode();
             break;

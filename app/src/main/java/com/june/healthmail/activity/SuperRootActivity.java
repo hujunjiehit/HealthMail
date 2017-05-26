@@ -234,8 +234,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.btn_update_pay_status:
                 if(mUserInfo != null){
-                    if(mUserInfo.getUserType() != 2) {
-                        toast("只有永久用户才能开通付款永久");
+                    if(mUserInfo.getUserType() < 1) {
+                        toast("只有授权用户才能开通付款永久");
                         return;
                     }
 

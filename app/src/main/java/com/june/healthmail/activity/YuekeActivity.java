@@ -354,7 +354,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_yueke);
         userInfo = BmobUser.getCurrentUser(UserInfo.class);
         if(userInfo.getUserType() >= 3) {
-            max_courses = 100;
+            max_courses = 200;
         } else {
             max_courses = 50;
         }

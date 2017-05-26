@@ -15,6 +15,7 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Random;
 
@@ -210,5 +211,21 @@ public class CommonUntils {
   public static void minusYuekeTimes() {
     PreferenceHelper mHelper = PreferenceHelper.getInstance();
     mHelper.setRemainYuekeTimes(mHelper.getRemainYuekeTimes() - 1);
+  }
+
+
+  public static void update(String msgTime, ArrayList<Double> values) {
+
+  }
+
+  public static boolean isPayUser(UserInfo userInfo) {
+    if(userInfo.getPayStatus() == null) {
+      return false;
+    } else {
+      if(userInfo.getPayStatus() > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 }

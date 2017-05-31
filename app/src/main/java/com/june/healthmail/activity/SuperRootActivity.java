@@ -21,12 +21,17 @@ import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ShowProgress;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -45,6 +50,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private Button btnUpgradeUserLevel;
     private Button btnUpdatePaystatus;
     private Button btnAddTheCoins;
+    private Button btnNewNotice;
 
     private TextView tvUserName;
     private TextView tvUserType;
@@ -94,6 +100,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnUpgradeUserLevel = (Button) findViewById(R.id.btn_upgrade_user_level);
         btnUpdatePaystatus = (Button) findViewById(R.id.btn_update_pay_status);
         btnAddTheCoins = (Button) findViewById(R.id.btn_add_coins);
+        btnNewNotice = (Button) findViewById(R.id.btn_new_notice);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
@@ -103,6 +110,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             btnAuthorizeByDays.setVisibility(View.GONE);
             btnAddTheCoins.setVisibility(View.GONE);
             btnUpdatePaystatus.setVisibility(View.GONE);
+            btnNewNotice.setVisibility(View.GONE);
         }
     }
 
@@ -115,6 +123,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnUpgradeUserLevel.setOnClickListener(this);
         btnUpdatePaystatus.setOnClickListener(this);
         btnAddTheCoins.setOnClickListener(this);
+        btnNewNotice.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 
@@ -197,6 +206,13 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
                 break;
+            case R.id.btn_new_notice:
+                if(mUserInfo != null){
+                    //postNewNotice();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
             case R.id.btn_upgrade_user_level:
                 //升级高级永久
                 if(mUserInfo != null){
@@ -269,6 +285,69 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+    private void postNewNotice() {
+        BmobQuery<UserInfo> query = new BmobQuery<UserInfo>();
+        query.setLimit(1000);
+        query.findObjects(new FindListener<UserInfo>() {
+            @Override
+            public void done(List<UserInfo> object,BmobException e) {
+                if(e==null){
+                    toast("查询用户成功:"+object.size());
+                    int count = 1;
+                    List<BmobObject> mList = new ArrayList<BmobObject>();
+                    mList.clear();
+                    for(final UserInfo userInfo:object){
+                        Log.e("test",count + ":" + userInfo.getUserType());
+                        count = count + 1;
+
+                        MessageDetails messageDetails = new MessageDetails();
+                        messageDetails.setUserName(userInfo.getUsername());
+                        messageDetails.setStatus(1);
+                        messageDetails.setScore(0);
+                        messageDetails.setType(99);
+                        messageDetails.setReasons("新增淘宝店活动，购买鞋子赠送金币，详情请看群公告！");
+                        messageDetails.setRelatedUserName("");
+                        messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+                        mList.add(messageDetails);
+                    }
+
+                    int times = (mList.size() - 1)/50 + 1;
+                    Log.e("test","需要上传次数：" + times);
+                    for(int i = 0; i < times; i++) {
+                        if (i == (times - 1)) {
+                            //最后一页 i * 50 ~ size() - 1
+                            new BmobBatch().insertBatch(mList.subList(i * 50, mList.size())).doBatch(new QueryListListener<BatchResult>() {
+                                @Override
+                                public void done(List<BatchResult> list, BmobException e) {
+                                    if (e == null) {
+                                        toast("公告成功");
+                                        Log.e("test", "最后页公告成功");
+                                    } else {
+                                        toast("备份失败，错误信息：" + e.getMessage());
+                                    }
+                                }
+                            });
+                        } else {
+                            //完整一页 0~49 50~99 ... i*50~i*50+49
+                            new BmobBatch().insertBatch(mList.subList(i * 50, i * 50 + 50)).doBatch(new QueryListListener<BatchResult>() {
+                                @Override
+                                public void done(List<BatchResult> list, BmobException e) {
+                                    if (e == null) {
+                                        Log.e("test", "中间页公告成功");
+                                    } else {
+                                        toast("公告失败，错误信息：" + e.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }else{
+                    toast("更新用户信息失败:" + e.getMessage());
+                }
+            }
+        });
     }
 
     private void updatePaystatus() {

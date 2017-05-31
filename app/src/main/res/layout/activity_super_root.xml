@@ -281,5 +281,15 @@
             android:textColor="@color/text_press"
             android:textSize="@dimen/medium_text_size"
             android:text="充值金币"/>
+
+        <Button
+            android:id="@+id/btn_new_notice"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="发布公告"/>
     </LinearLayout>
 </LinearLayout>

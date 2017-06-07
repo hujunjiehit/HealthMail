@@ -270,9 +270,17 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
                         progressDialog.show();
 
                         if(picturePath != null) {
+                            if(userInfo.getCoinsNumber() < PreferenceHelper.getInstance().getCoinsCostForPostWithPicture()){
+                                Toast.makeText(NewPostActivity.this, "金币扣余额不足", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             userInfo.setCoinsNumber(userInfo.getCoinsNumber() -
                                     PreferenceHelper.getInstance().getCoinsCostForPostWithPicture());
                         }else {
+                            if(userInfo.getCoinsNumber() < PreferenceHelper.getInstance().getCoinsCostForPost()){
+                                Toast.makeText(NewPostActivity.this, "金币扣余额不足", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             userInfo.setCoinsNumber(userInfo.getCoinsNumber() -
                                     PreferenceHelper.getInstance().getCoinsCostForPost());
                         }

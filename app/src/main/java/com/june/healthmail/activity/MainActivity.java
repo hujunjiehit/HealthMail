@@ -93,4 +93,10 @@ public class MainActivity extends FragmentActivity {
       return "";
     }
   }
+
+  public void goToFragment(int index){
+    if(index <= 3){
+      mTabHost.setCurrentTab(0);
+    }
+  }
 }

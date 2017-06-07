@@ -93,6 +93,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
   private Boolean isRunning = false;
   private int offset;
+  private int coinsCost;
 
   private static final int START_TO_FU_KUAN = 1;
   private static final int GET_TOKEN_SUCCESS = 2;
@@ -203,12 +204,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                   if(userInfo.getPayStatus() == null) {
                     updateTheCoinsNumber();
                     tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                    showTheResult("--------------金币余额-1\n");
+                    showTheResult("--------------金币余额-" + coinsCost + "\n");
                   } else {
                     if(userInfo.getPayStatus() != 1) {
                       updateTheCoinsNumber();
                       tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                      showTheResult("--------------金币余额-1\n");
+                      showTheResult("--------------金币余额-" + coinsCost + "\n");
                     }
                   }
 
@@ -464,8 +465,14 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   }
 
   private void initData() {
+    coinsCost = PreferenceHelper.getInstance().getPayCost();
+    if(coinsCost == 0) {
+      tvCoinsNumber.setVisibility(View.GONE);
+      tvCoinsDesc.setText("今日活动，付款免费");
+    }
+
     accountList.clear();
-   tvCoinsNumber.setText(userInfo.getCoinsNumber() + "");
+    tvCoinsNumber.setText(userInfo.getCoinsNumber() + "");
     SQLiteDatabase db = DBManager.getInstance(this).getDb();
     Cursor cursor = db.rawQuery("select * from account",null);
     if(cursor.moveToFirst()){
@@ -585,7 +592,6 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             //一般是用户名或者密码错误 40022
             Log.e("test","message = " + tokenmodel.getMsg());
             errmsg = tokenmodel.getMsg();
-            errmsg = "test";
             if(errmsg.contains("密码")){
               DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
               mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
@@ -1128,15 +1134,18 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   }
 
   private void updateTheCoinsNumber(){
-    userInfo.setCoinsNumber(userInfo.getCoinsNumber() - 1);
-    userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
-      @Override
-      public void done(BmobException e) {
-        if(e == null){
-          Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+    if(coinsCost > 0) {
+      userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost);
+      userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+        @Override
+        public void done(BmobException e) {
+          if(e == null){
+            Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+          }
         }
-      }
-    });
+      });
+    }
+
   }
 
   private void showTheResult(String str){

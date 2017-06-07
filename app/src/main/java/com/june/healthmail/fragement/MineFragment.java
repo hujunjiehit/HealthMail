@@ -67,10 +67,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private View mViewNotLogined;
   private View mViewLogined;
   private TextView mTvUid;
+  private TextView mTvQQGroup;
   private ImageView mImgUserIcon;
   private String uid;
   private String userName;
   private String icon;
+  MainActivity activity;
 
   private TextView mTvUserType;
   private TextView mTvAllowDays;
@@ -175,6 +177,17 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 setUserDetails();
                 tvYuekeTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "次");
                 tvPingjiaTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "次");
+                if(PreferenceHelper.getInstance().getHasActivity() == 1) {
+                  //有活动
+                  postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(activity != null) {
+                          activity.goToFragment(0);
+                        }
+                    }
+                  },1000);
+                }
               }else{
                 Log.e("test","更新用户信息失败");
               }
@@ -218,6 +231,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     mViewNotLogined = layout.findViewById(R.id.layout_not_logined);
     mViewLogined = layout.findViewById(R.id.layout_logined);
     mTvUid = (TextView) layout.findViewById(R.id.tv_uid);
+    mTvQQGroup = (TextView) layout.findViewById(R.id.tv_qq_group);
     mImgUserIcon = (ImageView) layout.findViewById(R.id.user_icon);
     mTvUserType = (TextView) layout.findViewById(R.id.tv_user_type);
     mTvAllowDays = (TextView) layout.findViewById(R.id.tv_allow_days);
@@ -251,7 +265,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
    * 初始化登录信息
    */
   private void initLogin() {
-    MainActivity activity = (MainActivity) getActivity();
+    activity = (MainActivity) getActivity();
     boolean isLogined = activity.getLogined();
     if (isLogined) {
       // 读取登录类型
@@ -283,6 +297,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private void setUserDetails() {
     mTvCoinsNumber.setText("金币余额：" + userInfo.getCoinsNumber());
+    mTvQQGroup.setText(PreferenceHelper.getInstance().getQQGroup());
     if (userInfo.getUserType() == 0) {
       //普通用户
       mTvUserType.setText("普通用户");
@@ -658,6 +673,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setCoinsCostForPostWithPicture(Integer.parseInt(arrays[3]));
           PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(arrays[4]));
           PreferenceHelper.getInstance().setUpdateLevelUrl(arrays[5]);
+          PreferenceHelper.getInstance().setPayCost(Integer.parseInt(arrays[6]));
+          PreferenceHelper.getInstance().setHasActivity(Integer.parseInt(arrays[7]));
+          PreferenceHelper.getInstance().setQQGroup(arrays[8]);
+          PreferenceHelper.getInstance().setNotification(arrays[9]);
           mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
         }else {
           Log.e("test","云端逻辑调用异常：" + e.toString());

@@ -1,8 +1,10 @@
 package com.june.healthmail.fragement;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,15 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.DetailPostActivity;
 import com.june.healthmail.activity.NewPostActivity;
+import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.adapter.PostAdapter;
 import com.june.healthmail.model.PostModel;
+import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.ShowProgress;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,9 +35,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.AsyncCustomEndpoints;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.CloudCodeListener;
 import cn.bmob.v3.listener.FindListener;
 
 /**
@@ -37,23 +48,15 @@ import cn.bmob.v3.listener.FindListener;
 
 public class DiscoveryFragment extends Fragment implements View.OnClickListener {
 
-    private PullToRefreshListView mPullToRefreshView;
-    private ILoadingLayout loadingLayout;
-    ListView mListView;
-
-    private TextView tvNewPost;
     private View layout;
-    private PostAdapter mPostAdapter;
-    private List<PostModel> mPosts = new ArrayList<PostModel>();
-
-    //分页加载
-    private static final int STATE_REFRESH = 0;   // 下拉刷新
-    private static final int STATE_MORE = 1;      // 加载更多
-    private int count = 10;                       // 每页的数据是10条
-    private int curPage = 0;                      // 当前页的编号，从0开始
-
-    private String newPostTime;                   //记录最新的发帖时间，用于获取新的帖子(下拉刷新)
-    private String historyPostTime;               //记录最早的发帖时间，用于获取旧的帖子(上拉加载更多)
+    private TextView tvNotification1;
+    private TextView tvNotification2;
+    private TextView tvNotification3;
+    private View layoutEmpty;
+    private View layoutContent;
+    private TextView tvActivityTitle;
+    private TextView tvActivityDesc;
+    private TextView tvActivityUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,10 +74,9 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onResume() {
         super.onResume();
-        if(mPosts.size() != 0){
-            getNewPost();
-        }else{
-            getPostByPage(0);
+        if(PreferenceHelper.getInstance().getHasActivity() == 1) {
+            //有活动
+            getActivityConfigs();
         }
     }
 
@@ -87,156 +89,118 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initView() {
-        mPullToRefreshView = (PullToRefreshListView) layout.findViewById(R.id.ptrScrollView_home);
-        tvNewPost = (TextView) layout.findViewById(R.id.tv_new_post);
+        tvNotification1 = (TextView) layout.findViewById(R.id.notification_1);
+        tvNotification2 = (TextView) layout.findViewById(R.id.notification_2);
+        tvNotification3 = (TextView) layout.findViewById(R.id.notification_3);
+        layoutEmpty = layout.findViewById(R.id.empty_activity);
+        layoutContent = layout.findViewById(R.id.activity_content);
+        tvActivityTitle = (TextView) layout.findViewById(R.id.activity_tittle);
+
+        tvActivityDesc = (TextView) layout.findViewById(R.id.tv_activity_desc);
+        tvActivityUrl = (TextView) layout.findViewById(R.id.tv_activity_url);
+        if(PreferenceHelper.getInstance().getHasActivity() == 1) {
+            //有活动
+            layoutContent.setVisibility(View.VISIBLE);
+            layoutEmpty.setVisibility(View.GONE);
+            getActivityConfigs();
+        } else {
+            //无活动
+            tvActivityTitle.setText("活动中心");
+            layoutContent.setVisibility(View.GONE);
+            layoutEmpty.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    private void getActivityConfigs() {
+        String cloudCodeName = "getActivityConfig";
+        JSONObject job = new JSONObject();
+        try {
+            job.put("action","getActivityConfig");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final ShowProgress showProgress = new ShowProgress(getActivity());
+        if(showProgress != null && !showProgress.isShowing()){
+            showProgress.setMessage("正在获取活动详情");
+            showProgress.show();
+        }
+        //创建云端逻辑
+        AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+        cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+            @Override
+            public void done(Object o, BmobException e) {
+                if(showProgress != null && showProgress.isShowing()){
+                    showProgress.dismiss();
+                }
+                if(e == null){
+                    Log.e("test","云端逻辑调用成功：" + o.toString());
+                    final String [] arrays = o.toString().split("::");
+                    tvActivityTitle.setText(arrays[0]);
+                    tvActivityDesc.setText(arrays[1]);
+                    tvActivityDesc.setVisibility(View.VISIBLE);
+                    if(!TextUtils.isEmpty(arrays[2])){
+                        tvActivityUrl.setText(arrays[3]);
+                        tvActivityUrl.setVisibility(View.VISIBLE);
+                        tvActivityUrl.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openTaobaoShopping(arrays[2]);
+                            }
+                        });
+                    }else {
+                        tvActivityUrl.setVisibility(View.GONE);
+                    }
+
+                }else {
+                    Log.e("test","云端逻辑调用异常：" + e.toString());
+                }
+            }
+        });
     }
 
     private void setOnListener() {
-        mPullToRefreshView.setMode(PullToRefreshBase.Mode.BOTH);
-        // 下拉刷新
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Log.e("test", "下拉刷新, mmPosts.size = " + mPosts.size());
-                //getPostByPage(0);
-                if(mPosts.size() != 0){
-                    getNewPost();
-                }else{
-                    getPostByPage(0);
-                }
-            }
+    }
 
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Log.e("test", "上拉加载");
-                getPostByPage(curPage);
-
-            }
-        });
-
-        tvNewPost.setOnClickListener(this);
+    private void openTaobaoShopping(final String url){
+        Intent intent = new Intent();
+        if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
+            Log.e("test","taobao is not installed");
+            intent.setAction("android.intent.action.VIEW");
+            Uri uri = Uri.parse(url);
+            intent.setData(uri);
+            startActivity(intent);
+        } else {
+            intent.putExtra("url",url);
+            intent.setClass(getActivity(),WebViewActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void init() {
-        mListView = mPullToRefreshView.getRefreshableView();
-        mPostAdapter = new PostAdapter(getActivity());
-        mPostAdapter.setPosts(mPosts);
-        mListView.setAdapter(mPostAdapter);
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //position从1开始，而List下标从0开始
-                Log.e("test","you click position:" + position + "   postContent = " + mPosts.get(position-1).getPostContent());
-                Intent intent = new Intent(getActivity(), DetailPostActivity.class);
-                intent.putExtra("postObjectId",mPosts.get(position-1).getObjectId());
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void getPostByPage(int page) {
-        BmobQuery<PostModel> query = new BmobQuery<PostModel>();
-        // 按时间降序查询
-        query.order("-updatedAt");
-
-        if (page == 0) { //第一次获取数据
-            curPage = 0;
-        }else{  //获取分页的数据
-            Date date = null;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                date = sdf.parse(historyPostTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            // 只查询小于等于最后一个item发表时间的数据
-            query.addWhereLessThan("updatedAt", new BmobDate(date));
-        }
-        query.setLimit(count);
-        query.findObjects(new FindListener<PostModel>() {
-            @Override
-            public void done(List<PostModel> list, BmobException e) {
-                if (mPullToRefreshView.isRefreshing()) {
-                    mPullToRefreshView.onRefreshComplete();
-                }
-                if (e == null) {
-                    if (list.size() > 0) {
-                        if(curPage == 0){
-                            mPosts.clear();
-                            for (PostModel model : list) {
-                                mPosts.add(model);
-                            }
-                            newPostTime = list.get(0).getUpdatedAt();
-                            historyPostTime = list.get(list.size() - 1).getUpdatedAt();
-                        }else{
-                            for (PostModel model : list) {
-                                mPosts.add(model);
-                            }
-                            historyPostTime = list.get(list.size() - 1).getUpdatedAt();
-                        }
-                        mPostAdapter.notifyDataSetChanged();
-                        // 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了
-                        curPage++;
-                        Log.e("test", "成功加载第" + curPage + "页数据");
-                    } else {
-                        Log.e("test", "没有数据了");
+        String str = PreferenceHelper.getInstance().getNotification();
+        if(str.contains("|")) {
+            String[] arays = str.split("[|]");
+            for(int i = 0; i < 3; i++){
+                if(arays[i] != null){
+                    if(i == 0){
+                        tvNotification1.setVisibility(View.VISIBLE);
+                        tvNotification1.setText(arays[i]);
+                    }else if(i == 1) {
+                        tvNotification2.setVisibility(View.VISIBLE);
+                        tvNotification2.setText(arays[i]);
+                    } else if(i == 2){
+                        tvNotification3.setVisibility(View.VISIBLE);
+                        tvNotification3.setText(arays[i]);
                     }
-                } else {
-                    Log.e("test", "请求数据失败，e" + e.toString());
                 }
             }
-        });
-    }
-
-    private void getNewPost() {
-        BmobQuery<PostModel> query = new BmobQuery<PostModel>();
-        // 按时间升序查询
-        query.order("updatedAt");
-        Date date = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            date = sdf.parse(newPostTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        // 只查询大于等于第一一个item发表时间的数据
-        query.addWhereGreaterThan("updatedAt", new BmobDate(date));
-        query.setLimit(count);
-        query.setSkip(1); //不加这一句会重复的查询到第一条数据
-        query.findObjects(new FindListener<PostModel>() {
-            @Override
-            public void done(List<PostModel> list, BmobException e) {
-                if (mPullToRefreshView.isRefreshing()) {
-                    mPullToRefreshView.onRefreshComplete();
-                }
-                if (e == null) {
-                    if (list.size() > 0) {
-                        Log.e("test", "查询成功，共：" + list.size() + "条新的数据");
-                        for (PostModel model : list) {
-                            mPosts.add(0,model);
-                        }
-                        newPostTime = list.get(list.size()-1).getUpdatedAt();
-                        mPostAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.e("test", "没有更多新数据");
-                    }
-                } else {
-                    Log.e("test", "请求数据失败，e" + e.toString());
-                }
-            }
-        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_new_post:
-                Intent intent = new Intent(getActivity(), NewPostActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
         }
     }
 }

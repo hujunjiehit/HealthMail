@@ -114,7 +114,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
         info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
         info.setId(cursor.getInt(cursor.getColumnIndex("id")));
-        Log.e("test","username = " + info.getPhoneNumber() + "  status = " + info.getStatus());
+        //Log.e("test","username = " + info.getPhoneNumber() + "  status = " + info.getStatus());
         accountList.add(info);
       }while(cursor.moveToNext());
     }

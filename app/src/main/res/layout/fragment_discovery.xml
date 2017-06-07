@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_std_white">
 
     <RelativeLayout
         android:id="@+id/layout_category_topbar"
@@ -14,29 +15,169 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="猫友动态"
+            android:text="猫友圈"
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/tv_new_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:clickable="true"
-            android:text="发帖"
-            android:textColor="@color/text_press"
-            android:textSize="@dimen/small_medium_text_size" />
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/layout_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_bar"
+                android:layout_margin="6dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_tittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="活动中心"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:id="@+id/activity_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_activity_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="6dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:lineSpacingExtra="6dp"
+                        android:text="activity desc"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_activity_url"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:autoLink="all"
+                        android:visibility="gone"
+                        android:text="点击参与活动"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/empty_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_empty_icon"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/empty_content"/>
+                    <TextView
+                        android:id="@+id/tv_empty_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text="暂无活动,更多活动敬请期待"
+                        android:textColor="@color/gray"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/dive_line"
+                  android:layout_width="fill_parent"
+                  android:layout_height="1.0px"
+                  android:layout_marginBottom="10dp"
+                  android:layout_marginTop="10dp"
+                  android:background="@color/div_line_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_system_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_bar"
+                android:layout_margin="6dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="系统公告"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/notification_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"
+                    android:text="1"
+                    android:visibility="gone"
+                    android:layout_gravity="left"/>
+
+                <TextView
+                    android:id="@+id/notification_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"
+                    android:text="2"
+                    android:visibility="gone"
+                    android:layout_gravity="left"/>
+
+                <TextView
+                    android:id="@+id/notification_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"
+                    android:text="3"
+                    android:visibility="gone"
+                    android:layout_gravity="left"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="@color/color_std_white">
 
         <!--     ptr:ptrAnimationStyle="flip"  flip:翻转  rotate:旋转-->
@@ -48,6 +189,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
+            android:visibility="gone"
             ptr:ptrAnimationStyle="flip"
             >
 

@@ -33,6 +33,11 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//是否支付全部订单
 
+    public final static String KEY_PAY_COST = "coins_pay_cost";//付款消耗的金币数量
+    public final static String KEY_HAS_ACTIVITY = "has_activity";//是否有新的活动或者公告
+    public final static String KEY_QQ_GROUP = "qq_group";//qq交流群
+    public final static String KEY_SYSTEM_NOTIFICATION = "system_notification";//系统公告
+
     public final static String KEY_UID = "uid";//存储的uid
 
     private static PreferenceHelper instance;
@@ -146,7 +151,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMinPingjiaTime() {
-        int time = CommonConfig.MinDelayTime;
+        int time = 600;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MIN_PINGJIA_TIME,time);
@@ -173,7 +178,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxPingjiaTime() {
-        int time = CommonConfig.MinDelayTime + 800;
+        int time = 1000;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_PINGJIA_TIME,time);
@@ -200,7 +205,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMinYuekeTime() {
-        int time = CommonConfig.MinDelayTime;
+        int time = 600;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MIN_YUEKE_TIME,time);
@@ -227,7 +232,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxYuekeTime() {
-        int time = CommonConfig.MinDelayTime + 800;
+        int time = 1000;
         checkPrefs();
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_YUEKE_TIME,time);
@@ -458,5 +463,93 @@ public class PreferenceHelper extends BasePerference{
             value = prefs.getInt(KEY_REMAIN_PINGJIA_TIMES,value);
         }
         return value;
+    }
+
+    public void setPayCost(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_PAY_COST,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getPayCost() {
+        int value = 1;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_PAY_COST,value);
+        }
+        return value;
+    }
+
+    public void setHasActivity(int cost) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_HAS_ACTIVITY,cost);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getHasActivity() {
+        int value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_HAS_ACTIVITY,value);
+        }
+        return value;
+    }
+
+    public void setQQGroup(String desc) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_QQ_GROUP,desc);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getQQGroup() {
+        String desc = "QQ交流群";
+        checkPrefs();
+        if (prefs != null) {
+            desc = prefs.getString(KEY_QQ_GROUP,desc);
+        }
+        return desc;
+    }
+
+    public void setNotification(String desc) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_SYSTEM_NOTIFICATION,desc);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getNotification() {
+        String desc = "系统公告";
+        checkPrefs();
+        if (prefs != null) {
+            desc = prefs.getString(KEY_SYSTEM_NOTIFICATION,desc);
+        }
+        return desc;
     }
 }

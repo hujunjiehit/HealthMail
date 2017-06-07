@@ -92,6 +92,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     private static final int GET_COURSE_USERS_FAILED = 17;
     private static final int GET_COURSE_DETAILS_FAILED = 18;
     private static final int USER_PWD_WRONG = 19;
+    private static final int REQUEST_INVAILED = 20;
 
     private int accountIndex = 0;
     private int sijiaoIndex = 0;
@@ -318,6 +319,12 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     accountIndex++;
                     this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
                     break;
+                case REQUEST_INVAILED:
+                    showTheResult("***错误信息："+ errmsg + "\n");
+                    showTheResult("***忽略错误的小号，继续下一个****************\n\n\n");
+                    accountIndex++;
+                    this.sendEmptyMessageDelayed(START_TO_YUE_KE,getDelayTime());
+                    break;
                 case GET_GUANZHU_LIST_FAILED:
                     showTheResult("--获取关注列表失败，重新获取关注列表\n");
                     this.sendEmptyMessageDelayed(START_TO_GET_GUANZHU_LIST,getDelayTime());
@@ -475,8 +482,14 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                         //一般是用户名或者密码错误
                         Log.e("test","message = " + tokenmodel.getMsg());
                         errmsg = tokenmodel.getMsg();
-                        DBManager.getInstance(YuekeActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
-                        mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+                        if(errmsg.contains("密码")){
+                            DBManager.getInstance(YuekeActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+                        }else {
+                            //请求失效
+                            DBManager.getInstance(YuekeActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
+                        }
                     } else {
                         //更新小号昵称
                         DBManager.getInstance(YuekeActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),

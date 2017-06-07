@@ -108,7 +108,13 @@ public class DBManager {
     //设置账号密码不可用
     public void setPwdInvailed(String phoneNumber){
         db.execSQL("update account set status = ? where phoneNumber = ?",
-                new String[]{"-1",phoneNumber});
+            new String[]{"-1",phoneNumber});
+    }
+
+    //设置账号请求失效
+    public void setRequestInvailed(String phoneNumber){
+        db.execSQL("update account set status = ? where phoneNumber = ?",
+            new String[]{"-2",phoneNumber});
     }
 
     public void updateAccountInfo(int id, String phonenumber, String pwd) {

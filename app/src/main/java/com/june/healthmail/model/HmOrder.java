@@ -21,6 +21,7 @@ public class HmOrder implements Serializable{
     private String TrainerNick;
     private String HM_ServerDate;
     private String HM_GBC_ServerTime;
+    private boolean selected;
 
     public String getHM_OrderId() {
         return HM_OrderId;
@@ -116,5 +117,13 @@ public class HmOrder implements Serializable{
 
     public void setHM_GBC_ServerTime(String HM_GBC_ServerTime) {
         this.HM_GBC_ServerTime = HM_GBC_ServerTime;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

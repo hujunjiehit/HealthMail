@@ -82,7 +82,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
         }
         holder.cbStatus.setTag(position);
         holder.cbStatus.setOnClickListener(this);
-        if(selected.containsKey(position) && acountInfo.getStatus() != -1){
+        if(selected.containsKey(position) && acountInfo.getStatus() >= 0){
             holder.cbStatus.setChecked(true);
         }else {
             if(acountInfo.getStatus() == 1){
@@ -92,7 +92,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
                 holder.cbStatus.setChecked(false);
                 selected.remove((Integer) holder.cbStatus.getTag());
             }else {
-                //-1
+                //-1 or -2
                 holder.cbStatus.setChecked(false);
                 selected.remove((Integer) holder.cbStatus.getTag());
             }
@@ -102,6 +102,10 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
             holder.tvPhonenumber.setTextColor(mContext.getResources().getColor(R.color.red));
             holder.tvIndex.setTextColor(mContext.getResources().getColor(R.color.red));
             holder.tvNickName.setTextColor(mContext.getResources().getColor(R.color.red));
+        }else if(acountInfo.getStatus() == -2){
+            holder.tvPhonenumber.setTextColor(mContext.getResources().getColor(R.color.green));
+            holder.tvIndex.setTextColor(mContext.getResources().getColor(R.color.green));
+            holder.tvNickName.setTextColor(mContext.getResources().getColor(R.color.green));
         }else {
             holder.tvPhonenumber.setTextColor(mContext.getResources().getColor(R.color.gray));
             holder.tvIndex.setTextColor(mContext.getResources().getColor(R.color.gray));
@@ -117,9 +121,10 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(((AccountInfo)mAcountList.get(Integer.parseInt(buttonView.getTag().toString()))).getStatus() == -1){
                     buttonView.setChecked(false);
-                    //Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"当前账号密码可能不正确，请修改",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if(isChecked){
                     if(!selected.containsKey(buttonView.getTag())){
                         selected.put((Integer) buttonView.getTag(),position);
@@ -127,6 +132,7 @@ public class AcountListAdapter extends BaseAdapter implements View.OnClickListen
                 }else{
                     selected.remove((Integer)buttonView.getTag());
                 }
+
                 mCallback.click(buttonView);
             }
         });

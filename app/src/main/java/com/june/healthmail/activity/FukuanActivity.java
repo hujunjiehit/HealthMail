@@ -12,9 +12,13 @@ import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +28,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.R;
+import com.june.healthmail.adapter.OrderListAdapter;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.GetAllPaymentModel;
 import com.june.healthmail.model.GetOrderListModel;
@@ -46,6 +51,7 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.view.ChoosePayOptionsPopwindow;
 
 import org.json.JSONArray;
@@ -74,12 +80,14 @@ import okhttp3.Response;
  * Created by bjhujunjie on 2017/3/9.
  */
 
-public class FukuanActivity extends BaseActivity implements View.OnClickListener{
+public class FukuanActivity extends BaseActivity implements View.OnClickListener, OrderListAdapter.Callback{
 
   private Button btn_start;
   private TextView tvShowResult;
   private TextView tvCoinsNumber;
   private TextView tvCoinsDesc;
+  private CheckBox cbPayAllOrders;
+  private ShowProgress showProgress;
 
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
@@ -110,7 +118,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private static final int PAY_TYPE_JINGDONG_ZHIFU = 23;
   private static final int PAY_TYPE_YILIAN_ZHIFU = 24;
   private static final int PAY_TYPE_KUAIQIAN_ZHIFU_2 = 25;
-
+  private static final int REQUEST_INVAILED = 26;
 
   private int accountIndex = 0;
 
@@ -128,6 +136,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private ChoosePayOptionsPopwindow popwindow;
   private int payTypeFlag;
   ArrayList<Double> values;
+  private OrderListAdapter orderListAdapter;
 
   private Handler mHandler = new Handler() {
 
@@ -186,6 +195,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           GetOrderListModel getOrderListModel = (GetOrderListModel)msg.obj;
             if(getOrderListModel.getValuse() != null){
                 for(int i = 0; i < getOrderListModel.getValuse().size(); i++){
+                    getOrderListModel.getValuse().get(i).setSelected(true);
                     hmOrders.add(getOrderListModel.getValuse().get(i));
                 }
                 if(hmOrders.size() > 0){
@@ -201,7 +211,13 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                       showTheResult("--------------金币余额-1\n");
                     }
                   }
-                  this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+
+                  if(cbPayAllOrders.isChecked()) {
+                    this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                  } else {
+                    //显示订单选择对话框
+                    showChooseOlderDialog();
+                  }
                 }else {
                   showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
                   accountIndex++;
@@ -311,6 +327,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             accountIndex++;
             this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
             break;
+        case REQUEST_INVAILED:
+          showTheResult("***错误信息："+ errmsg + "\n");
+          showTheResult("***请求失效，小号管理标记为绿色，继续下一个****************\n\n\n");
+          accountIndex++;
+          this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
+          break;
         default:
           break;
       }
@@ -408,11 +430,18 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   }
 
   private void initView() {
+    showProgress = new ShowProgress(this);
     btn_start = (Button) findViewById(R.id.btn_start);
     tvShowResult = (TextView) findViewById(R.id.et_show_result);
     tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
     tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
     tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
+    cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
+    if (PreferenceHelper.getInstance().getPayAllOrders()) {
+      cbPayAllOrders.setChecked(true);
+    } else {
+      cbPayAllOrders.setChecked(false);
+    }
     if(userInfo.getPayStatus() != null && userInfo.getPayStatus() == 1) {
       tvCoinsNumber.setVisibility(View.GONE);
       tvCoinsDesc.setText("付款永久用户(付款时不消耗金币)");
@@ -422,6 +451,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private void setListener() {
     btn_start.setOnClickListener(this);
     findViewById(R.id.img_back).setOnClickListener(this);
+    cbPayAllOrders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          PreferenceHelper.getInstance().setPayAllOrders(true);
+        } else {
+          PreferenceHelper.getInstance().setPayAllOrders(false);
+        }
+      }
+    });
   }
 
   private void initData() {
@@ -543,11 +582,18 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
           response.body().close();
           if(tokenmodel.getData() == null){
-            //一般是用户名或者密码错误
+            //一般是用户名或者密码错误 40022
             Log.e("test","message = " + tokenmodel.getMsg());
             errmsg = tokenmodel.getMsg();
-            DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
-            mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+            errmsg = "test";
+            if(errmsg.contains("密码")){
+              DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+              mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+            }else {
+              //请求失效
+              DBManager.getInstance(FukuanActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+              mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
+            }
           } else {
             //更新小号昵称
             DBManager.getInstance(FukuanActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
@@ -646,13 +692,25 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                 .add("accessToken",accessToken)
                 .add("data",job.toString())
                 .build();
+
+      if(showProgress != null && !showProgress.isShowing()){
+        showProgress.setMessage("正在获取支付方式...");
+        showProgress.show();
+      }
+
         HttpUntils.getInstance(this).postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+              if(showProgress != null && showProgress.isShowing()){
+                showProgress.dismiss();
+              }
               mHandler.sendEmptyMessageDelayed(GET_ALL_PAYMENT_FAILED,getDelayTime());
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+              if(showProgress != null && showProgress.isShowing()){
+                showProgress.dismiss();
+              }
               try {
                 Gson gson = new Gson();
                 GetAllPaymentModel getAllPaymentModel = gson.fromJson(response.body().charStream(), GetAllPaymentModel.class);
@@ -678,7 +736,15 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     List<String> ordIds = new ArrayList<>();
     ordIds.clear();
     for(HmOrder order:hmOrders){
-      ordIds.add(order.getHM_OrderId());
+      if(order.isSelected()){
+        ordIds.add(order.getHM_OrderId());
+      }
+    }
+    if(ordIds.size() <= 0) {
+      toast("需要付款的订单不能为空");
+      showTheResult("---------订单不能为空，重新获取订单列表\n");
+      mHandler.sendEmptyMessageDelayed(START_TO_GET_ORDER_LIST,getDelayTime());
+      return;
     }
     JsonArray jsonArray = new Gson().toJsonTree(ordIds, new TypeToken<List<String>>() {}.getType()).getAsJsonArray();
 
@@ -692,13 +758,25 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             .add("accessToken",accessToken)
             .add("data",job.toString())
             .build();
+
+    if(showProgress != null && !showProgress.isShowing()){
+      showProgress.setMessage("正在获取支付详情...");
+      showProgress.show();
+    }
+
     HttpUntils.getInstance(this).postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
         mHandler.sendEmptyMessageDelayed(GET_PAYINFO_FAILED,getDelayTime());
       }
       @Override
       public void onResponse(Call call, Response response) throws IOException {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
         try {
           Gson gson = new Gson();
           if (payType == 3){
@@ -1020,19 +1098,21 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private void showChooseFukuanMode(){
     //显示popupwindow
     popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
-    popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-    WindowManager.LayoutParams lp = getWindow().getAttributes();
-    lp.alpha = 0.5f;
-    getWindow().setAttributes(lp);
-    popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-      @Override
-      public void onDismiss() {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha=1f;
-        getWindow().setAttributes(lp);
-        //showContinueDialog();
-      }
-    });
+    if(!popwindow.isShowing()){
+      popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+      WindowManager.LayoutParams lp = getWindow().getAttributes();
+      lp.alpha = 0.5f;
+      getWindow().setAttributes(lp);
+      popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        @Override
+        public void onDismiss() {
+          WindowManager.LayoutParams lp = getWindow().getAttributes();
+          lp.alpha=1f;
+          getWindow().setAttributes(lp);
+          //showContinueDialog();
+        }
+      });
+    }
   }
 
   private void startToFuKuan() {
@@ -1064,6 +1144,39 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     offset = tvShowResult.getLineCount()* tvShowResult.getLineHeight() + 5;
     if(offset > tvShowResult.getHeight()){
       tvShowResult.scrollTo(0,offset- tvShowResult.getHeight());
+    }
+  }
+
+  private void showChooseOlderDialog() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_show_all_orders_layout,null);
+
+    ListView listView = (ListView) diaog_view.findViewById(R.id.list_view);
+    orderListAdapter = new OrderListAdapter(this,hmOrders,this);
+    listView.setAdapter(orderListAdapter);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("订单选择");
+    builder.setView(diaog_view);
+    builder.setCancelable(false);
+    builder.setPositiveButton("继续付款", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      }
+    });
+    AlertDialog dialog = builder.create();
+    if(!dialog.isShowing()) {
+      dialog.show();
+    }
+  }
+
+  @Override
+  public void click(View v) {
+    if(orderListAdapter != null && orderListAdapter.getSelected().containsKey((Integer) v.getTag())) {
+      hmOrders.get((Integer) v.getTag()).setSelected(true);
+    }else {
+      hmOrders.get((Integer) v.getTag()).setSelected(false);
     }
   }
 }

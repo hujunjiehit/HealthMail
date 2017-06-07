@@ -76,6 +76,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
     private static final int GET_ORDER_LIST_FAILED = 8;
     private static final int GET_TOKEN_FAILED = 9;
     private static final int USER_PWD_WRONG = 10;
+    private static final int REQUEST_INVAILED = 11;
 
 
     private int accountIndex = 0;
@@ -245,6 +246,12 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                     accountIndex++;
                     this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
                     break;
+                case REQUEST_INVAILED:
+                    showTheResult("***错误信息："+ errmsg + "\n");
+                    showTheResult("***请求失效，小号管理标记为绿色，继续下一个****************\n\n\n");
+                    accountIndex++;
+                    this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
+                    break;
                 default:
                     Log.e("test","undefined message");
                     break;
@@ -390,8 +397,14 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                         //一般是用户名或者密码错误
                         Log.e("test","message = " + tokenmodel.getMsg());
                         errmsg = tokenmodel.getMsg();
-                        DBManager.getInstance(PingjiaActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
-                        mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+                        if(errmsg.contains("密码")){
+                            DBManager.getInstance(PingjiaActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
+                        }else {
+                            //请求失效
+                            DBManager.getInstance(PingjiaActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
+                        }
                     } else {
                         //更新小号昵称
                         DBManager.getInstance(PingjiaActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),

@@ -25,6 +25,7 @@ import com.june.healthmail.adapter.OrderListAdapter;
 import com.june.healthmail.model.HmOrder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by june on 2017/3/12.
@@ -48,6 +49,13 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
             title = getIntent().getStringExtra("title");
             data = getIntent().getStringExtra("data");
             ordersList = (ArrayList<HmOrder>) getIntent().getSerializableExtra("orders");
+            Iterator<HmOrder> it = ordersList.iterator();
+            while(it.hasNext()){
+                HmOrder x = it.next();
+                if(!x.isSelected()){
+                    it.remove();
+                }
+            }
         }
         initViews();
         init();
@@ -137,9 +145,11 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
 
     private void showAllOrdersDialog() {
         View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_show_all_orders_layout,null);
+        diaog_view.findViewById(R.id.tv_status).setVisibility(View.GONE);
 
         ListView listView = (ListView) diaog_view.findViewById(R.id.list_view);
         OrderListAdapter adapter = new OrderListAdapter(this,ordersList);
+        adapter.hideCheckbox();
         listView.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

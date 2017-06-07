@@ -31,6 +31,8 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_REMAIN_YUEKE_TIMES = "remain_yueke_times";//剩余约课次数
     public final static String KEY_REMAIN_PINGJIA_TIMES = "remain_pingjia_times";//剩余评价次数
 
+    public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//是否支付全部订单
+
     public final static String KEY_UID = "uid";//存储的uid
 
     private static PreferenceHelper instance;
@@ -324,6 +326,28 @@ public class PreferenceHelper extends BasePerference{
             url = prefs.getString(KEY_UPDATE_LEVEL_URL,url);
         }
         return url;
+    }
+
+    public void setPayAllOrders(boolean getPayAllOrders) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_PAY_ALL_ORDERS,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getPayAllOrders() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_PAY_ALL_ORDERS,value);
+        }
+        return value;
     }
 
     public void setCoinsCostForPost(int cost) {

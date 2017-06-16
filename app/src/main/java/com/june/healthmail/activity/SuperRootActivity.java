@@ -20,6 +20,7 @@ import com.june.healthmail.R;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.untils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -481,13 +482,12 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         }else {
             Log.d("test","没有邀请人");
         }
-
     }
 
     private void updateUserInfo() {
         if(mUserInfo != null){
             tvUserName.setText(mUserInfo.getUsername());
-            tvUserType.setText(getUserTypeDsec(mUserInfo.getUserType()));
+            tvUserType.setText(Tools.getUserTypeDsec(mUserInfo.getUserType()));
             tvAllowDays.setText(mUserInfo.getAllowDays()+"");
             if(mUserInfo.getPayStatus() != null && mUserInfo.getPayStatus() == 1) {
                 tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"(付款永久用户)");
@@ -612,26 +612,6 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             }
         });
         builder.create().show();
-    }
-
-    private String getUserTypeDsec(Integer userType) {
-        String typeDesc = "";
-        if(userType == 0){
-            typeDesc = "普通用户";
-        }else if(userType == 1){
-            typeDesc = "月卡用户";
-        }else if(userType == 2) {
-            typeDesc = "永久用户";
-        }else if(userType == 3) {
-            typeDesc = "高级永久用户";
-        }else if(userType == 99) {
-            typeDesc = "管理员用户";
-        }else if(userType == 100) {
-            typeDesc = "超级管理员用户";
-        }else {
-            typeDesc = "过期用户";
-        }
-        return typeDesc;
     }
 
     private void toast(String str){

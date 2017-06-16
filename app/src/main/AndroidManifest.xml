@@ -91,6 +91,11 @@
         </activity>
 
         <activity
+            android:name=".activity.ProxyPersonActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
             android:name=".activity.ResetPasswordActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>

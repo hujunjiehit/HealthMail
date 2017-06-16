@@ -21,10 +21,10 @@ public class UserInfo extends BmobUser {
   private Integer yuekeTimes;
   private Integer pingjiaTimes;
 
-
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
   private Integer payStatus;  //付款插件开通状态
+  private String proxyPerson; //代理人信息
 
   public Integer getPayStatus() {
     return payStatus;
@@ -136,6 +136,14 @@ public class UserInfo extends BmobUser {
 
   public void setInstallId(String installId) {
     this.installId = installId;
+  }
+
+  public String getProxyPerson() {
+    return proxyPerson;
+  }
+
+  public void setProxyPerson(String proxyPerson) {
+    this.proxyPerson = proxyPerson;
   }
 
   @Override

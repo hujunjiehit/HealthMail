@@ -29,9 +29,11 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.LoginActivity;
 import com.june.healthmail.activity.MainActivity;
+import com.june.healthmail.activity.ProxyPersonActivity;
 import com.june.healthmail.activity.SuperRootActivity;
 import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.MessageDetails;
+import com.june.healthmail.model.ProxyInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
@@ -96,6 +98,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private static final int HANDLER_THE_MESSAGES = 1;
   private static final int UPDATE_THE_TIMES = 2;
   private static final int UPDATE_USER_INFO = 3;
+  private static final int UPDATE_QQ_GROUP = 4;
 
   private ArrayList<MessageDetails> messageList = new ArrayList<>();
   private int messageIndex = 0;
@@ -193,6 +196,16 @@ public class MineFragment extends Fragment implements View.OnClickListener{
               }
             }
           });
+          break;
+        case UPDATE_QQ_GROUP:
+          String str = msg.obj.toString();
+          if(str.contains("::")){
+            String[] array = str.split("::");
+            mTvQQGroup.setText(array[0] + ":" + array[1] + "\n" + array[2]);
+          }else {
+            mTvQQGroup.setText(str);
+          }
+
           break;
         default:
           break;
@@ -297,23 +310,59 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
   private void setUserDetails() {
     mTvCoinsNumber.setText("金币余额：" + userInfo.getCoinsNumber());
-    mTvQQGroup.setText(PreferenceHelper.getInstance().getQQGroup());
+
+    if(userInfo.getUserType() == 0){
+      mTvQQGroup.setVisibility(View.INVISIBLE);
+    }else {
+      mTvQQGroup.setVisibility(View.VISIBLE);
+    }
+    if(TextUtils.isEmpty(userInfo.getProxyPerson()) && userInfo.getUserType() != 98){
+      mTvQQGroup.setText(PreferenceHelper.getInstance().getQQGroup());
+    }else {
+      BmobQuery<ProxyInfo> query = new BmobQuery<ProxyInfo>();
+      query.addWhereEqualTo("userName",userInfo.getProxyPerson());
+      query.findObjects(new FindListener<ProxyInfo>() {
+        @Override
+        public void done(List<ProxyInfo> list, BmobException e) {
+          if(e == null) {
+            if(list.size() == 0){
+              mTvQQGroup.setText(PreferenceHelper.getInstance().getQQGroup());
+            }else {
+              Message msg = mHandler.obtainMessage(UPDATE_QQ_GROUP);
+              msg.obj = list.get(0).getDesc();
+              msg.sendToTarget();
+            }
+          } else {
+            toast("获取代理人信息异常,请退出页面重进，错误信息" + e.getMessage());
+          }
+        }
+      });
+    }
+
     if (userInfo.getUserType() == 0) {
       //普通用户
       mTvUserType.setText("普通用户");
       mTvAllowDays.setText("暂无授权，请联系软件作者购买");
-      tvGoToTaobao.setVisibility(View.VISIBLE);
+      tvGoToTaobao.setVisibility(View.GONE);
     }else if (userInfo.getUserType() == 1){
       //月卡用户
       mTvUserType.setText("月卡用户");
       getServerTime();
-      tvGoToTaobao.setVisibility(View.VISIBLE);
+      if(TextUtils.isEmpty(userInfo.getProxyPerson())){
+        tvGoToTaobao.setVisibility(View.VISIBLE);
+      }else{
+        tvGoToTaobao.setVisibility(View.GONE);
+      }
     } else if (userInfo.getUserType() == 2) {
       //永久用户
       mTvUserType.setText("永久用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setText("点击升级高级永久");
-      tvGoToTaobao.setVisibility(View.VISIBLE);
+      if(TextUtils.isEmpty(userInfo.getProxyPerson())){
+        tvGoToTaobao.setVisibility(View.VISIBLE);
+      }else{
+        tvGoToTaobao.setVisibility(View.GONE);
+      }
     } else if (userInfo.getUserType() == 3) {
       //高级永久用户
       mTvUserType.setText("高级永久用户");
@@ -329,7 +378,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
       mTvUserType.setText("管理员用户");
       mTvAllowDays.setVisibility(View.GONE);
       tvGoToTaobao.setVisibility(View.GONE);
-    } else if(userInfo.getUserType() == 100){
+    }else if(userInfo.getUserType() == 98){
+      //总代理用户
+      mTvUserType.setText("总代理");
+      mTvAllowDays.setVisibility(View.GONE);
+      tvGoToTaobao.setVisibility(View.GONE);
+    }else if(userInfo.getUserType() == 100){
       //超级管理员用户
       mTvUserType.setText("超级管理员用户");
       mTvAllowDays.setVisibility(View.GONE);
@@ -441,6 +495,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         if(userInfo != null && (userInfo.getUserType() == 99 || userInfo.getUserType() == 100)){
           Intent intent = new Intent(getActivity(),SuperRootActivity.class);
           startActivity(intent);
+        } else if (userInfo != null && (userInfo.getUserType() == 98)) {
+          Intent intent = new Intent(getActivity(),ProxyPersonActivity.class);
+          startActivity(intent);
         }
         break;
       case R.id.iv_get_help: // 金币帮助问号
@@ -534,7 +591,11 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         //金币入账消息
           builder.setTitle("金币入账通知");
           if(messageType == 1 || messageType == 2 || messageType == 3){
-            builder.setMessage(messageDetails.getReasons() + "\n被邀请人账号：" + messageDetails.getRelatedUserName());
+            if(messageDetails.getReasons().contains("邀请人")){
+              builder.setMessage(messageDetails.getReasons() + "\n被邀请人账号：" + messageDetails.getRelatedUserName());
+            }else {
+              builder.setMessage(messageDetails.getReasons());
+            }
           }else {
             builder.setMessage(messageDetails.getReasons());
           }
@@ -565,12 +626,39 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           builder.create().show();
       }else if(messageType == 5 || messageType == 6 || messageType == 7 || messageType == 8){
         //授权变动消息
+
+        //试用过的用户无法再次开通试用
+        if (messageDetails.getScore() == 1) {
+          if(userInfo.getAllowDays() > 0) {
+            //一个人最多试用两天
+            toast("一个用户最多开通一次试用");
+            messageDetails.setStatus(0);
+            messageDetails.update(messageDetails.getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e == null) {
+                  Log.e("test","消息更新成功");
+                  messageIndex++;
+                  mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                }else {
+                  Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
+                }
+              }
+            });
+
+            return;
+          }
+        }
+
         builder.setTitle("授权变动通知");
         if(messageType == 5){
           if(messageDetails.getScore() == 1){
             builder.setMessage("试用授权开通成功");
           }else{
             builder.setMessage("月卡授权开通成功，本次开通了" + messageDetails.getScore() + "天授权");
+          }
+          if(messageDetails.getReasons().contains("代理人")){
+            userInfo.setProxyPerson(messageDetails.getReasons().split("::")[1]);
           }
           if(userInfo.getUserType() == 1){
             //试用时间未过期
@@ -581,9 +669,15 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           }
         }else if(messageType == 6){
           builder.setMessage("永久授权开通成功");
+          if(messageDetails.getReasons().contains("代理人")){
+            userInfo.setProxyPerson(messageDetails.getReasons().split("::")[1]);
+          }
           userInfo.setUserType(2);
         }else if(messageType == 7){
           builder.setMessage("成功升级高级永久");
+          if(messageDetails.getReasons().contains("代理人")){
+            userInfo.setProxyPerson(messageDetails.getReasons().split("::")[1]);
+          }
           userInfo.setUserType(3);
           userInfo.setLastDay("");
         }else if(messageType == 8){

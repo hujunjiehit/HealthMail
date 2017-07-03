@@ -270,6 +270,11 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
         }
         setContentView(R.layout.activity_pingjia);
         userInfo = BmobUser.getCurrentUser(UserInfo.class);
+        if(getIntent() != null){
+            if(getIntent().getBooleanExtra("exception",false)){
+                PreferenceHelper.getInstance().setRemainPingjiaTimes(3000);
+            }
+        }
         initView();
         setListener();
         initData();

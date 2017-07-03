@@ -38,6 +38,11 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_QQ_GROUP = "qq_group";//qq交流群
     public final static String KEY_SYSTEM_NOTIFICATION = "system_notification";//系统公告
 
+
+    public final static String KEY_MAX_COURSES = "max_courses";//系统公告
+    public final static String KEY_AUTO_JUMP = "auto_jump";//系统公告
+
+
     public final static String KEY_UID = "uid";//存储的uid
 
     private static PreferenceHelper instance;
@@ -551,5 +556,49 @@ public class PreferenceHelper extends BasePerference{
             desc = prefs.getString(KEY_SYSTEM_NOTIFICATION,desc);
         }
         return desc;
+    }
+
+    public void setMaxCourses(int maxCourses) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_MAX_COURSES,maxCourses);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getMaxCourses() {
+        int maxCourses = 10;
+        checkPrefs();
+        if (prefs != null) {
+            maxCourses = prefs.getInt(KEY_MAX_COURSES,maxCourses);
+        }
+        return maxCourses;
+    }
+
+    public void setAutoJump(int autoJump) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_AUTO_JUMP,autoJump);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getAutoJump() {
+        int autoJump = 0;
+        checkPrefs();
+        if (prefs != null) {
+            autoJump = prefs.getInt(KEY_AUTO_JUMP,0);
+        }
+        return autoJump;
     }
 }

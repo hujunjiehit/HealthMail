@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,8 +43,10 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.TimeUntils;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +116,12 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     private int max_sijiao;
     private String errmsg;
     private int max_courses = 50;
+
+    //单私教最多约课数
+    private int per_sijiao_max_courses;
+    private TextView tvShowMaxCourses;
+    private Button btnEditMaxCourses;
+    private TextView tvDescMaxCourses;
 
     private Handler mHandler = new Handler(){
 
@@ -226,8 +236,21 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 case START_TO_GET_COURSE_USERS:
                     if(isRunning) {
                         if (courseIndex < coureseList.size()) {
-                            showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
-                            getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
+                            if(courseIndex < per_sijiao_max_courses){
+                                if(isOutofDate(coureseList.get(courseIndex))){
+                                    //上课时间是否过了
+                                    showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下个私教\n");
+                                    sijiaoIndex++;
+                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                                }else {
+                                    showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
+                                    getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
+                                }
+                            }else {
+                                showTheResult("-------------用户设置每个私教最多约" + per_sijiao_max_courses + "节课，继续下一个私教\n");
+                                sijiaoIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                            }
                         } else {
                             sijiaoIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
@@ -348,7 +371,24 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         }
     };
 
+    private boolean isOutofDate(Course course) {
+        String[] array = course.getHm_gbc_enddate().split("T");
+        try {
+            long time1 = TimeUntils.dateToStamp(array[0] + " " + array[1]);
+            if(time1 > System.currentTimeMillis()) {
+                Log.e("test","time1 > currentime");
+                //可以约课
+                return false;
+            }else {
+                Log.e("test","time1 <= currentime");
+                return true;
+            }
 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
     @Override
@@ -360,6 +400,11 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         }
         setContentView(R.layout.activity_yueke);
         userInfo = BmobUser.getCurrentUser(UserInfo.class);
+        if(getIntent() != null){
+            if(getIntent().getBooleanExtra("exception",false)){
+                PreferenceHelper.getInstance().setRemainYuekeTimes(3000);
+            }
+        }
         if(userInfo.getUserType() >= 3) {
             max_courses = 200;
         } else {
@@ -381,16 +426,24 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         tvShowResult = (TextView) findViewById(R.id.et_show_result);
         tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         tvRemainTimes = (TextView) findViewById(R.id.tv_remmain_times);
+        tvShowMaxCourses = (TextView) findViewById(R.id.tv_show_max_courses);
+        btnEditMaxCourses = (Button) findViewById(R.id.btn_edit_max_courses);
+        tvDescMaxCourses = (TextView) findViewById(R.id.tv_desc_max_courses);
     }
 
     private void setListener() {
         btn_start.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
+        btnEditMaxCourses.setOnClickListener(this);
     }
 
     private void initData() {
         accountList.clear();
         tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "");
+
+        per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
+        tvShowMaxCourses.setText(per_sijiao_max_courses + "");
+        tvDescMaxCourses.setText(String.format("每个私教只约前面的%d节课",per_sijiao_max_courses));
 
         SQLiteDatabase db = DBManager.getInstance(this).getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
@@ -441,6 +494,9 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.img_back:	//返回
                 finish();
+                break;
+            case R.id.btn_edit_max_courses:	//修改每个私教最大课程数
+                showEditCoursesDialog();
                 break;
             default:
                 break;
@@ -746,5 +802,36 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 }
             }
         });
+    }
+
+    private void showEditCoursesDialog() {
+        View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+        final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+        edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("修改最大约课数");
+        builder.setView(diaog_view);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+                    return;
+                }
+                int value = Integer.valueOf(edit_text.getText().toString().trim());
+                if(value > 20) {
+                    toast("每个私教最多只能约前面的20节课");
+                }else if(value > 0 && value <= 20){
+                    PreferenceHelper.getInstance().setMaxCourses(value);
+                    per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
+                    tvShowMaxCourses.setText(per_sijiao_max_courses + "");
+                    tvDescMaxCourses.setText(String.format("每个私教只约前面的%d节课",per_sijiao_max_courses));
+                }else {
+                    toast("数值必须大于0");
+                }
+
+            }
+        });
+        builder.create().show();
     }
 }

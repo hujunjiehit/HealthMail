@@ -158,6 +158,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           }
         }else {
           Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
+          Intent it = new Intent(getActivity(),cls);
+          it.putExtra("exception",true);
+          startActivity(it);
         }
       }
     });

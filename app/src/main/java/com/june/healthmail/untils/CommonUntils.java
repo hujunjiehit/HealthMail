@@ -198,7 +198,7 @@ public class CommonUntils {
 
   public static boolean hasPermission() {
     UserInfo userInfo = BmobUser.getCurrentUser(UserInfo.class);
-    if(userInfo.getUserType() == 3 || userInfo.getUserType() == 1 || userInfo.getUserType() == 2 || userInfo.getUserType() >= 99){
+    if(userInfo.getUserType() == 3 || userInfo.getUserType() == 1 || userInfo.getUserType() == 2 || userInfo.getUserType() >= 98){
       return true;
     }else {
       return false;

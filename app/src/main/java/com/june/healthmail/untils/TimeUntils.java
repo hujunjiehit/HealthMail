@@ -56,4 +56,13 @@ public class TimeUntils {
     }
     return str.split(" ")[0];
   }
+
+  /*
+   * 将时间转换为时间戳
+   */
+  public static long dateToStamp(String s) throws ParseException {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date date = simpleDateFormat.parse(s);
+    return date.getTime();
+  }
 }

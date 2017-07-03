@@ -180,7 +180,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 setUserDetails();
                 tvYuekeTimes.setText(PreferenceHelper.getInstance().getRemainYuekeTimes() + "次");
                 tvPingjiaTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "次");
-                if(PreferenceHelper.getInstance().getHasActivity() == 1) {
+                if(PreferenceHelper.getInstance().getAutoJump() == 1) {
                   //有活动
                   postDelayed(new Runnable() {
                     @Override
@@ -189,7 +189,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                           activity.goToFragment(0);
                         }
                     }
-                  },1000);
+                  },100);
                 }
               }else{
                 Log.e("test","更新用户信息失败");
@@ -771,6 +771,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setHasActivity(Integer.parseInt(arrays[7]));
           PreferenceHelper.getInstance().setQQGroup(arrays[8]);
           PreferenceHelper.getInstance().setNotification(arrays[9]);
+          PreferenceHelper.getInstance().setAutoJump(Integer.parseInt(arrays[10]));
           mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
         }else {
           Log.e("test","云端逻辑调用异常：" + e.toString());

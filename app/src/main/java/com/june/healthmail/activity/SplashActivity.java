@@ -24,8 +24,6 @@ import net.youmi.android.normal.spot.SplashViewSettings;
 import net.youmi.android.normal.spot.SpotListener;
 import net.youmi.android.normal.spot.SpotManager;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-
 
 public class SplashActivity extends Activity {
 

@@ -1,5 +1,7 @@
 package com.june.healthmail.fragement;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.CancleGuanzhuActivity;
 import com.june.healthmail.activity.FukuanActivity;
 import com.june.healthmail.activity.FunctionSetupActivity;
+import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.model.UserInfo;
@@ -46,6 +50,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private Button btnPingjia;
   private Button btnYueke;
   private Button btnFukuan;
+  private Button btnGuanzhu;
   private ImageView imgSetup;
   private UserInfo userInfo;
   private ShowProgress showProgress;
@@ -68,6 +73,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
     btnFukuan = (Button) layout.findViewById(R.id.btn_operition_fukuan);
+    btnGuanzhu = (Button) layout.findViewById(R.id.btn_operition_guanzhu);
     imgSetup = (ImageView) layout.findViewById(R.id.img_setup);
   }
 
@@ -76,6 +82,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
     btnFukuan.setOnClickListener(this);
+    btnGuanzhu.setOnClickListener(this);
     imgSetup.setOnClickListener(this);
   }
 
@@ -116,6 +123,29 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           break;
         case R.id.btn_operition_fukuan:
           checkPermission(FukuanActivity.class);
+//          intent = new Intent(getActivity(),FukuanActivity.class);
+//          startActivity(intent);
+          break;
+        case R.id.btn_operition_guanzhu:
+          AlertDialog dialog = new AlertDialog.Builder(getActivity())
+              .setTitle("功能选择")
+              .setMessage("请选择是要关注还是取消关注？")
+              .setNegativeButton("取消关注", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+                  checkPermission(CancleGuanzhuActivity.class);
+                }
+              })
+              .setPositiveButton("一键关注", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+                  checkPermission(GuanzhuActivity.class);
+                }
+              })
+              .create();
+          dialog.show();
 //          intent = new Intent(getActivity(),FukuanActivity.class);
 //          startActivity(intent);
           break;

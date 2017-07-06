@@ -65,6 +65,16 @@
         </activity>
 
         <activity
+            android:name=".activity.GuanzhuActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".activity.CancleGuanzhuActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
             android:name=".activity.FunctionSetupActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>

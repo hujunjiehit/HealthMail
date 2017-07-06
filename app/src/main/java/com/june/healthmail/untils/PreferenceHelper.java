@@ -42,6 +42,8 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_MAX_COURSES = "max_courses";//系统公告
     public final static String KEY_AUTO_JUMP = "auto_jump";//系统公告
 
+    public final static String KEY_TARGET_NUMBER = "target_number";//目标私教猫号
+    public final static String KEY_IS_TARGET_EXIST = "is_target_exist";//目标私教是否存在
 
     public final static String KEY_UID = "uid";//存储的uid
 
@@ -600,5 +602,49 @@ public class PreferenceHelper extends BasePerference{
             autoJump = prefs.getInt(KEY_AUTO_JUMP,0);
         }
         return autoJump;
+    }
+
+    public void setTargetNumber(String number) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_TARGET_NUMBER,number);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getTargetNumber() {
+        String number = "";
+        checkPrefs();
+        if (prefs != null) {
+            number = prefs.getString(KEY_TARGET_NUMBER,number);
+        }
+        return number;
+    }
+
+    public void setIsTargetExist(boolean exist) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_IS_TARGET_EXIST,exist);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getIsTargetExist() {
+        boolean exist = false;
+        checkPrefs();
+        if (prefs != null) {
+            exist = prefs.getBoolean(KEY_IS_TARGET_EXIST,exist);
+        }
+        return exist;
     }
 }

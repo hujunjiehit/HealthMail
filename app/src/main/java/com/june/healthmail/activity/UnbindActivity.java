@@ -1,18 +1,15 @@
 package com.june.healthmail.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.UiThread;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.june.healthmail.Config.CommonConfig;
 import com.june.healthmail.R;
@@ -229,7 +226,7 @@ public class UnbindActivity extends BaseActivity {
                       }
                       if (e == null) {
                         Log.d("test", "解绑成功");
-                        toast("解绑成功");
+                        toast("解绑成功,请前往登录界面登录");
                         runOnUiThread(new Runnable() {
                           @Override
                           public void run() {

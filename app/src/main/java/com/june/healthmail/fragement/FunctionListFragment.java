@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
@@ -19,6 +20,8 @@ import com.june.healthmail.activity.FukuanActivity;
 import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
+import com.june.healthmail.activity.PostCourseActivity;
+import com.june.healthmail.activity.PostCourseDetailActivity;
 import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
@@ -26,6 +29,7 @@ import com.june.healthmail.untils.ShowProgress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -50,8 +54,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private Button btnPingjia;
   private Button btnYueke;
   private Button btnFukuan;
-  private Button btnGuanzhu;
+  private Button btnPostCourse;
   private ImageView imgSetup;
+  private TextView tvGuanzhu;
   private UserInfo userInfo;
   private ShowProgress showProgress;
 
@@ -73,8 +78,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
     btnFukuan = (Button) layout.findViewById(R.id.btn_operition_fukuan);
-    btnGuanzhu = (Button) layout.findViewById(R.id.btn_operition_guanzhu);
+    btnPostCourse = (Button) layout.findViewById(R.id.btn_operition_post_course);
     imgSetup = (ImageView) layout.findViewById(R.id.img_setup);
+    tvGuanzhu = (TextView) layout.findViewById(R.id.tv_guanzhu);
   }
 
 
@@ -82,8 +88,9 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
     btnFukuan.setOnClickListener(this);
-    btnGuanzhu.setOnClickListener(this);
+    btnPostCourse.setOnClickListener(this);
     imgSetup.setOnClickListener(this);
+    tvGuanzhu.setOnClickListener(this);
   }
 
 
@@ -121,12 +128,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           intent = new Intent(getActivity(),FunctionSetupActivity.class);
           startActivity(intent);
           break;
-        case R.id.btn_operition_fukuan:
-          checkPermission(FukuanActivity.class);
-//          intent = new Intent(getActivity(),FukuanActivity.class);
-//          startActivity(intent);
-          break;
-        case R.id.btn_operition_guanzhu:
+        case R.id.tv_guanzhu:
           AlertDialog dialog = new AlertDialog.Builder(getActivity())
               .setTitle("功能选择")
               .setMessage("请选择是要关注还是取消关注？")
@@ -146,6 +148,15 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
               })
               .create();
           dialog.show();
+          //checkPermission(PostCourseDetailActivity.class);
+          break;
+        case R.id.btn_operition_fukuan:
+          checkPermission(FukuanActivity.class);
+//          intent = new Intent(getActivity(),FukuanActivity.class);
+//          startActivity(intent);
+          break;
+        case R.id.btn_operition_post_course:
+          checkPermission(PostCourseActivity.class);
 //          intent = new Intent(getActivity(),FukuanActivity.class);
 //          startActivity(intent);
           break;
@@ -187,10 +198,10 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(),o.toString(), Toast.LENGTH_LONG).show();
           }
         }else {
-          Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
-          Intent it = new Intent(getActivity(),cls);
-          it.putExtra("exception",true);
-          startActivity(it);
+//          Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
+//          Intent it = new Intent(getActivity(),cls);
+//          it.putExtra("exception",true);
+//          startActivity(it);
         }
       }
     });

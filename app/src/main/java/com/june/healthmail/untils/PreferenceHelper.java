@@ -32,6 +32,7 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_REMAIN_PINGJIA_TIMES = "remain_pingjia_times";//剩余评价次数
 
     public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//是否支付全部订单
+    public final static String KEY_REMBER_PWD = "rember_pwd";//是否记住私教密码
 
     public final static String KEY_PAY_COST = "coins_pay_cost";//付款消耗的金币数量
     public final static String KEY_HAS_ACTIVITY = "has_activity";//是否有新的活动或者公告
@@ -39,13 +40,22 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_SYSTEM_NOTIFICATION = "system_notification";//系统公告
 
 
-    public final static String KEY_MAX_COURSES = "max_courses";//系统公告
+    public final static String KEY_MAX_COURSES = "max_courses";//最多约多少节课
     public final static String KEY_AUTO_JUMP = "auto_jump";//系统公告
 
     public final static String KEY_TARGET_NUMBER = "target_number";//目标私教猫号
     public final static String KEY_IS_TARGET_EXIST = "is_target_exist";//目标私教是否存在
 
     public final static String KEY_UID = "uid";//存储的uid
+
+    public final static String KEY_SIJIAO_UID = "sijiao_uid";//私教账号
+    public final static String KEY_SIJIAO_SECRET = "sijiao_secret";//私教密码
+
+    public final static String KEY_COURSE_NUMBER = "course_number";//发布多少节课
+    public final static String KEY_COURSE_TITLE = "course_title";//课程标题前缀
+    public final static String KEY_COURSE_PICTURE = "course_pic";//课程图片
+    public final static String KEY_MAX_COURSE_PEOPLE = "max_course_people";//最大人数
+    public final static String KEY_AVERGE_PRICE = "averge_price";//人均价格
 
     private static PreferenceHelper instance;
 
@@ -70,7 +80,6 @@ public class PreferenceHelper extends BasePerference{
                 editor.commit();
             }
         }
-
     }
 
     /**
@@ -574,7 +583,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getMaxCourses() {
-        int maxCourses = 10;
+        int maxCourses = 20;
         checkPrefs();
         if (prefs != null) {
             maxCourses = prefs.getInt(KEY_MAX_COURSES,maxCourses);
@@ -646,5 +655,182 @@ public class PreferenceHelper extends BasePerference{
             exist = prefs.getBoolean(KEY_IS_TARGET_EXIST,exist);
         }
         return exist;
+    }
+
+    public void setSijiaoUid(String uid) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_SIJIAO_UID,uid);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getSijiaoUid() {
+        String uid = "";
+        checkPrefs();
+        if (prefs != null) {
+            uid = prefs.getString(KEY_SIJIAO_UID,uid);
+        }
+        return uid;
+    }
+
+    public void setSijiaoPwd(String pwd) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_SIJIAO_SECRET,pwd);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getSijiaoPwd() {
+        String pwd = "";
+        checkPrefs();
+        if (prefs != null) {
+            pwd = prefs.getString(KEY_SIJIAO_SECRET,pwd);
+        }
+        return pwd;
+    }
+
+    public void setCourseNumber(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_COURSE_NUMBER,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getCourseNumber() {
+        int value = 10;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_COURSE_NUMBER,value);
+        }
+        return value;
+    }
+
+    public void setCourseTitle(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_COURSE_TITLE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getCourseTitle() {
+        String value = "课程-";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_COURSE_TITLE,value);
+        }
+        return value;
+    }
+
+    public void setMaxPeople(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_MAX_COURSE_PEOPLE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getMaxPeople() {
+        int value = 200;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_MAX_COURSE_PEOPLE,value);
+        }
+        return value;
+    }
+
+    public void setAvergePrice(float value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putFloat(KEY_AVERGE_PRICE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public float getAvergePrice() {
+        float value = 50;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getFloat(KEY_AVERGE_PRICE,value);
+        }
+        return value;
+    }
+
+    public void setCoursePicture(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_COURSE_PICTURE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getCoursePicture() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_COURSE_PICTURE,value);
+        }
+        return value;
+    }
+
+
+    public void setRemberPwd(boolean value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_REMBER_PWD,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getRemberPwd() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_REMBER_PWD,value);
+        }
+        return value;
     }
 }

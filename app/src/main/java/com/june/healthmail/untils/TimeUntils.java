@@ -57,6 +57,23 @@ public class TimeUntils {
     return str.split(" ")[0];
   }
 
+  /**
+   * 时间戳转时间日期
+   * @param ms
+   * @return 2017-04-24
+   */
+  public static String transForDate1(long ms){
+    String str = "";
+      long msl=(long)ms*1000;
+      SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      try {
+        str=sdf.format(msl); //2017-04-24 23:32:24
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    return str;
+  }
+
   /*
    * 将时间转换为时间戳
    */

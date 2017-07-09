@@ -239,9 +239,9 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                             if(courseIndex < per_sijiao_max_courses){
                                 if(isOutofDate(coureseList.get(courseIndex))){
                                     //上课时间是否过了
-                                    showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下个私教\n");
-                                    sijiaoIndex++;
-                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                                    showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                                    courseIndex++;
+                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                                 }else {
                                     showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
                                     getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());

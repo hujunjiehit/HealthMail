@@ -7,6 +7,15 @@ package com.june.healthmail.model;
 public class UserModelValuse {
   private String HM_U_NickName;
   private UserModel UserModel;
+  private TrainerModel PTrainerModel;
+
+  public TrainerModel getPTrainerModel() {
+    return PTrainerModel;
+  }
+
+  public void setPTrainerModel(TrainerModel PTrainerModel) {
+    this.PTrainerModel = PTrainerModel;
+  }
 
   public com.june.healthmail.model.UserModel getUserModel() {
     return UserModel;

@@ -1,5 +1,7 @@
 package com.june.healthmail.untils;
 
+import android.text.TextUtils;
+
 /**
  * Created by june on 2017/6/15.
  */
@@ -12,6 +14,26 @@ public class Tools {
       result = 0;
     } else {
       result = value.intValue();
+    }
+    return result;
+  }
+
+  public static int parseInt(String src){
+    int result;
+    if(TextUtils.isEmpty(src)){
+      result = 0;
+    }else {
+      result = Integer.parseInt(src.trim());
+    }
+    return result;
+  }
+
+  public static float parseFloat(String src){
+    float result;
+    if(TextUtils.isEmpty(src)){
+      result = 0;
+    }else {
+      result = Float.parseFloat(src.trim());
     }
     return result;
   }

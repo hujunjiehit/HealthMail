@@ -488,10 +488,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         .setTitle("提醒")
         .setMessage("此帐号已经绑定了另外一台设备("+deviceInfo.getDeviceDesc()+")" +
             " 如需继续,请先解除绑定")
-        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        .setPositiveButton("点击解绑", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
               dialog.dismiss();
+              startToUnbindDevice();
           }
         }).create();
     dialog.show();

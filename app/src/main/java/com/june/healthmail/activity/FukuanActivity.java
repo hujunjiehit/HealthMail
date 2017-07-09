@@ -1145,7 +1145,6 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         }
       });
     }
-
   }
 
   private void showTheResult(String str){

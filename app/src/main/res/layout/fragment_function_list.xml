@@ -10,6 +10,18 @@
         style="@style/TopbarStyle" >
 
         <TextView
+            android:id="@+id/tv_guanzhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="6dp"
+            android:text="关注管理"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_medium_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
             android:id="@+id/tv_mine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,15 +78,14 @@
                 android:textSize="26sp"
                 android:text="自动付款"/>
 
-
             <Button
-                android:id="@+id/btn_operition_guanzhu"
-                android:layout_marginTop="36dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="26sp"
-                android:text="关注管理"/>
+            android:id="@+id/btn_operition_post_course"
+            android:layout_marginTop="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="26sp"
+            android:text="自动发课"/>
         </LinearLayout>
 
     </RelativeLayout>

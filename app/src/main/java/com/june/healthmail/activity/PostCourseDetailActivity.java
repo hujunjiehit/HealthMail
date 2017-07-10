@@ -128,15 +128,21 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
       switch (msg.what){
         case START_TO_POST_COURSE:
           if(isRunning) {
-            if (courseIndex < courseNumber) {
-              mConfigLayout.setVisibility(View.GONE);
-              tvShowResult.setVisibility(View.VISIBLE);
-              showTheResult("\n\n开始发布第" + (courseIndex + 1) + "节课，一共" + courseNumber +"节课\n");
-              postTheCourse();
-            } else {
-              showTheResult("******所有课程发布结束**********\n");
+            if(userInfo.getCoinsNumber() >= 0){
+              if (courseIndex < courseNumber) {
+                mConfigLayout.setVisibility(View.GONE);
+                tvShowResult.setVisibility(View.VISIBLE);
+                showTheResult("\n\n开始发布第" + (courseIndex + 1) + "节课，一共" + courseNumber +"节课\n");
+                postTheCourse();
+              } else {
+                showTheResult("******所有课程发布结束**********\n");
+                isRunning = false;
+                btnStart.setText("显示课程配置");
+              }
+            }else {
+              showTheResult("******金币余额不足，发布结束**********\n");
               isRunning = false;
-              btnStart.setText("显示课程配置");
+              btnStart.setText("开始发布");
             }
           } else {
             showTheResult("**用户自己终止发布进展**当前已经成功发布" + courseIndex + "节课\n");
@@ -145,11 +151,13 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
         case POST_COURSE_SUCESS:
           updateTheCoinsNumber();
           tvConinsNumber.setText(userInfo.getCoinsNumber()+"");
-          showTheResult("----金币余额-" + coinsCost + "\n");
-          showTheResult("-------课程发布成功，继续发布下一节课\n");
+          showTheResult("--金币余额-" + coinsCost + "\n");
+          showTheResult("----发布成功\n");
+          showTheResult("-----上课时间：" + courseTime.split(" ")[0] + " " + getDetailTime()+ "\n");
+          showTheResult("-------报名截止时间：" + getEndDate() + "\n");
+          showTheResult("---------继续发布下一节课\n");
           courseIndex++;
-          message = this.obtainMessage(START_TO_POST_COURSE);
-          message.sendToTarget();
+          mHandler.sendEmptyMessageDelayed(START_TO_POST_COURSE,500);
           break;
         case POST_COURSE_EXIST:
           showTheResult("----改时间段已经发布过课程，不能重叠发布，继续发布下一节课\n");
@@ -239,6 +247,11 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
     tvShowResult.setMovementMethod(ScrollingMovementMethod.getInstance());
     coursePicUrl = PreferenceHelper.getInstance().getCoursePicture();
     if(TextUtils.isEmpty(coursePicUrl)){
+      if(trainerModel.getHm_ptwi_images().size() == 0){
+        toast("私教小屋图片为空，需要至少上传一张图片");
+        finish();
+        return;
+      }
       coursePicUrl = trainerModel.getHm_ptwi_images().get(0).getIurl();
       PreferenceHelper.getInstance().setCoursePicture(coursePicUrl);
     }
@@ -366,6 +379,14 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
       toast("当前时间点开始，最多只能发布" + maxCourseNumber + "节课");
       return false;
     }
+
+    if(trainerModel.getHM_PT_TeachingSite().size() == 0){
+      toast("请登录健康猫->私教信息设置一个教学场地");
+      return false;
+    }else if(TextUtils.isEmpty(trainerModel.getHM_PT_TeachingSite().get(0).getSitename())){
+      toast("教学场地设置不规范，请添加一个新的教学场地并删除第一个教学场地");
+      return false;
+    }
     return true;
   }
 
@@ -413,7 +434,7 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
     model.addProperty("hm_gbc_whopay","1");
     model.addProperty("hm_gbc_date",courseTime.split(" ")[0]);
     model.addProperty("hm_gbc_desc","场地费用自理");
-    model.addProperty("hm_gbc_enddate",courseTime);
+    model.addProperty("hm_gbc_enddate",getEndDate());
     model.addProperty("hm_gbc_title",courseTitle + (courseIndex + 1));
     model.addProperty("hm_gbc_time",getDetailTime());
     model.addProperty("hm_gbc_publishdate",TimeUntils.transForDate1(System.currentTimeMillis()/1000));
@@ -484,6 +505,23 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
       sb.append(endTime + ":");
     }
     sb.append(arrays[1]);
+    return sb.toString();
+  }
+
+  private String getEndDate() {
+    //courseTime = 2017-05-07 12:42:00
+    String[] arrays = courseTime.split(" ")[1].split(":");
+    StringBuilder sb = new StringBuilder();
+    sb.append(courseTime.split(" ")[0]);
+    sb.append(" ");
+
+    int startTime = Integer.parseInt(arrays[0]) + courseIndex;
+    if(startTime <= 9){
+      sb.append("0" + startTime + ":");
+    }else {
+      sb.append(startTime + ":");
+    }
+    sb.append(arrays[1] + ":00");
     return sb.toString();
   }
 

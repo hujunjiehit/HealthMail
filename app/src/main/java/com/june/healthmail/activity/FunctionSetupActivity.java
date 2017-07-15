@@ -140,8 +140,8 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 10000 || value < CommonConfig.MinDelayTime){
-                    toast("时间设置必须大于" + CommonConfig.MinDelayTime + ",并且不能超过10000ms（10秒钟)");
+                if(value > 10000 || value < mPreferenceHelper.getMinConfigTime()){
+                    toast("时间设置必须大于" + mPreferenceHelper.getMinConfigTime() + ",并且不能超过10000ms（10秒钟)");
                 }else if(value > mPreferenceHelper.getMaxPingjiaTime()){
                     toast("评价最小延迟时间不能超过最大延迟时间");
                 }else {
@@ -179,8 +179,8 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 10000 || value < CommonConfig.MinDelayTime){
-                    toast("时间设置必须大于" + CommonConfig.MinDelayTime + ",并且不能超过10000ms（10秒钟)");
+                if(value > 10000 || value < mPreferenceHelper.getMinConfigTime()){
+                    toast("时间设置必须大于" +  mPreferenceHelper.getMinConfigTime() + ",并且不能超过10000ms（10秒钟)");
                 }else if(value < mPreferenceHelper.getMinPingjiaTime()){
                     toast("评价最大延迟时间不能小于最小延迟时间");
                 }else {
@@ -219,8 +219,8 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 10000 || value < CommonConfig.MinDelayTime){
-                    toast("时间设置必须大于" + CommonConfig.MinDelayTime + ",并且不能超过10000ms（10秒钟)");
+                if(value > 10000 || value < mPreferenceHelper.getMinConfigTime()){
+                    toast("时间设置必须大于" + mPreferenceHelper.getMinConfigTime()+ ",并且不能超过10000ms（10秒钟)");
                 }else if(value > mPreferenceHelper.getMaxYuekeTime()){
                     toast("约课最小延迟时间不能超过最大延迟时间");
                 }else {
@@ -259,8 +259,8 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 10000 || value < CommonConfig.MinDelayTime){
-                    toast("时间设置必须大于" + CommonConfig.MinDelayTime + ",并且不能超过10000ms（10秒钟)");
+                if(value > 10000 || value < mPreferenceHelper.getMinConfigTime()){
+                    toast("时间设置必须大于" + mPreferenceHelper.getMinConfigTime() + ",并且不能超过10000ms（10秒钟)");
                 }else if(value < mPreferenceHelper.getMinYuekeTime()){
                     toast("约课最大延迟时间不能小于最小延迟时间");
                 }else {

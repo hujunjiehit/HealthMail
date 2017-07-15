@@ -18,6 +18,7 @@ public class Course {
     private String hm_gbc_time;
     private float hm_gbc_avgprice;
     private double distance;
+    private int applynumber;
 
     public List<HmGbciImage> getHm_gbci_image() {
         return hm_gbci_image;
@@ -105,5 +106,13 @@ public class Course {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public int getApplynumber() {
+        return applynumber;
+    }
+
+    public void setApplynumber(int applynumber) {
+        this.applynumber = applynumber;
     }
 }

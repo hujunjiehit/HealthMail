@@ -20,29 +20,18 @@ import com.june.healthmail.activity.FukuanActivity;
 import com.june.healthmail.activity.FunctionSetupActivity;
 import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
-import com.june.healthmail.activity.PostCourseActivity;
-import com.june.healthmail.activity.PostCourseDetailActivity;
+import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.model.UserInfo;
-import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.ShowProgress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 import cn.bmob.v3.AsyncCustomEndpoints;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by bjhujunjie on 2016/9/21.
@@ -54,7 +43,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private Button btnPingjia;
   private Button btnYueke;
   private Button btnFukuan;
-  private Button btnPostCourse;
+  private Button btnSpecialFunction;
   private ImageView imgSetup;
   private TextView tvGuanzhu;
   private UserInfo userInfo;
@@ -78,7 +67,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia = (Button) layout.findViewById(R.id.btn_operition_pingjia);
     btnYueke = (Button) layout.findViewById(R.id.btn_operition_yueke);
     btnFukuan = (Button) layout.findViewById(R.id.btn_operition_fukuan);
-    btnPostCourse = (Button) layout.findViewById(R.id.btn_operition_post_course);
+    btnSpecialFunction = (Button) layout.findViewById(R.id.btn_special_function);
     imgSetup = (ImageView) layout.findViewById(R.id.img_setup);
     tvGuanzhu = (TextView) layout.findViewById(R.id.tv_guanzhu);
   }
@@ -88,7 +77,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     btnPingjia.setOnClickListener(this);
     btnYueke.setOnClickListener(this);
     btnFukuan.setOnClickListener(this);
-    btnPostCourse.setOnClickListener(this);
+    btnSpecialFunction.setOnClickListener(this);
     imgSetup.setOnClickListener(this);
     tvGuanzhu.setOnClickListener(this);
   }
@@ -155,8 +144,8 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 //          intent = new Intent(getActivity(),FukuanActivity.class);
 //          startActivity(intent);
           break;
-        case R.id.btn_operition_post_course:
-          checkPermission(PostCourseActivity.class);
+        case R.id.btn_special_function:
+          checkPermission(SijiaoLoginActivity.class);
 //          intent = new Intent(getActivity(),FukuanActivity.class);
 //          startActivity(intent);
           break;

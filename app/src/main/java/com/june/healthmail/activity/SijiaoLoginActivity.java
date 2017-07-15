@@ -26,9 +26,7 @@ import com.june.healthmail.model.SijiaoModel;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.TrainerModel;
 import com.june.healthmail.model.UserInfo;
-import com.june.healthmail.model.UserModel;
 import com.june.healthmail.untils.CommonUntils;
-import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
@@ -39,7 +37,6 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -49,7 +46,7 @@ import okhttp3.Response;
  * Created by june on 2017/7/6.
  */
 
-public class PostCourseActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
+public class SijiaoLoginActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
   private ToggleButton mTgBtnShowPsw;
   private EditText mEditPsw;
@@ -127,7 +124,7 @@ public class PostCourseActivity extends BaseActivity implements View.OnClickList
           Intent it = new Intent();
           it.putExtra("accessToken",accessToken);
           it.putExtra("trainerModel", (Serializable)trainerModel);
-          it.setClass(PostCourseActivity.this,PostCourseDetailActivity.class);
+          it.setClass(SijiaoLoginActivity.this,SpecialFunctionListActivity.class);
           startActivity(it);
           break;
         case GET_USER_MODEL_FAILED:

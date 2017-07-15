@@ -19,13 +19,14 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_MAX_PINGJIA_TIME = "max_pingjia_time";//最大评价时间
     public final static String KEY_MIN_YUEKE_TIME = "min_yeke_time";//最小约课时间
     public final static String KEY_MAX_YUEKE_TIME = "max_yueke_time";//最大约课时间
+    public final static String KEY_MIN_CONFIG_TIME = "min_config_time";//云端配置的最小时间间隔
     public final static String KEY_MAX_SIJIAO = "max_sijiao";//最大约课私教数
 
     public final static String KEY_BUY_AUTH_URL = "bug_auth_url";//购买授权淘宝地址
     public final static String KEY_BUY_COINS_URL = "bug_coins_url";//购买金币淘宝地址
     public final static String KEY_UPDATE_LEVEL_URL = "update_level_url";//升级高级永久淘宝地址
     public final static String KEY_COINS_COST_FOR_POST = "coins_cost_for_post";//发帖金币消耗数量
-    public final static String KEY_COINS_COST_FOR_POST_WITH_PICTURE = "coins_cost_for_post_with_picture";//发带图片的帖子金币消耗数量
+    public final static String KEY_COINS_COST_FOR_SPECIAL_FUNCTION = "coins_cost_for_special_function";//特殊功能金币消耗数量
 
     public final static String KEY_FREE_TIMES_A_DAY = "free_times_a_day";//每天免费的评价、约课次数
     public final static String KEY_REMAIN_YUEKE_TIMES = "remain_yueke_times";//剩余约课次数
@@ -172,8 +173,8 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             time = prefs.getInt(KEY_MIN_PINGJIA_TIME,time);
         }
-        if(time < CommonConfig.MinDelayTime) {
-            time = CommonConfig.MinDelayTime;
+        if(getMinConfigTime() > time) {
+            time = getMinConfigTime();
             setMinPingjiaTime(time);
         }
         return time;
@@ -199,8 +200,8 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_PINGJIA_TIME,time);
         }
-        if(time < CommonConfig.MinDelayTime) {
-            time = CommonConfig.MinDelayTime;
+        if(time < getMinPingjiaTime()) {
+            time = getMinPingjiaTime();
             setMaxPingjiaTime(time);
         }
         return time;
@@ -226,8 +227,8 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             time = prefs.getInt(KEY_MIN_YUEKE_TIME,time);
         }
-        if(time < CommonConfig.MinDelayTime) {
-            time = CommonConfig.MinDelayTime;
+        if(getMinConfigTime() > time) {
+            time = getMinConfigTime();
             setMinYuekeTime(time);
         }
         return time;
@@ -253,9 +254,32 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             time = prefs.getInt(KEY_MAX_YUEKE_TIME,time);
         }
-        if(time < CommonConfig.MinDelayTime) {
-            time = CommonConfig.MinDelayTime;
+        if(time < getMinYuekeTime()) {
+            time = getMinYuekeTime();
             setMaxYuekeTime(time);
+        }
+        return time;
+    }
+
+    public void setMinConfigTime(int time) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_MIN_CONFIG_TIME, time);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+
+    }
+
+    public int getMinConfigTime() {
+        int time = 0;
+        checkPrefs();
+        if (prefs != null) {
+            time = prefs.getInt(KEY_MIN_CONFIG_TIME,time);
         }
         return time;
     }
@@ -393,11 +417,11 @@ public class PreferenceHelper extends BasePerference{
         return value;
     }
 
-    public void setCoinsCostForPostWithPicture(int cost) {
+    public void setCoinsCostForSpecialFunction(int cost) {
         checkPrefs();
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(KEY_COINS_COST_FOR_POST_WITH_PICTURE,cost);
+            editor.putInt(KEY_COINS_COST_FOR_SPECIAL_FUNCTION,cost);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -406,11 +430,11 @@ public class PreferenceHelper extends BasePerference{
         }
     }
 
-    public int getCoinsCostForPostWithPicture() {
+    public int getCoinsCostForSpecialFunction() {
         int value = 2;
         checkPrefs();
         if (prefs != null) {
-            value = prefs.getInt(KEY_COINS_COST_FOR_POST_WITH_PICTURE,value);
+            value = prefs.getInt(KEY_COINS_COST_FOR_SPECIAL_FUNCTION,value);
         }
         return value;
     }

@@ -764,7 +764,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setBuyAuthUrl(arrays[0]);
           PreferenceHelper.getInstance().setBuyConisUrl(arrays[1]);
           PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(arrays[2]));
-          PreferenceHelper.getInstance().setCoinsCostForPostWithPicture(Integer.parseInt(arrays[3]));
+          PreferenceHelper.getInstance().setCoinsCostForSpecialFunction(Integer.parseInt(arrays[3]));
           PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(arrays[4]));
           PreferenceHelper.getInstance().setUpdateLevelUrl(arrays[5]);
           PreferenceHelper.getInstance().setPayCost(Integer.parseInt(arrays[6]));
@@ -772,6 +772,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           PreferenceHelper.getInstance().setQQGroup(arrays[8]);
           PreferenceHelper.getInstance().setNotification(arrays[9]);
           PreferenceHelper.getInstance().setAutoJump(Integer.parseInt(arrays[10]));
+          PreferenceHelper.getInstance().setMinConfigTime(Integer.parseInt(arrays[11]));
           mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
         }else {
           Log.e("test","云端逻辑调用异常：" + e.toString());

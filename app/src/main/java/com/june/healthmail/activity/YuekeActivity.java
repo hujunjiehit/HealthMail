@@ -174,7 +174,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     guanzhuList.clear();
 
                     GuanzhuListModel guanzhuListModel = (GuanzhuListModel)msg.obj;
-                    if(guanzhuListModel.getValuse() != null) {
+                    if(guanzhuListModel.getValuse() != null && guanzhuListModel.getValuse().size() > 0) {
                         for (int i = 0; i < guanzhuListModel.getValuse().size(); i++) {
                             guanzhuList.add(guanzhuListModel.getValuse().get(i));
                         }

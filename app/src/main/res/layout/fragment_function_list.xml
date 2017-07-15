@@ -79,13 +79,13 @@
                 android:text="自动付款"/>
 
             <Button
-            android:id="@+id/btn_operition_post_course"
+            android:id="@+id/btn_special_function"
             android:layout_marginTop="36dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_press"
             android:textSize="26sp"
-            android:text="自动发课"/>
+            android:text="特殊功能"/>
         </LinearLayout>
 
     </RelativeLayout>

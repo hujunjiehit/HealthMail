@@ -243,7 +243,7 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
         }
         String dialogInfo;
         if(picturePath != null) {
-            dialogInfo = "发布带图片的帖子将消耗" + PreferenceHelper.getInstance().getCoinsCostForPostWithPicture()
+            dialogInfo = "发布带图片的帖子将消耗" + PreferenceHelper.getInstance().getCoinsCostForSpecialFunction()
                     + "个金币，是否继续发布？";
         }else {
             dialogInfo = "发布纯文字帖子将消耗" + PreferenceHelper.getInstance().getCoinsCostForPost()
@@ -270,12 +270,12 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
                         progressDialog.show();
 
                         if(picturePath != null) {
-                            if(userInfo.getCoinsNumber() < PreferenceHelper.getInstance().getCoinsCostForPostWithPicture()){
+                            if(userInfo.getCoinsNumber() < PreferenceHelper.getInstance().getCoinsCostForSpecialFunction()){
                                 Toast.makeText(NewPostActivity.this, "金币扣余额不足", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             userInfo.setCoinsNumber(userInfo.getCoinsNumber() -
-                                    PreferenceHelper.getInstance().getCoinsCostForPostWithPicture());
+                                    PreferenceHelper.getInstance().getCoinsCostForSpecialFunction());
                         }else {
                             if(userInfo.getCoinsNumber() < PreferenceHelper.getInstance().getCoinsCostForPost()){
                                 Toast.makeText(NewPostActivity.this, "金币扣余额不足", Toast.LENGTH_SHORT).show();

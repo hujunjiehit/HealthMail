@@ -34,7 +34,7 @@
         android:id="@+id/input_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical"
         android:background="#ffffff">
 
@@ -164,8 +164,53 @@
         android:layout_below="@id/layout_rememebr_pwd"
         android:layout_margin="@dimen/item_margin_large"
         android:background="@drawable/btn_ok"
-        android:text="登录发布课程"
+        android:text="登录体验特殊功能"
         android:textColor="@color/btn_login_text"
         android:enabled="false"/>
+
+    <LinearLayout
+        android:layout_below="@id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gold"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/large_middle_text_size"
+            android:text="支持的特殊功能如下"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_red"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/small_middle_text_size"
+            android:text="1.自动发布课程"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/text_red"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/small_middle_text_size"
+            android:text="2.查看所有关注的私教约课详情"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/text_red"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/small_middle_text_size"
+            android:text="3.查看自己课程评价详情"/>
+    </LinearLayout>
 
 </RelativeLayout>

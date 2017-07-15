@@ -467,8 +467,6 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
-
-
     }
 
     private void pingjiaTheCourse(String hm_orderid) {

@@ -1,6 +1,4 @@
-package com.june.healthmail.untils;
-
-import android.util.Log;
+package com.example;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,20 +79,5 @@ public class TimeUntils {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date date = simpleDateFormat.parse(s);
     return date.getTime();
-  }
-
-  public static boolean isInThreeDays(String time) {
-    try {
-      long time1 = TimeUntils.dateToStamp(time);
-      long diff = time1 - (System.currentTimeMillis() + 1000*3600*24*3);
-      if(diff > 0){
-        return false;
-      }else {
-        return true;
-      }
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    return false;
   }
 }

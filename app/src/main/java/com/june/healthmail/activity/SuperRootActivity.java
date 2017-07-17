@@ -454,34 +454,34 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                 if(e==null){
                     Log.d("test","用户开通永久授权成功：" + s);
                     toast("用户开通永久授权成功");
+                    if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone())){
+                        Log.d("test","有邀请人，邀请人电话：" + mUserInfo.getInvitePeoplePhone());
+                        MessageDetails inviteMessageDetails = new MessageDetails();
+                        inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());
+                        inviteMessageDetails.setStatus(1);
+                        inviteMessageDetails.setScore(1888);
+                        inviteMessageDetails.setType(3);
+                        inviteMessageDetails.setReasons("邀请人升级永久授权，赠送金币1888");
+                        inviteMessageDetails.setRelatedUserName(mUserInfo.getUsername());
+                        inviteMessageDetails.save(new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if(e==null){
+                                    Log.d("test","邀请人升级永久授权，赠送金币1888成功" + s);
+                                }else{
+                                    Log.e("test","邀请人升级永久授权赠送金币失败："+e.getMessage()+","+e.getErrorCode());
+                                }
+                            }
+                        });
+                    }else {
+                        Log.d("test","没有邀请人");
+                    }
                 }else{
                     Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
                     toast("用户开通永久授权失败:" + e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
-        if(!TextUtils.isEmpty(mUserInfo.getInvitePeoplePhone())){
-            Log.d("test","有邀请人，邀请人电话：" + mUserInfo.getInvitePeoplePhone());
-            MessageDetails inviteMessageDetails = new MessageDetails();
-            inviteMessageDetails.setUserName(mUserInfo.getInvitePeoplePhone());
-            inviteMessageDetails.setStatus(1);
-            inviteMessageDetails.setScore(1888);
-            inviteMessageDetails.setType(3);
-            inviteMessageDetails.setReasons("邀请人升级永久授权，赠送金币1888");
-            inviteMessageDetails.setRelatedUserName(mUserInfo.getUsername());
-            inviteMessageDetails.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if(e==null){
-                        Log.d("test","邀请人升级永久授权，赠送金币1888成功" + s);
-                    }else{
-                        Log.e("test","邀请人升级永久授权赠送金币失败："+e.getMessage()+","+e.getErrorCode());
-                    }
-                }
-            });
-        }else {
-            Log.d("test","没有邀请人");
-        }
     }
 
     private void updateUserInfo() {

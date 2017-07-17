@@ -204,4 +204,32 @@
             android:textSize="@dimen/medium_text_size"
             android:text="编辑"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="只约当天的课"
+            android:textColor="@color/black"/>
+        <CheckBox
+            android:id="@+id/cb_only_today"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:textColor="@color/gray"
+        android:text="(勾选之后，只会约当天的课)"/>
 </LinearLayout>

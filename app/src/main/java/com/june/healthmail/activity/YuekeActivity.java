@@ -44,6 +44,7 @@ import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.TimeUntils;
+import com.june.healthmail.untils.Tools;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -240,6 +241,12 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                                 if(isOutofDate(coureseList.get(courseIndex))){
                                     //上课时间是否过了
                                     showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                                    courseIndex++;
+                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
+                                } else if(PreferenceHelper.getInstance().getOnlyToday() &&
+                                    !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())){
+                                    //只约今天的课
+                                    showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
                                     courseIndex++;
                                     this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                                 }else {

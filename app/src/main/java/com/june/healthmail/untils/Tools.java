@@ -1,6 +1,11 @@
 package com.june.healthmail.untils;
 
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.june.healthmail.model.Course;
+
+import java.text.ParseException;
 
 /**
  * Created by june on 2017/6/15.
@@ -58,5 +63,24 @@ public class Tools {
       typeDesc = "过期用户";
     }
     return typeDesc;
+  }
+
+  public static boolean isToday(String str) {
+    int day1 = getCourseDay(str);
+    int today = parseInt(TimeUntils.transForDate1(System.currentTimeMillis()/1000).split(" ")[0].split("-")[2]);
+    if(day1 == today){
+      return true;
+    }else {
+      return false;
+    }
+  }
+
+  public static int getCourseDay(String hm_gbc_date) {
+    if(hm_gbc_date.contains("T")) {
+      String array[] = hm_gbc_date.split("T")[0].split("-");
+      return parseInt(array[2]);
+    }else {
+      return 0;
+    }
   }
 }

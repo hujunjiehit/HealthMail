@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
     private Button editMaxPingjiaTime;
     private Button editMinYuekeTime;
     private Button editMaxYuekeTime;
+    private CheckBox cbOnlyToday;
 
     private TextView tvMaxSijiao;
     private Button editMaxSijiao;
@@ -68,6 +71,12 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
 
         tvMaxSijiao = (TextView) findViewById(R.id.tv_max_sijiao);
         editMaxSijiao = (Button) findViewById(R.id.edit_max_sijiao);
+        cbOnlyToday = (CheckBox) findViewById(R.id.cb_only_today);
+        if (PreferenceHelper.getInstance().getOnlyToday()) {
+            cbOnlyToday.setChecked(true);
+        } else {
+            cbOnlyToday.setChecked(false);
+        }
     }
 
     private void setListener() {
@@ -77,6 +86,16 @@ public class FunctionSetupActivity extends BaseActivity implements View.OnClickL
         editMaxYuekeTime.setOnClickListener(this);
         editMaxSijiao.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
+        cbOnlyToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PreferenceHelper.getInstance().setOnlyToday(true);
+                } else {
+                    PreferenceHelper.getInstance().setOnlyToday(false);
+                }
+            }
+        });
     }
 
     private void initData() {

@@ -79,17 +79,19 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="付款全部订单"/>
+            android:text="付款全部订单"
+            android:textColor="@color/black"/>
+
         <CheckBox
             android:id="@+id/cb_pay_all_orders"
             style="@style/CustomCheckboxTheme"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
 
     <TextView

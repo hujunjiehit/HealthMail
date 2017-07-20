@@ -79,4 +79,16 @@ public class HttpUntils {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }
+
+    public void getPermission(String url, Callback callback){
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10,TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build();
+        Request.Builder builder  = new Request.Builder().url(url);
+        Request request = builder.build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
+    }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.CancleGuanzhuActivity;
 import com.june.healthmail.activity.FukuanActivity;
@@ -22,16 +24,24 @@ import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
+import com.june.healthmail.model.GetPermissionModel;
+import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.ShowProgress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 import cn.bmob.v3.AsyncCustomEndpoints;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by bjhujunjie on 2016/9/21.
@@ -164,35 +174,84 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
       showProgress.setMessage("正在验证当前用户权限，请稍后...");
       showProgress.show();
     }
-    try {
-      job.put("objectId",userInfo.getObjectId());
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    HttpUntils.getInstance(getActivity()).getPermission("http://10.235.9.202:8888/upload?objectId="+userInfo.getObjectId(),
+        new Callback() {
+          @Override
+          public void onFailure(Call call, IOException e) {
+            if(showProgress != null && showProgress.isShowing()){
+              showProgress.dismiss();
+            }
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                Toast.makeText(getActivity(),"网络请求失败", Toast.LENGTH_LONG).show();
+              }
+            });
 
-    //创建云端逻辑
-    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
-      @Override
-      public void done(Object o, BmobException e) {
-        if(showProgress != null && showProgress.isShowing()){
-          showProgress.dismiss();
-        }
-        if(e == null){
-          Log.e("test","云端逻辑调用成功：" + o.toString());
-          if(o.toString().equals("true")){
-            Intent it = new Intent(getActivity(),cls);
-            startActivity(it);
-          }else {
-            Toast.makeText(getActivity(),o.toString(), Toast.LENGTH_LONG).show();
           }
-        }else {
-//          Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
-//          Intent it = new Intent(getActivity(),cls);
-//          it.putExtra("exception",true);
-//          startActivity(it);
-        }
-      }
-    });
+
+          @Override
+          public void onResponse(Call call, Response response) throws IOException {
+            if(showProgress != null && showProgress.isShowing()){
+              showProgress.dismiss();
+            }
+            try {
+              Gson gson = new Gson();
+              final GetPermissionModel getPermissionModel = gson.fromJson(response.body().charStream(), GetPermissionModel.class);
+              response.body().close();
+              if(getPermissionModel.getStatus().equals("ok")){
+                Intent it = new Intent(getActivity(),cls);
+                startActivity(it);
+              }else {
+                getActivity().runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    Toast.makeText(getActivity(),getPermissionModel.getMessage(), Toast.LENGTH_LONG).show();
+                  }
+                });
+              }
+            }catch (Exception e){
+
+              getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  Toast.makeText(getActivity(),"解析异常", Toast.LENGTH_LONG).show();
+                }
+              });
+            }
+          }
+        });
+
+
+//    try {
+//      job.put("objectId",userInfo.getObjectId());
+//    } catch (JSONException e) {
+//      e.printStackTrace();
+//    }
+//
+//    //创建云端逻辑
+//    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+//    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+//      @Override
+//      public void done(Object o, BmobException e) {
+//        if(showProgress != null && showProgress.isShowing()){
+//          showProgress.dismiss();
+//        }
+//        if(e == null){
+//          Log.e("test","云端逻辑调用成功：" + o.toString());
+//          if(o.toString().equals("true")){
+//            Intent it = new Intent(getActivity(),cls);
+//            startActivity(it);
+//          }else {
+//            Toast.makeText(getActivity(),o.toString(), Toast.LENGTH_LONG).show();
+//          }
+//        }else {
+////          Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
+////          Intent it = new Intent(getActivity(),cls);
+////          it.putExtra("exception",true);
+////          startActivity(it);
+//        }
+//      }
+//    });
   }
 }

@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.june.healthmail.model.AccountInfo;
+import com.june.healthmail.model.HmMemberUserVo;
+import com.june.healthmail.model.TokenData;
 
 /**
  * Created by june on 2017/3/3.
@@ -17,16 +19,18 @@ public class DBManager {
     private static DBManager instance;
     private Context mContext;
 
-    private DBManager(Context context){
-        this.mContext = context;
-        db = new MyDatabaseHelper(mContext,"data.db",null,1).getWritableDatabase();
+    private DBManager(){
     }
 
-    public static DBManager getInstance(Context context){
+    public void setContext(Context context) {
+        this.mContext = context;
+    }
+
+    public static DBManager getInstance(){
         if(instance == null) {
             synchronized (DBManager.class){
                 if(instance == null) {
-                    instance = new DBManager(context);
+                    instance = new DBManager();
                 }
             }
         }
@@ -34,6 +38,9 @@ public class DBManager {
     }
 
     public SQLiteDatabase getDb(){
+        if(db == null) {
+            db = new MyDatabaseHelper(mContext,"data.db",null,2).getWritableDatabase();
+        }
         return db;
     }
 
@@ -100,9 +107,9 @@ public class DBManager {
         }
     }
 
-    public void updateNickName(String phoneNumber, String nickName){
-        db.execSQL("update account set nickName = ? where phoneNumber = ?",
-                new String[]{nickName,phoneNumber});
+    public void updateUserInfo(String phoneNumber, HmMemberUserVo userInfo){
+        db.execSQL("update account set nickName = ? , mallId = ? where phoneNumber = ?",
+                new String[]{userInfo.getNickName(),userInfo.getMallId(),phoneNumber});
     }
 
     //设置账号密码不可用
@@ -126,5 +133,27 @@ public class DBManager {
         //db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
            // new String[]{phonenumber,pwd,1+"",id+""});
         db.delete("account","phonenumber = ?", new String[]{phonenumber});
+    }
+
+    //更新约课次数
+    public void updateYukeTimes(AccountInfo accountInfo){
+        db.execSQL("update account set yuekeTimes = ? , lastDay = ? where phoneNumber = ?",
+            new String[]{accountInfo.getYuekeTimes()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
+    }
+
+    //更新评价次数
+    public void updatePingjiaTimes(AccountInfo accountInfo){
+        db.execSQL("update account set pingjiaTimes = ? , lastDay = ? where phoneNumber = ?",
+            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
+    }
+
+    //根据mallId获取用户手机号
+    public String getPhoneByMallID(String mallId){
+        String result = "";
+        Cursor cursor = db.rawQuery("select * from account where mallId = ? ",new String[]{mallId});
+        if(cursor.moveToFirst()){
+            result = cursor.getString(cursor.getColumnIndex("phoneNumber"));
+        }
+        return result;
     }
 }

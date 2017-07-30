@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+              android:background="#f4f4f4">
 
     <RelativeLayout
         android:id="@+id/layout_category_topbar"
@@ -43,10 +44,16 @@
             android:textSize="@dimen/small_medium_text_size" />
     </RelativeLayout>
 
-
-    <WebView
-        android:id="@+id/webview"
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/webview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </WebView>
+
+    </LinearLayout>
+    <!--<WebView-->
+        <!--android:id="@+id/webview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</WebView>-->
 </LinearLayout>

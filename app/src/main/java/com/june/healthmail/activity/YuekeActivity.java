@@ -46,6 +46,8 @@ import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.TimeUntils;
 import com.june.healthmail.untils.Tools;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -452,7 +454,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         tvShowMaxCourses.setText(per_sijiao_max_courses + "");
         tvDescMaxCourses.setText(String.format("每个私教只约前面的%d节课",per_sijiao_max_courses));
 
-        SQLiteDatabase db = DBManager.getInstance(this).getDb();
+        SQLiteDatabase db = DBManager.getInstance().getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
         if(cursor.moveToFirst()){
             do {
@@ -462,6 +464,26 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
                 info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
                 info.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                info.setMallId(cursor.getString(cursor.getColumnIndex("mallId")));
+                if(TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex("lastDay")))){
+                  //if null, set today
+                  info.setLastDay(TimeUntils.getTodayStr());
+                  info.setPingjiaTimes(0);
+                  info.setYuekeTimes(0);
+                }else {
+                  if(cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())){
+                    //istoday
+                    info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
+                    info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
+                    info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
+                  }else {
+                    //not today
+                    info.setLastDay(TimeUntils.getTodayStr());
+                    info.setPingjiaTimes(0);
+                    info.setYuekeTimes(0);
+                  }
+                }
+                //Log.e("test","AccoutInfo = " + info.toString());
                 accountList.add(info);
             }while(cursor.moveToNext());
         }
@@ -528,7 +550,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .add("data",job.toString())
                 .build();
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
@@ -546,17 +568,17 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                         Log.e("test","message = " + tokenmodel.getMsg());
                         errmsg = tokenmodel.getMsg();
                         if(errmsg.contains("密码")){
-                            DBManager.getInstance(YuekeActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            DBManager.getInstance().setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
                             mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
                         }else {
                             //请求失效
-                            DBManager.getInstance(YuekeActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            DBManager.getInstance().setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
                             mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
                         }
                     } else {
                         //更新小号昵称
-                        DBManager.getInstance(YuekeActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                                tokenmodel.getData().getHmMemberUserVo().getNickName());
+                        DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
+                                tokenmodel.getData().getHmMemberUserVo());
                         accessToken = tokenmodel.getData().getAccessToken();
                         Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
                         msg.sendToTarget();
@@ -579,7 +601,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .add("accessToken",accessToken)
                 .add("data",job.toString())
                 .build();
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
@@ -620,7 +642,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .build();
 
         //try
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
@@ -659,7 +681,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .build();
 
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,getDelayTime());
@@ -699,7 +721,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .build();
 
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());
@@ -750,7 +772,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 .build();
 
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(YUE_KE_FAILED,getDelayTime());
@@ -766,6 +788,8 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     if(postYuekeModel.isSucceed()){
                         Message msg = mHandler.obtainMessage(YUE_KE_SUCESS);
                         //msg.obj = ordersModel;
+                        accountList.get(accountIndex).setYuekeTimes(accountList.get(accountIndex).getYuekeTimes() + 1);
+                        DBManager.getInstance().updateYukeTimes(accountList.get(accountIndex));
                         msg.sendToTarget();
                     }else{
                         Message msg = mHandler.obtainMessage(YUE_KE_FAILED);

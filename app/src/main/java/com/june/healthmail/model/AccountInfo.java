@@ -13,6 +13,10 @@ public class AccountInfo extends BmobObject{
     private String nickName;
     private String passWord;
     private int status;    //0 不启用  1 启用
+    private String mallId;  //猫号id
+    private String lastDay; //日期
+    private int pingjiaTimes;    //今日评价次数
+    private int yuekeTimes;    //今日约课次数
 
     public int getId() {
         return id;
@@ -60,5 +64,43 @@ public class AccountInfo extends BmobObject{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getMallId() {
+        return mallId;
+    }
+
+    public void setMallId(String mallId) {
+        this.mallId = mallId;
+    }
+
+    public String getLastDay() {
+        return lastDay;
+    }
+
+    public void setLastDay(String lastDay) {
+        this.lastDay = lastDay;
+    }
+
+    public int getPingjiaTimes() {
+        return pingjiaTimes;
+    }
+
+    public void setPingjiaTimes(int pingjiaTimes) {
+        this.pingjiaTimes = pingjiaTimes;
+    }
+
+    public int getYuekeTimes() {
+        return yuekeTimes;
+    }
+
+    public void setYuekeTimes(int yuekeTimes) {
+        this.yuekeTimes = yuekeTimes;
+    }
+
+    @Override
+    public String toString() {
+        return "phoneNumber = " + phoneNumber + "   mallId = " + mallId +  " lastDay = " + lastDay + "   yuekeTimes = " + yuekeTimes +
+            "   pingjiaTimes = " + pingjiaTimes;
     }
 }

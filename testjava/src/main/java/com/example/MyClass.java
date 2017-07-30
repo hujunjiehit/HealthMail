@@ -7,7 +7,7 @@ public class MyClass {
   public static void main(String[] args) {
     System.out.println("Hello");
     String date = "2017-07-18 23:23:34";
-    System.out.println("result = " + isInThreeDays(date));
+    System.out.println("result = " + TimeUntils.transForDate1(System.currentTimeMillis()/1000).split(" ")[0]);
 
   }
 

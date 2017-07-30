@@ -9,6 +9,7 @@ import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.TimeUntils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -308,7 +310,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
         }
         tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "");
 
-        SQLiteDatabase db = DBManager.getInstance(this).getDb();
+        SQLiteDatabase db = DBManager.getInstance().getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
         if(cursor.moveToFirst()){
             do {
@@ -318,6 +320,26 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
                 info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
                 info.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                info.setMallId(cursor.getString(cursor.getColumnIndex("mallId")));
+                if(TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex("lastDay")))){
+                    //if null, set today
+                    info.setLastDay(TimeUntils.getTodayStr());
+                    info.setPingjiaTimes(0);
+                    info.setYuekeTimes(0);
+                }else {
+                    if(cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())){
+                        //istoday
+                        info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
+                        info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
+                        info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
+                    }else {
+                        //not today
+                        info.setLastDay(TimeUntils.getTodayStr());
+                        info.setPingjiaTimes(0);
+                        info.setYuekeTimes(0);
+                    }
+                }
+                //Log.e("test","AccoutInfo = " + info.toString());
                 accountList.add(info);
             }while(cursor.moveToNext());
         }
@@ -385,7 +407,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 .add("data",job.toString())
                 .build();
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
@@ -403,17 +425,17 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                         Log.e("test","message = " + tokenmodel.getMsg());
                         errmsg = tokenmodel.getMsg();
                         if(errmsg.contains("密码")){
-                            DBManager.getInstance(PingjiaActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            DBManager.getInstance().setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
                             mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
                         }else {
                             //请求失效
-                            DBManager.getInstance(PingjiaActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+                            DBManager.getInstance().setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
                             mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
                         }
                     } else {
                         //更新小号昵称
-                        DBManager.getInstance(PingjiaActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                                tokenmodel.getData().getHmMemberUserVo().getNickName());
+                        DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
+                            tokenmodel.getData().getHmMemberUserVo());
                         accessToken = tokenmodel.getData().getAccessToken();
                         mHandler.sendEmptyMessageDelayed(GET_TOKEN_SUCCESS,getDelayTime());
                     }
@@ -441,7 +463,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 .build();
 
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
@@ -498,7 +520,7 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                 .add("accessToken",accessToken)
                 .add("data",job.toString())
                 .build();
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
@@ -511,6 +533,8 @@ public class PingjiaActivity extends BaseActivity implements View.OnClickListene
                     response.body().close();
                     Log.e("test","succeed = " + pingjiaModel.isSucceed());
                     if(pingjiaModel.isSucceed()){
+                        accountList.get(accountIndex).setPingjiaTimes(accountList.get(accountIndex).getPingjiaTimes() + 1);
+                        DBManager.getInstance().updatePingjiaTimes(accountList.get(accountIndex));
                         mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
                     } else {
                         errmsg = pingjiaModel.getErrmsg();

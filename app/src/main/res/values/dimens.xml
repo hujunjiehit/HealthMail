@@ -52,4 +52,7 @@
 
     <!-- 首页divider间隔 -->
     <dimen name="home_item_margin">10dp</dimen>
+
+    <dimen name="custom_small_plus_text_size">16sp</dimen>
+    <dimen name="commen_radius">2dp</dimen>
 </resources>

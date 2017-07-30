@@ -458,7 +458,7 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(POST_COURSE_FAILED,1000);

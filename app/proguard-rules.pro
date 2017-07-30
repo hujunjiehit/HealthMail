@@ -93,6 +93,7 @@
 -keep class com.example.bmobexample.file.Song{*;}
 -keep class com.example.bmobexample.relation.Post{*;}
 -keep class com.example.bmobexample.relation.Comment{*;}
+-keep class com.june.healthmail.model.**{*;}
 
 # keep BmobPush
 -dontwarn  cn.bmob.push.**

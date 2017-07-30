@@ -57,7 +57,7 @@ public class LeftTopbarOperatePop extends PopupWindow implements View.OnClickLis
     mContext = context;
     accountList = list;
     mAdapter = adapter;
-    mDBManger = DBManager.getInstance(mContext);
+    mDBManger = DBManager.getInstance();
     showProgress = new ShowProgress(mContext);
     mUserInfo = BmobUser.getCurrentUser(UserInfo.class);
 

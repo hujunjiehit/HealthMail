@@ -28,6 +28,7 @@ import com.june.healthmail.model.DeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
+import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.TimeUntils;
 
@@ -252,6 +253,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
     String uid = sp.getString("uid", "");
     mEditUid.setText(uid);
+    PreferenceHelper.getInstance().saveUid(uid);
     String pwd = sp.getString("pwd", "");
     mEditPsw.setText(pwd);
   }

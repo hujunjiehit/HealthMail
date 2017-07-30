@@ -158,6 +158,10 @@
             android:name=".activity.NewPostActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
+        <activity
+            android:name=".activity.ShowTodayDetailsActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
 
         <!-- 有米广告组件 -->
         <activity

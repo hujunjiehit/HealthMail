@@ -321,7 +321,7 @@ public class GuanzhuDetailActivity extends BaseActivity{
         .add("accessToken",accessToken)
         .add("data",job.toString())
         .build();
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
@@ -362,7 +362,7 @@ public class GuanzhuDetailActivity extends BaseActivity{
         .build();
 
     //try
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
@@ -401,7 +401,7 @@ public class GuanzhuDetailActivity extends BaseActivity{
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_COURSE_USERS_FAILED,getDelayTime());
@@ -441,7 +441,7 @@ public class GuanzhuDetailActivity extends BaseActivity{
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_COURSE_DETAILS_FAILED,getDelayTime());

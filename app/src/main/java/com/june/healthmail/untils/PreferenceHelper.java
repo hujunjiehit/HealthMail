@@ -91,7 +91,7 @@ public class PreferenceHelper extends BasePerference{
         String word = null;
         checkPrefs();
         if (prefs != null) {
-            word = prefs.getString(KEY_UID,"empty");
+            word = prefs.getString(KEY_UID,"nouid");
         }
         return word;
     }

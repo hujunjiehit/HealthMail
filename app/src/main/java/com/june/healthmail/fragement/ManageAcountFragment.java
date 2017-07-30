@@ -6,6 +6,7 @@ package com.june.healthmail.fragement;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,15 +18,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
+import com.june.healthmail.activity.PingjiaActivity;
+import com.june.healthmail.activity.ShowTodayDetailsActivity;
 import com.june.healthmail.adapter.AcountListAdapter;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.untils.DBManager;
+import com.june.healthmail.untils.TimeUntils;
+import com.june.healthmail.untils.Tools;
 import com.june.healthmail.view.LeftTopbarOperatePop;
 import com.june.healthmail.view.RightTopbarOperatePop;
 
@@ -45,6 +52,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
   private AcountListAdapter mAdapter;
   private ImageView ivAddButton;
   private ImageView ivCloudOpButton;
+  private Button btnShowTodayDetails;
 
   private RightTopbarOperatePop rightOperateBarPop;
   private LeftTopbarOperatePop leftOperateBarPop;
@@ -76,6 +84,13 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 
     ivAddButton = (ImageView) layout.findViewById(R.id.iv_add_btn);
     ivCloudOpButton = (ImageView) layout.findViewById(R.id.iv_cloud_op);
+    btnShowTodayDetails = (Button) layout.findViewById(R.id.show_today_details);
+
+    View view = new View(getActivity());
+    ViewGroup.LayoutParams params= new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        Tools.getPixelByDip(getActivity(),40));
+    view.setLayoutParams(params);
+    mListView.addFooterView(view);
   }
 
   private void setOnListener() {
@@ -83,11 +98,12 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     ivCloudOpButton.setOnClickListener(this);
     mListView.setOnItemClickListener(this);
     mListView.setOnItemLongClickListener(this);
+    btnShowTodayDetails.setOnClickListener(this);
   }
 
   private void initData() {
 
-    mDBmanager = DBManager.getInstance(getActivity());
+    mDBmanager = DBManager.getInstance();
     accountList.clear();
 
 //    AccountInfo info1 = new AccountInfo();
@@ -104,7 +120,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
 //    info2.setStatus(1);
 //    //acountList.add(info2);
 
-    SQLiteDatabase db = DBManager.getInstance(getActivity()).getDb();
+    SQLiteDatabase db = DBManager.getInstance().getDb();
     Cursor cursor = db.rawQuery("select * from account",null);
     if(cursor.moveToFirst()){
       do {
@@ -114,7 +130,26 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
         info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
         info.setId(cursor.getInt(cursor.getColumnIndex("id")));
-        //Log.e("test","username = " + info.getPhoneNumber() + "  status = " + info.getStatus());
+        info.setMallId(cursor.getString(cursor.getColumnIndex("mallId")));
+        if(TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex("lastDay")))){
+          //if null, set today
+          info.setLastDay(TimeUntils.getTodayStr());
+          info.setPingjiaTimes(0);
+          info.setYuekeTimes(0);
+        }else {
+          if(cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())){
+            //istoday
+            info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
+            info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
+            info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
+          }else {
+            //not today
+            info.setLastDay(TimeUntils.getTodayStr());
+            info.setPingjiaTimes(0);
+            info.setYuekeTimes(0);
+          }
+        }
+        //Log.e("test","userInfo = " + info.toString());
         accountList.add(info);
       }while(cursor.moveToNext());
     }
@@ -149,6 +184,9 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         leftOperateBarPop =  new LeftTopbarOperatePop(getActivity(),accountList,mAdapter);
         leftOperateBarPop.showAsDropDown(ivCloudOpButton,0,0);
       }
+    }else if(v.getId() == R.id.show_today_details){
+      Intent it = new Intent(getActivity(), ShowTodayDetailsActivity.class);
+      startActivity(it);
     }
   }
 
@@ -208,7 +246,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
         accountInfo.setPhoneNumber(phonenumber);
         accountInfo.setPassWord(pwd);
         accountInfo.setStatus(1);
-        DBManager.getInstance(getActivity()).updateAccountInfo(accountInfo.getId(),phonenumber,pwd);
+        DBManager.getInstance().updateAccountInfo(accountInfo.getId(),phonenumber,pwd);
         mAdapter.notifyDataSetChanged();
         dialog.dismiss();
       }
@@ -246,7 +284,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
       public void onClick(DialogInterface dialog, int which) {
         accountList.remove(position);
         mAdapter.notifyDataSetChanged();
-        DBManager.getInstance(getActivity()).deleteAccountInfo(accountInfo.getPhoneNumber());
+        DBManager.getInstance().deleteAccountInfo(accountInfo.getPhoneNumber());
         Toast.makeText(getActivity(),"小号" + (position + 1) + "删除成功",Toast.LENGTH_LONG).show();
         dialog.dismiss();
       }

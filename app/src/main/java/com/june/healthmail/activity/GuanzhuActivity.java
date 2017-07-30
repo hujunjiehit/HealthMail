@@ -279,7 +279,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
     targetNumber = PreferenceHelper.getInstance().getTargetNumber().trim();
     isTargetExist = PreferenceHelper.getInstance().getIsTargetExist();
 
-    SQLiteDatabase db = DBManager.getInstance(this).getDb();
+    SQLiteDatabase db = DBManager.getInstance().getDb();
     Cursor cursor = db.rawQuery("select * from account",null);
     if(cursor.moveToFirst()){
       do {
@@ -351,7 +351,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
         .add("data",job.toString())
         .build();
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
@@ -369,17 +369,17 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
             Log.e("test","message = " + tokenmodel.getMsg());
             errmsg = tokenmodel.getMsg();
             if(errmsg.contains("密码")){
-              DBManager.getInstance(GuanzhuActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+              DBManager.getInstance().setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
               mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
             }else {
               //请求失效
-              DBManager.getInstance(GuanzhuActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+              DBManager.getInstance().setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
               mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
             }
           } else {
             //更新小号昵称
-            DBManager.getInstance(GuanzhuActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                tokenmodel.getData().getHmMemberUserVo().getNickName());
+            DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
+                tokenmodel.getData().getHmMemberUserVo());
             accessToken = tokenmodel.getData().getAccessToken();
             Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
             msg.sendToTarget();
@@ -402,7 +402,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
         .add("accessToken",accessToken)
         .add("data",job.toString())
         .build();
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_GUANZHU_LIST_FAILED,getDelayTime());
@@ -443,7 +443,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GUANZHU_FAILED,getDelayTime());
@@ -527,7 +527,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_USER_MODEL_FAILED,getDelayTime());

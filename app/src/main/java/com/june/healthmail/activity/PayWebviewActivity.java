@@ -11,11 +11,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     private TextView tvClose;
     private TextView tvTitle;
     private String title;
+    private LinearLayout mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,10 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     }
 
     private void initViews() {
-        webView = (WebView) findViewById(R.id.webview);
+        //webView = (WebView) findViewById(R.id.webview);
+        mContainer = (LinearLayout) findViewById(R.id.webview_container);
+        webView = new WebView(getApplicationContext());
+        mContainer.addView(webView);
         tvMoreInfo = (TextView) findViewById(R.id.tv_more_info);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvClose = (TextView) findViewById(R.id.tv_close);
@@ -73,10 +79,26 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        if(webView != null) {
-            webView.destroy();
-            webView = null;
+       super.onDestroy();
+        try {
+            if (webView != null) {
+                webView.getSettings().setJavaScriptEnabled(false);
+
+                webView.clearHistory();
+                webView.clearCache(true);
+                webView.freeMemory();
+                webView.pauseTimers();
+
+                ViewGroup parent = (ViewGroup) webView.getParent();
+                if (parent != null) {
+                    parent.removeView(webView);
+                }
+                webView.removeAllViews();
+                webView.destroy();
+                webView = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -117,8 +139,7 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
 
         //Log.e("test", "data=" + data);
         //启用支持javascript
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
 
         //webView.loadUrl(url);
 

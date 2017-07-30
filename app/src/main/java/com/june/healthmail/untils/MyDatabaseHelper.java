@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -17,7 +18,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "phoneNumber text, "
             + "passWord text, "
             + "nickName text, "
-            + "status integer)";
+            + "status integer,"
+            + "mallId text, "
+            + "lastDay text, "
+            + "pingjiaTimes integer,"
+            + "yuekeTimes integer"
+            + ")";
 
     private Context mContext;
 
@@ -28,6 +34,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.e("test","onCreate");
         db.execSQL(CREATE_ACOUNT_INFO);//创建数据库表--account
         Toast.makeText(mContext,"db create sucess",Toast.LENGTH_SHORT).show();
 
@@ -35,6 +42,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        Log.e("test","onUpgrade  oldVersion =  " + oldVersion + "   newVersion = " + newVersion );
+        if(newVersion > oldVersion) {
+            db.execSQL("ALTER TABLE account ADD  mallId text;");
+            db.execSQL("ALTER TABLE account ADD  lastDay text;");
+            db.execSQL("ALTER TABLE account ADD  pingjiaTimes integer;");
+            db.execSQL("ALTER TABLE account ADD  yuekeTimes integer;");
+        }
+        Toast.makeText(mContext,"db update sucess",Toast.LENGTH_SHORT).show();
     }
 }

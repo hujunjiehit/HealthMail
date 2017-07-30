@@ -1,5 +1,6 @@
 package com.june.healthmail.untils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -82,5 +83,10 @@ public class Tools {
     }else {
       return 0;
     }
+  }
+
+  public static int getPixelByDip(Context context, int dip) {
+    return (int) (context.getResources().getDisplayMetrics().density * dip
+        + 0.5f);
   }
 }

@@ -48,7 +48,7 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
     mContext = context;
     accountList = list;
     mAdapter = adapter;
-    mDBManger = DBManager.getInstance(mContext);
+    mDBManger = DBManager.getInstance();
 
     mMenuView = View.inflate(context, R.layout.layout_top_operate_pop, null);
     tvOperate1 = (TextView) mMenuView.findViewById(R.id.tv_operate_1);

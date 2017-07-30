@@ -1,0 +1,12 @@
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=3ca1d35fcf767e0f8420664e04b09f865af5d025
+appId=c3044648f0
+
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=0eb77e4e88c29c31373a9e30937f3633992ee1f6
+appId=c3044648f0
+
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=0eb77e4e88c29c31373a9e30937f3633992ee1f6
+appId=c3044648f0
+

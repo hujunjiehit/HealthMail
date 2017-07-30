@@ -73,4 +73,7 @@
     <color name="color_std_black">#333333</color>
     <color name="color_std_black2">#666666</color>
     <color name="color_std_white">#ffffff</color>
+
+    <color name="color_btn_bg_yellow">#D6B88A</color>
+    <color name="text_color_white">#ffffff</color>
     </resources>

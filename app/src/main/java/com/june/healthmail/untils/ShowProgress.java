@@ -1,5 +1,6 @@
 package com.june.healthmail.untils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -56,6 +57,11 @@ public class ShowProgress extends Dialog {
         } else {
             message.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void show() {
+        super.show();
     }
 
     @Override

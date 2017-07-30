@@ -473,7 +473,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
     accountList.clear();
     tvCoinsNumber.setText(userInfo.getCoinsNumber() + "");
-    SQLiteDatabase db = DBManager.getInstance(this).getDb();
+    SQLiteDatabase db = DBManager.getInstance().getDb();
     Cursor cursor = db.rawQuery("select * from account",null);
     if(cursor.moveToFirst()){
       do {
@@ -575,7 +575,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         .add("data",job.toString())
         .build();
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
@@ -593,17 +593,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             Log.e("test","message = " + tokenmodel.getMsg());
             errmsg = tokenmodel.getMsg();
             if(errmsg.contains("密码")){
-              DBManager.getInstance(FukuanActivity.this).setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
+              DBManager.getInstance().setPwdInvailed(accountList.get(accountIndex).getPhoneNumber());
               mHandler.sendEmptyMessageDelayed(USER_PWD_WRONG,getDelayTime());
             }else {
               //请求失效
-              DBManager.getInstance(FukuanActivity.this).setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
+              DBManager.getInstance().setRequestInvailed(accountList.get(accountIndex).getPhoneNumber());
               mHandler.sendEmptyMessageDelayed(REQUEST_INVAILED,getDelayTime());
             }
           } else {
             //更新小号昵称
-            DBManager.getInstance(FukuanActivity.this).updateNickName(accountList.get(accountIndex).getPhoneNumber(),
-                    tokenmodel.getData().getHmMemberUserVo().getNickName());
+            DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
+                tokenmodel.getData().getHmMemberUserVo());
             accessToken = tokenmodel.getData().getAccessToken();
             Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
             msg.sendToTarget();
@@ -624,7 +624,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         .add("accessToken",accessToken)
         .add("data",job.toString())
         .build();
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_USERINFO_FAILED,getDelayTime());
@@ -662,7 +662,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             .add("accessToken",accessToken)
             .add("data",job.toString())
             .build();
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
@@ -700,11 +700,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                 .build();
 
       if(showProgress != null && !showProgress.isShowing()){
-        showProgress.setMessage("正在获取支付方式...");
-        showProgress.show();
+        if(!isFinishing()){
+          showProgress.setMessage("正在获取支付方式...");
+          showProgress.show();
+        }else {
+          //activity已经finish，直接返回
+          return;
+        }
       }
 
-        HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+        HttpUntils.getInstance().postForm(url, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
               if(showProgress != null && showProgress.isShowing()){
@@ -770,7 +775,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       showProgress.show();
     }
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         if(showProgress != null && showProgress.isShowing()){
@@ -1103,21 +1108,23 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
   private void showChooseFukuanMode(){
     //显示popupwindow
-    popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
-    if(!popwindow.isShowing()){
-      popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-      WindowManager.LayoutParams lp = getWindow().getAttributes();
-      lp.alpha = 0.5f;
-      getWindow().setAttributes(lp);
-      popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-        @Override
-        public void onDismiss() {
-          WindowManager.LayoutParams lp = getWindow().getAttributes();
-          lp.alpha=1f;
-          getWindow().setAttributes(lp);
-          //showContinueDialog();
-        }
-      });
+    if(!isFinishing()){
+      popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
+      if(!popwindow.isShowing()){
+        popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.5f;
+        getWindow().setAttributes(lp);
+        popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+          @Override
+          public void onDismiss() {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.alpha=1f;
+            getWindow().setAttributes(lp);
+            //showContinueDialog();
+          }
+        });
+      }
     }
   }
 

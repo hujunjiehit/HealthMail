@@ -20,18 +20,20 @@ import okhttp3.Response;
 public class HttpUntils {
 
     private static HttpUntils instance;
-
     private Context mContext;
 
-    private HttpUntils(Context context){
+    private HttpUntils(){
+    }
+
+    public void setContext(Context context) {
         this.mContext = context;
     }
 
-    public static HttpUntils getInstance(Context context){
+    public static HttpUntils getInstance(){
         if(instance == null){
             synchronized (HttpUntils.class){
                 if(instance == null){
-                    instance = new HttpUntils(context);
+                    instance = new HttpUntils();
                 }
             }
         }

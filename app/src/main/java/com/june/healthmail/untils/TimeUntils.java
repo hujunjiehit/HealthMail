@@ -97,4 +97,11 @@ public class TimeUntils {
     }
     return false;
   }
+
+  /*
+  * 获取今日的日期 eg：2017-07-30
+  */
+  public static String getTodayStr(){
+    return transForDate1(System.currentTimeMillis()/1000).split(" ")[0].trim();
+  }
 }

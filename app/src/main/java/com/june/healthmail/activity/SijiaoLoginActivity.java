@@ -330,7 +330,7 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
         .add("data",job.toString())
         .build();
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,1000);
@@ -375,7 +375,7 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
         .add("accessToken",accessToken)
         .add("data",job.toString())
         .build();
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_USER_MODEL_FAILED,1000);

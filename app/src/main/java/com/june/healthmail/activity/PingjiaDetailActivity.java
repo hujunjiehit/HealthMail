@@ -3,6 +3,7 @@ package com.june.healthmail.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.june.healthmail.model.OrdersModel;
 import com.june.healthmail.model.TrainerModel;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.TimeUntils;
@@ -98,6 +100,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
   private int pageNumber;
   private int pageIndex;
   private OrdersModel ordersModel;
+  private DBManager mDBmanager;
 
   private Handler mHandler = new Handler(){
 
@@ -226,6 +229,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
   }
 
   private void initData() {
+    mDBmanager = DBManager.getInstance();
     today = TimeUntils.transForDate1(System.currentTimeMillis()/1000);
     String[] array = today.split(" ")[0].split("-");
     year = Tools.parseInt(array[0]);
@@ -328,7 +332,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
         .add("data",job.toString())
         .build();
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_COURSE_LIST_FAILED,getDelayTime());
@@ -370,7 +374,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
         .build();
 
 
-    HttpUntils.getInstance(this).postForm(url, body, new Callback() {
+    HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
@@ -440,7 +444,13 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
     if(orderList9.size() > 0) {
       showTheResult("待评价状态的订单如下：\n");
       for (int i = 0; i < orderList9.size(); i++) {
-        showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "\n");
+        String phoneNumber = mDBmanager.getPhoneByMallID(orderList9.get(i).getUser_id());
+        if(TextUtils.isEmpty(phoneNumber)){
+          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "(手机号未知)\n");
+        }else {
+          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "（" + phoneNumber + "）\n");
+        }
+
       }
       showTheResult("****温馨提示，用猫号和密码也能登录健康猫***\n");
     }

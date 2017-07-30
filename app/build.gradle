@@ -13,13 +13,13 @@ android {
         applicationId "com.june.healthmail"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 40
-        versionName "4.3.0"
+        versionCode 41
+        versionName "4.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -60,10 +60,11 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile project(path: ':pullToRefresh')
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
 
 bugly {
     appId = "c3044648f0" // 注册时分配的App ID
     appKey = "024f968d-9b3d-4870-9fd8-006ebd74ca0b" // 注册时分配的App Key
-    debug = false
 }

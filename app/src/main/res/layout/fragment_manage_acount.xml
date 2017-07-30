@@ -75,16 +75,32 @@
           android:layout_height="1.0px"
           android:background="@color/div_line_color" />
 
-    <ListView
-        android:id="@+id/list_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:divider="@color/div_line_color"
-        android:dividerHeight="1px"
-        android:fadingEdge="none"
-        android:listSelector="@color/transparent"
-        android:cacheColorHint="@color/transparent"
-        android:footerDividersEnabled="false" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="@color/div_line_color"
+            android:dividerHeight="1px"
+            android:fadingEdge="none"
+            android:listSelector="@color/transparent"
+            android:cacheColorHint="@color/transparent"
+            android:footerDividersEnabled="false" />
+
+        <Button
+            android:id="@+id/show_today_details"
+            android:layout_gravity="bottom"
+            android:text="查看今日统计"
+            android:alpha="0.85"
+            android:background="@drawable/btn_ok"
+            android:textColor="@color/btn_login_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+    </FrameLayout>
+
 
 </LinearLayout>

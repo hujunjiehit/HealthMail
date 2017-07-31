@@ -65,10 +65,7 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
     }
 
     private void initViews() {
-        //webView = (WebView) findViewById(R.id.webview);
-        mContainer = (LinearLayout) findViewById(R.id.webview_container);
-        webView = new WebView(getApplicationContext());
-        mContainer.addView(webView);
+        webView = (WebView) findViewById(R.id.webview);
         tvMoreInfo = (TextView) findViewById(R.id.tv_more_info);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvClose = (TextView) findViewById(R.id.tv_close);
@@ -82,13 +79,6 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
        super.onDestroy();
         try {
             if (webView != null) {
-                webView.getSettings().setJavaScriptEnabled(false);
-
-                webView.clearHistory();
-                webView.clearCache(true);
-                webView.freeMemory();
-                webView.pauseTimers();
-
                 ViewGroup parent = (ViewGroup) webView.getParent();
                 if (parent != null) {
                     parent.removeView(webView);

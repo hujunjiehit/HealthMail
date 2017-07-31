@@ -9,6 +9,7 @@ import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import cn.bmob.v3.Bmob;
 
@@ -39,7 +40,9 @@ public class MyApplication extends Application{
     DBManager.getInstance().setContext(this);
     HttpUntils.getInstance().setContext(this);
 
-    CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
+    //CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
+    Bugly.init(getApplicationContext(), "c3044648f0", false);
+
     Log.e("test","uid = " + PreferenceHelper.getInstance().getUid());
     CrashReport.setUserId(PreferenceHelper.getInstance().getUid());
   }

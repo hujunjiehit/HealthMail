@@ -31,6 +31,7 @@ import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.TimeUntils;
+import com.tencent.bugly.beta.Beta;
 
 import java.sql.Time;
 import java.util.List;
@@ -350,7 +351,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         break;
       case R.id.btn_check_update: // 点击检查更新按钮
         toast("当前应用版本：" + CommonUntils.getVersion(LoginActivity.this));
-        BmobUpdateAgent.forceUpdate(LoginActivity.this);
+        //BmobUpdateAgent.forceUpdate(LoginActivity.this);
+        Beta.checkUpgrade();
         break;
       default:
         break;

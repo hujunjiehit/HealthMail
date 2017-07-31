@@ -44,7 +44,8 @@ public class MainActivity extends FragmentActivity {
       uid = getIntent().getStringExtra("uid");
     }
     //bmob版本更新
-    BmobUpdateAgent.update(this);
+    //BmobUpdateAgent.update(this);
+
     mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
     mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
     addTab();

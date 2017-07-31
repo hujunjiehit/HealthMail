@@ -22,17 +22,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.ShowTodayDetailsActivity;
 import com.june.healthmail.adapter.AcountListAdapter;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.TimeUntils;
-import com.june.healthmail.untils.Tools;
 import com.june.healthmail.view.LeftTopbarOperatePop;
 import com.june.healthmail.view.RightTopbarOperatePop;
 
@@ -85,12 +82,6 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     ivAddButton = (ImageView) layout.findViewById(R.id.iv_add_btn);
     ivCloudOpButton = (ImageView) layout.findViewById(R.id.iv_cloud_op);
     btnShowTodayDetails = (Button) layout.findViewById(R.id.show_today_details);
-
-    View view = new View(getActivity());
-    ViewGroup.LayoutParams params= new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-        Tools.getPixelByDip(getActivity(),40));
-    view.setLayoutParams(params);
-    mListView.addFooterView(view);
   }
 
   private void setOnListener() {

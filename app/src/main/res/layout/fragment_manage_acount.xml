@@ -83,6 +83,7 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="42dp"
             android:layout_weight="1"
             android:divider="@color/div_line_color"
             android:dividerHeight="1px"

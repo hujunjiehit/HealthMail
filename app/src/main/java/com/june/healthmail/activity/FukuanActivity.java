@@ -1182,7 +1182,11 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     });
     AlertDialog dialog = builder.create();
     if(!dialog.isShowing()) {
-      dialog.show();
+      if(!isFinishing()){
+        dialog.show();
+      }else {
+        return;
+      }
     }
   }
 

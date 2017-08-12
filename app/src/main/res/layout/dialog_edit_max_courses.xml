@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="17sp"
-            android:text="每个私教最大约课数："/>
+            android:text="每个私教最多约课数："/>
 
         <EditText
             android:id="@+id/edit_text"

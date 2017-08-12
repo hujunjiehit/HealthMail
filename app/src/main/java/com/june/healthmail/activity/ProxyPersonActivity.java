@@ -3,6 +3,7 @@ package com.june.healthmail.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -60,6 +61,8 @@ public class ProxyPersonActivity extends Activity implements View.OnClickListene
   private TextView tvShowQQGroup;
   private TextView tvEditQQGroup;
 
+  private TextView tvMoreInfo;
+
   private static final int UPDATE_PROXY_INFO = 1;
   private static final int UPDATE_USER_INFO = 2;
 
@@ -116,6 +119,7 @@ public class ProxyPersonActivity extends Activity implements View.OnClickListene
     tvShowQQGroup = (TextView) findViewById(R.id.tv_show_qq_group);
     tvEditQQGroup = (TextView) findViewById(R.id.tv_edit_qq_group);
     //tvCoinsNumber.setText(currentUser.get);
+    tvMoreInfo = (TextView) findViewById(R.id.tv_more_info);
   }
 
   private void setListener() {
@@ -125,6 +129,7 @@ public class ProxyPersonActivity extends Activity implements View.OnClickListene
     btnUpgradeUserLevel.setOnClickListener(this);
     findViewById(R.id.img_back).setOnClickListener(this);
     tvEditQQGroup.setOnClickListener(this);
+    tvMoreInfo.setOnClickListener(this);
   }
 
   @Override
@@ -133,8 +138,12 @@ public class ProxyPersonActivity extends Activity implements View.OnClickListene
       case R.id.img_back:    //返回
         finish();
         break;
-      case R.id.tv_edit_qq_group:    //返回
+      case R.id.tv_edit_qq_group:    //编辑代理qq群
         showEditQQDialog();
+        break;
+      case R.id.tv_more_info:    //代理详情页面
+          Intent intent = new Intent(this,ProxyDetailActivity.class);
+          startActivity(intent);
         break;
       case R.id.btn_get_user_info:
         String userName = etInputPhonenumber.getText().toString().trim();

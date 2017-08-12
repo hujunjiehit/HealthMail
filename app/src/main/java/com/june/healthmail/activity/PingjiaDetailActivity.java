@@ -148,12 +148,16 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
           }
           break;
         case START_TO_GET_COURSE_DETAILS:
-            targetCourse = coureseList.get(courseIndex);
-            showTheResult("\n\n上课时间:" + targetCourse.getHm_gbc_time() + " 报名人数：" + targetCourse.getApplynumber() + "\n");
-            pageNumber = (targetCourse.getApplynumber() - 1) /20 + 1;
-            pageIndex = 0;
-            ordelList.clear();
-            this.sendEmptyMessageDelayed(GET_ORDER_LIST,getDelayTime());
+            if(coureseList.size() > 0) {
+              targetCourse = coureseList.get(courseIndex);
+              showTheResult("\n\n上课时间:" + targetCourse.getHm_gbc_time() + " 报名人数：" + targetCourse.getApplynumber() + "\n");
+              pageNumber = (targetCourse.getApplynumber() - 1) /20 + 1;
+              pageIndex = 0;
+              ordelList.clear();
+              this.sendEmptyMessageDelayed(GET_ORDER_LIST,getDelayTime());
+            }else {
+              showTheResult("-----私教今日没有课程");
+            }
           break;
 
         case GET_ORDER_LIST:
@@ -441,16 +445,30 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
     showTheResult("已支付状态的订单：" + orderList5.size() + "个\n");
     showTheResult("待评价状态的订单：" + orderList9.size() + "个\n\n");
 
-    if(orderList9.size() > 0) {
-      showTheResult("待评价状态的订单如下：\n");
-      for (int i = 0; i < orderList9.size(); i++) {
-        String phoneNumber = mDBmanager.getPhoneByMallID(orderList9.get(i).getUser_id());
-        if(TextUtils.isEmpty(phoneNumber)){
-          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "(手机号未知)\n");
+    if(orderList2.size() > 0) {
+      showTheResult("\n\n未支付状态的订单如下：\n");
+      for (int i = 0; i < orderList2.size(); i++) {
+        DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList2.get(i).getUser_id());
+        if(result == null){
+          showTheResult((i + 1) + "--猫号:" + orderList2.get(i).getUser_id() + "(手机号未知)\n");
         }else {
-          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "（" + phoneNumber + "）\n");
+          showTheResult((i + 1) + "--猫号:" + orderList2.get(i).getUser_id() + "（" + result.getPhoneNumber() + "）-- 编号：" +
+              result.getId() +  "\n");
         }
 
+      }
+      showTheResult("****温馨提示，用猫号和密码也能登录健康猫***\n");
+
+    }else if(orderList9.size() > 0) {
+      showTheResult("\n\n待评价状态的订单如下：\n");
+      for (int i = 0; i < orderList9.size(); i++) {
+        DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList9.get(i).getUser_id());
+        if(result == null){
+          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "(手机号未知)\n");
+        }else {
+          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "（" + result.getPhoneNumber() + "）-- 编号：" +
+              result.getId() +  "\n");
+        }
       }
       showTheResult("****温馨提示，用猫号和密码也能登录健康猫***\n");
     }

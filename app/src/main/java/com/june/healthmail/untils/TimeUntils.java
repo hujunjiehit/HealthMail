@@ -83,10 +83,10 @@ public class TimeUntils {
     return date.getTime();
   }
 
-  public static boolean isInThreeDays(String time) {
+  public static boolean isInTenDays(String time) {
     try {
       long time1 = TimeUntils.dateToStamp(time);
-      long diff = time1 - (System.currentTimeMillis() + 1000*3600*24*3);
+      long diff = time1 - (System.currentTimeMillis() + 1000*3600*24*10);
       if(diff > 0){
         return false;
       }else {

@@ -232,6 +232,7 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
             }else{
+              toast(result[0]+"账号已存在，添加失败");
               Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
           }else if(lines[i].contains(",")) {
@@ -247,6 +248,7 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
             }else{
+              toast(result[0]+"账号已存在，添加失败");
               Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
           }else if(lines[i].contains("，")) {
@@ -262,6 +264,7 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
             }else{
+              toast(result[0]+"账号已存在，添加失败");
               Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
           }

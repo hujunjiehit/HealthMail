@@ -20,9 +20,15 @@ import okhttp3.Response;
 public class HttpUntils {
 
     private static HttpUntils instance;
+    private OkHttpClient mOkHttpClient;
     private Context mContext;
 
     private HttpUntils(){
+        mOkHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10,TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build();
     }
 
     public void setContext(Context context) {
@@ -41,13 +47,8 @@ public class HttpUntils {
     }
 
     public void postForm(String url, FormBody body, Callback callback){
-        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10,TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build();
-        Request.Builder builder  = new Request.Builder().url(url).post(body);
 
+        Request.Builder builder  = new Request.Builder().url(url).post(body);
         //builder.addHeader(key,value);  //将请求头以键值对形式添加，可添加多个请求头
         builder.addHeader("User-Agent","okhttp/2.5.0"); //必须
         builder.addHeader("appId","101"); //必须

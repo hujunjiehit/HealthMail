@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f4f4f4">
+
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="6dp"
+            android:src="@drawable/flight_title_back_normal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="代理详情"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/color_std_white">
+
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="1.0px"
+              android:background="@color/div_line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f4f4f4"
+            android:gravity="center" >
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="1"
+                android:text="编号" />
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="3"
+                android:text="手机号" />
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="2"
+                android:text="用户状态" />
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="3"
+                android:text="注册时间" />
+        </LinearLayout>
+
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="1.0px"
+              android:background="@color/div_line_color" />
+
+        <!--<ListView-->
+            <!--android:id="@+id/list_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:divider="@color/div_line_color"-->
+            <!--android:dividerHeight="1px"-->
+            <!--android:fadingEdge="none"-->
+            <!--android:listSelector="@color/transparent"-->
+            <!--android:cacheColorHint="@color/transparent"-->
+            <!--android:footerDividersEnabled="false" />-->
+
+        <!--     ptr:ptrAnimationStyle="flip"  flip:翻转  rotate:旋转-->
+        <!--     ptr:ptrShowIndicator="true"  右上角 右下角出现箭头-->
+        <!--    ptr:ptrScrollingWhileRefreshingEnabled="true"-->
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ptrScrollView_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:visibility="visible"
+            ptr:ptrAnimationStyle="flip"
+            >
+
+        </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    </LinearLayout>
+
+
+</LinearLayout>

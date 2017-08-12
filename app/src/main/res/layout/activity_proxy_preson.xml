@@ -26,6 +26,18 @@
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        <TextView
+            android:id="@+id/tv_more_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:clickable="true"
+            android:text="详情"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/small_medium_text_size" />
     </RelativeLayout>
 
     <RelativeLayout

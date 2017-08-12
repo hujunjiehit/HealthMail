@@ -110,6 +110,7 @@ public class ShowTodayDetailsActivity extends BaseActivity{
           info.setLastDay(TimeUntils.getTodayStr());
           info.setPingjiaTimes(0);
           info.setYuekeTimes(0);
+          DBManager.getInstance().resetPJYKTimes(info);
         }else {
           if(cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())){
             //istoday
@@ -121,6 +122,7 @@ public class ShowTodayDetailsActivity extends BaseActivity{
             info.setLastDay(TimeUntils.getTodayStr());
             info.setPingjiaTimes(0);
             info.setYuekeTimes(0);
+            DBManager.getInstance().resetPJYKTimes(info);
           }
         }
         //Log.e("test","userInfo = " + info.toString());

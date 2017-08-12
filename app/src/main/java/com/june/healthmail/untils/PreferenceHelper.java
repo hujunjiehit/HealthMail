@@ -59,6 +59,9 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_MAX_COURSE_PEOPLE = "max_course_people";//最大人数
     public final static String KEY_AVERGE_PRICE = "averge_price";//人均价格
 
+
+    public final static String KEY_ACCESS_TOKEN = "accsee_token";//备份token
+
     private static PreferenceHelper instance;
 
     public static PreferenceHelper getInstance() {
@@ -877,6 +880,28 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getBoolean(KEY_REMBER_PWD,value);
+        }
+        return value;
+    }
+
+    public void setAccessToken(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_ACCESS_TOKEN,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getAccessToken() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_ACCESS_TOKEN,"");
         }
         return value;
     }

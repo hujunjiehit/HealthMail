@@ -46,11 +46,11 @@ public class DBManager {
 
     //清空账号数据库
     public void clearAccountInfo(){
-        db.execSQL("delete from account");
+        getDb().execSQL("delete from account");
 
         //自增主键归零
         //DELETE FROM sqlite_sequence WHERE name='TableName';
-        db.execSQL("delete from sqlite_sequence where name = ?", new String[]{"account"});
+        getDb().execSQL("delete from sqlite_sequence where name = ?", new String[]{"account"});
     }
 
     /**
@@ -61,12 +61,12 @@ public class DBManager {
      */
     public boolean addAccount(String phone, String pwd){
         boolean result = true;
-        Cursor cursor = db.rawQuery("select * from account where phoneNumber = ?",new String[]{phone});
+        Cursor cursor = getDb().rawQuery("select * from account where phoneNumber = ?",new String[]{phone});
         if(cursor.getCount() > 0){
             //电话已存在
             result = false;
         }else {
-            db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
+            getDb().execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
                 new String[]{phone,pwd,"", 1+""});
         }
         return  result;
@@ -79,81 +79,110 @@ public class DBManager {
      */
     public boolean addAccount(AccountInfo accountInfo){
         boolean result = true;
-        Cursor cursor = db.rawQuery("select * from account where phoneNumber = ?",new String[]{accountInfo.getPhoneNumber()});
+        Cursor cursor = getDb().rawQuery("select * from account where phoneNumber = ?",new String[]{accountInfo.getPhoneNumber()});
         if(cursor.getCount() > 0){
             //电话已存在
             result = false;
         }else {
-            db.execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
+            getDb().execSQL("insert into account (phoneNumber,passWord,nickName,status) values (?,?,?,?)",
                 new String[]{accountInfo.getPhoneNumber(),accountInfo.getPassWord(),accountInfo.getNickName(), accountInfo.getStatus()+""});
         }
         return  result;
     }
 
     public void setStatus(AccountInfo info, int status){
-        db.execSQL("update account set status = ? where phoneNumber = ?",
+        getDb().execSQL("update account set status = ? where phoneNumber = ?",
                 new String[]{status+"",info.getPhoneNumber()});
     }
 
     public void setStatus(int status){
-        db.execSQL("update account set status = ?",
+        getDb().execSQL("update account set status = ?",
                 new String[]{status+""});
     }
 
     public void setStatus(int status, int begin, int end){
         for(int i = begin; i <= end; i++) {
-            db.execSQL("update account set status = ? where id = ?",
+            getDb().execSQL("update account set status = ? where id = ?",
                     new String[]{status+"",i+""});
         }
     }
 
     public void updateUserInfo(String phoneNumber, HmMemberUserVo userInfo){
-        db.execSQL("update account set nickName = ? , mallId = ? where phoneNumber = ?",
+        getDb().execSQL("update account set nickName = ? , mallId = ? where phoneNumber = ?",
                 new String[]{userInfo.getNickName(),userInfo.getMallId(),phoneNumber});
     }
 
     //设置账号密码不可用
     public void setPwdInvailed(String phoneNumber){
-        db.execSQL("update account set status = ? where phoneNumber = ?",
+        getDb().execSQL("update account set status = ? where phoneNumber = ?",
             new String[]{"-1",phoneNumber});
     }
 
     //设置账号请求失效
     public void setRequestInvailed(String phoneNumber){
-        db.execSQL("update account set status = ? where phoneNumber = ?",
+        getDb().execSQL("update account set status = ? where phoneNumber = ?",
             new String[]{"-2",phoneNumber});
     }
 
     public void updateAccountInfo(int id, String phonenumber, String pwd) {
-        db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
+        getDb().execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
                 new String[]{phonenumber,pwd,1+"",id+""});
     }
 
     public void deleteAccountInfo(String phonenumber) {
         //db.execSQL("update account set phoneNumber = ? , passWord = ?, status = ? where id = ?",
            // new String[]{phonenumber,pwd,1+"",id+""});
-        db.delete("account","phonenumber = ?", new String[]{phonenumber});
+        getDb().delete("account","phonenumber = ?", new String[]{phonenumber});
     }
 
     //更新约课次数
     public void updateYukeTimes(AccountInfo accountInfo){
-        db.execSQL("update account set yuekeTimes = ? , lastDay = ? where phoneNumber = ?",
+        getDb().execSQL("update account set yuekeTimes = ? , lastDay = ? where phoneNumber = ?",
             new String[]{accountInfo.getYuekeTimes()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
     }
 
     //更新评价次数
     public void updatePingjiaTimes(AccountInfo accountInfo){
-        db.execSQL("update account set pingjiaTimes = ? , lastDay = ? where phoneNumber = ?",
+        getDb().execSQL("update account set pingjiaTimes = ? , lastDay = ? where phoneNumber = ?",
             new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
     }
 
+    //更新评价次数
+    public void resetPJYKTimes(AccountInfo accountInfo){
+        getDb().execSQL("update account set pingjiaTimes = ? , yuekeTimes = ? where phoneNumber = ?",
+            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getYuekeTimes()+"", accountInfo.getPhoneNumber() });
+    }
+
     //根据mallId获取用户手机号
-    public String getPhoneByMallID(String mallId){
-        String result = "";
-        Cursor cursor = db.rawQuery("select * from account where mallId = ? ",new String[]{mallId});
+    public QueryResult getPhoneByMallID(String mallId){
+        QueryResult result = null;
+        Cursor cursor = getDb().rawQuery("select * from account where mallId = ? ",new String[]{mallId});
         if(cursor.moveToFirst()){
-            result = cursor.getString(cursor.getColumnIndex("phoneNumber"));
+            result = new QueryResult();
+            result.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
+            result.setId(cursor.getString(cursor.getColumnIndex("id")));
         }
         return result;
+    }
+
+    public static class QueryResult {
+        private String phoneNumber;
+        private String id;
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 }

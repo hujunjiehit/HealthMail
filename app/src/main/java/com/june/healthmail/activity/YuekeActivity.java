@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.model.AccountInfo;
@@ -33,9 +31,6 @@ import com.june.healthmail.model.GroupbuyUser;
 import com.june.healthmail.model.GroupbuyUserModel;
 import com.june.healthmail.model.Guanzhu;
 import com.june.healthmail.model.GuanzhuListModel;
-import com.june.healthmail.model.Order;
-import com.june.healthmail.model.OrdersModel;
-import com.june.healthmail.model.PingjiaModel;
 import com.june.healthmail.model.PostYuekeModel;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
@@ -46,13 +41,10 @@ import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.TimeUntils;
 import com.june.healthmail.untils.Tools;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -104,6 +96,10 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
     private int accountIndex = 0;
     private int sijiaoIndex = 0;
     private int courseIndex = 0;
+
+    private int pageIndex = 0; //页索引 一页二十节课
+    private int pageSize = 0;   //总页数
+
     private String accessToken;
 
     private Message message;
@@ -174,6 +170,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     showTheResult("关注列表获取成功\n");
                     //保存关注列表--私教列表
                     sijiaoIndex = 0;
+                    pageIndex = 0;
                     guanzhuList.clear();
 
                     GuanzhuListModel guanzhuListModel = (GuanzhuListModel)msg.obj;
@@ -198,9 +195,17 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     //传入私教id
                     if(sijiaoIndex < guanzhuList.size()){
                         if(sijiaoIndex < max_sijiao){
-                            showTheResult("************开始获取私教["+ (sijiaoIndex+1) +"]-" +
-                                    guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned()+ "的课程\n");
-                            getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                            showTheResult("**********用户设置一共" + pageSize + "页课程\n");
+                            if(pageIndex < pageSize) {//页数
+                                showTheResult("************开始获取私教["+ (sijiaoIndex+1) +"]-" +
+                                    guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned()+ "第" + (pageIndex+1) + "页的课程\n");
+                                getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                            }else {
+                                showTheResult("**************没有更多页，开始下一个关注的私教\n");
+                                pageIndex = 0;
+                                sijiaoIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                            }
                         }else {
                             showTheResult("*******用户设置了最多只约"+max_sijiao+"个私教，开始下一个小号\n\n\n");
                             accountIndex++;
@@ -208,7 +213,6 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                             message = this.obtainMessage(START_TO_YUE_KE);
                             message.sendToTarget();
                         }
-
                     }else {
                         showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
                         accountIndex++;
@@ -227,7 +231,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                         for(int i = 0; i < courseListModel.getValuse().size(); i++){
                             coureseList.add(courseListModel.getValuse().get(i));
                         }
-                        showTheResult("--------私教"+ (sijiaoIndex+1) + "有" + coureseList.size() + "节课程\n");
+                        showTheResult("--------私教"+ (sijiaoIndex+1) + "第" + (pageIndex+1) + "页有" + coureseList.size() + "节课程\n");
                         this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
                     }else {
                         showTheResult("--------私教"+ (sijiaoIndex+1) + "暂时没有发布课程，继续下一个私教\n");
@@ -239,30 +243,30 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                 case START_TO_GET_COURSE_USERS:
                     if(isRunning) {
                         if (courseIndex < coureseList.size()) {
-                            if(courseIndex < per_sijiao_max_courses){
-                                if(isOutofDate(coureseList.get(courseIndex))){
-                                    //上课时间是否过了
-                                    showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
-                                    courseIndex++;
-                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
-                                } else if(PreferenceHelper.getInstance().getOnlyToday() &&
-                                    !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())){
-                                    //只约今天的课
-                                    showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
-                                    courseIndex++;
-                                    this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
-                                }else {
-                                    showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
-                                    getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
-                                }
+                            if(isOutofDate(coureseList.get(courseIndex))){
+                                //上课时间是否过了
+                                showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                                courseIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
+                            } else if(PreferenceHelper.getInstance().getOnlyToday() &&
+                                !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())){
+                                //只约今天的课
+                                showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
+                                courseIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                             }else {
-                                showTheResult("-------------用户设置每个私教最多约" + per_sijiao_max_courses + "节课，继续下一个私教\n");
-                                sijiaoIndex++;
-                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                                showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
+                                getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
                             }
                         } else {
-                            sijiaoIndex++;
-                            this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                            if(coureseList.size() < 20) {
+                                showTheResult("******第" + (pageIndex +1) + "页私教课程小于20，继续下一个私教\n");
+                                sijiaoIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                            }else {
+                                pageIndex++;
+                                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
+                            }
                         }
                     }else{
                         showTheResult("**用户自己终止约课**当前已经执行完成"+ accountIndex + "个小号\n");
@@ -452,7 +456,8 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
 
         per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
         tvShowMaxCourses.setText(per_sijiao_max_courses + "");
-        tvDescMaxCourses.setText(String.format("每个私教只约前面的%d节课",per_sijiao_max_courses));
+        tvDescMaxCourses.setText(String.format("每个私教最多约%d节课",per_sijiao_max_courses));
+        pageSize = (per_sijiao_max_courses - 1)/20 + 1;
 
         SQLiteDatabase db = DBManager.getInstance().getDb();
         Cursor cursor = db.rawQuery("select * from account",null);
@@ -633,7 +638,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         JsonObject job = new JsonObject();
         job.addProperty("count","20");
         job.addProperty("Privateid",userId);
-        job.addProperty("page",1);
+        job.addProperty("page",pageIndex + 1);
         job.addProperty("whichFunc","GetCourseListforSJ");
 
         FormBody body = new FormBody.Builder()
@@ -850,13 +855,14 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 20) {
-                    toast("每个私教最多只能约前面的20节课");
-                }else if(value > 0 && value <= 20){
+                if(value > 100) {
+                    toast("每个私教最多只能约100节课");
+                }else if(value > 0 && value <= 100){
                     PreferenceHelper.getInstance().setMaxCourses(value);
                     per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
                     tvShowMaxCourses.setText(per_sijiao_max_courses + "");
-                    tvDescMaxCourses.setText(String.format("每个私教只约前面的%d节课",per_sijiao_max_courses));
+                    tvDescMaxCourses.setText(String.format("每个私教最多约%d节课",per_sijiao_max_courses));
+                    pageSize = (per_sijiao_max_courses - 1)/20 + 1;
                 }else {
                     toast("数值必须大于0");
                 }

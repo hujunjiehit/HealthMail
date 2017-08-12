@@ -204,12 +204,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                   if(userInfo.getPayStatus() == null) {
                     updateTheCoinsNumber();
                     tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                    showTheResult("--------------金币余额-" + coinsCost + "\n");
+                    showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
                   } else {
                     if(userInfo.getPayStatus() != 1) {
                       updateTheCoinsNumber();
                       tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                      showTheResult("--------------金币余额-" + coinsCost + "\n");
+                      showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
                     }
                   }
 
@@ -605,6 +605,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
                 tokenmodel.getData().getHmMemberUserVo());
             accessToken = tokenmodel.getData().getAccessToken();
+
+            //缓存accessToken到sharepreference，避免被内存回收
+
+            PreferenceHelper.getInstance().setAccessToken(accessToken);
             Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
             msg.sendToTarget();
           }
@@ -695,7 +699,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         job.addProperty("whichFunc","GetAllPayment");
 
         FormBody body = new FormBody.Builder()
-                .add("accessToken",accessToken)
+                .add("accessToken",getAccessToken())
                 .add("data",job.toString())
                 .build();
 
@@ -1142,7 +1146,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
   private void updateTheCoinsNumber(){
     if(coinsCost > 0) {
-      userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost);
+      userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost*((hmOrders.size() -1)/20 + 1));
       userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
         @Override
         public void done(BmobException e) {
@@ -1196,6 +1200,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       hmOrders.get((Integer) v.getTag()).setSelected(true);
     }else {
       hmOrders.get((Integer) v.getTag()).setSelected(false);
+    }
+  }
+
+  private String getAccessToken() {
+    /**
+     * 此处只是处理了accessToken被内存回收的情况，其实所有的成员变量都可能被回收
+     */
+    if(accessToken == null) {
+      return PreferenceHelper.getInstance().getAccessToken();
+    }else {
+      return accessToken;
     }
   }
 }

@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.june.healthmail"
-    android:installLocation="preferExternal">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.june.healthmail"
+          android:installLocation="preferExternal">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-
-    <!--推送所需的权限-->
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 推送所需的权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <!-- 如果使用积分墙广告,还需要配置下面权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
+        tools:ignore="ProtectedPermissions"/>
 
     <!-- 以下为可选权限 -->
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
 
     <application
-        android:allowBackup="true"
         android:name=".application.MyApplication"
+        android:allowBackup="true"
         android:icon="@drawable/login_dog"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activity.SplashActivity"
+        <activity
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -54,109 +54,88 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.LoginActivityOnekey"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.PingjiaActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.YuekeActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.SijiaoLoginActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.SpecialFunctionListActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.GuanzhuDetailActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.PingjiaDetailActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.PostCourseDetailActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.GuanzhuActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.CancleGuanzhuActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.FunctionSetupActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.FukuanActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.UnbindActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.SuperRootActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.ProxyPersonActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.ResetPasswordActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.WebViewActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.PayWebviewActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.PicturePreviewActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
@@ -173,24 +152,34 @@
             android:name=".activity.ShowTodayDetailsActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-
         <activity
             android:name=".activity.ProxyDetailActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
 
-
-        <!--bmob升级-->
+        <!-- bmob升级 -->
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
-        <!--buggly升级-->
+        <!-- buggly升级 -->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent"/>
+
+        <activity
+            android:name=".improve.activity.NewPingjiaActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <service
+            android:name=".improve.service.PingjiaService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
+import com.june.healthmail.improve.activity.NewPingjiaActivity;
 import com.june.healthmail.model.GetPermissionModel;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
@@ -112,7 +113,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 //          }else {
 //            Toast.makeText(getActivity(),"当前用户暂无授权，请联系软件作者购买授权",Toast.LENGTH_SHORT).show();
 //          }
-          checkPermission(PingjiaActivity.class);
+          checkPermission(NewPingjiaActivity.class);
           break;
         case R.id.btn_operition_yueke:
           checkPermission(YuekeActivity.class);

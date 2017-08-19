@@ -2,7 +2,6 @@ package com.june.healthmail.application;
 
 import android.app.Application;
 import android.util.Log;
-
 import com.june.healthmail.Config.BmobConfig;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;

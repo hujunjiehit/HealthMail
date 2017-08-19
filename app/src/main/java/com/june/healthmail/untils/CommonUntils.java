@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.UserInfo;
 
 import java.net.InetAddress;
@@ -268,5 +271,56 @@ public class CommonUntils {
     }
     String s = new String(a);
     return s;
+  }
+
+  public static ArrayList<AccountInfo> loadAccountInfo() {
+    ArrayList<AccountInfo> accountList = new ArrayList<>();
+
+    accountList.clear();
+    Cursor cursor = null;
+    SQLiteDatabase db = DBManager.getInstance().getDb();
+    try {
+      cursor = db.rawQuery("select * from account", null);
+      if (cursor.moveToFirst()) {
+        do {
+          AccountInfo info = new AccountInfo();
+          info.setPassWord(cursor.getString(cursor.getColumnIndex("passWord")));
+          info.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
+          info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
+          info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+          info.setId(cursor.getInt(cursor.getColumnIndex("id")));
+          info.setMallId(cursor.getString(cursor.getColumnIndex("mallId")));
+          if (TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex("lastDay")))) {
+            //if null, set today
+            info.setLastDay(TimeUntils.getTodayStr());
+            info.setPingjiaTimes(0);
+            info.setYuekeTimes(0);
+            DBManager.getInstance().resetPJYKTimes(info);
+          } else {
+            if (cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())) {
+              //istoday
+              info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
+              info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
+              info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
+            } else {
+              //not today
+              info.setLastDay(TimeUntils.getTodayStr());
+              info.setPingjiaTimes(0);
+              info.setYuekeTimes(0);
+              DBManager.getInstance().resetPJYKTimes(info);
+            }
+          }
+          //Log.e("test","AccoutInfo = " + info.toString());
+          accountList.add(info);
+        } while (cursor.moveToNext());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (cursor != null) {
+        cursor.close();
+      }
+    }
+    return accountList;
   }
 }

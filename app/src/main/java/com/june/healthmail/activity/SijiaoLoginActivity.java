@@ -94,6 +94,13 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
         case GET_USER_MODEL_SUCCES:
           GetUserModel getUserModel = (GetUserModel)msg.obj;
           TrainerModel trainerModel = getUserModel.getValuse().getPTrainerModel();
+          if(trainerModel == null) {
+            if(showProgress != null && showProgress.isShowing()){
+              showProgress.dismiss();
+            }
+            toast("请用私教账号登录");
+            return;
+          }
           //Log.e("test","trainerModel:" + trainerModel);
           PreferenceHelper.getInstance().setSijiaoUid(sijiaoUid);
           PreferenceHelper.getInstance().setSijiaoPwd(sijiaoPwd);

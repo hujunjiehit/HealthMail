@@ -25,6 +25,7 @@ import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.improve.activity.NewPingjiaActivity;
+import com.june.healthmail.improve.activity.NewYuekeActivity;
 import com.june.healthmail.model.GetPermissionModel;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
@@ -116,7 +117,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           checkPermission(NewPingjiaActivity.class);
           break;
         case R.id.btn_operition_yueke:
-          checkPermission(YuekeActivity.class);
+          checkPermission(NewYuekeActivity.class);
 //          if(CommonUntils.hasPermission()){
 //            Intent it = new Intent(getActivity(),YuekeActivity.class);
 //            startActivity(it);
@@ -166,8 +167,6 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   }
 
   private void checkPermission(final Class cls){
-    String cloudCodeName = "getPermission";
-    JSONObject job = new JSONObject();
     if(showProgress == null){
       showProgress = new ShowProgress(getActivity());
     }

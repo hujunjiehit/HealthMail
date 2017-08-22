@@ -221,6 +221,10 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
         for(int i = 0; i < lines.length; i++){
           if(lines[i].contains("|")){
             String [] result = lines[i].split("\\|");
+            if(result.length < 2){
+              toast("账号格式不对，账号密码在同一行，用|分开");
+              return;
+            }
             if(mDBManger.addAccount(result[0],result[1])){
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();
@@ -237,6 +241,10 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
             }
           }else if(lines[i].contains(",")) {
             String[] result = lines[i].split(",");
+            if(result.length < 2){
+              toast("账号格式不对，账号密码在同一行，用\",\"分开");
+              return;
+            }
             if (mDBManger.addAccount(result[0], result[1])) {
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();
@@ -253,6 +261,11 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
             }
           }else if(lines[i].contains("，")) {
             String[] result = lines[i].split("，");
+            Log.e("test","length = " + result.length);
+            if(result.length < 2){
+              toast("账号格式不对，账号密码在同一行，用\"，\"分开");
+              return;
+            }
             if (mDBManger.addAccount(result[0], result[1])) {
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();

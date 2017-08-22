@@ -5,16 +5,12 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,35 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
-import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.improve.service.BaseService;
 import com.june.healthmail.improve.service.PingjiaService;
-import com.june.healthmail.model.AccountInfo;
-import com.june.healthmail.model.Order;
-import com.june.healthmail.model.OrdersModel;
-import com.june.healthmail.model.PingjiaModel;
-import com.june.healthmail.model.TokenModel;
-import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
-import com.june.healthmail.untils.DBManager;
-import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
-import com.june.healthmail.untils.TimeUntils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Response;
 
 /**
  * Created by june on 2017/8/17.
@@ -64,9 +37,6 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   private Button btn_start;
   private TextView tvShowResult;
   private TextView tvRemainTimes;
-  private UserInfo userInfo;
-  private ArrayList<AccountInfo> accountList = new ArrayList<>();
-
   private Boolean isRunning = false;
   private int offset;
 
@@ -132,7 +102,6 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   @Override
   protected void onResume() {
     super.onResume();
-    //setupSpotAd();
   }
 
   private void initView() {

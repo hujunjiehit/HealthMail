@@ -2,7 +2,6 @@ package com.june.healthmail.improve.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
@@ -12,11 +11,9 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.improve.activity.NewPingjiaActivity;
-import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.Order;
 import com.june.healthmail.model.OrdersModel;
 import com.june.healthmail.model.PingjiaModel;
@@ -31,8 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -52,6 +47,7 @@ public class PingjiaService extends BaseService {
   private static final int GET_TOKEN_FAILED = 9;
   private static final int USER_PWD_WRONG = 10;
   private static final int REQUEST_INVAILED = 11;
+  private static final int TASK_FINISHED = 12;
 
 
   private PingjiaBinder mBinder = new PingjiaBinder();
@@ -73,6 +69,7 @@ public class PingjiaService extends BaseService {
                 showTheResult("剩余评价次数不足，请先充值");
                 toast("剩余评价次数不足，请先充值");
                 isRunning = false;
+                finishPingjia();
                 //btn_start.setText("评价完成");
                 return;
               }
@@ -208,9 +205,13 @@ public class PingjiaService extends BaseService {
           break;
         case REQUEST_INVAILED:
           showTheResult("***错误信息："+ errmsg + "\n");
-          showTheResult("***请求失效，小号管理标记为绿色，继续下一个****************\n\n\n");
+          showTheResult("***请求失效，小号管理标记为绿色，继续下一个(手机时间不准确，请设置手机时间为自动时间)****************\n\n\n");
           accountIndex++;
           this.sendEmptyMessageDelayed(START_TO_PING_JIA,getDelayTime());
+          break;
+        case TASK_FINISHED:
+          Log.e("test","task finished");
+          mHandler = null;
           break;
         default:
           Log.e("test","undefined message");
@@ -271,7 +272,7 @@ public class PingjiaService extends BaseService {
     ordersModel = null;
     pingjiaModel = null;
     mHandler.removeCallbacksAndMessages(null);
-    mHandler = null;
+    mHandler.sendEmptyMessage(TASK_FINISHED);
   }
 
   private void getAccountToken() {
@@ -289,14 +290,15 @@ public class PingjiaService extends BaseService {
     HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
-        mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
+        if(mHandler != null) {
+          mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
+        }
       }
 
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         //获取token成功之后Log.e("test","response = " + response.body().toString());
         try{
-          Gson gson = new Gson();
           TokenModel tokenmodel = gson.fromJson(response.body().charStream(), TokenModel.class);
           response.body().close();
           if(tokenmodel.getData() == null){
@@ -319,7 +321,9 @@ public class PingjiaService extends BaseService {
             mHandler.sendEmptyMessageDelayed(GET_TOKEN_SUCCESS,getDelayTime());
           }
         }catch (Exception e){
-          mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
+          if(mHandler != null) {
+            mHandler.sendEmptyMessageDelayed(GET_TOKEN_FAILED,getDelayTime());
+          }
         }
       }
     });
@@ -343,7 +347,9 @@ public class PingjiaService extends BaseService {
     HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
-        mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+        if(mHandler != null) {
+          mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+        }
       }
 
       @Override
@@ -362,7 +368,9 @@ public class PingjiaService extends BaseService {
         }catch (Exception e){
           Log.e("test","Exception:" + e.toString());
           e.printStackTrace();
-          mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+          if(mHandler != null) {
+            mHandler.sendEmptyMessageDelayed(GET_ORDER_LIST_FAILED,getDelayTime());
+          }
         }
       }
     });
@@ -400,7 +408,9 @@ public class PingjiaService extends BaseService {
     HttpUntils.getInstance().postForm(url, body, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
-        mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
+        if(mHandler != null) {
+          mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
+        }
       }
 
       @Override
@@ -418,7 +428,9 @@ public class PingjiaService extends BaseService {
             mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
           }
         }catch (Exception e){
-          mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
+          if(mHandler != null) {
+            mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_FAILED,getDelayTime());
+          }
         }
       }
     });

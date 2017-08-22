@@ -625,7 +625,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     job.addProperty("whichFunc","GETUSERMODEL");
 
     FormBody body = new FormBody.Builder()
-        .add("accessToken",accessToken)
+        .add("accessToken",getAccessToken())
         .add("data",job.toString())
         .build();
     HttpUntils.getInstance().postForm(url, body, new Callback() {
@@ -663,7 +663,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     job.addProperty("user_id",userId);
 
     FormBody body = new FormBody.Builder()
-            .add("accessToken",accessToken)
+            .add("accessToken",getAccessToken())
             .add("data",job.toString())
             .build();
     HttpUntils.getInstance().postForm(url, body, new Callback() {
@@ -770,7 +770,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     job.add("OrderIds",jsonArray);
 
     FormBody body = new FormBody.Builder()
-            .add("accessToken",accessToken)
+            .add("accessToken",getAccessToken())
             .add("data",job.toString())
             .build();
 
@@ -1115,17 +1115,22 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(!isFinishing()){
       popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
       if(!popwindow.isShowing()){
-        popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.5f;
-        getWindow().setAttributes(lp);
-        popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        findViewById(R.id.main_view).post(new Runnable() {
           @Override
-          public void onDismiss() {
+          public void run() {
+            popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
             WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.alpha=1f;
+            lp.alpha = 0.5f;
             getWindow().setAttributes(lp);
-            //showContinueDialog();
+            popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+              @Override
+              public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha=1f;
+                getWindow().setAttributes(lp);
+                //showContinueDialog();
+              }
+            });
           }
         });
       }

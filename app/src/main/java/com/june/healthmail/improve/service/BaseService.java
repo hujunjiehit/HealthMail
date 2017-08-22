@@ -31,8 +31,11 @@ public class BaseService extends Service {
   public static final int SHOW_RESULT = 99;
   public static final int UPDATE_TIMES = 100;
   public static final int FINISH_PINGJIA = 101;
+  public static final int FINISH_YUEKE = 102;
+
   protected int min_time;
   protected int max_time;
+  protected int max_sijiao;
   protected Boolean isRunning = false;
 
   protected ArrayList<AccountInfo> accountList = new ArrayList<>();
@@ -60,6 +63,13 @@ public class BaseService extends Service {
   protected void finishPingjia() {
     if (mActivityHandler != null) {
       Message msg = mActivityHandler.obtainMessage(FINISH_PINGJIA);
+      msg.sendToTarget();
+    }
+  }
+
+  protected void finishYueke() {
+    if (mActivityHandler != null) {
+      Message msg = mActivityHandler.obtainMessage(FINISH_YUEKE);
       msg.sendToTarget();
     }
   }

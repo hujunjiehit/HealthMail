@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.app.FragmentTabHost
+<com.june.healthmail.view.MyTabhost
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
@@ -31,4 +31,4 @@
             android:background="#333333"
             android:divider="#00000000" />
     </LinearLayout>
-</android.support.v4.app.FragmentTabHost>
+</com.june.healthmail.view.MyTabhost>

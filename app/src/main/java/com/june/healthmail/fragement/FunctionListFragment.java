@@ -192,10 +192,10 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
 
           @Override
           public void onResponse(Call call, Response response) throws IOException {
-            if(showProgress != null && showProgress.isShowing()){
-              showProgress.dismiss();
-            }
             try {
+              if(showProgress != null && showProgress.isShowing()){
+                showProgress.dismiss();
+              }
               Gson gson = new Gson();
               final GetPermissionModel getPermissionModel = gson.fromJson(response.body().charStream(), GetPermissionModel.class);
               response.body().close();
@@ -211,13 +211,14 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
                 });
               }
             }catch (Exception e){
-
-              getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                  Toast.makeText(getActivity(),"解析异常", Toast.LENGTH_LONG).show();
-                }
-              });
+              if(getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    Toast.makeText(getActivity(),"解析异常", Toast.LENGTH_LONG).show();
+                  }
+                });
+              }
             }
           }
         });

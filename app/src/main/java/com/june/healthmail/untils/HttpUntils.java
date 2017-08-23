@@ -94,4 +94,12 @@ public class HttpUntils {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }
+
+    public void getPayInfo(String url, FormBody body, Callback callback){
+        Request.Builder builder  = new Request.Builder().url(url).post(body);
+        builder.addHeader("User-Agent","okhttp/2.5.0"); //必须
+        Request request = builder.build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
+    }
 }

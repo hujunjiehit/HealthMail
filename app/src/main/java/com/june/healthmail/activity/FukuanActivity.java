@@ -294,10 +294,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             GetPayInfoJingdongModel getPayInfoJingdongModel = (GetPayInfoJingdongModel) msg.obj;
             getJingdongPageInfo(getPayInfoJingdongModel);
           }
-
           break;
 
-          case GET_TOKEN_FAILED:
+        case GET_TOKEN_FAILED:
             showTheResult("---获取token失败，重新开始该小号\n");
             this.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
             break;
@@ -697,7 +696,6 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         String url = "http://api.healthmall.cn/Post";
         JsonObject job = new JsonObject();
         job.addProperty("whichFunc","GetAllPayment");
-
         FormBody body = new FormBody.Builder()
                 .add("accessToken",getAccessToken())
                 .add("data",job.toString())
@@ -858,112 +856,108 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   }
 
   private void getKuaiqianPageInfo(PayinfoDetail payinfoDetail) {
-    String cloudCodeName = "getPayPage";
-    JSONObject job = new JSONObject();
-    try {
-      job.put("action",payinfoDetail.getPostUrl());
-
-      job.put("signType",payinfoDetail.getSignType());
-      job.put("merchantAcctId",payinfoDetail.getMerchantAcctId());
-      job.put("orderTime",payinfoDetail.getOrderTime());
-      job.put("version",payinfoDetail.getVersion());
-      job.put("payerIdType",payinfoDetail.getPayerIdType());
-      job.put("productDesc",payinfoDetail.getProductDesc());
-      job.put("inputCharset",payinfoDetail.getInputCharset());
-      job.put("bgUrl",payinfoDetail.getBg_Url());
-      job.put("ext1",payinfoDetail.getExt1());
-      job.put("orderAmount",payinfoDetail.getOrderAmount());
-      job.put("productNum",payinfoDetail.getProductNum());
-      job.put("signMsg",payinfoDetail.getSignMsg());
-      job.put("payType",payinfoDetail.getPayType());
-      job.put("payerId",payinfoDetail.getPayerId());
-      job.put("language",payinfoDetail.getLanguage());
-      job.put("productName",payinfoDetail.getProductName());
-      job.put("orderId",payinfoDetail.getOrderId());
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-
-    //创建云端逻辑
-    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+    FormBody body = new FormBody.Builder()
+        .add("action",payinfoDetail.getPostUrl())
+        .add("signType",payinfoDetail.getSignType())
+        .add("merchantAcctId",payinfoDetail.getMerchantAcctId())
+        .add("orderTime",payinfoDetail.getOrderTime())
+        .add("version",payinfoDetail.getVersion())
+        .add("payerIdType",payinfoDetail.getPayerIdType())
+        .add("productDesc",payinfoDetail.getProductDesc())
+        .add("inputCharset",payinfoDetail.getInputCharset())
+        .add("bgUrl",payinfoDetail.getBg_Url())
+        .add("ext1",payinfoDetail.getExt1())
+        .add("orderAmount",payinfoDetail.getOrderAmount())
+        .add("productNum",payinfoDetail.getProductNum())
+        .add("signMsg",payinfoDetail.getSignMsg())
+        .add("payType",payinfoDetail.getPayType())
+        .add("payerId",payinfoDetail.getPayerId())
+        .add("language",payinfoDetail.getLanguage())
+        .add("productName",payinfoDetail.getProductName())
+        .add("orderId",payinfoDetail.getOrderId())
+        .build();
+    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getKuaiqianPageInfo", body, new Callback() {
       @Override
-      public void done(Object o, BmobException e) {
-        if(e == null){
-          //Log.e("test","云端逻辑调用成功：" + o.toString());
-          Intent intent = new Intent();
-          intent.putExtra("data",o.toString());
-          intent.putExtra("title","快钱支付");
-          intent.putExtra("orders",(Serializable)hmOrders);
-          //showTheResult(o.toString());
-          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
-          startActivityForResult(intent,payTypeFlag);
-        }else {
-          Log.e("test","云端逻辑调用失败：" + e.toString());
-        }
+      public void onFailure(Call call, IOException e) {
+        Log.e("test","getKuaiqianPageInfo failed");
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+          }
+        });
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      }
+
+      @Override
+      public void onResponse(Call call, Response response) throws IOException {
+        Intent intent = new Intent();
+        intent.putExtra("data",response.body().string());
+        intent.putExtra("title","快钱支付");
+        intent.putExtra("orders",(Serializable)hmOrders);
+        intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+        startActivityForResult(intent,payTypeFlag);
       }
     });
   }
 
   private void getTonglianPageInfo(GetPayInfoTonglianModel payInfoTonglianModel) {
     PayinfoTonglianDetail payinfoDetail = payInfoTonglianModel.getValuse();
-    String cloudCodeName = "getTonglianPayPage";
-    JSONObject job = new JSONObject();
-    try {
-      job.put("action",payinfoDetail.getServerUrl());
+    FormBody body = new FormBody.Builder()
+        .add("action",payinfoDetail.getServerUrl())
+        .add("payerIDCard",payinfoDetail.getPayerIDCard())
+        .add("signType",payinfoDetail.getSignType())
+        .add("payerEmail",payinfoDetail.getPayerEmail())
+        .add("version",payinfoDetail.getVersion())
+        .add("inputCharset",payinfoDetail.getInputCharset())
+        .add("receiveUrl",payinfoDetail.getReceiveUrl())
+        .add("orderAmount",payinfoDetail.getOrderAmount())
+        .add("productNum",payinfoDetail.getProductNum())
+        .add("merchantId",payinfoDetail.getMerchantId())
+        .add("tradeNature",payinfoDetail.getTradeNature())
+        .add("extTL",payinfoDetail.getExtTL())
+        .add("pickupUrl",payinfoDetail.getPickupUrl())
+        .add("pid",payinfoDetail.getPid())
+        .add("orderCurrency",payinfoDetail.getOrderCurrency())
+        .add("payerTelephone",payinfoDetail.getPayerTelephone())
+        .add("pan",payinfoDetail.getPan())
+        .add("productId",payinfoDetail.getProductId())
 
-      job.put("payerIDCard",payinfoDetail.getPayerIDCard());
-      job.put("signType",payinfoDetail.getSignType());
-      job.put("payerEmail",payinfoDetail.getPayerEmail());
-      job.put("version",payinfoDetail.getVersion());
-      job.put("inputCharset",payinfoDetail.getInputCharset());
-      job.put("receiveUrl",payinfoDetail.getReceiveUrl());
-      job.put("orderAmount",payinfoDetail.getOrderAmount());
-      job.put("productNum",payinfoDetail.getProductNum());
-      job.put("merchantId",payinfoDetail.getMerchantId());
-      job.put("tradeNature",payinfoDetail.getTradeNature());
-      job.put("extTL",payinfoDetail.getExtTL());
-      job.put("pickupUrl",payinfoDetail.getPickupUrl());
-      job.put("pid",payinfoDetail.getPid());
-      job.put("orderCurrency",payinfoDetail.getOrderCurrency());
-      job.put("payerTelephone",payinfoDetail.getPayerTelephone());
-      job.put("pan",payinfoDetail.getPan());
-      job.put("productId",payinfoDetail.getProductId());
-
-      job.put("issuerId",payinfoDetail.getIssuerId());
-      job.put("productDesc",payinfoDetail.getProductDesc());
-      job.put("orderNo",payinfoDetail.getOrderNo());
-      job.put("ext1",payinfoDetail.getExt1());
-      job.put("ext2",payinfoDetail.getExt2());
-      job.put("orderExpireDatetime",payinfoDetail.getOrderExpireDatetime());
-      job.put("signMsg",payinfoDetail.getSignMsg());
-      job.put("payType",payinfoDetail.getPayType());
-      job.put("language",payinfoDetail.getLanguage());
-      job.put("orderDatetime",payinfoDetail.getOrderDatetime());
-      job.put("productPrice",payinfoDetail.getProductPrice());
-      job.put("productName",payinfoDetail.getProductName());
-      job.put("payerName",payinfoDetail.getPayerName());
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-
-    //创建云端逻辑
-    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+        .add("issuerId",payinfoDetail.getIssuerId())
+        .add("productDesc",payinfoDetail.getProductDesc())
+        .add("orderNo",payinfoDetail.getOrderNo())
+        .add("ext1",payinfoDetail.getExt1())
+        .add("ext2",payinfoDetail.getExt2())
+        .add("orderExpireDatetime",payinfoDetail.getOrderExpireDatetime())
+        .add("signMsg",payinfoDetail.getSignMsg())
+        .add("payType",payinfoDetail.getPayType())
+        .add("language",payinfoDetail.getLanguage())
+        .add("orderDatetime",payinfoDetail.getOrderDatetime())
+        .add("productPrice",payinfoDetail.getProductPrice())
+        .add("productName",payinfoDetail.getProductName())
+        .add("payerName",payinfoDetail.getPayerName())
+        .build();
+    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getTonglianPageInfo", body, new Callback() {
       @Override
-      public void done(Object o, BmobException e) {
-        if(e == null){
-          //Log.e("test","云端逻辑调用成功：" + o.toString());
+      public void onFailure(Call call, IOException e) {
+        Log.e("test","getTonglianPageInfo failed");
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+          }
+        });
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      }
+
+      @Override
+      public void onResponse(Call call, Response response) throws IOException {
           Intent intent = new Intent();
-          intent.putExtra("data",o.toString());
+          intent.putExtra("data",response.body().string());
           intent.putExtra("title","通联支付");
           intent.putExtra("orders",(Serializable)hmOrders);
-          //showTheResult(o.toString());
           intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
           startActivityForResult(intent,payTypeFlag);
-        }else {
-          Log.e("test","云端逻辑调用失败：" + e.toString());
-        }
       }
     });
   }
@@ -971,58 +965,54 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
   private void getKuaijiePageInfo(GetPayInfoKuaijieModel payInfoKuaijieModel) {
     PayinfoKuaijieDetail payinfoDetail = payInfoKuaijieModel.getValuse();
-    String cloudCodeName = "getKuaijiePayPage";
-    JSONObject job = new JSONObject();
-    try {
-      job.put("action",payinfoDetail.getPostUrl());
-
-      job.put("userIP",payinfoDetail.getUserIP());
-      job.put("requestTime",payinfoDetail.getRequestTime());
-      job.put("pageUrl",payinfoDetail.getPageUrl());
-      job.put("signType",payinfoDetail.getSignType());
-      job.put("outMemberRegistTime",payinfoDetail.getOutMemberRegistTime());
-      job.put("charset",payinfoDetail.getCharset());
-      job.put("jsCallback",payinfoDetail.getJsCallback());
-      job.put("outMemberName",payinfoDetail.getOutMemberName());
-      job.put("bankCode",payinfoDetail.getBankCode());
-      job.put("currency",payinfoDetail.getCurrency());
-
-      job.put("outMemberVerifyStatus",payinfoDetail.getOutMemberVerifyStatus());
-      job.put("amount",payinfoDetail.getAmount());
-      job.put("productDesc",payinfoDetail.getProductDesc());
-      job.put("outMemberId",payinfoDetail.getOutMemberId());
-      job.put("exts",payinfoDetail.getExts().replaceAll("\"", "&quot;")); //s.replaceAll("\"", "&quot;")
-      job.put("outMemberMobile",payinfoDetail.getOutMemberMobile());
-      job.put("backUrl",payinfoDetail.getBackUrl());
-      job.put("merchantOrderNo",payinfoDetail.getMerchantOrderNo());
-      job.put("signMsg",payinfoDetail.getSignMsg());
-      job.put("merchantNo",payinfoDetail.getMerchantNo());
-
-      job.put("outMemberRegistIP",payinfoDetail.getOutMemberRegistIP());
-      job.put("notifyUrl",payinfoDetail.getNotifyUrl());
-      job.put("productName",payinfoDetail.getProductName());
-      job.put("bankCardType",payinfoDetail.getBankCardType());
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-
-    //创建云端逻辑
-    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+    FormBody body = new FormBody.Builder()
+        .add("action",payinfoDetail.getPostUrl())
+        .add("userIP",payinfoDetail.getUserIP())
+        .add("requestTime",payinfoDetail.getRequestTime())
+        .add("pageUrl",payinfoDetail.getPageUrl())
+        .add("signType",payinfoDetail.getSignType())
+        .add("outMemberRegistTime",payinfoDetail.getOutMemberRegistTime())
+        .add("charset",payinfoDetail.getCharset())
+        .add("jsCallback",payinfoDetail.getJsCallback())
+        .add("outMemberName",payinfoDetail.getOutMemberName())
+        .add("bankCode",payinfoDetail.getBankCode())
+        .add("currency",payinfoDetail.getCurrency())
+        .add("outMemberVerifyStatus",payinfoDetail.getOutMemberVerifyStatus())
+        .add("amount",payinfoDetail.getAmount())
+        .add("productDesc",payinfoDetail.getProductDesc())
+        .add("outMemberId",payinfoDetail.getOutMemberId())
+        .add("exts",payinfoDetail.getExts().replaceAll("\"", "&quot;")) //s.replaceAll("\"", "&quot;")
+        .add("outMemberMobile",payinfoDetail.getOutMemberMobile())
+        .add("backUrl",payinfoDetail.getBackUrl())
+        .add("merchantOrderNo",payinfoDetail.getMerchantOrderNo())
+        .add("signMsg",payinfoDetail.getSignMsg())
+        .add("merchantNo",payinfoDetail.getMerchantNo())
+        .add("outMemberRegistIP",payinfoDetail.getOutMemberRegistIP())
+        .add("notifyUrl",payinfoDetail.getNotifyUrl())
+        .add("productName",payinfoDetail.getProductName())
+        .add("bankCardType",payinfoDetail.getBankCardType())
+        .build();
+    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getKuaijiePageInfo", body, new Callback() {
       @Override
-      public void done(Object o, BmobException e) {
-        if(e == null){
-          //Log.e("test","云端逻辑调用成功：" + o.toString());
-          Intent intent = new Intent();
-          intent.putExtra("data",o.toString());
-          intent.putExtra("title","快捷支付");
-          intent.putExtra("orders",(Serializable)hmOrders);
-          //showTheResult(o.toString());
-          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
-          startActivityForResult(intent,payTypeFlag);
-        }else {
-          Log.e("test","云端逻辑调用失败：" + e.toString());
-        }
+      public void onFailure(Call call, IOException e) {
+        Log.e("test","getKuaijiePageInfo failed");
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+          }
+        });
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      }
+
+      @Override
+      public void onResponse(Call call, Response response) throws IOException {
+        Intent intent = new Intent();
+        intent.putExtra("data",response.body().string());
+        intent.putExtra("title","快捷支付");
+        intent.putExtra("orders",(Serializable)hmOrders);
+        intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+        startActivityForResult(intent,payTypeFlag);
       }
     });
   }

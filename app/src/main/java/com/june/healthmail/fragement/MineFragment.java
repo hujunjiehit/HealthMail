@@ -117,15 +117,17 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             dealTheMessage(messageList.get(messageIndex));
           }else {
             Log.d("test","消息处理完毕，更新用户信息");
-            userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
-            if(TextUtils.isEmpty(userInfo.getInstallId())){
-              userInfo.setInstallId(Installation.id(getActivity()));
-            }
-            success1 = true;
-            userInfo.setBindMac("testmac");
-            Log.e("test","success1 ");
-            if(success1 && success2) {
-              mHandler.sendEmptyMessage(UPDATE_USER_INFO);
+            if(getActivity() != null) {
+              userInfo.setAppVersion(CommonUntils.getVersionInt(getActivity()));
+              if(TextUtils.isEmpty(userInfo.getInstallId())){
+                userInfo.setInstallId(Installation.id(getActivity()));
+              }
+              success1 = true;
+              userInfo.setBindMac("testmac");
+              Log.e("test","success1 ");
+              if(success1 && success2) {
+                mHandler.sendEmptyMessage(UPDATE_USER_INFO);
+              }
             }
           }
           break;
@@ -205,7 +207,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           }else {
             mTvQQGroup.setText(str);
           }
-
           break;
         default:
           break;

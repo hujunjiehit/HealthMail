@@ -74,6 +74,9 @@ public class YuekeService extends BaseService {
   private int pageSize = 0;   //总页数
   private int max_courses = 50;
 
+  private int per_sijiao_max_courses;  //每个私教最多约课数
+  private int currentNum;  //每个私教当前约课数
+
   private int sijiaoIndex = 0;
   private int courseIndex = 0;
   private String mallId;
@@ -83,6 +86,8 @@ public class YuekeService extends BaseService {
   private CourseDetail currentCourseDetail;
 
   private YukeBinder mBinder = new YukeBinder();
+
+  private NotificationCompat.Builder mNotifyBuilder;
 
   private Handler mHandler = new Handler() {
 
@@ -100,6 +105,11 @@ public class YuekeService extends BaseService {
                 //btn_start.setText("约课完成");
                 return;
               }
+
+              mNotifyBuilder.setContentText("正在约第" + (accountIndex + 1) + "个号...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
+
               showTheResult("开始约课第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
               if (accountList.get(accountIndex).getStatus() == 1) {
                 getAccountToken();
@@ -168,11 +178,13 @@ public class YuekeService extends BaseService {
                 showTheResult("**************没有更多页，开始下一个关注的私教\n");
                 pageIndex = 0;
                 sijiaoIndex++;
+                currentNum = 0;
                 this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
               }
             } else {
               showTheResult("*******用户设置了最多只约" + max_sijiao + "个私教，开始下一个小号\n\n\n");
               accountIndex++;
+              currentNum = 0;
               updateUserInfo();
               message = this.obtainMessage(START_TO_YUE_KE);
               message.sendToTarget();
@@ -180,6 +192,7 @@ public class YuekeService extends BaseService {
           } else {
             showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
             accountIndex++;
+            currentNum = 0;
             updateUserInfo();
             message = this.obtainMessage(START_TO_YUE_KE);
             message.sendToTarget();
@@ -207,25 +220,38 @@ public class YuekeService extends BaseService {
         case START_TO_GET_COURSE_USERS:
           if (isRunning) {
             if (courseIndex < coureseList.size()) {
-              if (isOutofDate(coureseList.get(courseIndex))) {
-                //上课时间是否过了
-                showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
-                courseIndex++;
-                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
-              } else if (PreferenceHelper.getInstance().getOnlyToday() &&
-                  !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())) {
-                //只约今天的课
-                showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
-                courseIndex++;
-                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
-              } else {
-                showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
-                getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
+              Log.e("test","courseIndex = " + courseIndex + "    currentNum = " + currentNum);
+              if (currentNum < per_sijiao_max_courses) {
+                if (isOutofDate(coureseList.get(courseIndex))) {
+                  //上课时间是否过了
+                  showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                  courseIndex++;
+                  currentNum++;
+                  this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
+                } else if (PreferenceHelper.getInstance().getOnlyToday() &&
+                    !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())) {
+                  //只约今天的课
+                  showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
+                  courseIndex++;
+                  currentNum++;
+                  this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
+                } else {
+                  showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
+                  getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
+                }
+              }else {
+                showTheResult("-------------用户设置每个私教最多约" + per_sijiao_max_courses + "节课，继续下一个私教\n");
+                sijiaoIndex++;
+                pageIndex = 0;
+                currentNum = 0;
+                this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
               }
             } else {
               if (coureseList.size() < 20) {
                 showTheResult("******第" + (pageIndex + 1) + "页私教课程小于20，继续下一个私教\n");
                 sijiaoIndex++;
+                pageIndex = 0;
+                currentNum = 0;
                 this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
               } else {
                 pageIndex++;
@@ -252,6 +278,7 @@ public class YuekeService extends BaseService {
             if (isIntheList == true) {
               showTheResult("---------------------已经约过课了\n");
               courseIndex++;
+              currentNum++;
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
             } else if (groupbuyUserModel.getValuse().size() >= max_courses) {
               if (userInfo.getUserType() == 3) {
@@ -260,6 +287,7 @@ public class YuekeService extends BaseService {
                 showTheResult("********请升级高级永久，普通永久只能约50节课\n");
               }
               courseIndex++;
+              currentNum++;
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
             } else {
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS, getDelayTime());
@@ -289,6 +317,7 @@ public class YuekeService extends BaseService {
             } else {
               showTheResult("---------------------课程已经约满了\n");
               courseIndex++;
+              currentNum++;
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
             }
           }
@@ -300,6 +329,7 @@ public class YuekeService extends BaseService {
         case YUE_KE_SUCESS:
           showTheResult("----------------------------------约课成功\n");
           courseIndex++;
+          currentNum++;
           CommonUntils.minusYuekeTimes();
           updateTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
           this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
@@ -360,15 +390,15 @@ public class YuekeService extends BaseService {
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-    Notification notification = new NotificationCompat.Builder(this)
+    mNotifyBuilder = new NotificationCompat.Builder(this)
         .setContentTitle("猫友圈约课")
         .setContentText("点击查看约课详情...")
         .setWhen(System.currentTimeMillis())
         .setSmallIcon(R.drawable.login_dog)
         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.login_dog))
-        .setContentIntent(pendingIntent)
-        .build();
-    startForeground(1, notification);
+        .setContentIntent(pendingIntent);
+
+    startForeground(1, mNotifyBuilder.build());
     Log.e("test", "YuekeService onCreate");
     initData();
   }
@@ -730,6 +760,9 @@ public class YuekeService extends BaseService {
 
     public void stopYuke() {
       isRunning = false;
+      if(mHandler != null) {
+        mHandler.removeCallbacksAndMessages(null);
+      }
     }
 
     public void setHandler(Handler handler) {
@@ -737,8 +770,9 @@ public class YuekeService extends BaseService {
     }
 
     public void setPageSize(int size) {
-      Log.e("test", "setPageSize execute,pageSize =  " + size);
-      pageSize = size;
+      per_sijiao_max_courses = size;
+      pageSize = (per_sijiao_max_courses - 1)/20 + 1;
+      Log.e("test", "setPageSize execute,per_sijiao_max_courses =  " + size + "  pageSize = " + pageSize);
     }
   }
 }

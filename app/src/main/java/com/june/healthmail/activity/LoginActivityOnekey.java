@@ -269,7 +269,7 @@ public class LoginActivityOnekey extends Activity implements View.OnClickListene
     if (!TextUtils.isEmpty(number)) {
       timer = new MyCountTimer(60000, 1000);
       timer.start();
-      BmobSMS.requestSMSCode(number, "默认模板", new QueryListener<Integer>() {
+      BmobSMS.requestSMSCode(number, "猫友圈app注册模板", new QueryListener<Integer>() {
         @Override
         public void done(Integer integer, BmobException e) {
           if (e == null) {// 验证码发送成功

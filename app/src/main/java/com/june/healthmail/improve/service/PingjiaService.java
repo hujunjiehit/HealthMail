@@ -58,6 +58,8 @@ public class PingjiaService extends BaseService {
   private String pingWord;
   private ArrayList<Order> coureseList = new ArrayList<>();
 
+  private NotificationCompat.Builder mNotifyBuilder;
+
   private Handler mHandler = new Handler(){
     @Override
     public void handleMessage(Message msg) {
@@ -73,6 +75,11 @@ public class PingjiaService extends BaseService {
                 //btn_start.setText("评价完成");
                 return;
               }
+
+              mNotifyBuilder.setContentText("正在评价第" + (accountIndex + 1) + "个号...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
+
               showTheResult("开始评价第" + (accountIndex + 1) + "个号：" + accountList.get(accountIndex).getPhoneNumber() + "\n");
               if (accountList.get(accountIndex).getStatus() == 1) {
                 getAccountToken();
@@ -229,15 +236,15 @@ public class PingjiaService extends BaseService {
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-    Notification notification = new NotificationCompat.Builder(this)
+    mNotifyBuilder = new NotificationCompat.Builder(this)
         .setContentTitle("猫友圈评价")
         .setContentText("点击查看评价详情...")
         .setWhen(System.currentTimeMillis())
         .setSmallIcon(R.drawable.login_dog)
         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.login_dog))
-        .setContentIntent(pendingIntent)
-        .build();
-    startForeground(1, notification);
+        .setContentIntent(pendingIntent);
+    startForeground(1, mNotifyBuilder.build());
+
     Log.e("test", "PingjiaService onCreate");
     initData();
   }
@@ -448,6 +455,9 @@ public class PingjiaService extends BaseService {
 
     public void stopPingjia() {
       isRunning = false;
+      if(mHandler != null) {
+        mHandler.removeCallbacksAndMessages(null);
+      }
     }
 
     public void setHandler(Handler handler) {

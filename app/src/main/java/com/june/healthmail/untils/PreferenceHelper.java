@@ -62,6 +62,11 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_ACCESS_TOKEN = "accsee_token";//备份token
 
+    public final static String KEY_PINGJIA_ALARM = "pingjia_alarm";//评价闹钟开关
+    public final static String KEY_YUEKE_ALARM = "yueke_alarm";//约课闹钟开关
+    public final static String KEY_PINGJIA_ALARM_TIME = "pingjia_alarm_time";//评价闹钟时间
+    public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
+
     private static PreferenceHelper instance;
 
     public static PreferenceHelper getInstance() {
@@ -902,6 +907,94 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getString(KEY_ACCESS_TOKEN,"");
+        }
+        return value;
+    }
+
+    public void setPingjiaAlarm(boolean value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_PINGJIA_ALARM,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getPingjiaAlarm() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_PINGJIA_ALARM,value);
+        }
+        return value;
+    }
+
+    public void setYuekeAlarm(boolean value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_YUEKE_ALARM,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getYuekeAlarm() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_YUEKE_ALARM,value);
+        }
+        return value;
+    }
+
+    public void setPingjiaAlarmTime(long value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong(KEY_PINGJIA_ALARM_TIME,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public long getPingjiaAlarmTime() {
+        long value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getLong(KEY_PINGJIA_ALARM_TIME,value);
+        }
+        return value;
+    }
+
+    public void setYukeAlarmTime(long value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong(KEY_YUEKE_ALARM_TIME,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public long getYuekeAlarmTime() {
+        long value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getLong(KEY_YUEKE_ALARM_TIME,value);
         }
         return value;
     }

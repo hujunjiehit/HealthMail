@@ -88,7 +88,7 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBinder = (YuekeService.YukeBinder) service;
             mBinder.setHandler(mHandler);
-            mBinder.setPageSize(pageSize);
+            mBinder.setPageSize(per_sijiao_max_courses);
         }
 
         @Override
@@ -238,9 +238,8 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                     per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
                     tvShowMaxCourses.setText(per_sijiao_max_courses + "");
                     tvDescMaxCourses.setText(String.format("每个私教最多约%d节课",per_sijiao_max_courses));
-                    pageSize = (per_sijiao_max_courses - 1)/20 + 1;
                     if(mBinder != null) {
-                        mBinder.setPageSize(pageSize);
+                        mBinder.setPageSize(per_sijiao_max_courses);
                     }
                 }else {
                     toast("数值必须大于0");

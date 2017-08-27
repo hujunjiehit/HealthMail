@@ -110,8 +110,41 @@
         android:textColor="@color/red"
         android:text="将会使用小号管理中启用的小号来执行"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定时评价"
+            android:textColor="@color/black"/>
+
+        <CheckBox
+            android:id="@+id/cb_pingjia_alarm"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_show_time"
+        android:layout_margin="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tv_bar"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/et_show_result"
+        android:visibility="visible"
         android:layout_margin="6dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -58,43 +58,41 @@ public class MyAccessibilityService extends AccessibilityService {
   private Runnable mRunnable = new Runnable() {
     @Override
     public void run() {
-      SystemClock.sleep(2000);
-      try {
-        Log.e("hujunjie","click send sms code");
-        int tryTimes = 0;
-        while (mCurrentState == STATE_WAITING_SMS_CODE) {
-          //excCommand("input tap 589 644");
-          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-          SystemClock.sleep(2000);
-          //excCommand("input tap 589 644");
-          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-          tryTimes++;
-          Log.e("hujunjie","waiting... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-          if(tryTimes >= 40 || mCurrentState == STATE_NONE) {
-            break;
-          }
-        }
-        Log.e("hujunjie","end tryTimes = " + tryTimes);
-        if(mCurrentState == STATE_RECEIVE_SMS_CODE) {
-          if(code != null) {
-            int x1 = 50;
-            int y1 = 945;
-            pasteSmsCode(code, DeviceConfig.x2, DeviceConfig.y2);
-          }
-          SystemClock.sleep(500);
-          mCurrentState = STATE_AFTER_SMS_CODE;
-          goBack();
-        }else if(mCurrentState == STATE_WAITING_SMS_CODE){
-          //没有收到短信
-          SystemClock.sleep(500);
-          mCurrentState = STATE_BEFORE_SMS_CODE;
-          goBack();
-        }else {
-          Log.e("hujunjie","用户手动退出");
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+//      SystemClock.sleep(2000);
+//      try {
+//        Log.e("hujunjie","click send sms code");
+//        int tryTimes = 0;
+//        while (mCurrentState == STATE_WAITING_SMS_CODE) {
+//          //excCommand("input tap 589 644");
+//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
+//          SystemClock.sleep(2000);
+//          //excCommand("input tap 589 644");
+//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
+//          tryTimes++;
+//          Log.e("hujunjie","waiting... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
+//          if(tryTimes >= 50 || mCurrentState == STATE_NONE) {
+//            break;
+//          }
+//        }
+//        Log.e("hujunjie","end tryTimes = " + tryTimes);
+//        if(mCurrentState == STATE_RECEIVE_SMS_CODE) {
+//          if(code != null) {
+//            pasteSmsCode(code, DeviceConfig.x2, DeviceConfig.y2);
+//          }
+//          SystemClock.sleep(500);
+//          mCurrentState = STATE_AFTER_SMS_CODE;
+//          goBack();
+//        }else if(mCurrentState == STATE_WAITING_SMS_CODE){
+//          //没有收到短信
+//          SystemClock.sleep(500);
+//          mCurrentState = STATE_BEFORE_SMS_CODE;
+//          goBack();
+//        }else {
+//          Log.e("hujunjie","用户手动退出");
+//        }
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
     }
   };
 
@@ -145,10 +143,14 @@ public class MyAccessibilityService extends AccessibilityService {
         }
 
         if(event.getClassName().equals("com.june.healthmail.activity.PayWebviewActivity")) {
-            if(mCurrentState == STATE_BEFORE_SMS_CODE) {
-              mCurrentState = STATE_WAITING_SMS_CODE;
-              getSmsCode();
-            }
+          if(mCurrentState == STATE_BEFORE_SMS_CODE) {
+
+          }
+
+//          if(mCurrentState == STATE_BEFORE_SMS_CODE) {
+//              mCurrentState = STATE_WAITING_SMS_CODE;
+//              getSmsCode();
+//          }
         }
 
         if(event.getText().contains("下一步")){
@@ -179,6 +181,12 @@ public class MyAccessibilityService extends AccessibilityService {
          * IsFullScreen: false; Scrollable: f
          */
         break;
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
+        Log.e("test","TYPE_VIEW_TEXT_SELECTION_CHANGED,  text = " + event.getText());
+        if(event.getText().contains("盛付通移动收银台")){
+          test();
+        }
+        break;
       default:
         break;
     }
@@ -191,6 +199,33 @@ public class MyAccessibilityService extends AccessibilityService {
 //    // recycle the nodeInfo object
 //    nodeInfo.recycle();
 
+  }
+
+  private void test() {
+    SystemClock.sleep(200);
+    mRootNodeInfo = null;
+    mRootNodeInfo = getRootInActiveWindow();
+
+
+    Log.e("test","count = " + mRootNodeInfo.getChild(3).getChild(0).getChild(3).getChild(0).getChildCount());
+    for(int i = 0; i < mRootNodeInfo.getChild(3).getChild(0).getChild(3).getChild(0).getChildCount(); i++) {
+      AccessibilityNodeInfo mNode = mRootNodeInfo.getChild(3).getChild(0).getChild(3).getChild(0).getChild(i);
+      Log.e("test","i = " + i + "  mNode = " + mNode);
+    }
+
+    AccessibilityNodeInfo targetInfo = null;
+    try{
+      targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(3).getChild(0).getChild(2);
+    }catch (Exception e) {
+      Log.e("test","exception targetInfo = null");
+      targetInfo = null;
+    }
+
+    if(targetInfo != null) {
+      SystemClock.sleep(500);
+      Log.e("test","perform action click targetInfo");
+      targetInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+    }
   }
 
   private void repeatTheSame() {

@@ -1,12 +1,15 @@
 package com.june.healthmail.untils;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.june.healthmail.model.Course;
 
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * Created by june on 2017/6/15.
@@ -88,5 +91,30 @@ public class Tools {
   public static int getPixelByDip(Context context, int dip) {
     return (int) (context.getResources().getDisplayMetrics().density * dip
         + 0.5f);
+  }
+
+  //读取setting设置来判断相关服务是否开启:
+  public static boolean isServiceOpenedByReadSettings(Context context, String service) {
+    int ok = 0;
+    try {
+      ok = Settings.Secure.getInt(context.getApplicationContext().getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
+    } catch (Settings.SettingNotFoundException e) {
+
+    }
+    TextUtils.SimpleStringSplitter ms = new TextUtils.SimpleStringSplitter(':');
+    if (ok == 1) {
+      String settingValue = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
+          Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+      if (settingValue != null) {
+        ms.setString(settingValue);
+        while (ms.hasNext()) {
+          String accessibilityService = ms.next();
+          if (accessibilityService.equalsIgnoreCase(service)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

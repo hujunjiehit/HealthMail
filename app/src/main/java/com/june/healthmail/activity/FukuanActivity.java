@@ -1,7 +1,9 @@
 package com.june.healthmail.activity;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,12 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -52,6 +56,7 @@ import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.untils.Tools;
 import com.june.healthmail.view.ChoosePayOptionsPopwindow;
 
 import org.json.JSONArray;
@@ -87,6 +92,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private TextView tvCoinsNumber;
   private TextView tvCoinsDesc;
   private CheckBox cbPayAllOrders;
+  private CheckBox cbOpenAccess;
   private ShowProgress showProgress;
 
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
@@ -94,6 +100,8 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private Boolean isRunning = false;
   private int offset;
   private int coinsCost;
+
+  private AccessibilityManager mAccessibilityManager;
 
   private static final int START_TO_FU_KUAN = 1;
   private static final int GET_TOKEN_SUCCESS = 2;
@@ -422,11 +430,20 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     setListener();
     initData();
     //setupSpotAd();
+    mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
+    boolean isServiceEnabled = isServiceEnabled();
+    boolean toolsIsServiceEnabled = Tools.isServiceOpenedByReadSettings(this,"com.june.healthmail/.service.MyAccessibilityService");
+    Log.e("test", isServiceEnabled + "---" + toolsIsServiceEnabled);
+    if(isServiceEnabled || toolsIsServiceEnabled) {
+      cbOpenAccess.setChecked(true);
+    }else {
+      cbOpenAccess.setChecked(false);
+    }
   }
 
   private void initView() {
@@ -437,6 +454,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
     tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
+    cbOpenAccess = (CheckBox) findViewById(R.id.cb_open_access);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
@@ -445,6 +463,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(userInfo.getPayStatus() != null && userInfo.getPayStatus() == 1) {
       tvCoinsNumber.setVisibility(View.GONE);
       tvCoinsDesc.setText("付款永久用户(付款时不消耗金币)");
+    }
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1) {
+      findViewById(R.id.layout_open_access).setVisibility(View.VISIBLE);
     }
   }
 
@@ -459,6 +480,23 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         } else {
           PreferenceHelper.getInstance().setPayAllOrders(false);
         }
+      }
+    });
+
+//    cbOpenAccess.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//      @Override
+//      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//      }
+//    });
+    cbOpenAccess.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        cbOpenAccess.setChecked(!cbOpenAccess.isChecked());
+        Intent accessibleIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        toast("请选择猫友圈辅助功能，并开启或者关闭服务");
+        startActivity(accessibleIntent);
       }
     });
   }
@@ -1207,5 +1245,20 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     }else {
       return accessToken;
     }
+  }
+
+  /**
+   * 获取 RobotService 是否启用状态
+   * @return true or false
+   */
+  private boolean isServiceEnabled() {
+    List<AccessibilityServiceInfo> accessibilityServices =
+        mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
+    for (AccessibilityServiceInfo info : accessibilityServices) {
+      if (info.getId().equals("com.june.healthmail/.service.MyAccessibilityService")) {
+        return true;
+      }
+    }
+    return false;
   }
 }

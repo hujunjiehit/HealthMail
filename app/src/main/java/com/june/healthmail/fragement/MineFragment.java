@@ -144,11 +144,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                   //高级永久用户
                     x = 3;
                 }
-
-                if (userInfo.getUsername().equals("18665872876") || userInfo.getUsername().equals("18995616185") ||
-                    userInfo.getUsername().equals("18365535813") || userInfo.getUsername().equals("18002570032")) {
-                  //特殊用户
-                  x = 4;
+//                if (userInfo.getUsername().equals("18665872876") || userInfo.getUsername().equals("18995616185") ||
+//                    userInfo.getUsername().equals("18365535813") || userInfo.getUsername().equals("18002570032")) {
+//                  //特殊用户
+//                }
+                if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1) {
+                  x = 5;
                 }
 
                 if(TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {

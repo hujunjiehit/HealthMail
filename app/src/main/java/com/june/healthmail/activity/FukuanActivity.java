@@ -379,6 +379,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           fukuanChoice[index] = 1;
         }
       }
+    fukuanChoice[index] = 1;
 
     index = 1;
     fukuanChoice[index] = 0;
@@ -387,6 +388,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         fukuanChoice[index] = 1;
       }
     }
+    fukuanChoice[index] = 1;
 
     index = 2;
     fukuanChoice[index] = 0;
@@ -472,6 +474,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private void setListener() {
     btn_start.setOnClickListener(this);
     findViewById(R.id.img_back).setOnClickListener(this);
+    findViewById(R.id.img_setup).setOnClickListener(this);
     cbPayAllOrders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -594,6 +597,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       case R.id.btn_fukuan_yilian://易联支付
         Log.e("test","click btn_fukuan_yilian");
         toast("暂不支持易联支付，请耐心等待下次更新");
+        break;
+      case R.id.img_setup:
+        Intent intent = new Intent(FukuanActivity.this,AutopaySetupActivity.class);
+        startActivity(intent);
         break;
       default:
         break;

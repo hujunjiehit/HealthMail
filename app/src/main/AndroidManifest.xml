@@ -183,6 +183,10 @@
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
+        <activity
+            android:name=".activity.AutopaySetupActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
 
         <service
             android:name=".improve.service.PingjiaService"

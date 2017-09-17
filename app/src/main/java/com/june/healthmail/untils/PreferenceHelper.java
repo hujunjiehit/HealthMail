@@ -67,6 +67,12 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_PINGJIA_ALARM_TIME = "pingjia_alarm_time";//评价闹钟时间
     public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
 
+    //自动付款专用
+    public final static String KEY_BANK_CARD = "auto_pay_bank_card";//银行卡号
+    public final static String KEY_NAME = "auto_pay_name";//姓名
+    public final static String KEY_ID_CARD = "auto_pay_id_card";//身份证号码
+    public final static String KEY_PHONE_NUMBER = "auto_pay_phone_number";//手机号
+
     private static PreferenceHelper instance;
 
     public static PreferenceHelper getInstance() {
@@ -995,6 +1001,94 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getLong(KEY_YUEKE_ALARM_TIME,value);
+        }
+        return value;
+    }
+
+    public void setPayBankCard(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_BANK_CARD,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayBankCard() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_BANK_CARD,value);
+        }
+        return value;
+    }
+
+    public void setPayName(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_NAME,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayName() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_NAME,value);
+        }
+        return value;
+    }
+
+    public void setPayIdCard(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_ID_CARD,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayIdCard() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_ID_CARD,value);
+        }
+        return value;
+    }
+
+    public void setPayPhoneNumber(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_PHONE_NUMBER,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayPhoneNumber() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_PHONE_NUMBER,value);
         }
         return value;
     }

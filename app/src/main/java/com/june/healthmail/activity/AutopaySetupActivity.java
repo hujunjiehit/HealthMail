@@ -3,11 +3,14 @@ package com.june.healthmail.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.june.healthmail.R;
@@ -23,6 +26,16 @@ import butterknife.OnClick;
 
 public class AutopaySetupActivity  extends BaseActivity implements View.OnClickListener{
 
+  @BindView(R.id.container_1)
+  View mContainer1;
+  @BindView(R.id.container_2)
+  View mContainer2;
+  @BindView(R.id.radio_group)
+  RadioGroup mRadioGroup;
+  @BindView(R.id.radio_button_1)
+  RadioButton mRadioButton1;
+  @BindView(R.id.radio_button_2)
+  RadioButton mRadioButton2;
   @BindView(R.id.tv_bank_card)
   TextView tvBankCard;
   @BindView(R.id.tv_name)
@@ -51,6 +64,34 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     tvName.setText(mPreferenceHelper.getPayName().trim());
     tvIdCard.setText(mPreferenceHelper.getPayIdCard().trim());
     tvPhoneNumber.setText(mPreferenceHelper.getPayPhoneNumber().trim());
+    if(PreferenceHelper.getInstance().getAutoPayMode() == 1){
+      mRadioButton1.setChecked(true);
+      mContainer1.setVisibility(View.VISIBLE);
+      mContainer2.setVisibility(View.GONE);
+    }else {
+      mRadioButton2.setChecked(true);
+      mContainer1.setVisibility(View.GONE);
+      mContainer2.setVisibility(View.VISIBLE);
+    }
+  }
+
+  private void setListener() {
+    findViewById(R.id.img_back).setOnClickListener(this);
+    mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        int radioButtonId = group.getCheckedRadioButtonId();
+        if(radioButtonId == R.id.radio_button_1) {
+          PreferenceHelper.getInstance().setAutoPayMode(1);
+          mContainer1.setVisibility(View.VISIBLE);
+          mContainer2.setVisibility(View.GONE);
+        }else if(radioButtonId == R.id.radio_button_2){
+          PreferenceHelper.getInstance().setAutoPayMode(2);
+          mContainer1.setVisibility(View.GONE);
+          mContainer2.setVisibility(View.VISIBLE);
+        }
+      }
+    });
   }
 
   @OnClick(R.id.edit_bank_card)
@@ -73,9 +114,7 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     showEditPhoneDialog();
   }
 
-  private void setListener() {
-    findViewById(R.id.img_back).setOnClickListener(this);
-  }
+
 
 
   @Override

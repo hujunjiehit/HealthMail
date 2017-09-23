@@ -68,6 +68,7 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
 
     //自动付款专用
+    public final static String KEY_AUTO_PAY_MODE = "auto_pay_mode";//自动付款模式  1--快钱储蓄卡  2--快捷支付
     public final static String KEY_BANK_CARD = "auto_pay_bank_card";//银行卡号
     public final static String KEY_NAME = "auto_pay_name";//姓名
     public final static String KEY_ID_CARD = "auto_pay_id_card";//身份证号码
@@ -1089,6 +1090,28 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getString(KEY_PHONE_NUMBER,value);
+        }
+        return value;
+    }
+
+    public void setAutoPayMode(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_AUTO_PAY_MODE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getAutoPayMode() {
+        int value = 1;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_AUTO_PAY_MODE,value);
         }
         return value;
     }

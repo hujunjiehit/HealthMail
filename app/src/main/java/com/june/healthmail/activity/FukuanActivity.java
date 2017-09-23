@@ -379,7 +379,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           fukuanChoice[index] = 1;
         }
       }
-    fukuanChoice[index] = 1;
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1){
+      fukuanChoice[index] = 1;
+    }
 
     index = 1;
     fukuanChoice[index] = 0;
@@ -388,7 +390,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         fukuanChoice[index] = 1;
       }
     }
-    fukuanChoice[index] = 1;
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1){
+      fukuanChoice[index] = 1;
+    }
 
     index = 2;
     fukuanChoice[index] = 0;
@@ -468,6 +472,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     }
     if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1) {
       findViewById(R.id.layout_open_access).setVisibility(View.VISIBLE);
+      findViewById(R.id.img_setup).setVisibility(View.VISIBLE);
     }
   }
 

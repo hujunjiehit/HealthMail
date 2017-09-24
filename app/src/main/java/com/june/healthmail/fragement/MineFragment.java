@@ -40,6 +40,7 @@ import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.TimeUntils;
+import com.june.healthmail.untils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -432,7 +433,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             double usedHours = (aLong - userInfo.getBeginTime())/3600; //授权已经使用的小时数
             Log.e("test","usedHours = " + usedHours);
             if(usedHours < userInfo.getAllowDays()*24){
-              String leftTimeDesc = getLeftTimeDesc(userInfo.getAllowDays()*24 - (int)usedHours);
+              String leftTimeDesc = Tools.getLeftTimeDesc(userInfo.getAllowDays()*24 - (int)usedHours);
               mTvAllowDays.setText("剩余授权时间：" + leftTimeDesc);
             }else{
               //用户授权已过期，更新用户信息
@@ -461,16 +462,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         }
       }
     });
-  }
-
-  private String getLeftTimeDesc(int leftHours) {
-    Log.e("test","leftHours = " + leftHours);
-    StringBuilder sb = new StringBuilder();
-    if(leftHours >= 24) {
-      sb.append(leftHours/24+"天");
-    }
-    sb.append(leftHours%24 + "小时");
-    return sb.toString();
   }
 
   @Override
@@ -722,7 +713,48 @@ public class MineFragment extends Fragment implements View.OnClickListener{
           }
         });
         builder.create().show();
-      } else if(messageType == 99){
+      } else if(messageType == 9) {
+        //辅助功能授权
+        builder.setTitle("辅助功能授权通知");
+        builder.setMessage("辅助功能授权成功，本次开通了" + messageDetails.getScore() + "天授权");
+        if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1){
+          //时间未过期
+          userInfo.setPayDays(userInfo.getPayDays() + messageDetails.getScore());
+        }else {
+          userInfo.setAutoPay(1);
+          userInfo.setPayDays(messageDetails.getScore());
+        }
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            messageDetails.setStatus(0);
+            messageDetails.update(messageDetails.getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e == null) {
+                  Log.e("test","消息更新成功");
+                  userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                      if(e==null){
+                        Log.d("test","用户信息更新成功，开始处理下一条消息");
+                        messageIndex++;
+                        mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                      }else{
+                        Log.e("test","更新用户信息失败");
+                      }
+                    }
+                  });
+                }else {
+                  Log.e("test","消息处理失败："+e.getMessage()+","+e.getErrorCode());
+                }
+              }
+            });
+          }
+        });
+        builder.create().show();
+      }else if(messageType == 99){
         //系统公告消息
         builder.setTitle("系统公告");
         builder.setMessage(messageDetails.getReasons());

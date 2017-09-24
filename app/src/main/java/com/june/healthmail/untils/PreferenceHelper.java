@@ -68,11 +68,14 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
 
     //自动付款专用
-    public final static String KEY_AUTO_PAY_MODE = "auto_pay_mode";//自动付款模式  1--快钱储蓄卡  2--快捷支付
+    public final static String KEY_AUTO_PAY_MODE = "auto_pay_mode";//自动付款模式  1--快钱储蓄卡  2--快捷支付 3--通联支付
     public final static String KEY_BANK_CARD = "auto_pay_bank_card";//银行卡号
     public final static String KEY_NAME = "auto_pay_name";//姓名
     public final static String KEY_ID_CARD = "auto_pay_id_card";//身份证号码
     public final static String KEY_PHONE_NUMBER = "auto_pay_phone_number";//手机号
+
+    public final static String KEY_PAY_ORDER_NUMBER = "auto_pay_order_number";//通联支付支付多少个订单
+    public final static String KEY_PAY_PASSWORD = "auto_pay_password";//通联支付支付密码
 
     private static PreferenceHelper instance;
 
@@ -1112,6 +1115,50 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getInt(KEY_AUTO_PAY_MODE,value);
+        }
+        return value;
+    }
+
+    public void setPayOrderNumber(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_PAY_ORDER_NUMBER,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getPayOrderNumber() {
+        int value = 10;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_PAY_ORDER_NUMBER,value);
+        }
+        return value;
+    }
+
+    public void setPayPassword(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_PAY_PASSWORD,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayPassword() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_PAY_PASSWORD,value);
         }
         return value;
     }

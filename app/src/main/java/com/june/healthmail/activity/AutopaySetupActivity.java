@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -30,12 +32,16 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   View mContainer1;
   @BindView(R.id.container_2)
   View mContainer2;
+  @BindView(R.id.container_3)
+  View mContainer3;
   @BindView(R.id.radio_group)
   RadioGroup mRadioGroup;
   @BindView(R.id.radio_button_1)
   RadioButton mRadioButton1;
   @BindView(R.id.radio_button_2)
   RadioButton mRadioButton2;
+  @BindView(R.id.radio_button_3)
+  RadioButton mRadioButton3;
   @BindView(R.id.tv_bank_card)
   TextView tvBankCard;
   @BindView(R.id.tv_name)
@@ -44,6 +50,10 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   TextView tvIdCard;
   @BindView(R.id.tv_phone_number)
   TextView tvPhoneNumber;
+  @BindView(R.id.tv_pay_order_number)
+  TextView tvPayOrderNumber;
+  @BindView(R.id.tv_pay_password)
+  TextView tvPayPassword;
 
   private PreferenceHelper mPreferenceHelper;
 
@@ -64,14 +74,23 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     tvName.setText(mPreferenceHelper.getPayName().trim());
     tvIdCard.setText(mPreferenceHelper.getPayIdCard().trim());
     tvPhoneNumber.setText(mPreferenceHelper.getPayPhoneNumber().trim());
+    tvPayOrderNumber.setText(mPreferenceHelper.getPayOrderNumber() + "");
+    tvPayPassword.setText(mPreferenceHelper.getPayPassword().trim());
     if(PreferenceHelper.getInstance().getAutoPayMode() == 1){
       mRadioButton1.setChecked(true);
       mContainer1.setVisibility(View.VISIBLE);
       mContainer2.setVisibility(View.GONE);
-    }else {
+      mContainer3.setVisibility(View.GONE);
+    }else if(PreferenceHelper.getInstance().getAutoPayMode() == 2) {
       mRadioButton2.setChecked(true);
       mContainer1.setVisibility(View.GONE);
       mContainer2.setVisibility(View.VISIBLE);
+      mContainer3.setVisibility(View.GONE);
+    } else if(PreferenceHelper.getInstance().getAutoPayMode() == 3) {
+      mRadioButton3.setChecked(true);
+      mContainer1.setVisibility(View.GONE);
+      mContainer2.setVisibility(View.GONE);
+      mContainer3.setVisibility(View.VISIBLE);
     }
   }
 
@@ -85,13 +104,21 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
           PreferenceHelper.getInstance().setAutoPayMode(1);
           mContainer1.setVisibility(View.VISIBLE);
           mContainer2.setVisibility(View.GONE);
+          mContainer3.setVisibility(View.GONE);
         }else if(radioButtonId == R.id.radio_button_2){
           PreferenceHelper.getInstance().setAutoPayMode(2);
           mContainer1.setVisibility(View.GONE);
           mContainer2.setVisibility(View.VISIBLE);
+          mContainer3.setVisibility(View.GONE);
+        }else if(radioButtonId == R.id.radio_button_3){
+          PreferenceHelper.getInstance().setAutoPayMode(3);
+          mContainer1.setVisibility(View.GONE);
+          mContainer2.setVisibility(View.GONE);
+          mContainer3.setVisibility(View.VISIBLE);
         }
       }
     });
+    tvPayPassword.setOnClickListener(this);
   }
 
   @OnClick(R.id.edit_bank_card)
@@ -114,6 +141,16 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     showEditPhoneDialog();
   }
 
+  @OnClick(R.id.edit_pay_order_number)
+  public void editPayOrderNumber(View view){
+    showEditPayOrderNumber();
+  }
+
+  @OnClick(R.id.edit_pay_password)
+  public void editPayPassword(View view){
+    showEditPayPassword();
+  }
+
 
 
 
@@ -122,6 +159,13 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     switch (v.getId()) {
       case R.id.img_back:	//返回
         finish();
+        break;
+      case R.id.tv_pay_password:	//显示与隐藏密码
+        if(tvPayPassword.getTransformationMethod() instanceof HideReturnsTransformationMethod) {
+          tvPayPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }else {
+          tvPayPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
         break;
       default:
         break;
@@ -219,6 +263,59 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
         }
         mPreferenceHelper.setPayPhoneNumber(edit_text.getText().toString().trim());
         tvPhoneNumber.setText(edit_text.getText().toString().trim());
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showEditPayOrderNumber() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+    final TextView tv_desc = (TextView) diaog_view.findViewById(R.id.tv_desc);
+    tv_desc.setText("支付订单数：");
+    edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("修改支付订单数");
+    builder.setView(diaog_view);
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+          toast("请输入需正确的手机号");
+          return;
+        }
+        int value = Integer.valueOf(edit_text.getText().toString().trim());
+        if(value > 0 && value <= 20) {
+          mPreferenceHelper.setPayOrderNumber(value);
+          tvPayOrderNumber.setText(value+"");
+        }else {
+          toast("数值必须大于0且小于等于20");
+        }
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showEditPayPassword() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+    final TextView tv_desc = (TextView) diaog_view.findViewById(R.id.tv_desc);
+    tv_desc.setText("支付密码：");
+    edit_text.setInputType(InputType.TYPE_CLASS_TEXT);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("修改支付密码");
+    builder.setView(diaog_view);
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+          toast("请输入需正确的支付密码");
+          return;
+        }
+        mPreferenceHelper.setPayPassword(edit_text.getText().toString().trim());
+        tvPayPassword.setText(edit_text.getText().toString().trim());
       }
     });
     builder.create().show();

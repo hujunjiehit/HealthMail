@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -54,6 +55,7 @@ import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
+import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.Tools;
@@ -72,9 +74,11 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.AsyncCustomEndpoints;
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -91,6 +95,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private TextView tvShowResult;
   private TextView tvCoinsNumber;
   private TextView tvCoinsDesc;
+  private TextView tvLeftTime;
   private CheckBox cbPayAllOrders;
   private CheckBox cbOpenAccess;
   private ShowProgress showProgress;
@@ -207,6 +212,18 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                     getOrderListModel.getValuse().get(i).setSelected(true);
                     hmOrders.add(getOrderListModel.getValuse().get(i));
                 }
+
+                //自动支付勾选通联付款
+                if(PreferenceHelper.getInstance().getAutoPayMode() == 3){
+                  for(int i = 0; i < hmOrders.size(); i ++) {
+                    if(i < PreferenceHelper.getInstance().getPayOrderNumber()) {
+                      hmOrders.get(i).setSelected(true);
+                    }else {
+                      hmOrders.get(i).setSelected(false);
+                    }
+                  }
+                }
+
                 if(hmOrders.size() > 0){
                   showTheResult("------------共有" + hmOrders.size() + "个订单\n");
                   if(userInfo.getPayStatus() == null) {
@@ -379,7 +396,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           fukuanChoice[index] = 1;
         }
       }
-    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1){
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2){
       fukuanChoice[index] = 1;
     }
 
@@ -390,7 +407,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         fukuanChoice[index] = 1;
       }
     }
-    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1){
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2){
       fukuanChoice[index] = 1;
     }
 
@@ -450,6 +467,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     }else {
       cbOpenAccess.setChecked(false);
     }
+    if(PreferenceHelper.getInstance().getAutoPayMode() == 3) {
+      cbPayAllOrders.setChecked(true);
+      cbPayAllOrders.setEnabled(false);
+    }else {
+      cbPayAllOrders.setEnabled(true);
+    }
   }
 
   private void initView() {
@@ -461,6 +484,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
     cbOpenAccess = (CheckBox) findViewById(R.id.cb_open_access);
+    tvLeftTime = (TextView) findViewById(R.id.tv_left_time);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
@@ -470,10 +494,80 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       tvCoinsNumber.setVisibility(View.GONE);
       tvCoinsDesc.setText("付款永久用户(付款时不消耗金币)");
     }
-    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1) {
+    if(userInfo.getAutoPay() != null) {
       findViewById(R.id.layout_open_access).setVisibility(View.VISIBLE);
       findViewById(R.id.img_setup).setVisibility(View.VISIBLE);
+      if(userInfo.getAutoPay() == 1) {
+        getServerTime();
+      }else if(userInfo.getAutoPay() == 2) {
+        //自动付款永久用户，只有三四个人
+        tvLeftTime.setText("辅助功能永久授权");
+        tvLeftTime.setVisibility(View.VISIBLE);
+      }else if(userInfo.getAutoPay() == 0){
+        tvLeftTime.setText("辅助功能授权时间已过期，请续费");
+        tvLeftTime.setVisibility(View.VISIBLE);
+        findViewById(R.id.layout_open_access).setVisibility(View.GONE);
+        findViewById(R.id.img_setup).setVisibility(View.GONE);
+      }
+    }else {
+      findViewById(R.id.layout_open_access).setVisibility(View.GONE);
+      findViewById(R.id.img_setup).setVisibility(View.GONE);
     }
+  }
+
+  private void getServerTime() {
+    Bmob.getServerTime(new QueryListener<Long>() {
+      @Override
+      public void done(Long aLong, BmobException e) {
+        if(e == null){
+          if(userInfo.getPayBegin() == null || userInfo.getPayBegin() == 0){
+            //如果没有记录付款开始时间,那么写入当前服务器时间
+            Log.e("test","payBegin is null,update it");
+            tvLeftTime.setVisibility(View.VISIBLE);
+            tvLeftTime.setText("辅助功能剩余授权：" + userInfo.getPayDays() + "天");
+            BmobUser bmobUser = BmobUser.getCurrentUser();
+            userInfo.setPayBegin(aLong);
+            userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
+              @Override
+              public void done(BmobException e) {
+                if(e==null){
+                  Log.e("test","更新PayBegin成功");
+                }else{
+                  Log.e("test","更新PayBegin失败");
+                }
+              }
+            });
+          }else{
+            tvLeftTime.setVisibility(View.VISIBLE);
+            Log.e("test","beginTime = " + userInfo.getPayBegin());
+            Log.e("test","serverTime = " + aLong);
+            double usedHours = (aLong - userInfo.getPayBegin())/3600; //授权已经使用的小时数
+            Log.e("test","usedHours = " + usedHours);
+            if(usedHours < userInfo.getPayDays()*24){
+              String leftTimeDesc = Tools.getLeftTimeDesc(userInfo.getPayDays()*24 - (int)usedHours);
+              tvLeftTime.setText("辅助功能剩余授权：" + leftTimeDesc);
+            }else{
+              //用户授权已过期，更新用户信息
+              tvLeftTime.setText("辅助功能授权时间已过期，请续费");
+              BmobUser bmobUser = BmobUser.getCurrentUser();
+              userInfo.setPayBegin((long) 0);
+              userInfo.setAutoPay(0);
+              userInfo.setPayDays(0);
+              userInfo.update(bmobUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                  if(e==null){
+                    Log.e("test","更新用户信息成功");
+                  }else{
+                    Log.e("test","更新用户信息失败");
+                  }
+                }
+              });
+            }
+          }
+        }
+      }
+    });
   }
 
   private void setListener() {
@@ -500,11 +594,11 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     cbOpenAccess.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        cbOpenAccess.setChecked(!cbOpenAccess.isChecked());
-        Intent accessibleIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        toast("请选择猫友圈辅助功能，并开启或者关闭服务");
-        startActivity(accessibleIntent);
+          cbOpenAccess.setChecked(!cbOpenAccess.isChecked());
+          Intent accessibleIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+          accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          toast("请选择猫友圈辅助功能，并开启或者关闭服务");
+          startActivity(accessibleIntent);
       }
     });
   }
@@ -546,6 +640,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         if(userInfo != null && userInfo.getCoinsNumber() <= 0){
           Toast.makeText(this,"金币余额不足，无法使用付款功能",Toast.LENGTH_LONG).show();
           return;
+        }
+        if(cbOpenAccess.isChecked()) {
+          if(userInfo.getAutoPay() != null && userInfo.getAutoPay() < 1) {
+            toast("辅助功能授权已过期，请关闭辅助功能再继续");
+            return;
+          }
         }
         if("付款完成".equals(btn_start.getText().toString().trim())){
           Toast.makeText(this,"付款已完成，如需继续付款请重新进入本页面",Toast.LENGTH_LONG).show();

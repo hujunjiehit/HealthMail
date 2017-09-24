@@ -265,17 +265,45 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(500);
 
           mResultInfo = null;
-          //getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"银行");
-          getTargetNodeByClassName2(mRootNodeInfo.getChild(3).getChild(0),"android.widget.ListView");
-          if(mResultInfo != null) {
-            Rect rect = new Rect();
-            mResultInfo.getChild(0).getBoundsInScreen(rect);
-            clickPoint((rect.left + rect.right)/2,(rect.top + rect.bottom)/2);
+          if(PreferenceHelper.getInstance().getChoosePayCard()) {
+            //需要指定银行卡
+            getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"添加常用卡");
+            //getTargetNodeByClassName2(mRootNodeInfo.getChild(3).getChild(0),"android.widget.ListView");
+            if(mResultInfo != null) {
+              mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+              SystemClock.sleep(1500);
 
-            SystemClock.sleep(1000);
-            mCurrentState = STATE_WAITING_SMS_CODE;
-            tonglianStepTwo();
+              mRootNodeInfo = getRootInActiveWindow();
+              mListEditText.clear();
+              getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
+              Log.e("autopay","mListEditText.size = " + mListEditText.size());
+              if(mListEditText.size() > 0) {
+                Log.e("autopay","EditText = " +  mListEditText.get(0));
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getPayBankCard());
+                mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                SystemClock.sleep(500);
+              }
+
+              mResultInfo = null;
+              getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"下一步");
+              if(mResultInfo != null && mResultInfo.isClickable()) {
+                mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                SystemClock.sleep(500);
+              }
+            }
+          }else {
+            //使用默认的第一张银行卡付款
+            getTargetNodeByClassName2(mRootNodeInfo.getChild(3).getChild(0),"android.widget.ListView");
+            if(mResultInfo != null) {
+              Rect rect = new Rect();
+              mResultInfo.getChild(0).getBoundsInScreen(rect);
+              clickPoint((rect.left + rect.right)/2,(rect.top + rect.bottom)/2);
+              SystemClock.sleep(500);
+            }
           }
+          mCurrentState = STATE_WAITING_SMS_CODE;
+          tonglianStepTwo();
         }else {
           SystemClock.sleep(500);
           mCurrentState = STATE_WAITING_FOR_LOADING;
@@ -286,6 +314,8 @@ public class MyAccessibilityService extends AccessibilityService {
   }
 
   private void tonglianStepTwo() {
+    SystemClock.sleep(1000);
+
     mRootNodeInfo = getRootInActiveWindow();
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
@@ -297,6 +327,7 @@ public class MyAccessibilityService extends AccessibilityService {
     } else {
       //不要验证码，直接输入支付密码就行了
       Log.e("autopay","no need to get sms code");
+      SystemClock.sleep(500);
       mListEditText.clear();
       getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
       if(mListEditText.size() == 1) {
@@ -304,13 +335,23 @@ public class MyAccessibilityService extends AccessibilityService {
         Bundle arguments = new Bundle();
         arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getPayPassword());
         mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-        SystemClock.sleep(500);
+        SystemClock.sleep(1500);
 
+        mRootNodeInfo = getRootInActiveWindow();
         mResultInfo = null;
         getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
         if(mResultInfo != null && mResultInfo.isClickable()) {
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-          SystemClock.sleep(2000);
+          SystemClock.sleep(3000);
+        }else {
+          SystemClock.sleep(1000);
+          mRootNodeInfo = getRootInActiveWindow();
+          mResultInfo = null;
+          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+          if(mResultInfo != null) {
+            mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            SystemClock.sleep(3000);
+          }
         }
         mCurrentState = STATE_AFTER_SMS_CODE;
         goBack();

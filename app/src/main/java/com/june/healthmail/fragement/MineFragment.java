@@ -149,7 +149,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 //                    userInfo.getUsername().equals("18365535813") || userInfo.getUsername().equals("18002570032")) {
 //                  //特殊用户
 //                }
-                if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 1) {
+                if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2) {
                   x = 5;
                 }
 

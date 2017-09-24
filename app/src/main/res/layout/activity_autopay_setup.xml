@@ -69,6 +69,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指定付款银行卡"
+            android:textColor="@color/black"/>
+
+        <CheckBox
+            android:id="@+id/cb_choose_pay_card"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:id="@+id/container_1"
@@ -296,7 +317,52 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:textColor="@color/red"
-            android:text="只有在不勾选【付款全部订单】时，才会生效"/>
+            android:text="默认支付10个订单"/>
+
+        <LinearLayout
+            android:id="@+id/layout_bank_card"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="银  行  卡："/>
+
+            <TextView
+                android:id="@+id/tv_pay_bank_card"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="xxxx"/>
+
+            <Button
+                android:id="@+id/edit_pay_bank_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="@dimen/medium_text_size"
+                android:text="编辑"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_bank_card_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="必须是已经绑定过通联支付的银行卡"/>
 
         <LinearLayout
             android:layout_marginLeft="24dp"

@@ -10,6 +10,8 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -42,6 +44,8 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   RadioButton mRadioButton2;
   @BindView(R.id.radio_button_3)
   RadioButton mRadioButton3;
+  @BindView(R.id.cb_choose_pay_card)
+  CheckBox cbChoosePayCard;
   @BindView(R.id.tv_bank_card)
   TextView tvBankCard;
   @BindView(R.id.tv_name)
@@ -52,8 +56,15 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   TextView tvPhoneNumber;
   @BindView(R.id.tv_pay_order_number)
   TextView tvPayOrderNumber;
+  @BindView(R.id.tv_pay_bank_card)
+  TextView tvPayBankCard;
   @BindView(R.id.tv_pay_password)
   TextView tvPayPassword;
+
+  @BindView(R.id.layout_bank_card)
+  View layoutBankCard;
+  @BindView(R.id.layout_bank_card_desc)
+  View layoutBankCardDesc;
 
   private PreferenceHelper mPreferenceHelper;
 
@@ -75,6 +86,7 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     tvIdCard.setText(mPreferenceHelper.getPayIdCard().trim());
     tvPhoneNumber.setText(mPreferenceHelper.getPayPhoneNumber().trim());
     tvPayOrderNumber.setText(mPreferenceHelper.getPayOrderNumber() + "");
+    tvPayBankCard.setText(mPreferenceHelper.getPayBankCard().trim());
     tvPayPassword.setText(mPreferenceHelper.getPayPassword().trim());
     if(PreferenceHelper.getInstance().getAutoPayMode() == 1){
       mRadioButton1.setChecked(true);
@@ -92,6 +104,16 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
       mContainer2.setVisibility(View.GONE);
       mContainer3.setVisibility(View.VISIBLE);
     }
+    if (PreferenceHelper.getInstance().getChoosePayCard()) {
+      cbChoosePayCard.setChecked(true);
+      layoutBankCard.setVisibility(View.VISIBLE);
+      layoutBankCardDesc.setVisibility(View.VISIBLE);
+    } else {
+      cbChoosePayCard.setChecked(false);
+      layoutBankCard.setVisibility(View.GONE);
+      layoutBankCardDesc.setVisibility(View.GONE);
+    }
+
   }
 
   private void setListener() {
@@ -119,10 +141,29 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
       }
     });
     tvPayPassword.setOnClickListener(this);
+    cbChoosePayCard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          PreferenceHelper.getInstance().setChoosePayCard(true);
+          layoutBankCard.setVisibility(View.VISIBLE);
+          layoutBankCardDesc.setVisibility(View.VISIBLE);
+        } else {
+          PreferenceHelper.getInstance().setChoosePayCard(false);
+          layoutBankCard.setVisibility(View.GONE);
+          layoutBankCardDesc.setVisibility(View.GONE);
+        }
+      }
+    });
   }
 
   @OnClick(R.id.edit_bank_card)
   public void editBankCard(View view){
+    showEditBankCardDialog();
+  }
+
+  @OnClick(R.id.edit_pay_bank_card)
+  public void editPayBankCard(View view){
     showEditBankCardDialog();
   }
 
@@ -191,6 +232,7 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
         }
         mPreferenceHelper.setPayBankCard(edit_text.getText().toString().trim());
         tvBankCard.setText(edit_text.getText().toString().trim());
+        tvPayBankCard.setText(edit_text.getText().toString().trim());
       }
     });
     builder.create().show();

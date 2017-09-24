@@ -74,8 +74,10 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_ID_CARD = "auto_pay_id_card";//身份证号码
     public final static String KEY_PHONE_NUMBER = "auto_pay_phone_number";//手机号
 
+
     public final static String KEY_PAY_ORDER_NUMBER = "auto_pay_order_number";//通联支付支付多少个订单
     public final static String KEY_PAY_PASSWORD = "auto_pay_password";//通联支付支付密码
+    public final static String KEY_CHOOSE_PAY_CARD = "choose_pay_card";//
 
     private static PreferenceHelper instance;
 
@@ -1159,6 +1161,28 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getString(KEY_PAY_PASSWORD,value);
+        }
+        return value;
+    }
+
+    public void setChoosePayCard(boolean getPayAllOrders) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_CHOOSE_PAY_CARD,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getChoosePayCard() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_CHOOSE_PAY_CARD,value);
         }
         return value;
     }

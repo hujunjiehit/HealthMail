@@ -923,8 +923,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
             .build();
 
     if(showProgress != null && !showProgress.isShowing()){
-      showProgress.setMessage("正在获取支付详情...");
-      showProgress.show();
+      if(!isFinishing()){
+        showProgress.setMessage("正在获取支付详情...");
+        showProgress.show();
+      }
     }
 
     HttpUntils.getInstance().postForm(url, body, new Callback() {

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,36 +42,42 @@ public class SMSContentObserver extends ContentObserver {
     // 第二次回调 查询收件箱里的内容
     Uri inboxUri = Uri.parse("content://sms/inbox");
 
-    // 按时间顺序排序短信数据库
-    Cursor c = mContext.getContentResolver().query(inboxUri, null, null, null, "date desc");
-    if (c != null) {
-      if (c.moveToFirst()) {
-        // 获取手机号
-        String address = c.getString(c.getColumnIndex("address"));
+    try {
+      // 按时间顺序排序短信数据库
+      Cursor c = mContext.getContentResolver().query(inboxUri, null, null, null, "date desc");
+      if (c != null) {
+        if (c.moveToFirst()) {
+          // 获取手机号
+          String address = c.getString(c.getColumnIndex("address"));
 
-        // 获取短信内容
-        String body = c.getString(c.getColumnIndex("body"));
+          // 获取短信内容
+          String body = c.getString(c.getColumnIndex("body"));
 
-        Log.e("test","address:" + address);
-        Log.e("test", "body:" + body);
+          Log.e("test","address:" + address);
+          Log.e("test", "body:" + body);
 
-        // 判断手机号是否为目标号码，服务号号码不固定请用正则表达式判断前几位。
-        if (!body.contains("验证码")) {
-          //不是验证码短信，直接返回
-          return;
-        }
+          // 判断手机号是否为目标号码，服务号号码不固定请用正则表达式判断前几位。
+          if (!body.contains("验证码")) {
+            //不是验证码短信，直接返回
+            return;
+          }
 
-        // 正则表达式截取短信中的6位验证码
-        Pattern pattern = Pattern.compile("(\\d{6})");
-        Matcher matcher = pattern.matcher(body);
+          // 正则表达式截取短信中的6位验证码
+          Pattern pattern = Pattern.compile("(\\d{6})");
+          Matcher matcher = pattern.matcher(body);
 
-        // 如果找到通过Handler发送给主线程
-        if (matcher.find()) {
-          code = matcher.group(0);
-          mHandler.obtainMessage(1, code).sendToTarget();
+          // 如果找到通过Handler发送给主线程
+          if (matcher.find()) {
+            code = matcher.group(0);
+            mHandler.obtainMessage(1, code).sendToTarget();
+          }
         }
       }
+      c.close();
+    }catch (Exception e) {
+      Log.e("test", "SMSContentObserver exception : " + e.getMessage());
+      e.printStackTrace();
+      Toast.makeText(mContext,"权限异常，请开启相关权限",Toast.LENGTH_LONG).show();
     }
-    c.close();
   }
 }

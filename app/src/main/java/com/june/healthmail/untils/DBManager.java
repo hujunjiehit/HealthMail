@@ -39,7 +39,7 @@ public class DBManager {
 
     public SQLiteDatabase getDb(){
         if(db == null) {
-            db = new MyDatabaseHelper(mContext,"data.db",null,2).getWritableDatabase();
+            db = new MyDatabaseHelper(mContext,"data.db",null,3).getWritableDatabase();
         }
         return db;
     }
@@ -147,10 +147,16 @@ public class DBManager {
             new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
     }
 
-    //更新评价次数
+    //更新hasPayed
+    public void updateHasPayed(AccountInfo accountInfo){
+        getDb().execSQL("update account set hasPayed = ? , lastDay = ? where phoneNumber = ?",
+            new String[]{accountInfo.getHasPayed()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
+    }
+
+    //reset评价约课次数
     public void resetPJYKTimes(AccountInfo accountInfo){
-        getDb().execSQL("update account set pingjiaTimes = ? , yuekeTimes = ? where phoneNumber = ?",
-            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getYuekeTimes()+"", accountInfo.getPhoneNumber() });
+        getDb().execSQL("update account set pingjiaTimes = ? , yuekeTimes = ? , hasPayed = ? where phoneNumber = ?",
+            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getYuekeTimes()+"", accountInfo.getHasPayed()+"", accountInfo.getPhoneNumber() });
     }
 
     //根据mallId获取用户手机号

@@ -226,18 +226,19 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
                 if(hmOrders.size() > 0){
                   showTheResult("------------共有" + hmOrders.size() + "个订单\n");
-                  if(userInfo.getPayStatus() == null) {
-                    updateTheCoinsNumber();
-                    tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                    showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
-                  } else {
-                    if(userInfo.getPayStatus() != 1) {
+                  if(!CommonUntils.isPayUser(userInfo)) {
+                    if(accountList.get(accountIndex).getHasPayed() == 1) {
+                      showTheResult("------------今日已经扣过金币，本次支付免金币\n");
+                    }else {
+                      accountList.get(accountIndex).setHasPayed(1);
+                      DBManager.getInstance().updateHasPayed(accountList.get(accountIndex));
+
                       updateTheCoinsNumber();
                       tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
                       showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
                     }
-                  }
 
+                  }
                   if(cbPayAllOrders.isChecked()) {
                     this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
                   } else {
@@ -609,23 +610,11 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       tvCoinsNumber.setVisibility(View.GONE);
       tvCoinsDesc.setText("今日活动，付款免费");
     }
-
-    accountList.clear();
     tvCoinsNumber.setText(userInfo.getCoinsNumber() + "");
-    SQLiteDatabase db = DBManager.getInstance().getDb();
-    Cursor cursor = db.rawQuery("select * from account",null);
-    if(cursor.moveToFirst()){
-      do {
-        AccountInfo info = new AccountInfo();
-        info.setPassWord(cursor.getString(cursor.getColumnIndex("passWord")));
-        info.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
-        info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
-        info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
-        info.setId(cursor.getInt(cursor.getColumnIndex("id")));
-        accountList.add(info);
-      }while(cursor.moveToNext());
-    }
-    cursor.close();
+
+    //从数据库读取账户信息
+    accountList = CommonUntils.loadAccountInfo();
+
     min_time = PreferenceHelper.getInstance().getMinYuekeTime();
     max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
   }

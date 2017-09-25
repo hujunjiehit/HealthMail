@@ -326,9 +326,8 @@ public class MyAccessibilityService extends AccessibilityService {
       if(mResultInfo != null) {
         //需要获取验证码
         Log.e("autopay","need to get sms code");
-        mResultInfo = null;
-        getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
-        while (mResultInfo != null && mResultInfo.getContentDescription().toString().length() <=5 ) {
+        int size1 = mResultInfo.getContentDescription().toString().length();
+        while (mResultInfo != null && mResultInfo.getContentDescription().toString().length() <= size1) {
           Log.e("autopay","text length = " + mResultInfo.getContentDescription().toString().length());
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);

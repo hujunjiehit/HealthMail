@@ -295,6 +295,7 @@ public class CommonUntils {
             info.setLastDay(TimeUntils.getTodayStr());
             info.setPingjiaTimes(0);
             info.setYuekeTimes(0);
+            info.setHasPayed(0);
             DBManager.getInstance().resetPJYKTimes(info);
           } else {
             if (cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())) {
@@ -302,11 +303,13 @@ public class CommonUntils {
               info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
               info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
               info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
+              info.setHasPayed(cursor.getInt(cursor.getColumnIndex("hasPayed")));
             } else {
               //not today
               info.setLastDay(TimeUntils.getTodayStr());
               info.setPingjiaTimes(0);
               info.setYuekeTimes(0);
+              info.setHasPayed(0);
               DBManager.getInstance().resetPJYKTimes(info);
             }
           }

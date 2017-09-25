@@ -326,11 +326,16 @@ public class MyAccessibilityService extends AccessibilityService {
       if(mResultInfo != null) {
         //需要获取验证码
         Log.e("autopay","need to get sms code");
-        while (!mResultInfo.isClickable()){
-          Toast.makeText(this,"waiting...等5秒再获取验证码",Toast.LENGTH_SHORT).show();
-          SystemClock.sleep(5000);
+        mResultInfo = null;
+        getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+        while (mResultInfo != null && mResultInfo.getContentDescription().toString().length() <=5 ) {
+          Log.e("autopay","text length = " + mResultInfo.getContentDescription().toString().length());
+          mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+          SystemClock.sleep(3000);
+          mResultInfo = null;
+          mRootNodeInfo = getRootInActiveWindow();
+          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
         }
-        mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         getSmsCode();
       } else {
         //不要验证码，直接输入支付密码就行了
@@ -595,25 +600,29 @@ public class MyAccessibilityService extends AccessibilityService {
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
 
-    mResultInfo = null;
-    getTargetNodeByClassName(mRootNodeInfo.getChild(3).getChild(0),"android.widget.EditText");
-    if(mResultInfo != null) {
-      Bundle arguments = new Bundle();
-      arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getPayBankCard());
-      mResultInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-    }
+    try {
+      mResultInfo = null;
+      getTargetNodeByClassName(mRootNodeInfo.getChild(3).getChild(0),"android.widget.EditText");
+      if(mResultInfo != null) {
+        Bundle arguments = new Bundle();
+        arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getPayBankCard());
+        mResultInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+      }
 
-    SystemClock.sleep(500);
-
-
-    mResultInfo = null;
-    getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"下一步");
-    if(mResultInfo != null && mResultInfo.isClickable()) {
-      Log.e("autopay","perform action click targetInfo stepThree");
-      mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
       SystemClock.sleep(500);
-      stepFour();
+
+      mResultInfo = null;
+      getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"下一步");
+      if(mResultInfo != null && mResultInfo.isClickable()) {
+        Log.e("autopay","perform action click targetInfo stepThree");
+        mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(500);
+        stepFour();
+      }
+    }catch (Exception e) {
+      e.printStackTrace();
     }
+
   }
 
   /**

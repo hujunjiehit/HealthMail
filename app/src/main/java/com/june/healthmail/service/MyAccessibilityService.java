@@ -169,6 +169,9 @@ public class MyAccessibilityService extends AccessibilityService {
             } else if (PreferenceHelper.getInstance().getAutoPayMode() == 3) {
               //通联支付自动付款流程
               autoPayTonglian();
+            }else if (PreferenceHelper.getInstance().getAutoPayMode() == 4) {
+              //快钱支付信用卡自动付款流程
+              autoPayKuaiqianXinyongka();
             }
           }
         }
@@ -242,6 +245,8 @@ public class MyAccessibilityService extends AccessibilityService {
       public void run() {
         AccessibilityNodeInfo targetInfo = null;
         mRootNodeInfo = null;
+
+        SystemClock.sleep(2000);
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
@@ -386,6 +391,8 @@ public class MyAccessibilityService extends AccessibilityService {
         AccessibilityNodeInfo targetInfo = null;
         mRootNodeInfo = null;
 
+        SystemClock.sleep(2000);
+
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
           mRootNodeInfo = getRootInActiveWindow();
@@ -409,6 +416,85 @@ public class MyAccessibilityService extends AccessibilityService {
         if(targetInfo != null) {
           mCurrentState = STATE_BEFORE_SMS_CODE;
           SystemClock.sleep(500);
+
+          mResultInfo = null;
+          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+          if(mResultInfo != null) {
+            Log.e("autopay","perform action click 获取验证码");
+            mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            SystemClock.sleep(500);
+
+            mCurrentState = STATE_WAITING_SMS_CODE;
+            getSmsCode();
+          }
+        }else {
+          SystemClock.sleep(500);
+          mCurrentState = STATE_WAITING_FOR_LOADING;
+          goBack();
+        }
+      }
+    });
+  }
+
+  /**
+   * 快钱信用卡自动付款
+   */
+  private void autoPayKuaiqianXinyongka() {
+    SystemClock.sleep(200);
+
+    mExecutorService.execute(new Runnable() {
+      @Override
+      public void run() {
+        AccessibilityNodeInfo targetInfo = null;
+        mRootNodeInfo = null;
+
+        SystemClock.sleep(2000);
+
+        int tryTimes = 0;
+        while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+          mRootNodeInfo = getRootInActiveWindow();
+          try {
+            targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
+            if(targetInfo != null) {
+              Log.e("autopay","targetInfo is not null, targetInfo.getChildCount = " + targetInfo.getChildCount());
+            }
+          }catch (Exception e) {
+            Log.e("autopay","targetInfo is null, waiting for loading... tryTimes = " + tryTimes);
+            targetInfo = null;
+            SystemClock.sleep(2000);
+            tryTimes++;
+          }
+          if(tryTimes >= 20 || mCurrentState == STATE_NONE) {
+            targetInfo = null;
+            break;
+          }
+        }
+
+        if(targetInfo != null) {
+          mCurrentState = STATE_BEFORE_SMS_CODE;
+          SystemClock.sleep(1000);
+
+          mRootNodeInfo = getRootInActiveWindow();
+          mListEditText.clear();
+          getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
+          if(mListEditText.size() == 2) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getCreditCode());
+            mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+
+            SystemClock.sleep(500);
+          }else if(mListEditText.size() == 3) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getCreditDate());
+            mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+
+            SystemClock.sleep(500);
+
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, mPreferenceHelper.getCreditCode());
+            mListEditText.get(1).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+
+            SystemClock.sleep(500);
+          }
 
           mResultInfo = null;
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
@@ -535,7 +621,8 @@ public class MyAccessibilityService extends AccessibilityService {
       public void run() {
         AccessibilityNodeInfo targetInfo = null;
         mRootNodeInfo = null;
-        SystemClock.sleep(500);
+
+        SystemClock.sleep(2000);
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
           mRootNodeInfo = getRootInActiveWindow();
@@ -726,7 +813,16 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(500);
           nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }else {
-          Toast.makeText(this, "没有快捷付款支付了", Toast.LENGTH_SHORT).show();
+          Toast.makeText(this, "没有通联支付了", Toast.LENGTH_SHORT).show();
+        }
+      }else if(PAY_MODE == 4){
+        nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("快钱支付(信用卡)"); //找付款方式
+        if(nodeList.size() > 0) {
+          Log.e("test","perform action click");
+          SystemClock.sleep(500);
+          nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        }else {
+          Toast.makeText(this, "没有快钱支付(信用卡)支付了", Toast.LENGTH_SHORT).show();
         }
       }
     }
@@ -766,6 +862,8 @@ public class MyAccessibilityService extends AccessibilityService {
             //pasteSmsCode(code, DeviceConfig.x2, DeviceConfig.y2);
             if(PreferenceHelper.getInstance().getAutoPayMode() == 3) {
               inputSmscodeTonglian();
+            } else if(PreferenceHelper.getInstance().getAutoPayMode() == 4){
+              inputSmscodeKuaiqianXinyongka();
             }else {
               inputSmscode();
             }
@@ -855,6 +953,32 @@ public class MyAccessibilityService extends AccessibilityService {
     if(mResultInfo != null && mResultInfo.isClickable()) {
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
       SystemClock.sleep(2000);
+    }
+  }
+
+  private void inputSmscodeKuaiqianXinyongka() {
+    Log.e("autopay","inputSmscodeTonglian,  code = " + code);
+    SystemClock.sleep(500);
+    mRootNodeInfo = null;
+    mRootNodeInfo = getRootInActiveWindow();
+
+    mListEditText.clear();
+    getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
+    if(mListEditText.size() > 0) {
+      Bundle arguments = new Bundle();
+      arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, code);
+      mListEditText.get(mListEditText.size()-1).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+      SystemClock.sleep(500);
+    }
+
+    SystemClock.sleep(1000);
+
+    mRootNodeInfo = getRootInActiveWindow();
+    mResultInfo = null;
+    getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+    if(mResultInfo != null && mResultInfo.isClickable()) {
+      mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+      SystemClock.sleep(3000);
     }
   }
 

@@ -36,377 +36,551 @@
         android:layout_marginRight="12dp"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="6dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radio_button_1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="快钱储蓄卡"/>
+            <RadioButton
+                android:id="@+id/radio_button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="快钱支付储蓄卡"/>
 
-        <RadioButton
-            android:id="@+id/radio_button_2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="快捷支付"/>
+            <RadioButton
+                android:id="@+id/radio_button_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="快捷支付"/>
 
-        <RadioButton
-            android:id="@+id/radio_button_3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="通联支付"/>
+            <RadioButton
+                android:id="@+id/radio_button_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="通联支付"/>
+
+            <RadioButton
+                android:id="@+id/radio_button_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="快钱支付信用卡"/>
     </RadioGroup>
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="指定付款银行卡"
-            android:textColor="@color/black"/>
-
-        <CheckBox
-            android:id="@+id/cb_choose_pay_card"
-            style="@style/CustomCheckboxTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:id="@+id/container_1"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/setup_title_color"
-            android:lineSpacingExtra="2dp"
-            android:text="         快钱支付储蓄卡只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_marginTop="10dp"
-        android:id="@+id/container_2">
-        <TextView
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/setup_title_color"
-            android:text="快捷支付设置："/>
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="银行卡号："/>
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_bank_card"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:id="@+id/container_1"
+                android:visibility="gone">
 
-            <Button
-                android:id="@+id/edit_bank_card"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="@color/setup_title_color"
+                    android:lineSpacingExtra="2dp"
+                    android:text="         快钱支付储蓄卡只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:id="@+id/container_2">
+                <TextView
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="@color/setup_title_color"
+                    android:text="快捷支付设置："/>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="银行卡号："/>
+
+                    <TextView
+                        android:id="@+id/tv_bank_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_bank_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="姓        名："/>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="身  份  证："/>
+
+                    <TextView
+                        android:id="@+id/tv_id_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_id_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="手  机  号："/>
+
+                    <TextView
+                        android:id="@+id/tv_phone_number"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:id="@+id/container_3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="指定付款银行卡"
+                        android:textColor="@color/black"/>
+
+                    <CheckBox
+                        android:id="@+id/cb_choose_pay_card"
+                        style="@style/CustomCheckboxTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="@color/setup_title_color"
+                    android:lineSpacingExtra="2dp"
+                    android:text="         通联支付只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
+                    />
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="支付多少个订单："/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_order_number"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="5"/>
+
+                    <Button
+                        android:id="@+id/edit_pay_order_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="默认支付10个订单"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_bank_card"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="银  行  卡："/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_bank_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:clickable="true"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_pay_bank_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layout_bank_card_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="必须是已经绑定过通联支付的银行卡"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="支付密码："/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_password"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:clickable="true"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:inputType="textPassword"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_pay_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="点击支付密码可以显示或隐藏"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:id="@+id/container_4">
+
+                <TextView
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="@color/setup_title_color"
+                    android:lineSpacingExtra="2dp"
+                    android:text="         快钱支付信用卡只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
+                    />
+
+
+                <LinearLayout
+                    android:id="@+id/layout_credit_card"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="信  用  卡："/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_credit_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:clickable="true"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_pay_credit_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layout_creat_card_desc"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="必须是已经绑定过通联支付的信用卡"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="有  效  期："/>
+
+                    <TextView
+                        android:id="@+id/tv_credit_date"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:clickable="true"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text=""/>
+
+                    <Button
+                        android:id="@+id/edit_credit_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layout_creat_date_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="月份/年份 如 0819"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="安  全  码："/>
+
+                    <TextView
+                        android:id="@+id/tv_credit_code"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:clickable="true"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text=""/>
+
+                    <Button
+                        android:id="@+id/edit_credit_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layout_creat_code_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:text="安全码是信用卡背面签名栏后三位"/>
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="姓        名："/>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="身  份  证："/>
-
-            <TextView
-                android:id="@+id/tv_id_card"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_id_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="手  机  号："/>
-
-            <TextView
-                android:id="@+id/tv_phone_number"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_phone_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:id="@+id/container_3">
-
-        <TextView
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/setup_title_color"
-            android:lineSpacingExtra="2dp"
-            android:text="         通联支付只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
-            />
-
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="支付多少个订单："/>
-
-            <TextView
-                android:id="@+id/tv_pay_order_number"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="5"/>
-
-            <Button
-                android:id="@+id/edit_pay_order_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:text="默认支付10个订单"/>
-
-        <LinearLayout
-            android:id="@+id/layout_bank_card"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="银  行  卡："/>
-
-            <TextView
-                android:id="@+id/tv_pay_bank_card"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:clickable="true"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_pay_bank_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/layout_bank_card_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:text="必须是已经绑定过通联支付的银行卡"/>
-
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="支付密码："/>
-
-            <TextView
-                android:id="@+id/tv_pay_password"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:clickable="true"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:inputType="textPassword"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_pay_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:text="点击支付密码可以显示或隐藏"/>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

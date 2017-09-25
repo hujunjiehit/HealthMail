@@ -74,6 +74,10 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_ID_CARD = "auto_pay_id_card";//身份证号码
     public final static String KEY_PHONE_NUMBER = "auto_pay_phone_number";//手机号
 
+    //快钱信用卡
+    public final static String KEY_CREDIT_CARD = "auto_pay_credit_card";//信用卡卡号
+    public final static String KEY_CREDIT_DATE= "auto_pay_credit_date";//信用卡有效期
+    public final static String KEY_CREDIT_CODE= "auto_pay_credit_code";//信用卡安全码
 
     public final static String KEY_PAY_ORDER_NUMBER = "auto_pay_order_number";//通联支付支付多少个订单
     public final static String KEY_PAY_PASSWORD = "auto_pay_password";//通联支付支付密码
@@ -1183,6 +1187,72 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             value = prefs.getBoolean(KEY_CHOOSE_PAY_CARD,value);
+        }
+        return value;
+    }
+
+    public void setPayCreditCard(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_CREDIT_CARD,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getPayCreditCard() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_CREDIT_CARD,value);
+        }
+        return value;
+    }
+
+    public void setCreditDate(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_CREDIT_DATE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getCreditDate() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_CREDIT_DATE,value);
+        }
+        return value;
+    }
+
+    public void setCreditCode(String value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_CREDIT_CODE,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public String getCreditCode() {
+        String value = "";
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getString(KEY_CREDIT_CODE,value);
         }
         return value;
     }

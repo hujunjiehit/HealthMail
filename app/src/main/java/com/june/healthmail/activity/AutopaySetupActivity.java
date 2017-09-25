@@ -36,6 +36,8 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   View mContainer2;
   @BindView(R.id.container_3)
   View mContainer3;
+  @BindView(R.id.container_4)
+  View mContainer4;
   @BindView(R.id.radio_group)
   RadioGroup mRadioGroup;
   @BindView(R.id.radio_button_1)
@@ -44,6 +46,8 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   RadioButton mRadioButton2;
   @BindView(R.id.radio_button_3)
   RadioButton mRadioButton3;
+  @BindView(R.id.radio_button_4)
+  RadioButton mRadioButton4;
   @BindView(R.id.cb_choose_pay_card)
   CheckBox cbChoosePayCard;
   @BindView(R.id.tv_bank_card)
@@ -60,6 +64,13 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
   TextView tvPayBankCard;
   @BindView(R.id.tv_pay_password)
   TextView tvPayPassword;
+
+  @BindView(R.id.tv_pay_credit_card)
+  TextView tvPayCreditCard;
+  @BindView(R.id.tv_credit_date)
+  TextView tvCreditDate;
+  @BindView(R.id.tv_credit_code)
+  TextView tvCreditCode;
 
   @BindView(R.id.layout_bank_card)
   View layoutBankCard;
@@ -88,21 +99,33 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     tvPayOrderNumber.setText(mPreferenceHelper.getPayOrderNumber() + "");
     tvPayBankCard.setText(mPreferenceHelper.getPayBankCard().trim());
     tvPayPassword.setText(mPreferenceHelper.getPayPassword().trim());
+    tvPayCreditCard.setText(mPreferenceHelper.getPayCreditCard().trim());
+    tvCreditDate.setText(mPreferenceHelper.getCreditDate().trim());
+    tvCreditCode.setText(mPreferenceHelper.getCreditCode().trim());
     if(PreferenceHelper.getInstance().getAutoPayMode() == 1){
       mRadioButton1.setChecked(true);
       mContainer1.setVisibility(View.VISIBLE);
       mContainer2.setVisibility(View.GONE);
       mContainer3.setVisibility(View.GONE);
+      mContainer4.setVisibility(View.GONE);
     }else if(PreferenceHelper.getInstance().getAutoPayMode() == 2) {
       mRadioButton2.setChecked(true);
       mContainer1.setVisibility(View.GONE);
       mContainer2.setVisibility(View.VISIBLE);
       mContainer3.setVisibility(View.GONE);
+      mContainer4.setVisibility(View.GONE);
     } else if(PreferenceHelper.getInstance().getAutoPayMode() == 3) {
       mRadioButton3.setChecked(true);
       mContainer1.setVisibility(View.GONE);
       mContainer2.setVisibility(View.GONE);
       mContainer3.setVisibility(View.VISIBLE);
+      mContainer4.setVisibility(View.GONE);
+    } else if(PreferenceHelper.getInstance().getAutoPayMode() == 4) {
+      mRadioButton4.setChecked(true);
+      mContainer1.setVisibility(View.GONE);
+      mContainer2.setVisibility(View.GONE);
+      mContainer3.setVisibility(View.GONE);
+      mContainer4.setVisibility(View.VISIBLE);
     }
     if (PreferenceHelper.getInstance().getChoosePayCard()) {
       cbChoosePayCard.setChecked(true);
@@ -113,7 +136,6 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
       layoutBankCard.setVisibility(View.GONE);
       layoutBankCardDesc.setVisibility(View.GONE);
     }
-
   }
 
   private void setListener() {
@@ -127,16 +149,25 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
           mContainer1.setVisibility(View.VISIBLE);
           mContainer2.setVisibility(View.GONE);
           mContainer3.setVisibility(View.GONE);
+          mContainer4.setVisibility(View.GONE);
         }else if(radioButtonId == R.id.radio_button_2){
           PreferenceHelper.getInstance().setAutoPayMode(2);
           mContainer1.setVisibility(View.GONE);
           mContainer2.setVisibility(View.VISIBLE);
           mContainer3.setVisibility(View.GONE);
+          mContainer4.setVisibility(View.GONE);
         }else if(radioButtonId == R.id.radio_button_3){
           PreferenceHelper.getInstance().setAutoPayMode(3);
           mContainer1.setVisibility(View.GONE);
           mContainer2.setVisibility(View.GONE);
           mContainer3.setVisibility(View.VISIBLE);
+          mContainer4.setVisibility(View.GONE);
+        }else if(radioButtonId == R.id.radio_button_4) {
+          PreferenceHelper.getInstance().setAutoPayMode(4);
+          mContainer1.setVisibility(View.GONE);
+          mContainer2.setVisibility(View.GONE);
+          mContainer3.setVisibility(View.GONE);
+          mContainer4.setVisibility(View.VISIBLE);
         }
       }
     });
@@ -192,6 +223,20 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
     showEditPayPassword();
   }
 
+  @OnClick(R.id.edit_pay_credit_card)
+  public void editCreditCard(View view){
+    showEditCreditCardDialog();
+  }
+
+  @OnClick(R.id.edit_credit_date)
+  public void editCreditDate(View view){
+    showEditCreditDateDialog();
+  }
+
+  @OnClick(R.id.edit_credit_code)
+  public void editCreditCode(View view){
+    showEditCreditCodeDialog();
+  }
 
 
 
@@ -358,6 +403,86 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
         }
         mPreferenceHelper.setPayPassword(edit_text.getText().toString().trim());
         tvPayPassword.setText(edit_text.getText().toString().trim());
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showEditCreditCardDialog() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+    final TextView tv_desc = (TextView) diaog_view.findViewById(R.id.tv_desc);
+    tv_desc.setText("信用卡卡号：");
+    edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("修改信用卡卡号");
+    builder.setView(diaog_view);
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+          toast("请输入需正确的信用卡卡号");
+          return;
+        }
+        mPreferenceHelper.setPayCreditCard(edit_text.getText().toString().trim());
+        tvPayCreditCard.setText(edit_text.getText().toString().trim());
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showEditCreditDateDialog() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+    final TextView tv_desc = (TextView) diaog_view.findViewById(R.id.tv_desc);
+    tv_desc.setText("信用卡有效期：");
+    edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("修改信用卡有效期");
+    builder.setView(diaog_view);
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+          toast("请输入需正确的信用卡有效期");
+          return;
+        }
+        if(edit_text.getText().toString().trim().length() != 4) {
+          toast("信用卡有效期必须为四位数");
+          return;
+        }
+        mPreferenceHelper.setCreditDate(edit_text.getText().toString().trim());
+        tvCreditDate.setText(edit_text.getText().toString().trim());
+      }
+    });
+    builder.create().show();
+  }
+
+  private void showEditCreditCodeDialog() {
+    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_max_courses,null);
+    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+    final TextView tv_desc = (TextView) diaog_view.findViewById(R.id.tv_desc);
+    tv_desc.setText("信用卡安全码：");
+    edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("修改信用卡安全码");
+    builder.setView(diaog_view);
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(TextUtils.isEmpty(edit_text.getText().toString().trim())){
+          toast("请输入需正确的信用卡安全码");
+          return;
+        }
+        if(edit_text.getText().toString().trim().length() != 3) {
+          toast("安全码必须为三位数");
+          return;
+        }
+        mPreferenceHelper.setCreditCode(edit_text.getText().toString().trim());
+        tvCreditCode.setText(edit_text.getText().toString().trim());
       }
     });
     builder.create().show();

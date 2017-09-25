@@ -411,6 +411,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2){
       fukuanChoice[index] = 1;
     }
+    if(userInfo.getUsername().equals("18178028887")){
+      fukuanChoice[index] = 1;
+    }
 
     index = 2;
     fukuanChoice[index] = 0;
@@ -442,6 +445,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
       if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("快钱支付(信用卡)")){
         fukuanChoice[index] = 1;
       }
+    }
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2){
+      fukuanChoice[index] = 1;
     }
   }
 

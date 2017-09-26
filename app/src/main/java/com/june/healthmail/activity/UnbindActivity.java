@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.june.healthmail.Config.CommonConfig;
 import com.june.healthmail.R;
-import com.june.healthmail.model.DeviceInfo;
+import com.june.healthmail.model.PayDeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.ShowProgress;
@@ -44,7 +44,7 @@ public class UnbindActivity extends BaseActivity {
   @BindView(R.id.btn_unbind_use_coins)
   Button btnUnbindUseCoins;
 
-  private DeviceInfo deviceInfo;
+  private PayDeviceInfo payDeviceInfo;
   private UserInfo currentUser;
   private ShowProgress showProgress;
 
@@ -56,7 +56,7 @@ public class UnbindActivity extends BaseActivity {
     currentUser = BmobUser.getCurrentUser(UserInfo.class);
     Intent intent = this.getIntent();
     if(intent != null) {
-      deviceInfo = (DeviceInfo) intent.getSerializableExtra("deviceInfo");
+      payDeviceInfo = (PayDeviceInfo) intent.getSerializableExtra("payDeviceInfo");
     } else {
       return;
     }
@@ -65,14 +65,14 @@ public class UnbindActivity extends BaseActivity {
 
   private void initData() {
     showProgress = new ShowProgress(this);
-    tvUserName.setText(deviceInfo.getUsername());
+    tvUserName.setText(payDeviceInfo.getUsername());
     tvCoinsNumber.setText(currentUser.getCoinsNumber() + "个");
-    if (deviceInfo.getUnbindTimes() < 0) {
+    if (payDeviceInfo.getUnbindTimes() < 0) {
       tvUnbindTimes.setText("0次");
     } else {
-      tvUnbindTimes.setText(deviceInfo.getUnbindTimes() + "次");
+      tvUnbindTimes.setText(payDeviceInfo.getUnbindTimes() + "次");
     }
-    if (TextUtils.isEmpty(deviceInfo.getDeviceId())){
+    if (TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
       tvbindStatus.setText("未绑定设备");
     } else {
       tvbindStatus.setText("已绑定");
@@ -81,11 +81,11 @@ public class UnbindActivity extends BaseActivity {
 
   @OnClick(R.id.btn_unbind_free)
   public void unbindFree(View view) {
-    if (TextUtils.isEmpty(deviceInfo.getDeviceId())){
+    if (TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
       toast("当前账号暂未绑定设备，无需解绑");
       return;
     }
-    if(deviceInfo.getUnbindTimes() <= 0) {
+    if(payDeviceInfo.getUnbindTimes() <= 0) {
       toast("免费解绑次数已用完，请用金币解绑");
       return;
     }
@@ -94,7 +94,7 @@ public class UnbindActivity extends BaseActivity {
 
   @OnClick(R.id.btn_unbind_use_coins)
   public void unbindUseCoins(View view) {
-    if (TextUtils.isEmpty(deviceInfo.getDeviceId())){
+    if (TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
       toast("当前账号暂未绑定设备，无需解绑");
       return;
     }
@@ -126,7 +126,7 @@ public class UnbindActivity extends BaseActivity {
   private void showUnbindDialog() {
     AlertDialog dialog = new AlertDialog.Builder(this)
         .setTitle("重要提示")
-        .setMessage("每个帐号可以解除三次设备绑定，当前剩余解绑次数：" + deviceInfo.getUnbindTimes() + "\n\n是否确定解绑?")
+        .setMessage("每个帐号可以解除三次设备绑定，当前剩余解绑次数：" + payDeviceInfo.getUnbindTimes() + "\n\n是否确定解绑?")
         .setNegativeButton("取消解绑", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
@@ -138,7 +138,7 @@ public class UnbindActivity extends BaseActivity {
           public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
             Log.d("test", "用户选择确定解绑");
-            if(deviceInfo.getUnbindTimes() < 0) {
+            if(payDeviceInfo.getUnbindTimes() < 0) {
               toast("解绑次数已用完，无法解绑");
               return;
             }
@@ -146,11 +146,11 @@ public class UnbindActivity extends BaseActivity {
               showProgress.setMessage("正在解绑...");
               showProgress.show();
             }
-            deviceInfo.setDeviceId("");
-            deviceInfo.setDeviceMac("");
-            deviceInfo.setDeviceDesc("");
-            deviceInfo.setUnbindTimes(deviceInfo.getUnbindTimes()-1);
-            deviceInfo.update(new UpdateListener() {
+            payDeviceInfo.setDeviceId("");
+            payDeviceInfo.setDeviceMac("");
+            payDeviceInfo.setDeviceDesc("");
+            payDeviceInfo.setUnbindTimes(payDeviceInfo.getUnbindTimes()-1);
+            payDeviceInfo.update(new UpdateListener() {
               @Override
               public void done(BmobException e) {
                 if (showProgress != null && showProgress.isShowing()) {
@@ -162,12 +162,12 @@ public class UnbindActivity extends BaseActivity {
                   runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                      if (deviceInfo.getUnbindTimes() < 0) {
+                      if (payDeviceInfo.getUnbindTimes() < 0) {
                         tvUnbindTimes.setText("0次");
                       } else {
-                        tvUnbindTimes.setText(deviceInfo.getUnbindTimes() + "次");
+                        tvUnbindTimes.setText(payDeviceInfo.getUnbindTimes() + "次");
                       }
-                      if (TextUtils.isEmpty(deviceInfo.getDeviceId())){
+                      if (TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
                         tvbindStatus.setText("未绑定设备");
                       } else {
                         tvbindStatus.setText("已绑定");
@@ -215,10 +215,10 @@ public class UnbindActivity extends BaseActivity {
                     showProgress.setMessage("正在解绑...");
                     showProgress.show();
                   }
-                  deviceInfo.setDeviceId("");
-                  deviceInfo.setDeviceMac("");
-                  deviceInfo.setDeviceDesc("");
-                  deviceInfo.update(new UpdateListener() {
+                  payDeviceInfo.setDeviceId("");
+                  payDeviceInfo.setDeviceMac("");
+                  payDeviceInfo.setDeviceDesc("");
+                  payDeviceInfo.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
                       if (showProgress != null && showProgress.isShowing()) {
@@ -231,7 +231,7 @@ public class UnbindActivity extends BaseActivity {
                           @Override
                           public void run() {
                             tvCoinsNumber.setText(currentUser.getCoinsNumber() + "个");
-                            if (TextUtils.isEmpty(deviceInfo.getDeviceId())){
+                            if (TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
                               tvbindStatus.setText("未绑定设备");
                             } else {
                               tvbindStatus.setText("已绑定");

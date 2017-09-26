@@ -19,6 +19,7 @@
             android:text="关注管理"
             android:textColor="@color/black"
             android:textSize="@dimen/small_medium_text_size"
+            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -36,6 +37,7 @@
             android:id="@+id/img_setup"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="6dp"
@@ -53,6 +55,7 @@
             android:orientation="vertical"
             android:layout_centerInParent="true">
             <Button
+                android:visibility="gone"
                 android:id="@+id/btn_operition_pingjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,6 +64,7 @@
                 android:text="自动评价"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btn_operition_yueke"
                 android:layout_marginTop="36dp"
                 android:layout_width="wrap_content"
@@ -71,7 +75,6 @@
 
             <Button
                 android:id="@+id/btn_operition_fukuan"
-                android:layout_marginTop="36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_press"
@@ -79,13 +82,13 @@
                 android:text="自动付款"/>
 
             <Button
-            android:id="@+id/btn_special_function"
-            android:layout_marginTop="36dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_press"
-            android:textSize="26sp"
-            android:text="特殊功能"/>
+                android:visibility="gone"
+                android:id="@+id/btn_special_function"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="26sp"
+                android:text="特殊功能"/>
         </LinearLayout>
 
     </RelativeLayout>

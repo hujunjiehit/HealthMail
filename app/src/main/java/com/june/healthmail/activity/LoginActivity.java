@@ -24,27 +24,22 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.june.healthmail.R;
-import com.june.healthmail.model.DeviceInfo;
+import com.june.healthmail.model.PayDeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
-import com.june.healthmail.untils.TimeUntils;
 import com.tencent.bugly.beta.Beta;
 
-import java.sql.Time;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
  * Created by bjhujunjie on 2016/9/18.
@@ -70,7 +65,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private ShowProgress showProgress;
 
   private String objectUid;
-  private DeviceInfo deviceInfo;
+  private PayDeviceInfo payDeviceInfo;
 
   private Handler mHandler = new Handler(){
     @Override
@@ -85,19 +80,19 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           UserInfo userInfo = (UserInfo) msg.obj;
           Log.d("test","userInfo = " + userInfo.toString());
           objectUid = userInfo.getObjectId();
-          if(deviceInfo == null){
+          if(payDeviceInfo == null){
             Log.d("test","用户第一次登录，插入设备信息");
-            deviceInfo = new DeviceInfo();
-            deviceInfo.setUsername(userInfo.getUsername());
-            deviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
-            deviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
-            deviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
-            deviceInfo.setUnbindTimes(3);
-            deviceInfo.save(new SaveListener<String>() {
+            payDeviceInfo = new PayDeviceInfo();
+            payDeviceInfo.setUsername(userInfo.getUsername());
+            payDeviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
+            payDeviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
+            payDeviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
+            payDeviceInfo.setUnbindTimes(3);
+            payDeviceInfo.save(new SaveListener<String>() {
               @Override
               public void done(String s, BmobException e) {
                 if(e == null){
-                  Log.d("test","插入设备信息成功," + s + ":" + deviceInfo.toString());
+                  Log.d("test","插入设备信息成功," + s + ":" + payDeviceInfo.toString());
                   mHandler.sendEmptyMessage(GO_TO_MAIN_ACTIVITY);
                 }else {
                   Log.d("test","插入设备信息失败，" + e.getMessage());
@@ -105,12 +100,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
               }
             });
           }else {
-            if(TextUtils.isEmpty(deviceInfo.getDeviceId())){
+            if(TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
               Log.d("test","设备id为空，更新设备信息");
-              deviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
-              deviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
-              deviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
-              deviceInfo.update(new UpdateListener() {
+              payDeviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
+              payDeviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
+              payDeviceInfo.setDeviceDesc(CommonUntils.getUserAgent(LoginActivity.this).trim());
+              payDeviceInfo.update(new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
                   if(e == null){
@@ -144,7 +139,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           Log.d("test","go to unbind activity");
           intent = new Intent(LoginActivity.this, UnbindActivity.class);
           Bundle bundle = new Bundle();
-          bundle.putSerializable("deviceInfo",deviceInfo);
+          bundle.putSerializable("payDeviceInfo", payDeviceInfo);
           intent.putExtras(bundle);
           startActivity(intent);
           break;
@@ -371,31 +366,31 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
       }
 
       //判断邀请人存不存在
-      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      BmobQuery<PayDeviceInfo> query = new BmobQuery<PayDeviceInfo>();
       query.addWhereEqualTo("username",userName);
-      query.findObjects(new FindListener<DeviceInfo>() {
+      query.findObjects(new FindListener<PayDeviceInfo>() {
         @Override
-        public void done(List<DeviceInfo> list, BmobException e) {
+        public void done(List<PayDeviceInfo> list, BmobException e) {
           if(e == null){
             if(list.size() == 0){
               Log.d("test","设备信息不存在");
-              deviceInfo = null;
+              payDeviceInfo = null;
               mHandler.sendEmptyMessage(START_TO_LOGIN);
             }else {
-              deviceInfo = list.get(0);
+              payDeviceInfo = list.get(0);
               Log.d("test","设备信息存在:" + list.get(0).toString());
-              if(TextUtils.isEmpty(deviceInfo.getDeviceId())
-                      || deviceInfo.getDeviceId().equals(Installation.id(LoginActivity.this))){
+              if(TextUtils.isEmpty(payDeviceInfo.getDeviceId())
+                      || payDeviceInfo.getDeviceId().equals(Installation.id(LoginActivity.this))){
                 //设备信息验证成功
                 Log.d("test","设备信息验证通过");
                 mHandler.sendEmptyMessage(START_TO_LOGIN);
               }else {
-                showDeviceErrorDialog(deviceInfo);
+                showDeviceErrorDialog(payDeviceInfo);
               }
             }
           }else {
             if(e.getErrorCode() == 101){
-              deviceInfo = null;
+              payDeviceInfo = null;
               mHandler.sendEmptyMessage(START_TO_LOGIN);
             }else{
               if(showProgress != null && showProgress.isShowing()){
@@ -419,17 +414,17 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         showProgress.setMessage("正在查询设备信息...");
         showProgress.show();
       }
-      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      BmobQuery<PayDeviceInfo> query = new BmobQuery<PayDeviceInfo>();
       query.addWhereEqualTo("username", userName);
-      query.findObjects(new FindListener<DeviceInfo>() {
+      query.findObjects(new FindListener<PayDeviceInfo>() {
         @Override
-        public void done(List<DeviceInfo> list, BmobException e) {
+        public void done(List<PayDeviceInfo> list, BmobException e) {
           if (showProgress != null && showProgress.isShowing()) {
             showProgress.dismiss();
           }
           if (e == null) {
             if (list.size() > 0) {
-              deviceInfo = list.get(0);
+              payDeviceInfo = list.get(0);
               showUnbindDeviceDialog();
             } else {
               toast("没有查到该账号的对应的设备信息，请确认账号是否正确");
@@ -443,8 +438,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   }
 
   private void showUnbindDeviceDialog() {
-    if(deviceInfo != null) {
-      if(TextUtils.isEmpty(deviceInfo.getDeviceId())){
+    if(payDeviceInfo != null) {
+      if(TextUtils.isEmpty(payDeviceInfo.getDeviceId())){
         toast("当前账号暂未绑定设备，无需解绑");
         return;
       }
@@ -469,7 +464,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
             Log.d("test","登陆成功，跳转到解绑界面");
             Message msg = mHandler.obtainMessage();
-            //msg.obj = deviceInfo;
+            //msg.obj = payDeviceInfo;
             mHandler.sendEmptyMessage(GO_TO_UNBIND_ACTIVITY);
           } else {
             if (e.getErrorCode() == 101) {
@@ -483,14 +478,14 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
     }
   }
-  private void showDeviceErrorDialog(DeviceInfo deviceInfo) {
+  private void showDeviceErrorDialog(PayDeviceInfo payDeviceInfo) {
     Log.d("test","DEVICE_ERROR");
     if(showProgress != null && showProgress.isShowing()){
       showProgress.dismiss();
     }
     AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
         .setTitle("提醒")
-        .setMessage("此帐号已经绑定了另外一台设备("+deviceInfo.getDeviceDesc()+")" +
+        .setMessage("此帐号已经绑定了另外一台设备("+ payDeviceInfo.getDeviceDesc()+")" +
             " 如需继续,请先解除绑定")
         .setPositiveButton("点击解绑", new DialogInterface.OnClickListener() {
           @Override

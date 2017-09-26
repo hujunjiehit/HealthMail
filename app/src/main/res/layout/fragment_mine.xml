@@ -172,6 +172,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_margin="6dp"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
@@ -222,6 +223,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_margin="6dp"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"

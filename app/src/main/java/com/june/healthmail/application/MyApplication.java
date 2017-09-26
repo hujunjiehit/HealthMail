@@ -3,6 +3,7 @@ package com.june.healthmail.application;
 import android.app.Application;
 import android.util.Log;
 import com.june.healthmail.Config.BmobConfig;
+import com.june.healthmail.Config.CommonConfig;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
@@ -40,7 +41,7 @@ public class MyApplication extends Application{
     HttpUntils.getInstance().setContext(this);
 
     //CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
-    Bugly.init(getApplicationContext(), "c3044648f0", false);
+    Bugly.init(getApplicationContext(), CommonConfig.BUGLY_APP_ID, false);
 
     Log.e("test","uid = " + PreferenceHelper.getInstance().getUid());
     CrashReport.setUserId(PreferenceHelper.getInstance().getUid());

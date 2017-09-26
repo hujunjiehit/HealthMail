@@ -10,11 +10,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "com.june.healthmail"
-        minSdkVersion 18
+        applicationId "com.june.healthmail.pay"
+        minSdkVersion 21
         targetSdkVersion 25
-        versionCode 67
-        versionName "5.1.1"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构
@@ -72,6 +72,6 @@ dependencies {
 }
 
 bugly {
-    appId = "c3044648f0" // 注册时分配的App ID
-    appKey = "024f968d-9b3d-4870-9fd8-006ebd74ca0b" // 注册时分配的App Key
+    appId = "ceaa80ff39" // 注册时分配的App ID
+    appKey = "ea78709d-8c66-4bf7-b8b4-7b49f9d1f41e" // 注册时分配的App Key
 }

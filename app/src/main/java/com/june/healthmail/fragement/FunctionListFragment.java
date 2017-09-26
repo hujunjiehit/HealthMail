@@ -174,7 +174,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
       showProgress.setMessage("正在验证当前用户权限，请稍后...");
       showProgress.show();
     }
-    HttpUntils.getInstance().getPermission("http://maoyouquan.cc:3389/upload?objectId="+userInfo.getObjectId(),
+    HttpUntils.getInstance().getPermission("http://maoyouquan.cc:3389/getPayPermission?objectId="+userInfo.getObjectId(),
         new Callback() {
           @Override
           public void onFailure(Call call, IOException e) {

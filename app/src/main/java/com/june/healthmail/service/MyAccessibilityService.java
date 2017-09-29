@@ -852,7 +852,7 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(2000);
           tryTimes++;
           Log.e("autopay","waiting for sms code... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-          if(tryTimes >= 30 || mCurrentState == STATE_NONE) {
+          if(tryTimes >= 35 || mCurrentState == STATE_NONE) {
             break;
           }
         }
@@ -952,7 +952,7 @@ public class MyAccessibilityService extends AccessibilityService {
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
     if(mResultInfo != null && mResultInfo.isClickable()) {
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-      SystemClock.sleep(2000);
+      SystemClock.sleep(6000);
     }
   }
 

@@ -24,6 +24,7 @@ import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
+import com.june.healthmail.improve.activity.NewFukuanActivity;
 import com.june.healthmail.improve.activity.NewPingjiaActivity;
 import com.june.healthmail.improve.activity.NewYuekeActivity;
 import com.june.healthmail.model.GetPermissionModel;
@@ -152,7 +153,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
           //checkPermission(PostCourseDetailActivity.class);
           break;
         case R.id.btn_operition_fukuan:
-          checkPermission(FukuanActivity.class);
+          checkPermission(NewFukuanActivity.class);
 //          intent = new Intent(getActivity(),FukuanActivity.class);
 //          startActivity(intent);
           break;

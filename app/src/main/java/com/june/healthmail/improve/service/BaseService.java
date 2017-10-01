@@ -32,6 +32,7 @@ public class BaseService extends Service {
   public static final int UPDATE_TIMES = 100;
   public static final int FINISH_PINGJIA = 101;
   public static final int FINISH_YUEKE = 102;
+  public static final int FINISH_FUKUAN = 103;
 
   protected int min_time;
   protected int max_time;
@@ -70,6 +71,13 @@ public class BaseService extends Service {
   protected void finishYueke() {
     if (mActivityHandler != null) {
       Message msg = mActivityHandler.obtainMessage(FINISH_YUEKE);
+      msg.sendToTarget();
+    }
+  }
+
+  protected void finishFukuan() {
+    if (mActivityHandler != null) {
+      Message msg = mActivityHandler.obtainMessage(FINISH_FUKUAN);
       msg.sendToTarget();
     }
   }

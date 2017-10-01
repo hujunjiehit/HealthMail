@@ -1,12 +1,15 @@
 package com.june.healthmail.model;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 
 /**
  * Created by june on 2017/3/2.
  */
 
-public class AccountInfo extends BmobObject{
+public class AccountInfo extends BmobObject implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String userName;
     private String phoneNumber;

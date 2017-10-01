@@ -3,13 +3,9 @@ package com.june.healthmail.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,32 +15,24 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.june.healthmail.ContentResolver.SMSContentObserver;
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.OrderListAdapter;
 import com.june.healthmail.model.HmOrder;
-import com.june.healthmail.service.MyAccessibilityService;
+import com.june.healthmail.service.AutopayAccessibilityService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by june on 2017/3/12.
@@ -71,9 +59,9 @@ public class PayWebviewActivity extends Activity implements View.OnClickListener
             if (msg.what == 1) {
                 //tvCode.setText(msg.obj.toString());
                 Log.e("test","handleMessage code:" + msg.obj.toString());
-                Intent intent = new Intent(MyAccessibilityService.INTENT_ACTION_STATUS_CHANGE);
+                Intent intent = new Intent(AutopayAccessibilityService.INTENT_ACTION_STATUS_CHANGE);
                 intent.putExtra("code",msg.obj.toString());
-                intent.putExtra("state",MyAccessibilityService.STATE_RECEIVE_SMS_CODE);
+                intent.putExtra("state", AutopayAccessibilityService.STATE_RECEIVE_SMS_CODE);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }
         }

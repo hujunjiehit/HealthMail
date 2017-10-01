@@ -6,38 +6,38 @@ import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.june.healthmail.Config.DeviceConfig;
+import com.june.healthmail.improve.service.FukuanService;
+import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.PreferenceHelper;
 
 import java.io.DataOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import cn.bmob.v3.BmobUser;
 
 /**
  * Created by june on 2017/9/11.
  */
 
-public class MyAccessibilityService extends AccessibilityService {
+public class AutopayAccessibilityService extends AccessibilityService {
 
   public static final String INTENT_ACTION_STATUS_CHANGE ="com.june.healthmail.status.change";
+  public static final String INTENT_ACTION_FUKUAN = "com.june.healthmail.action.fukuan";//开始付款
+  public static final String INTENT_ACTION_STOP = "com.june.healthmail.action.stop";//停止
 
   //窗口状态
   public static final int STATE_NONE = 0;
@@ -60,58 +60,319 @@ public class MyAccessibilityService extends AccessibilityService {
   private String code; //收到的验证码
   private PreferenceHelper mPreferenceHelper;
   private List<AccessibilityNodeInfo> mListEditText = new ArrayList<>();
+  private List<AccessibilityNodeInfo> nodeList;
+  private AccountInfo accountInfo;
+  private boolean isInLoginActivity;
+  protected Message message;
+  protected boolean isRunning = true;
 
   //付款模式  1--快捷支付(储蓄卡)  2--快捷支付
   private static int PAY_MODE;
 
-  /**
-   * 循环点击获取验证码
-   */
-  private Runnable mRunnable = new Runnable() {
-    @Override
-    public void run() {
-//      SystemClock.sleep(2000);
-//      try {
-//        Log.e("hujunjie","click send sms code");
-//        int tryTimes = 0;
-//        while (mCurrentState == STATE_WAITING_SMS_CODE) {
-//          //excCommand("input tap 589 644");
-//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-//          SystemClock.sleep(2000);
-//          //excCommand("input tap 589 644");
-//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-//          tryTimes++;
-//          Log.e("hujunjie","waiting... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-//          if(tryTimes >= 50 || mCurrentState == STATE_NONE) {
-//            break;
-//          }
-//        }
-//        Log.e("hujunjie","end tryTimes = " + tryTimes);
-//        if(mCurrentState == STATE_RECEIVE_SMS_CODE) {
-//          if(code != null) {
-//            pasteSmsCode(code, DeviceConfig.x2, DeviceConfig.y2);
-//          }
-//          SystemClock.sleep(500);
-//          mCurrentState = STATE_AFTER_SMS_CODE;
-//          goBack();
-//        }else if(mCurrentState == STATE_WAITING_SMS_CODE){
-//          //没有收到短信
-//          SystemClock.sleep(500);
-//          mCurrentState = STATE_BEFORE_SMS_CODE;
-//          goBack();
-//        }else {
-//          Log.e("hujunjie","用户手动退出");
-//        }
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
+  private static Handler serviceHandler;
+  private static boolean isFirstTime;
+
+
+
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
+    Log.e("autopay", "onStartCommand");
+    if(intent != null) {
+      if (INTENT_ACTION_FUKUAN.equals(intent.getAction()) && intent.getExtras() != null) {
+        Bundle bundle = intent.getExtras();
+        accountInfo = (AccountInfo) bundle.getSerializable("account");
+        Log.e("autopay", "start to fukuan: " + accountInfo.toString());
+
+        isInLoginActivity = false;
+        isRunning = true;
+        startToFukuan();
+      }else if(INTENT_ACTION_STOP.equals(intent.getAction())){
+        Log.e("autopay", "stop fukuan thread");
+        //mExecutorService.shutdownNow();
+        isRunning = false;
+      }
     }
-  };
+    return super.onStartCommand(intent, flags, startId);
+  }
+
+  private void startToFukuan() {
+    mExecutorService.execute(new Runnable() {
+      @Override
+      public void run() {
+        Log.e("autopay", "startToFukuan  isFirstTime = " + isFirstTime);
+        if(isFirstTime) {
+          //1、等待进入健康猫登录界面
+          waitingForEnterLogin();
+        }
+        SystemClock.sleep(200);
+        doLoginAction();
+      }
+    });
+  }
+
+
+
+  private void doLoginAction() {
+    mRootNodeInfo = null;
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
+    Log.e("autopay", "user now enter login activity");
+    //进入登录界面
+
+    //输入用户名
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/etv_login_username");
+    if(nodeList.size() > 0) {
+      Bundle arguments = new Bundle();
+      arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, accountInfo.getPhoneNumber());
+      nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+    }
+
+    //输入密码
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/etv_login_password");
+    if(nodeList.size() > 0) {
+      Bundle arguments = new Bundle();
+      arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, accountInfo.getPassWord());
+      nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+    }
+
+    //点击登录
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_login_login");
+    if(nodeList.size() > 0) {
+      if(nodeList.get(0).isClickable()) {
+        nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+
+        //等待登录成功
+        //com.zhanyun.ihealth:id/rl_non_payment_orders
+        AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/rl_non_payment_orders",8000);
+        if(targetNode != null) {
+          Log.e("autopay", "login sucess, targetNode = " + targetNode);
+          if(targetNode.isClickable()) {
+            targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+          }
+
+          targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ll_check_all",3000);
+          if(targetNode != null) {
+            targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            SystemClock.sleep(500);
+            targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/btn_pay",2000);
+            if(targetNode != null) {
+              if(targetNode.isClickable()){
+                targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+              }
+            }
+            Log.e("autopay", "waiting users to return mine page");
+            waitingForEnterSetup();
+          }else {
+            Log.e("autopay", "waiting users to return mine page");
+            waitingForEnterSetup();
+          }
+        }
+      }
+    }
+  }
+
+  private void waitingForEnterSetup() {
+    int tryTimes = 0;
+    nodeList.clear();
+
+    mRootNodeInfo = null;
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
+    if(mRootNodeInfo != null) {
+      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_setting_quit_login");
+    }
+    //等待目标node出现
+    while(nodeList.size() == 0) {
+      Log.e("autopay", "waiting for entry setup...tryTimes = " + tryTimes);
+      if(tryTimes % 10 == 0){
+        //Toast.makeText(this, "付款之后请进入设置界面", Toast.LENGTH_SHORT).show();
+        Log.e("autopay", "toast....");
+        if(serviceHandler != null) {
+          Log.e("autopay", "next account");
+          message = serviceHandler.obtainMessage(FukuanService.SHOW_TOAST);
+          message.obj = "请在付款之后请进入设置界面...";
+          message.sendToTarget();
+        }
+      }
+      if(isRunning == false) {
+        break;
+      }
+      SystemClock.sleep(2000);
+
+      mRootNodeInfo = null;
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+      if(mRootNodeInfo != null) {
+        nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_setting_quit_login");
+      }
+      tryTimes++;
+    }
+    if(isRunning) {
+      if(nodeList.get(0).isClickable()){
+        Log.e("autopay", "click logout");
+        nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(800);
+      }
+
+      mRootNodeInfo = null;
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("android:id/button1");
+      if(nodeList.size() > 0) {
+        Log.e("autopay", "click sure");
+        nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(800);
+      }
+
+      AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ll_tab_me",8000);
+      if(targetNode != null) {
+        Log.e("autopay", "click mine");
+        targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(500);
+      }
+
+      if(serviceHandler != null) {
+        Log.e("autopay", "next account");
+        serviceHandler.sendEmptyMessageDelayed(FukuanService.NEXT_ACCOUNT, 2000);
+      }
+    }
+  }
+
+  private void waitingForEnterLogin() {
+    int tryTimes = 0;
+    while (isInLoginActivity == false) {
+
+      if(tryTimes % 10 == 0) {
+        if (serviceHandler != null) {
+          message = serviceHandler.obtainMessage(FukuanService.SHOW_TOAST);
+          message.obj = "请手动进入健康猫登录界面...";
+          message.sendToTarget();
+        }
+      }
+      if(isRunning == false) {
+        break;
+      }
+      SystemClock.sleep(2000);
+      Log.e("autopay", "waiting for enter login activity");
+      tryTimes++;
+    }
+    isFirstTime = false;
+  }
+
+
+  private AccessibilityNodeInfo waitUntilTargetNodeAppear(String resId, int maxTime) {
+      int tryTimes = 0;
+      nodeList.clear();
+
+    mRootNodeInfo = null;
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+      if(mRootNodeInfo != null) {
+        nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId(resId);
+      }
+
+      //等待目标node出现
+     while(nodeList.size() == 0) {
+          Log.e("autopay", "waiting for target... resId = " +  resId + "   tryTimes = " + tryTimes);
+       if(tryTimes > maxTime/1000) {
+         break;
+       }
+       SystemClock.sleep(1000);
+
+       mRootNodeInfo = null;
+       while (mRootNodeInfo == null) {
+         SystemClock.sleep(400);
+         Log.i("autopay", "mRootNodeInfo is null, waiting...");
+         mRootNodeInfo = getRootInActiveWindow();
+       }
+       if(mRootNodeInfo != null) {
+          nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId(resId);
+       }
+       tryTimes++;
+     }
+     if(nodeList.size() > 0) {
+       return nodeList.get(0);
+     }else {
+       return null;
+     }
+  }
+
+  @Override
+  protected void onServiceConnected() {
+    super.onServiceConnected();
+    Log.e("test", "onServiceConnected");
+    Toast.makeText(this, "_已开启辅助服务_", Toast.LENGTH_SHORT).show();
+//    userInfo = BmobUser.getCurrentUser(UserInfo.class);
+//    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() > 0) {
+//      Log.e("test", "开启");
+//      Toast.makeText(this, "_已开启辅助服务_", Toast.LENGTH_SHORT).show();
+//      mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//      mPreferenceHelper = PreferenceHelper.getInstance();
+//      IntentFilter intentFilter = new IntentFilter();
+//      intentFilter.addAction(INTENT_ACTION_STATUS_CHANGE);
+//      LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mBroadcastReceiver, intentFilter);
+//    }else {
+//      Log.e("test", "关闭");
+//      Toast.makeText(this, "_当前用户无权限开启辅助服务_", Toast.LENGTH_SHORT).show();
+//      stopSelf();
+//    }
+  }
+
+
+  @Override
+  public void onAccessibilityEvent(AccessibilityEvent event) {
+//    if(userInfo.getAutoPay() == null || userInfo.getAutoPay() < 1){
+//      return;
+//    }
+    Log.e("test","onAccessibilityEvent:" + event);
+    int eventType = event.getEventType();
+    switch (eventType) {
+      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED: //窗口状态变化的时候处理
+        Log.e("test","TYPE_WINDOW_STATE_CHANGED");
+        Log.e("test","event.getText() = " + event.getText());
+        if(event.getClassName().equals("com.gzdxjk.healthmall.ui.login.LoginActivity")) {
+          isInLoginActivity = true;
+        }
+
+          break;
+      case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED: //窗口内容变化的时候处理
+        Log.e("test","TYPE_WINDOW_CONTENT_CHANGED");
+        break;
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
+        Log.e("test","TYPE_VIEW_TEXT_SELECTION_CHANGED,  text = " + event.getText());
+        break;
+      default:
+        break;
+    }
+  }
+
 
   private void goBack() {
     SystemClock.sleep(1000);
     mRootNodeInfo = null;
-    mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
     if(mRootNodeInfo != null) {
       List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("关闭"); //找付款方式
       if(nodeList.size() > 0) {
@@ -121,118 +382,6 @@ public class MyAccessibilityService extends AccessibilityService {
       }
     }
   }
-
-  @Override
-  protected void onServiceConnected() {
-    super.onServiceConnected();
-    userInfo = BmobUser.getCurrentUser(UserInfo.class);
-    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() > 0) {
-      Log.e("test", "开启");
-      Toast.makeText(this, "_已开启辅助服务_", Toast.LENGTH_SHORT).show();
-      mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-      mPreferenceHelper = PreferenceHelper.getInstance();
-      IntentFilter intentFilter = new IntentFilter();
-      intentFilter.addAction(INTENT_ACTION_STATUS_CHANGE);
-      LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mBroadcastReceiver, intentFilter);
-    }else {
-      Log.e("test", "关闭");
-      Toast.makeText(this, "_当前用户无权限开启辅助服务_", Toast.LENGTH_SHORT).show();
-      stopSelf();
-    }
-  }
-
-
-  @Override
-  public void onAccessibilityEvent(AccessibilityEvent event) {
-    if(userInfo.getAutoPay() == null || userInfo.getAutoPay() < 1){
-      return;
-    }
-    Log.e("test","onAccessibilityEvent:" + event);
-    int eventType = event.getEventType();
-    switch (eventType) {
-      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED: //窗口状态变化的时候处理
-        Log.e("autopay","TYPE_WINDOW_STATE_CHANGED");
-        Log.e("autopay","event.getText() = " + event.getText());
-        if(event.getText().contains("请选择支付渠道")){
-          mCurrentState = STATE_WAITING_FOR_LOADING;
-          chooseFukuanMode();
-        }
-
-        if(event.getClassName().equals("com.june.healthmail.activity.PayWebviewActivity")) {
-          if(mCurrentState == STATE_WAITING_FOR_LOADING) {
-            if(PreferenceHelper.getInstance().getAutoPayMode() == 1) {
-              //快钱支付储蓄卡自动付款流程
-              autoPayKuaiqian();
-            } else if(PreferenceHelper.getInstance().getAutoPayMode() == 2){
-              //快捷支付自动付款流程
-              stepOne();
-            } else if (PreferenceHelper.getInstance().getAutoPayMode() == 3) {
-              //通联支付自动付款流程
-              autoPayTonglian();
-            }else if (PreferenceHelper.getInstance().getAutoPayMode() == 4) {
-              //快钱支付信用卡自动付款流程
-              autoPayKuaiqianXinyongka();
-            }
-          }
-        }
-
-        if(event.getText().contains("下一步")){
-          if(mCurrentState == STATE_AFTER_SMS_CODE) {
-            mCurrentState = STATE_NONE;
-            Log.e("autopay","goToNext");
-            goToNext();
-          }else if(mCurrentState == STATE_WAITING_FOR_LOADING || mCurrentState == STATE_WAITING_SMS_CODE){
-            //没有收到短信，或者没有加载出来付款界面，继续支付相同的号
-            mCurrentState = STATE_NONE;
-            Log.e("autopay","repeatTheSame");
-            repeatTheSame();
-          }else {
-            mCurrentState = STATE_NONE;
-          }
-        }
-
-//        if(event.getText().contains("订单选择")){
-//          if(PreferenceHelper.getInstance().getAutoPayMode() == 1 || PreferenceHelper.getInstance().getAutoPayMode() == 2) {
-//            //快钱储蓄卡和快捷支付
-//            Toast.makeText(this, "快捷和快钱不支持订单选择，请勾选付款全部订单再试", Toast.LENGTH_SHORT).show();
-//          }else {
-//             chooseOrders();
-//          }
-//        }
-        break;
-      case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED: //窗口内容变化的时候处理
-        //Log.e("autopay","TYPE_WINDOW_CONTENT_CHANGED");
-        /**
-         *EventType: TYPE_WINDOW_STATE_CHANGED; EventTime: 46195351; PackageName: com.june.healthmail;
-         * MovementGranularity: 0; Action: 0 [ ClassName: android.widget.FrameLayout;
-         * Text: [请选择支付渠道, 快捷支付, 快钱支付(储蓄卡), 通联付款, 易联支付, 汇付支付, 快钱支付(信用卡)];
-         * ContentDescription: null; ItemCount: -1;
-         * CurrentItemIndex: -1; IsEnabled: true;
-         * IsPassword: false; IsChecked: false;
-         * IsFullScreen: false; Scrollable: f
-         */
-        break;
-      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
-        Log.e("autopay","TYPE_VIEW_TEXT_SELECTION_CHANGED,  text = " + event.getText());
-        if(event.getText().contains("盛付通移动收银台")){
-          //test();
-        }
-        break;
-      default:
-        break;
-    }
-
-
-//    // get the source node of the event
-//    AccessibilityNodeInfo nodeInfo = event.getSource();
-//    // take action on behalf of the user
-//    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-//    // recycle the nodeInfo object
-//    nodeInfo.recycle();
-
-  }
-
-
 
   /**
    * 通联付款自动付款
@@ -250,7 +399,14 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
-          mRootNodeInfo = getRootInActiveWindow();
+
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -281,7 +437,13 @@ public class MyAccessibilityService extends AccessibilityService {
               mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
               SystemClock.sleep(1500);
 
-              mRootNodeInfo = getRootInActiveWindow();
+              mRootNodeInfo = null;
+              while (mRootNodeInfo == null) {
+                SystemClock.sleep(400);
+                Log.i("autopay", "mRootNodeInfo is null, waiting...");
+                mRootNodeInfo = getRootInActiveWindow();
+              }
+
               mListEditText.clear();
               getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
               Log.e("autopay","mListEditText.size = " + mListEditText.size());
@@ -325,7 +487,13 @@ public class MyAccessibilityService extends AccessibilityService {
     SystemClock.sleep(1000);
 
     try {
-      mRootNodeInfo = getRootInActiveWindow();
+      mRootNodeInfo = null;
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
       if(mResultInfo != null) {
@@ -337,7 +505,13 @@ public class MyAccessibilityService extends AccessibilityService {
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);
           mResultInfo = null;
-          mRootNodeInfo = getRootInActiveWindow();
+
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
         }
         getSmsCode();
@@ -354,7 +528,12 @@ public class MyAccessibilityService extends AccessibilityService {
           mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
           SystemClock.sleep(1500);
 
-          mRootNodeInfo = getRootInActiveWindow();
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           mResultInfo = null;
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
           if(mResultInfo != null && mResultInfo.isClickable()) {
@@ -362,7 +541,13 @@ public class MyAccessibilityService extends AccessibilityService {
             SystemClock.sleep(3000);
           }else {
             SystemClock.sleep(1000);
-            mRootNodeInfo = getRootInActiveWindow();
+
+            mRootNodeInfo = null;
+            while (mRootNodeInfo == null) {
+              SystemClock.sleep(400);
+              Log.i("autopay", "mRootNodeInfo is null, waiting...");
+              mRootNodeInfo = getRootInActiveWindow();
+            }
             mResultInfo = null;
             getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
             if(mResultInfo != null) {
@@ -395,7 +580,13 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
-          mRootNodeInfo = getRootInActiveWindow();
+
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -452,7 +643,13 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
-          mRootNodeInfo = getRootInActiveWindow();
+
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(100);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -474,7 +671,12 @@ public class MyAccessibilityService extends AccessibilityService {
           mCurrentState = STATE_BEFORE_SMS_CODE;
           SystemClock.sleep(1000);
 
-          mRootNodeInfo = getRootInActiveWindow();
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           mListEditText.clear();
           getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
           if(mListEditText.size() == 2) {
@@ -625,7 +827,14 @@ public class MyAccessibilityService extends AccessibilityService {
         SystemClock.sleep(2000);
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
-          mRootNodeInfo = getRootInActiveWindow();
+
+          mRootNodeInfo = null;
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
           }catch (Exception e) {
@@ -1010,7 +1219,7 @@ public class MyAccessibilityService extends AccessibilityService {
         Log.e("test","broadcast, state = " + intent.getIntExtra("state",STATE_NONE));
         code = intent.getStringExtra("code");
         mCurrentState = intent.getIntExtra("state",STATE_NONE);
-        Toast.makeText(MyAccessibilityService.this,"收到验证码：" + code, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AutopayAccessibilityService.this,"收到验证码：" + code, Toast.LENGTH_SHORT).show();
       }
     }
   };
@@ -1052,22 +1261,21 @@ public class MyAccessibilityService extends AccessibilityService {
 
     SystemClock.sleep(1000);
     Log.e("hujunjie","粘贴");
+  }
 
+  public static Handler getServiceHandler() {
+    return serviceHandler;
+  }
 
-    //点击取消输入法键盘
-    inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),
-        MotionEvent.ACTION_DOWN, DeviceConfig.x4, DeviceConfig.y4, 0));
-    inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),
-        MotionEvent.ACTION_UP, DeviceConfig.x4, DeviceConfig.y4, 0));
+  public static void setServiceHandler(Handler serviceHandler) {
+    AutopayAccessibilityService.serviceHandler = serviceHandler;
+  }
 
-    SystemClock.sleep(1000);
+  public static boolean isFirstTime() {
+    return isFirstTime;
+  }
 
-    //点击确认付款按钮
-    inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),
-        MotionEvent.ACTION_DOWN, DeviceConfig.x5, DeviceConfig.y5, 0));
-    inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),
-        MotionEvent.ACTION_UP, DeviceConfig.x5, DeviceConfig.y5, 0));
-
-    SystemClock.sleep(5000);
+  public static void setIsFirstTime(boolean isFirstTime) {
+    AutopayAccessibilityService.isFirstTime = isFirstTime;
   }
 }

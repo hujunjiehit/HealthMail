@@ -184,6 +184,12 @@
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
         <activity
+            android:name=".improve.activity.NewFukuanActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+        </activity>
+
+        <activity
             android:name=".activity.AutopaySetupActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
@@ -198,6 +204,11 @@
             android:enabled="true"
             android:exported="true">
         </service>
+        <service
+            android:name=".improve.service.FukuanService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
 
         <receiver
             android:name=".broadcast.MyReceiver"
@@ -209,7 +220,7 @@
         </receiver>
 
         <service
-            android:name=".service.MyAccessibilityService"
+            android:name=".service.AutopayAccessibilityService"
             android:label="@string/accessibility_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>

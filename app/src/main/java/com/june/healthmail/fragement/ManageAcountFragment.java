@@ -82,6 +82,7 @@ public class ManageAcountFragment extends Fragment implements View.OnClickListen
     ivAddButton = (ImageView) layout.findViewById(R.id.iv_add_btn);
     ivCloudOpButton = (ImageView) layout.findViewById(R.id.iv_cloud_op);
     btnShowTodayDetails = (Button) layout.findViewById(R.id.show_today_details);
+    btnShowTodayDetails.setVisibility(View.GONE);
   }
 
   private void setOnListener() {

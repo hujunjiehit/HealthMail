@@ -467,7 +467,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   protected void onResume() {
     super.onResume();
     boolean isServiceEnabled = isServiceEnabled();
-    boolean toolsIsServiceEnabled = Tools.isServiceOpenedByReadSettings(this,"com.june.healthmail/.service.MyAccessibilityService");
+    boolean toolsIsServiceEnabled = Tools.isServiceOpenedByReadSettings(this,"com.june.healthmail/.service.AutopayAccessibilityService");
     Log.e("test", isServiceEnabled + "---" + toolsIsServiceEnabled);
     if(isServiceEnabled || toolsIsServiceEnabled) {
       cbOpenAccess.setChecked(true);
@@ -1364,7 +1364,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     List<AccessibilityServiceInfo> accessibilityServices =
         mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
     for (AccessibilityServiceInfo info : accessibilityServices) {
-      if (info.getId().equals("com.june.healthmail/.service.MyAccessibilityService")) {
+      if (info.getId().equals("com.june.healthmail/.service.AutopayAccessibilityService")) {
         return true;
       }
     }

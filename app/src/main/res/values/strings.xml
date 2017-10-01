@@ -12,6 +12,6 @@
     <string name="error_field_required">This field is required</string>
     <string name="click_me"><u>点击购买授权</u></string>
     <string name="click_me_for_coins"><u>点击购买金币</u></string>
-    <string name="accessibility_service_label">猫友圈辅助功能</string>
-    <string name="description">自动付款功能专用，用于接收短信验证码并点击</string>
+    <string name="accessibility_service_label">付款助手辅助功能</string>
+    <string name="description">用于辅助登陆健康猫app进行付款操作</string>
     </resources>

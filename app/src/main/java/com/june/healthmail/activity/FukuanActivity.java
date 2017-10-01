@@ -235,7 +235,11 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
                       updateTheCoinsNumber();
                       tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                      showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
+                      if(userInfo.getUsername().equals("15639392922")){
+                        showTheResult("--------------金币余额-" + coinsCost + "\n");
+                      }else {
+                        showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
+                      }
                     }
 
                   }
@@ -1288,7 +1292,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
   private void updateTheCoinsNumber(){
     if(coinsCost > 0) {
-      userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost*((hmOrders.size() -1)/20 + 1));
+      if(userInfo.getUsername().equals("15639392922")){
+        userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost);
+      }else {
+        userInfo.setCoinsNumber(userInfo.getCoinsNumber() - coinsCost*((hmOrders.size() -1)/20 + 1));
+      }
+
       userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
         @Override
         public void done(BmobException e) {

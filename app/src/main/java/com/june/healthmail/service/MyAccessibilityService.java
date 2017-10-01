@@ -110,8 +110,15 @@ public class MyAccessibilityService extends AccessibilityService {
 
   private void goBack() {
     SystemClock.sleep(1000);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
     if(mRootNodeInfo != null) {
       List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("关闭"); //找付款方式
       if(nodeList.size() > 0) {
@@ -250,7 +257,16 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -268,7 +284,7 @@ public class MyAccessibilityService extends AccessibilityService {
           }
         }
 
-        if(targetInfo != null) {
+        if(targetInfo != null && mRootNodeInfo.getChildCount() > 3) {
           mCurrentState = STATE_BEFORE_SMS_CODE;
           SystemClock.sleep(500);
 
@@ -281,7 +297,14 @@ public class MyAccessibilityService extends AccessibilityService {
               mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
               SystemClock.sleep(1500);
 
+              mRootNodeInfo = null;
               mRootNodeInfo = getRootInActiveWindow();
+              while (mRootNodeInfo == null) {
+                SystemClock.sleep(400);
+                Log.i("autopay", "mRootNodeInfo is null, waiting...");
+                mRootNodeInfo = getRootInActiveWindow();
+              }
+
               mListEditText.clear();
               getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
               Log.e("autopay","mListEditText.size = " + mListEditText.size());
@@ -325,7 +348,15 @@ public class MyAccessibilityService extends AccessibilityService {
     SystemClock.sleep(1000);
 
     try {
+
+      mRootNodeInfo = null;
       mRootNodeInfo = getRootInActiveWindow();
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
       if(mResultInfo != null) {
@@ -337,7 +368,14 @@ public class MyAccessibilityService extends AccessibilityService {
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);
           mResultInfo = null;
+
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
         }
         getSmsCode();
@@ -354,7 +392,14 @@ public class MyAccessibilityService extends AccessibilityService {
           mListEditText.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
           SystemClock.sleep(1500);
 
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           mResultInfo = null;
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
           if(mResultInfo != null && mResultInfo.isClickable()) {
@@ -362,7 +407,15 @@ public class MyAccessibilityService extends AccessibilityService {
             SystemClock.sleep(3000);
           }else {
             SystemClock.sleep(1000);
+
+            mRootNodeInfo = null;
             mRootNodeInfo = getRootInActiveWindow();
+            while (mRootNodeInfo == null) {
+              SystemClock.sleep(400);
+              Log.i("autopay", "mRootNodeInfo is null, waiting...");
+              mRootNodeInfo = getRootInActiveWindow();
+            }
+
             mResultInfo = null;
             getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
             if(mResultInfo != null) {
@@ -395,7 +448,15 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -452,7 +513,15 @@ public class MyAccessibilityService extends AccessibilityService {
 
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
             if(targetInfo != null) {
@@ -474,7 +543,14 @@ public class MyAccessibilityService extends AccessibilityService {
           mCurrentState = STATE_BEFORE_SMS_CODE;
           SystemClock.sleep(1000);
 
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           mListEditText.clear();
           getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
           if(mListEditText.size() == 2) {
@@ -625,7 +701,15 @@ public class MyAccessibilityService extends AccessibilityService {
         SystemClock.sleep(2000);
         int tryTimes = 0;
         while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+
+          mRootNodeInfo = null;
           mRootNodeInfo = getRootInActiveWindow();
+          while (mRootNodeInfo == null) {
+            SystemClock.sleep(400);
+            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            mRootNodeInfo = getRootInActiveWindow();
+          }
+
           try {
             targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
           }catch (Exception e) {
@@ -666,7 +750,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void stepTwo() {
     SystemClock.sleep(500);
     mRootNodeInfo = null;
+
+    mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"使用其他银行卡");
@@ -684,7 +775,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void stepThree() {
     SystemClock.sleep(200);
     mRootNodeInfo = null;
+
+    mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     try {
       mResultInfo = null;
@@ -749,7 +847,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void repeatTheSame() {
     SystemClock.sleep(200);
     mRootNodeInfo = null;
+
+    mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("重新付款"); //找付款方式
     if(nodeList.size() > 1) {
@@ -764,9 +869,15 @@ public class MyAccessibilityService extends AccessibilityService {
   }
 
   private void goToNext() {
-    SystemClock.sleep(200);
+    SystemClock.sleep(1000);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(500);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("继续付款"); //找付款方式
     if(nodeList.size() > 1) {
@@ -774,6 +885,25 @@ public class MyAccessibilityService extends AccessibilityService {
       SystemClock.sleep(500);
       nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
       Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
+    }else {
+      //额外处理
+      SystemClock.sleep(1000);
+
+      mRootNodeInfo = null;
+      mRootNodeInfo = getRootInActiveWindow();
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(500);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+
+      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("继续付款"); //找付款方式
+      if(nodeList.size() > 1) {
+        Log.e("test","perform action click goNext");
+        SystemClock.sleep(500);
+        nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
+      }
     }
     if(mRootNodeInfo != null) {
       mRootNodeInfo.recycle();
@@ -782,8 +912,14 @@ public class MyAccessibilityService extends AccessibilityService {
 
   private void chooseFukuanMode() {
     SystemClock.sleep(500);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     if(mRootNodeInfo != null) {
       PAY_MODE = PreferenceHelper.getInstance().getAutoPayMode();
@@ -887,8 +1023,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void inputSmscode() {
     Log.e("autopay","inputSmscode,  code = " + code);
     SystemClock.sleep(500);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     mResultInfo = null;
     getTargetNodeByClassName(mRootNodeInfo.getChild(3).getChild(0),"android.widget.EditText");
@@ -905,7 +1047,15 @@ public class MyAccessibilityService extends AccessibilityService {
 
     if(PreferenceHelper.getInstance().getAutoPayMode() == 1) {
       //快钱储蓄卡支付
+
+      mRootNodeInfo = null;
       mRootNodeInfo = getRootInActiveWindow();
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
       if(mResultInfo != null && mResultInfo.isClickable()) {
@@ -914,7 +1064,15 @@ public class MyAccessibilityService extends AccessibilityService {
       }
     }else if(PreferenceHelper.getInstance().getAutoPayMode() == 2) {
       //快捷支付
+
+      mRootNodeInfo = null;
       mRootNodeInfo = getRootInActiveWindow();
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"确认付款");
       if(mResultInfo != null && mResultInfo.isClickable()) {
@@ -927,8 +1085,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void inputSmscodeTonglian() {
     Log.e("autopay","inputSmscodeTonglian,  code = " + code);
     SystemClock.sleep(500);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     mListEditText.clear();
     getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
@@ -947,7 +1111,14 @@ public class MyAccessibilityService extends AccessibilityService {
 
     SystemClock.sleep(1000);
 
+    mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
     if(mResultInfo != null && mResultInfo.isClickable()) {
@@ -959,8 +1130,14 @@ public class MyAccessibilityService extends AccessibilityService {
   private void inputSmscodeKuaiqianXinyongka() {
     Log.e("autopay","inputSmscodeTonglian,  code = " + code);
     SystemClock.sleep(500);
+
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
 
     mListEditText.clear();
     getAllEditText(mRootNodeInfo.getChild(3).getChild(0));
@@ -973,7 +1150,14 @@ public class MyAccessibilityService extends AccessibilityService {
 
     SystemClock.sleep(1000);
 
+    mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
     if(mResultInfo != null && mResultInfo.isClickable()) {

@@ -426,6 +426,9 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         fukuanChoice[index] = 1;
       }
     }
+    if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2){
+      fukuanChoice[index] = 1;
+    }
 
     index = 3;
     fukuanChoice[index] = 0;

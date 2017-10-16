@@ -64,50 +64,6 @@ public class MyAccessibilityService extends AccessibilityService {
   //付款模式  1--快捷支付(储蓄卡)  2--快捷支付
   private static int PAY_MODE;
 
-  /**
-   * 循环点击获取验证码
-   */
-  private Runnable mRunnable = new Runnable() {
-    @Override
-    public void run() {
-//      SystemClock.sleep(2000);
-//      try {
-//        Log.e("hujunjie","click send sms code");
-//        int tryTimes = 0;
-//        while (mCurrentState == STATE_WAITING_SMS_CODE) {
-//          //excCommand("input tap 589 644");
-//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-//          SystemClock.sleep(2000);
-//          //excCommand("input tap 589 644");
-//          clickPoint(DeviceConfig.x1,DeviceConfig.y1);
-//          tryTimes++;
-//          Log.e("hujunjie","waiting... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-//          if(tryTimes >= 50 || mCurrentState == STATE_NONE) {
-//            break;
-//          }
-//        }
-//        Log.e("hujunjie","end tryTimes = " + tryTimes);
-//        if(mCurrentState == STATE_RECEIVE_SMS_CODE) {
-//          if(code != null) {
-//            pasteSmsCode(code, DeviceConfig.x2, DeviceConfig.y2);
-//          }
-//          SystemClock.sleep(500);
-//          mCurrentState = STATE_AFTER_SMS_CODE;
-//          goBack();
-//        }else if(mCurrentState == STATE_WAITING_SMS_CODE){
-//          //没有收到短信
-//          SystemClock.sleep(500);
-//          mCurrentState = STATE_BEFORE_SMS_CODE;
-//          goBack();
-//        }else {
-//          Log.e("hujunjie","用户手动退出");
-//        }
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-    }
-  };
-
   private void goBack() {
     SystemClock.sleep(1000);
 
@@ -122,10 +78,43 @@ public class MyAccessibilityService extends AccessibilityService {
     if(mRootNodeInfo != null) {
       List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("关闭"); //找付款方式
       if(nodeList.size() > 0) {
-        Log.e("test","perform action click close");
+        Log.e("autopay","perform action click close");
         SystemClock.sleep(500);
         nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
       }
+    }
+
+    SystemClock.sleep(1000);
+
+    nextStep();
+  }
+
+  /**
+   * 判断是继续付款还是重新付款
+   */
+  private void nextStep() {
+
+    Log.e("autopay", "in nextStep...");
+
+    mRootNodeInfo = null;
+    mRootNodeInfo = getRootInActiveWindow();
+    while (mRootNodeInfo == null) {
+      SystemClock.sleep(400);
+      Log.i("autopay", "mRootNodeInfo is null, waiting...");
+      mRootNodeInfo = getRootInActiveWindow();
+    }
+
+    if(mCurrentState == STATE_AFTER_SMS_CODE) {
+      mCurrentState = STATE_NONE;
+      Log.e("autopay","goToNext");
+      goToNext();
+    }else if(mCurrentState == STATE_WAITING_FOR_LOADING || mCurrentState == STATE_WAITING_SMS_CODE){
+      //没有收到短信，或者没有加载出来付款界面，继续支付相同的号
+      mCurrentState = STATE_NONE;
+      Log.e("autopay","repeatTheSame");
+      repeatTheSame();
+    }else {
+      mCurrentState = STATE_NONE;
     }
   }
 
@@ -183,19 +172,8 @@ public class MyAccessibilityService extends AccessibilityService {
           }
         }
 
-        if(event.getText().contains("下一步")){
-          if(mCurrentState == STATE_AFTER_SMS_CODE) {
-            mCurrentState = STATE_NONE;
-            Log.e("autopay","goToNext");
-            goToNext();
-          }else if(mCurrentState == STATE_WAITING_FOR_LOADING || mCurrentState == STATE_WAITING_SMS_CODE){
-            //没有收到短信，或者没有加载出来付款界面，继续支付相同的号
-            mCurrentState = STATE_NONE;
-            Log.e("autopay","repeatTheSame");
-            repeatTheSame();
-          }else {
-            mCurrentState = STATE_NONE;
-          }
+        if(event.getClassName().equals("com.june.healthmail.activity.MainActivity")) {
+          mCurrentState = STATE_NONE;
         }
 
 //        if(event.getText().contains("订单选择")){
@@ -706,7 +684,7 @@ public class MyAccessibilityService extends AccessibilityService {
           mRootNodeInfo = getRootInActiveWindow();
           while (mRootNodeInfo == null) {
             SystemClock.sleep(400);
-            Log.i("autopay", "mRootNodeInfo is null, waiting...");
+            Log.e("autopay", "mRootNodeInfo is null, waiting...");
             mRootNodeInfo = getRootInActiveWindow();
           }
 
@@ -729,12 +707,25 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(500);
 
           mResultInfo = null;
-          getTargetNodeBySize(mRootNodeInfo.getChild(3).getChild(0),1);
-          if(mResultInfo != null && mResultInfo.isClickable()) {
-            mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"下一步");
+          if(mResultInfo != null) {
+            //第一次付款，直接跳到步骤三
+            Log.e("autopay", "is first pay... goto stepThree");
             SystemClock.sleep(500);
-            stepTwo();
+            stepThree();
+          }else {
+            //不是第一次付款
+            Log.e("autopay", "is not first pay... click icon");
+            mResultInfo = null;
+            getTargetNodeBySize(mRootNodeInfo.getChild(3).getChild(0),1);
+            if(mResultInfo != null && mResultInfo.isClickable()) {
+              mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+              SystemClock.sleep(500);
+              stepTwo();
+            }
           }
+
+
         }else {
           SystemClock.sleep(500);
           mCurrentState = STATE_WAITING_FOR_LOADING;
@@ -774,7 +765,6 @@ public class MyAccessibilityService extends AccessibilityService {
    */
   private void stepThree() {
     SystemClock.sleep(200);
-    mRootNodeInfo = null;
 
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
@@ -838,16 +828,14 @@ public class MyAccessibilityService extends AccessibilityService {
     if(mResultInfo != null && mResultInfo.isClickable()) {
       Log.e("autopay","perform action click targetInfo stepFour");
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-      SystemClock.sleep(500);
+      SystemClock.sleep(1000);
       mCurrentState = STATE_WAITING_SMS_CODE;
       getSmsCode();
     }
   }
 
   private void repeatTheSame() {
-    SystemClock.sleep(200);
     mRootNodeInfo = null;
-
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
     while (mRootNodeInfo == null) {
@@ -869,8 +857,6 @@ public class MyAccessibilityService extends AccessibilityService {
   }
 
   private void goToNext() {
-    SystemClock.sleep(1000);
-
     mRootNodeInfo = null;
     mRootNodeInfo = getRootInActiveWindow();
     while (mRootNodeInfo == null) {
@@ -881,7 +867,7 @@ public class MyAccessibilityService extends AccessibilityService {
 
     List<AccessibilityNodeInfo> nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("继续付款"); //找付款方式
     if(nodeList.size() > 1) {
-      Log.e("test","perform action click goNext");
+      Log.e("autopay","perform action click goNext");
       SystemClock.sleep(500);
       nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
       Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
@@ -899,7 +885,7 @@ public class MyAccessibilityService extends AccessibilityService {
 
       nodeList = mRootNodeInfo.findAccessibilityNodeInfosByText("继续付款"); //找付款方式
       if(nodeList.size() > 1) {
-        Log.e("test","perform action click goNext");
+        Log.e("autopay","perform action click goNext");
         SystemClock.sleep(500);
         nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
         Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();

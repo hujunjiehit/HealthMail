@@ -21,6 +21,9 @@ import com.june.healthmail.activity.DetailPostActivity;
 import com.june.healthmail.activity.NewPostActivity;
 import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.adapter.PostAdapter;
+import com.june.healthmail.http.ApiService;
+import com.june.healthmail.http.HttpManager;
+import com.june.healthmail.http.bean.GetActivityConfigBean;
 import com.june.healthmail.model.PostModel;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.PreferenceHelper;
@@ -41,6 +44,10 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CloudCodeListener;
 import cn.bmob.v3.listener.FindListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by bjhujunjie on 2017/4/8.
@@ -57,6 +64,7 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     private TextView tvActivityTitle;
     private TextView tvActivityDesc;
     private TextView tvActivityUrl;
+    private Retrofit mRetrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,6 +121,37 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     }
 
     private void getActivityConfigs() {
+        if(mRetrofit == null) {
+            mRetrofit = HttpManager.getInstance().getRetrofit();
+        }
+        mRetrofit.create(ApiService.class).getActivityConfig().enqueue(new Callback<GetActivityConfigBean>() {
+            @Override
+            public void onResponse(Call<GetActivityConfigBean> call, Response<GetActivityConfigBean> response) {
+                final GetActivityConfigBean bean = response.body();
+                tvActivityTitle.setText(bean.getActivityTitle());
+                tvActivityDesc.setText(bean.getActivityContent());
+                tvActivityDesc.setVisibility(View.VISIBLE);
+                if(!TextUtils.isEmpty(bean.getActivityUrl())){
+                    tvActivityUrl.setText(bean.getUrlDesc());
+                    tvActivityUrl.setVisibility(View.VISIBLE);
+                    tvActivityUrl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openTaobaoShopping(bean.getActivityUrl());
+                        }
+                    });
+                }else {
+                    tvActivityUrl.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetActivityConfigBean> call, Throwable t) {
+
+            }
+        });
+
+
         String cloudCodeName = "getActivityConfig";
         JSONObject job = new JSONObject();
         try {

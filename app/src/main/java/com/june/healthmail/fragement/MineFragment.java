@@ -32,6 +32,9 @@ import com.june.healthmail.activity.MainActivity;
 import com.june.healthmail.activity.ProxyPersonActivity;
 import com.june.healthmail.activity.SuperRootActivity;
 import com.june.healthmail.activity.WebViewActivity;
+import com.june.healthmail.http.ApiService;
+import com.june.healthmail.http.HttpManager;
+import com.june.healthmail.http.bean.GetConfigsBean;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.ProxyInfo;
 import com.june.healthmail.model.UserInfo;
@@ -58,6 +61,10 @@ import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by bjhujunjie on 2017/3/2.
@@ -106,6 +113,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   private boolean success1 = false;
   private boolean success2 = false;
   private PreferenceHelper sph;
+  private Retrofit mRetrofit;
 
   private Handler mHandler = new Handler(){
     @Override
@@ -752,37 +760,32 @@ public class MineFragment extends Fragment implements View.OnClickListener{
   }
 
   private void getConfigs() {
-    String cloudCodeName = "getConfigs";
-    JSONObject job = new JSONObject();
-    try {
-      job.put("action","getConfigs");
-    } catch (JSONException e) {
-      e.printStackTrace();
+
+    if(mRetrofit == null) {
+      mRetrofit = HttpManager.getInstance().getRetrofit();
     }
-    //创建云端逻辑
-    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
+    mRetrofit.create(ApiService.class).getConfigs().enqueue(new Callback<GetConfigsBean>() {
       @Override
-      public void done(Object o, BmobException e) {
-        if(e == null){
-          Log.e("test","云端逻辑调用成功：" + o.toString());
-          String [] arrays = o.toString().split("::");
-          PreferenceHelper.getInstance().setBuyAuthUrl(arrays[0]);
-          PreferenceHelper.getInstance().setBuyConisUrl(arrays[1]);
-          PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(arrays[2]));
-          PreferenceHelper.getInstance().setCoinsCostForSpecialFunction(Integer.parseInt(arrays[3]));
-          PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(arrays[4]));
-          PreferenceHelper.getInstance().setUpdateLevelUrl(arrays[5]);
-          PreferenceHelper.getInstance().setPayCost(Integer.parseInt(arrays[6]));
-          PreferenceHelper.getInstance().setHasActivity(Integer.parseInt(arrays[7]));
-          PreferenceHelper.getInstance().setQQGroup(arrays[8]);
-          PreferenceHelper.getInstance().setNotification(arrays[9]);
-          PreferenceHelper.getInstance().setAutoJump(Integer.parseInt(arrays[10]));
-          PreferenceHelper.getInstance().setMinConfigTime(Integer.parseInt(arrays[11]));
-          mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
-        }else {
-          Log.e("test","云端逻辑调用异常：" + e.toString());
-        }
+      public void onResponse(Call<GetConfigsBean> call, Response<GetConfigsBean> response) {
+        GetConfigsBean bean = response.body();
+        PreferenceHelper.getInstance().setBuyAuthUrl(bean.getBuyAuthUrl());
+        PreferenceHelper.getInstance().setBuyConisUrl(bean.getBuyCoinsUrl());
+        PreferenceHelper.getInstance().setCoinsCostForPost(Integer.parseInt(bean.getPostCoinsCost()));
+        PreferenceHelper.getInstance().setCoinsCostForSpecialFunction(Integer.parseInt(bean.getSpecialCoinsCost()));
+        PreferenceHelper.getInstance().setFreeTimesPerday(Integer.parseInt(bean.getFreeTimesPerDay()));
+        PreferenceHelper.getInstance().setUpdateLevelUrl(bean.getUpdateLevelUrl());
+        PreferenceHelper.getInstance().setPayCost(Integer.parseInt(bean.getPayCoinsCost()));
+        PreferenceHelper.getInstance().setHasActivity(Integer.parseInt(bean.getActivityOrNot()));
+        PreferenceHelper.getInstance().setQQGroup(bean.getQqGroup());
+        PreferenceHelper.getInstance().setNotification(bean.getNotification());
+        PreferenceHelper.getInstance().setAutoJump(Integer.parseInt(bean.getJumpOrNot()));
+        PreferenceHelper.getInstance().setMinConfigTime(Integer.parseInt(bean.getMinConfigTime()));
+        mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
+      }
+
+      @Override
+      public void onFailure(Call<GetConfigsBean> call, Throwable t) {
+
       }
     });
   }

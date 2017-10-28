@@ -29,6 +29,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.OrderListAdapter;
+import com.june.healthmail.http.ApiService;
+import com.june.healthmail.http.HttpManager;
+import com.june.healthmail.http.bean.BaseBean;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.GetAllPaymentModel;
 import com.june.healthmail.model.GetOrderListModel;
@@ -75,6 +78,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by bjhujunjie on 2017/3/9.
@@ -88,6 +92,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private TextView tvCoinsDesc;
   private CheckBox cbPayAllOrders;
   private ShowProgress showProgress;
+  private Retrofit mRetrofit;
 
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
@@ -876,27 +881,27 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         .add("productName",payinfoDetail.getProductName())
         .add("orderId",payinfoDetail.getOrderId())
         .build();
-    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getKuaiqianPageInfo", body, new Callback() {
-      @Override
-      public void onFailure(Call call, IOException e) {
-        Log.e("test","getKuaiqianPageInfo failed");
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
-          }
-        });
-        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
-      }
 
+    if(mRetrofit == null) {
+      mRetrofit = HttpManager.getInstance().getRetrofit();
+    }
+    mRetrofit.create(ApiService.class).getPayInfo("getKuaiqianPageInfo",body).enqueue(new retrofit2.Callback<BaseBean>() {
       @Override
-      public void onResponse(Call call, Response response) throws IOException {
+      public void onResponse(retrofit2.Call<BaseBean> call, retrofit2.Response<BaseBean> response) {
+        Log.e("test","body = " + response.body());
         Intent intent = new Intent();
-        intent.putExtra("data",response.body().string());
+        intent.putExtra("data",response.body().getMessage());
         intent.putExtra("title","快钱支付");
         intent.putExtra("orders",(Serializable)hmOrders);
         intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
         startActivityForResult(intent,payTypeFlag);
+      }
+
+      @Override
+      public void onFailure(retrofit2.Call<BaseBean> call, Throwable t) {
+        Log.e("test","getKuaiqianPageInfo failed");
+        showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
       }
     });
   }
@@ -937,27 +942,25 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         .add("productName",payinfoDetail.getProductName())
         .add("payerName",payinfoDetail.getPayerName())
         .build();
-    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getTonglianPageInfo", body, new Callback() {
+
+    if(mRetrofit == null) {
+      mRetrofit = HttpManager.getInstance().getRetrofit();
+    }
+    mRetrofit.create(ApiService.class).getPayInfo("getTonglianPageInfo", body).enqueue(new retrofit2.Callback<BaseBean>() {
       @Override
-      public void onFailure(Call call, IOException e) {
-        Log.e("test","getTonglianPageInfo failed");
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
-          }
-        });
-        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      public void onResponse(retrofit2.Call<BaseBean> call, retrofit2.Response<BaseBean> response) {
+        Intent intent = new Intent();
+        intent.putExtra("data",response.body().getMessage());
+        intent.putExtra("title","通联支付");
+        intent.putExtra("orders",(Serializable)hmOrders);
+        intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
+        startActivityForResult(intent,payTypeFlag);
       }
 
       @Override
-      public void onResponse(Call call, Response response) throws IOException {
-          Intent intent = new Intent();
-          intent.putExtra("data",response.body().string());
-          intent.putExtra("title","通联支付");
-          intent.putExtra("orders",(Serializable)hmOrders);
-          intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
-          startActivityForResult(intent,payTypeFlag);
+      public void onFailure(retrofit2.Call<BaseBean> call, Throwable t) {
+        showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
       }
     });
   }
@@ -992,27 +995,24 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         .add("productName",payinfoDetail.getProductName())
         .add("bankCardType",payinfoDetail.getBankCardType())
         .build();
-    HttpUntils.getInstance().getPayInfo("http://maoyouquan.cc:3389/getKuaijiePageInfo", body, new Callback() {
+    if(mRetrofit == null) {
+      mRetrofit = HttpManager.getInstance().getRetrofit();
+    }
+    mRetrofit.create(ApiService.class).getPayInfo("getKuaijiePageInfo",body).enqueue(new retrofit2.Callback<BaseBean>() {
       @Override
-      public void onFailure(Call call, IOException e) {
-        Log.e("test","getKuaijiePageInfo failed");
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
-          }
-        });
-        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
-      }
-
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
+      public void onResponse(retrofit2.Call<BaseBean> call, retrofit2.Response<BaseBean> response) {
         Intent intent = new Intent();
-        intent.putExtra("data",response.body().string());
+        intent.putExtra("data",response.body().getMessage());
         intent.putExtra("title","快捷支付");
         intent.putExtra("orders",(Serializable)hmOrders);
         intent.setClass(FukuanActivity.this,PayWebviewActivity.class);
         startActivityForResult(intent,payTypeFlag);
+      }
+
+      @Override
+      public void onFailure(retrofit2.Call<BaseBean> call, Throwable t) {
+        showTheResult("-------------------前往支付页面失败，重新选择支付方式\n");
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
       }
     });
   }
@@ -1062,7 +1062,6 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         }
       }
     });
-
   }
 
 

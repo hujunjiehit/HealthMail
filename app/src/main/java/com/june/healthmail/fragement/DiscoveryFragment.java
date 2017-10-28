@@ -121,12 +121,21 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     }
 
     private void getActivityConfigs() {
+        final ShowProgress showProgress = new ShowProgress(getActivity());
+        if(showProgress != null && !showProgress.isShowing()){
+            showProgress.setMessage("正在获取活动详情");
+            showProgress.show();
+        }
         if(mRetrofit == null) {
             mRetrofit = HttpManager.getInstance().getRetrofit();
         }
         mRetrofit.create(ApiService.class).getActivityConfig().enqueue(new Callback<GetActivityConfigBean>() {
             @Override
             public void onResponse(Call<GetActivityConfigBean> call, Response<GetActivityConfigBean> response) {
+                if(showProgress != null && showProgress.isShowing()){
+                    showProgress.dismiss();
+                }
+
                 final GetActivityConfigBean bean = response.body();
                 tvActivityTitle.setText(bean.getActivityTitle());
                 tvActivityDesc.setText(bean.getActivityContent());
@@ -147,52 +156,8 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onFailure(Call<GetActivityConfigBean> call, Throwable t) {
-
-            }
-        });
-
-
-        String cloudCodeName = "getActivityConfig";
-        JSONObject job = new JSONObject();
-        try {
-            job.put("action","getActivityConfig");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        final ShowProgress showProgress = new ShowProgress(getActivity());
-        if(showProgress != null && !showProgress.isShowing()){
-            showProgress.setMessage("正在获取活动详情");
-            showProgress.show();
-        }
-        //创建云端逻辑
-        AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-        cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
-            @Override
-            public void done(Object o, BmobException e) {
                 if(showProgress != null && showProgress.isShowing()){
                     showProgress.dismiss();
-                }
-                if(e == null){
-                    Log.e("test","云端逻辑调用成功：" + o.toString());
-                    final String [] arrays = o.toString().split("::");
-                    tvActivityTitle.setText(arrays[0]);
-                    tvActivityDesc.setText(arrays[1]);
-                    tvActivityDesc.setVisibility(View.VISIBLE);
-                    if(!TextUtils.isEmpty(arrays[2])){
-                        tvActivityUrl.setText(arrays[3]);
-                        tvActivityUrl.setVisibility(View.VISIBLE);
-                        tvActivityUrl.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                openTaobaoShopping(arrays[2]);
-                            }
-                        });
-                    }else {
-                        tvActivityUrl.setVisibility(View.GONE);
-                    }
-
-                }else {
-                    Log.e("test","云端逻辑调用异常：" + e.toString());
                 }
             }
         });

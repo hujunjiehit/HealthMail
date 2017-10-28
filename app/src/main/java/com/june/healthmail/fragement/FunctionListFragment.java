@@ -24,6 +24,9 @@ import com.june.healthmail.activity.GuanzhuActivity;
 import com.june.healthmail.activity.PingjiaActivity;
 import com.june.healthmail.activity.SijiaoLoginActivity;
 import com.june.healthmail.activity.YuekeActivity;
+import com.june.healthmail.http.ApiService;
+import com.june.healthmail.http.HttpManager;
+import com.june.healthmail.http.bean.BaseBean;
 import com.june.healthmail.improve.activity.NewPingjiaActivity;
 import com.june.healthmail.improve.activity.NewYuekeActivity;
 import com.june.healthmail.model.GetPermissionModel;
@@ -44,6 +47,7 @@ import cn.bmob.v3.listener.CloudCodeListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by bjhujunjie on 2016/9/21.
@@ -60,6 +64,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
   private TextView tvGuanzhu;
   private UserInfo userInfo;
   private ShowProgress showProgress;
+  private Retrofit mRetrofit;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
     initView();
     setOnListener();
     userInfo = BmobUser.getCurrentUser(UserInfo.class);
+    mRetrofit = HttpManager.getInstance().getRetrofit();
 //    initLogin();
     return layout;
   }
@@ -174,85 +180,32 @@ public class FunctionListFragment extends Fragment implements View.OnClickListen
       showProgress.setMessage("正在验证当前用户权限，请稍后...");
       showProgress.show();
     }
-    HttpUntils.getInstance().getPermission("http://maoyouquan.cc:3389/upload?objectId="+userInfo.getObjectId(),
-        new Callback() {
-          @Override
-          public void onFailure(Call call, IOException e) {
-            if(showProgress != null && showProgress.isShowing()){
-              showProgress.dismiss();
-            }
-            getActivity().runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                Toast.makeText(getActivity(),"网络请求失败", Toast.LENGTH_LONG).show();
-              }
-            });
 
-          }
+    if(mRetrofit == null) {
+      mRetrofit = HttpManager.getInstance().getRetrofit();
+    }
+    mRetrofit.create(ApiService.class).getPermission(userInfo.getUsername(),userInfo.getUserType(),userInfo.getAppVersion()).enqueue(new retrofit2.Callback<BaseBean>() {
+      @Override
+      public void onResponse(retrofit2.Call<BaseBean> call, retrofit2.Response<BaseBean> response) {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
+        BaseBean bean = response.body();
+        if(bean.getStatus().equals("ok") && bean.getMessage().equals("验证成功,checksum=111")){
+          Intent it = new Intent(getActivity(),cls);
+          startActivity(it);
+        }else {
+          Toast.makeText(getActivity(),bean.getMessage(), Toast.LENGTH_LONG).show();
+        }
+      }
 
-          @Override
-          public void onResponse(Call call, Response response) throws IOException {
-            try {
-              if(showProgress != null && showProgress.isShowing()){
-                showProgress.dismiss();
-              }
-              Gson gson = new Gson();
-              final GetPermissionModel getPermissionModel = gson.fromJson(response.body().charStream(), GetPermissionModel.class);
-              response.body().close();
-              if(getPermissionModel.getStatus().equals("ok")){
-                Intent it = new Intent(getActivity(),cls);
-                startActivity(it);
-              }else {
-                getActivity().runOnUiThread(new Runnable() {
-                  @Override
-                  public void run() {
-                    Toast.makeText(getActivity(),getPermissionModel.getMessage(), Toast.LENGTH_LONG).show();
-                  }
-                });
-              }
-            }catch (Exception e){
-              if(getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                  @Override
-                  public void run() {
-                    Toast.makeText(getActivity(),"解析异常", Toast.LENGTH_LONG).show();
-                  }
-                });
-              }
-            }
-          }
-        });
-
-
-//    try {
-//      job.put("objectId",userInfo.getObjectId());
-//    } catch (JSONException e) {
-//      e.printStackTrace();
-//    }
-//
-//    //创建云端逻辑
-//    AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
-//    cloudCode.callEndpoint(cloudCodeName, job, new CloudCodeListener() {
-//      @Override
-//      public void done(Object o, BmobException e) {
-//        if(showProgress != null && showProgress.isShowing()){
-//          showProgress.dismiss();
-//        }
-//        if(e == null){
-//          Log.e("test","云端逻辑调用成功：" + o.toString());
-//          if(o.toString().equals("true")){
-//            Intent it = new Intent(getActivity(),cls);
-//            startActivity(it);
-//          }else {
-//            Toast.makeText(getActivity(),o.toString(), Toast.LENGTH_LONG).show();
-//          }
-//        }else {
-////          Toast.makeText(getActivity(),"权限验证异常：" + e.getMessage(), Toast.LENGTH_LONG).show();
-////          Intent it = new Intent(getActivity(),cls);
-////          it.putExtra("exception",true);
-////          startActivity(it);
-//        }
-//      }
-//    });
+      @Override
+      public void onFailure(retrofit2.Call<BaseBean> call, Throwable t) {
+        if(showProgress != null && showProgress.isShowing()){
+          showProgress.dismiss();
+        }
+        Toast.makeText(getActivity(),"网络请求失败", Toast.LENGTH_LONG).show();
+      }
+    });
   }
 }

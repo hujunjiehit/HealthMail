@@ -359,6 +359,11 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
 
     //检查时间
     String time = tvShowTime.getText().toString().trim();
+    if(beforeSix(time)){
+      toast("开课时间不能早于早上六点");
+      return false;
+    }
+
     if(isBeforeNow(time)){
       toast("开课时间不能早于现在");
       return false;
@@ -388,9 +393,18 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
     return true;
   }
 
+  private boolean beforeSix(String time) {
+    int startTime = Tools.parseInt(time.split(" ")[1].split(":")[0]);
+    if(startTime >= 6) {
+      return false;
+    }else {
+      return true;
+    }
+  }
+
   private int getMaxCourseNumber() {
     int startTime = Tools.parseInt(courseTime.split(" ")[1].split(":")[0]);
-    return 23 - startTime;
+    return 23 - startTime - 2;
   }
 
   private boolean isBeforeNow(String time) {

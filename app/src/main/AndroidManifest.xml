@@ -57,128 +57,101 @@
         </provider>
 
         <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.LoginActivity">
         </activity>
         <activity
-            android:name=".activity.LoginActivityOnekey"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.LoginActivityOnekey">
         </activity>
         <activity
-            android:name=".activity.PingjiaActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.PingjiaActivity">
         </activity>
         <activity
-            android:name=".activity.YuekeActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.YuekeActivity">
         </activity>
         <activity
-            android:name=".activity.SijiaoLoginActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.SijiaoLoginActivity">
         </activity>
         <activity
-            android:name=".activity.SpecialFunctionListActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.SpecialFunctionListActivity">
         </activity>
         <activity
-            android:name=".activity.GuanzhuDetailActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.GuanzhuDetailActivity">
         </activity>
         <activity
-            android:name=".activity.PingjiaDetailActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.PingjiaDetailActivity">
         </activity>
         <activity
-            android:name=".activity.PostCourseDetailActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.PostCourseDetailActivity">
         </activity>
         <activity
-            android:name=".activity.GuanzhuActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.GuanzhuActivity">
         </activity>
         <activity
-            android:name=".activity.CancleGuanzhuActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.CancleGuanzhuActivity">
         </activity>
         <activity
-            android:name=".activity.FunctionSetupActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.FunctionSetupActivity">
         </activity>
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".activity.FukuanActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.FukuanActivity">
         </activity>
         <activity
-            android:name=".activity.UnbindActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.UnbindActivity">
         </activity>
         <activity
-            android:name=".activity.SuperRootActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.SuperRootActivity">
         </activity>
         <activity
-            android:name=".activity.ProxyPersonActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.ProxyPersonActivity">
         </activity>
         <activity
-            android:name=".activity.ResetPasswordActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.ResetPasswordActivity">
         </activity>
         <activity
             android:name=".activity.WebViewActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".activity.PayWebviewActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.PayWebviewActivity">
         </activity>
         <activity
-            android:name=".activity.PicturePreviewActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.PicturePreviewActivity">
         </activity>
         <activity
-            android:name=".activity.DetailPostActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.DetailPostActivity">
         </activity>
         <activity
-            android:name=".activity.NewPostActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.NewPostActivity">
         </activity>
         <activity
-            android:name=".activity.ShowTodayDetailsActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.ShowTodayDetailsActivity">
         </activity>
         <activity
-            android:name=".activity.ProxyDetailActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.ProxyDetailActivity">
         </activity>
 
         <!-- bmob升级 -->
         <activity
-            android:name="cn.bmob.v3.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:name="cn.bmob.v3.update.UpdateDialogActivity">
         </activity>
 
         <!-- buggly升级 -->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"/>
+
         <activity
             android:name=".improve.activity.NewPingjiaActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".improve.activity.NewYuekeActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:launchMode="singleTask">
         </activity>
 
         <service

@@ -169,6 +169,7 @@
         android:enabled="false"/>
 
     <LinearLayout
+        android:id="@+id/special_func_desc"
         android:layout_below="@id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

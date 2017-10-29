@@ -32,6 +32,8 @@
     <color name="btn_login_normal">#f15353</color>
     <color name="btn_login_disabled">#e1e1e3</color>
 
+    <color name="btn_blue_press">#221296db</color>
+    <color name="btn_blue_normal">#ff1296db</color>
     <!-- topbar背景色 -->
     <color name="bg_topbar">#fbfbfb</color>
 

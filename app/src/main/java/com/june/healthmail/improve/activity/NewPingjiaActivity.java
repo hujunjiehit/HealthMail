@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
-import com.june.healthmail.broadcast.MyReceiver;
 import com.june.healthmail.improve.service.BaseService;
 import com.june.healthmail.improve.service.PingjiaService;
 import com.june.healthmail.untils.CommonUntils;

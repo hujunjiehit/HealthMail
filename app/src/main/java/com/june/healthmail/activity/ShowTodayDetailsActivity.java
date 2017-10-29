@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.adapter.ShowResultAdapter;
 import com.june.healthmail.model.AccountInfo;
-import com.june.healthmail.model.TrainerModel;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
@@ -36,7 +35,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by june on 2017/7/30.
  */
 
-public class ShowTodayDetailsActivity extends BaseActivity{
+public class ShowTodayDetailsActivity extends BaseActivity {
   private UserInfo userInfo;
 
   @BindView(R.id.btn_start)

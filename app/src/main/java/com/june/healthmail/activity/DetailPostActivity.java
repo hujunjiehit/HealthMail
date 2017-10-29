@@ -1,13 +1,11 @@
 package com.june.healthmail.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.model.PostModel;

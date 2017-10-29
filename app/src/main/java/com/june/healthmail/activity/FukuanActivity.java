@@ -1074,22 +1074,22 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     AlertDialog dialog = new AlertDialog.Builder(FukuanActivity.this)
             .setTitle("下一步")
             .setMessage("请选择下一步操作(如果付款成功，请选择继续付款，如果付款失败请选择重新付款)")
-            .setNegativeButton("继续付款", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
-                accountIndex++;
-                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
-              }
-            })
-            .setPositiveButton("重新付款", new DialogInterface.OnClickListener() {
+            .setNegativeButton("重新付款", new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 Log.e("test","重新付款,重新开始付款此帐号");
                 showTheResult("----------------重新付款此小号\n");
                 mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+              }
+            })
+            .setPositiveButton("继续付款", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                showTheResult("----------------继续付款,开始付款下一个帐号\n\n\n");
+                accountIndex++;
+                mHandler.sendEmptyMessageDelayed(START_TO_FU_KUAN,getDelayTime());
               }
             }).create();
     dialog.show();

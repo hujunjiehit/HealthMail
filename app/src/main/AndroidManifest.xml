@@ -94,8 +94,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme">
+            android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".activity.FukuanActivity">

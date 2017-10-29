@@ -16,14 +16,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.R;
-import com.june.healthmail.model.Guanzhu;
-import com.june.healthmail.model.GuanzhuListModel;
 import com.june.healthmail.model.PostCourseModel;
 import com.june.healthmail.model.TrainerModel;
 import com.june.healthmail.model.UserInfo;
-import com.june.healthmail.untils.BitmapTools;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
@@ -36,8 +32,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

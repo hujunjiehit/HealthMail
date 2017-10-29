@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -7,7 +8,7 @@
 
     <RelativeLayout
         android:id="@+id/layout_category_topbar"
-        style="@style/TopbarStyle" >
+        style="@style/TopbarStyle">
 
         <TextView
             android:id="@+id/tv_guanzhu"
@@ -17,9 +18,10 @@
             android:layout_centerVertical="true"
             android:layout_margin="6dp"
             android:text="关注管理"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
-            android:textSize="@dimen/small_medium_text_size"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="@dimen/small_medium_text_size"/>
 
         <TextView
             android:id="@+id/tv_mine"
@@ -28,65 +30,35 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="功能选择"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
-            android:textSize="@dimen/medium_text_size"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="@dimen/medium_text_size"/>
 
         <ImageView
             android:id="@+id/img_setup"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="6dp"
             android:src="@drawable/setup_icon"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="scrollable">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerInParent="true">
-            <Button
-                android:id="@+id/btn_operition_pingjia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="26sp"
-                android:text="自动评价"/>
+    </android.support.design.widget.TabLayout>
 
-            <Button
-                android:id="@+id/btn_operition_yueke"
-                android:layout_marginTop="36dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="26sp"
-                android:text="自动约课"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_operition_fukuan"
-                android:layout_marginTop="36dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="26sp"
-                android:text="自动付款"/>
+    </android.support.v4.view.ViewPager>
 
-            <Button
-            android:id="@+id/btn_special_function"
-            android:layout_marginTop="36dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_press"
-            android:textSize="26sp"
-            android:text="特殊功能"/>
-        </LinearLayout>
 
-    </RelativeLayout>
 </LinearLayout>

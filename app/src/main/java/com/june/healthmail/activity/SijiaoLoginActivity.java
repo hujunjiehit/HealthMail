@@ -64,6 +64,7 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
   private String errmsg;
 
   private String accessToken;
+  private int flag;
 
   private static final int START_TO_LOGIN = 1;
   private static final int GET_TOKEN_SUCCESS = 2;
@@ -128,11 +129,19 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
             }
           });
 
+
           Intent it = new Intent();
           it.putExtra("accessToken",accessToken);
           it.putExtra("trainerModel", (Serializable)trainerModel);
-          it.setClass(SijiaoLoginActivity.this,SpecialFunctionListActivity.class);
-          startActivity(it);
+          //在此判断是直接进入特殊功能列表还是直接进入自动发课
+          if(flag == 1) {
+            it.setClass(SijiaoLoginActivity.this,PostCourseDetailActivity.class);
+            startActivity(it);
+          }else {
+            it.setClass(SijiaoLoginActivity.this,SpecialFunctionListActivity.class);
+            startActivity(it);
+          }
+
           break;
         case GET_USER_MODEL_FAILED:
           toast("获取私教信息失败");
@@ -178,6 +187,7 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
       if(getIntent().getBooleanExtra("exception",false)){
         //exception
       }
+      flag = getIntent().getIntExtra("flag",0);
     }
     initView();
     setListener();
@@ -193,6 +203,11 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
     mBtnClearPsw = (ImageView) findViewById(R.id.img_login_clear_psw);
     mTgBtnShowPsw = (ToggleButton) findViewById(R.id.tgbtn_show_psw);
     cbRemberPwd = (CheckBox) findViewById(R.id.cb_rember_pwd);
+
+    if(flag == 1) {
+      mBtnLogin.setText("登录发布课程");
+      findViewById(R.id.special_func_desc).setVisibility(View.GONE);
+    }
   }
 
   private void setListener() {

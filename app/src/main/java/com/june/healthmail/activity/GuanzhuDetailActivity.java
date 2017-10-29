@@ -14,10 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.model.Course;
-import com.june.healthmail.model.CourseDetail;
 import com.june.healthmail.model.CourseDetailModel;
 import com.june.healthmail.model.CourseListModel;
-import com.june.healthmail.model.GroupbuyUser;
 import com.june.healthmail.model.GroupbuyUserModel;
 import com.june.healthmail.model.Guanzhu;
 import com.june.healthmail.model.GuanzhuListModel;
@@ -29,7 +27,6 @@ import com.june.healthmail.untils.PreferenceHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +43,7 @@ import okhttp3.Response;
  * Created by june on 2017/7/15.
  */
 
-public class GuanzhuDetailActivity extends BaseActivity{
+public class GuanzhuDetailActivity extends BaseActivity {
 
   private UserInfo userInfo;
   private String accessToken;

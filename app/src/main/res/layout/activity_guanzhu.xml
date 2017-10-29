@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="一键关注"
+            android:text="一键收藏"
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -65,7 +65,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textColor="@color/red"
-        android:text="猫号是健康猫app'我的->我的资料'里面的账号"/>
+        android:text="猫号是健康猫app'我的->设置->账户管理'里面的猫号"/>
 
     <Button
         android:id="@+id/btn_start"
@@ -76,7 +76,7 @@
         android:layout_marginRight="36dp"
         android:textColor="@color/text_press"
         android:textSize="@dimen/medium_text_size"
-        android:text="开始一键关注"/>
+        android:text="开始一键收藏"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textColor="@color/red"
-        android:text="将会使用小号管理中启用的小号来关注"/>
+        android:text="将会使用小号管理中启用的小号来收藏"/>
 
     <TextView
         android:id="@+id/et_show_result"

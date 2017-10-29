@@ -280,7 +280,6 @@
             <Button
                 android:id="@+id/btn_unbind_device"
                 android:layout_centerInParent="true"
-                android:padding="4dp"
                 android:background="@drawable/bg_btn_press_selector_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -299,8 +298,6 @@
             <Button
                 android:id="@+id/btn_check_update"
                 android:layout_centerInParent="true"
-                android:paddingLeft="20dp"
-                android:padding="4dp"
                 android:background="@drawable/bg_btn_press_selector_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

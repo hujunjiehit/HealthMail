@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -7,7 +8,7 @@
 
     <RelativeLayout
         android:id="@+id/layout_category_topbar"
-        style="@style/TopbarStyle" >
+        style="@style/TopbarStyle">
 
         <TextView
             android:id="@+id/tv_guanzhu"
@@ -17,10 +18,10 @@
             android:layout_centerVertical="true"
             android:layout_margin="6dp"
             android:text="关注管理"
-            android:textColor="@color/black"
-            android:textSize="@dimen/small_medium_text_size"
             android:visibility="gone"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_medium_text_size"/>
 
         <TextView
             android:id="@+id/tv_mine"
@@ -29,9 +30,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="功能选择"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
-            android:textSize="@dimen/medium_text_size"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="@dimen/medium_text_size"/>
 
         <ImageView
             android:id="@+id/img_setup"
@@ -44,10 +45,12 @@
             android:src="@drawable/setup_icon"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="scrollable">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -90,6 +93,14 @@
                 android:textSize="26sp"
                 android:text="特殊功能"/>
         </LinearLayout>
+    </android.support.design.widget.TabLayout>
 
-    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
 </LinearLayout>

@@ -5,8 +5,6 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,43 +20,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
 import com.june.healthmail.improve.service.BaseService;
-import com.june.healthmail.improve.service.PingjiaService;
 import com.june.healthmail.improve.service.YuekeService;
-import com.june.healthmail.model.AccountInfo;
-import com.june.healthmail.model.Course;
-import com.june.healthmail.model.CourseDetail;
-import com.june.healthmail.model.CourseDetailModel;
-import com.june.healthmail.model.CourseListModel;
-import com.june.healthmail.model.GroupbuyUser;
-import com.june.healthmail.model.GroupbuyUserModel;
-import com.june.healthmail.model.Guanzhu;
-import com.june.healthmail.model.GuanzhuListModel;
-import com.june.healthmail.model.PostYuekeModel;
-import com.june.healthmail.model.TokenModel;
-import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
-import com.june.healthmail.untils.DBManager;
-import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
-import com.june.healthmail.untils.TimeUntils;
-import com.june.healthmail.untils.Tools;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Response;
 
 /**
  * Created by june on 2017/3/4.

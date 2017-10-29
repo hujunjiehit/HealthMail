@@ -3,6 +3,7 @@ package com.june.healthmail.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ import com.june.healthmail.view.MyTabhost;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.update.BmobUpdateAgent;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
   private MyTabhost mTabHost;
   private String uid;

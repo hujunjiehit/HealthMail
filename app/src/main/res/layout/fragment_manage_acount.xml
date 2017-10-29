@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:clickable="true"
-            android:src="@drawable/cloud_op_icon"
+            android:src="@drawable/ic_backup"
             android:textSize="@dimen/small_medium_text_size" />
 
         <TextView
@@ -97,8 +97,8 @@
             android:layout_gravity="bottom"
             android:text="查看今日统计"
             android:alpha="0.85"
-            android:background="@drawable/btn_ok"
-            android:textColor="@color/btn_login_text"
+            android:background="@drawable/btn_blue"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
     </FrameLayout>

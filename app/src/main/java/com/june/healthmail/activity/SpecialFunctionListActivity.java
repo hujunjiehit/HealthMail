@@ -20,7 +20,7 @@ import cn.bmob.v3.BmobUser;
  * Created by june on 2017/7/15.
  */
 
-public class SpecialFunctionListActivity extends BaseActivity{
+public class SpecialFunctionListActivity extends BaseActivity {
   
   private UserInfo userInfo;
   private String accessToken;

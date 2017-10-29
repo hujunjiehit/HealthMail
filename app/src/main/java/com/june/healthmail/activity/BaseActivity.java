@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 
@@ -11,7 +12,7 @@ import android.widget.Toast;
  * Created by bjhujunjie on 2017/4/8.
  */
 
-public class BaseActivity extends Activity{
+public class BaseActivity extends AppCompatActivity{
 
     protected Context mContext;
     PowerManager.WakeLock mWakeLock;

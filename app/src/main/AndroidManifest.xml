@@ -157,8 +157,7 @@
             android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".activity.AutopaySetupActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
+            android:name=".activity.AutopaySetupActivity">
         </activity>
 
         <service

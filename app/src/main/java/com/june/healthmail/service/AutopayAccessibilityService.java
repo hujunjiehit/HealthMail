@@ -125,7 +125,7 @@ public class AutopayAccessibilityService extends AccessibilityService {
     //进入登录界面
 
     //输入用户名
-    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/etv_login_username");
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/et_name");
     if(nodeList.size() > 0) {
       Bundle arguments = new Bundle();
       arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, accountInfo.getPhoneNumber());
@@ -133,7 +133,7 @@ public class AutopayAccessibilityService extends AccessibilityService {
     }
 
     //输入密码
-    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/etv_login_password");
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/et_password");
     if(nodeList.size() > 0) {
       Bundle arguments = new Bundle();
       arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, accountInfo.getPassWord());
@@ -141,36 +141,40 @@ public class AutopayAccessibilityService extends AccessibilityService {
     }
 
     //点击登录
-    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_login_login");
+    nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_login");
     if(nodeList.size() > 0) {
       if(nodeList.get(0).isClickable()) {
         nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
 
         //等待登录成功
         //com.zhanyun.ihealth:id/rl_non_payment_orders
-        AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/rl_non_payment_orders",8000);
+        AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ctv_tab_mine",8000);
         if(targetNode != null) {
           Log.e("autopay", "login sucess, targetNode = " + targetNode);
           if(targetNode.isClickable()) {
             targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           }
 
-          targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ll_check_all",3000);
-          if(targetNode != null) {
-            targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            SystemClock.sleep(500);
-            targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/btn_pay",2000);
-            if(targetNode != null) {
-              if(targetNode.isClickable()){
-                targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-              }
-            }
-            Log.e("autopay", "waiting users to return mine page");
-            waitingForEnterSetup();
-          }else {
-            Log.e("autopay", "waiting users to return mine page");
-            waitingForEnterSetup();
-          }
+
+          Log.e("autopay", "waiting users to return mine page");
+          waitingForEnterSetup();
+
+//          targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ll_check_all",3000);
+//          if(targetNode != null) {
+//            targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//            SystemClock.sleep(500);
+//            targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/btn_pay",2000);
+//            if(targetNode != null) {
+//              if(targetNode.isClickable()){
+//                targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//              }
+//            }
+//            Log.e("autopay", "waiting users to return mine page");
+//            waitingForEnterSetup();
+//          }else {
+//            Log.e("autopay", "waiting users to return mine page");
+//            waitingForEnterSetup();
+//          }
         }
       }
     }
@@ -188,7 +192,7 @@ public class AutopayAccessibilityService extends AccessibilityService {
     }
 
     if(mRootNodeInfo != null) {
-      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_setting_quit_login");
+      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/button");
     }
     //等待目标node出现
     while(nodeList.size() == 0) {
@@ -215,10 +219,11 @@ public class AutopayAccessibilityService extends AccessibilityService {
         mRootNodeInfo = getRootInActiveWindow();
       }
       if(mRootNodeInfo != null) {
-        nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_setting_quit_login");
+        nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/button");
       }
       tryTimes++;
     }
+
     if(isRunning) {
       if(nodeList.get(0).isClickable()){
         Log.e("autopay", "click logout");
@@ -232,17 +237,46 @@ public class AutopayAccessibilityService extends AccessibilityService {
         Log.i("autopay", "mRootNodeInfo is null, waiting...");
         mRootNodeInfo = getRootInActiveWindow();
       }
-      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("android:id/button1");
+      nodeList = mRootNodeInfo.findAccessibilityNodeInfosByViewId("com.zhanyun.ihealth:id/btn_accept");
       if(nodeList.size() > 0) {
         Log.e("autopay", "click sure");
         nodeList.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
         SystemClock.sleep(800);
       }
 
-      AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ll_tab_me",8000);
+      AccessibilityNodeInfo targetNode = waitUntilTargetNodeAppear("com.zhanyun.ihealth:id/ctv_tab_mine",8000);
       if(targetNode != null) {
         Log.e("autopay", "click mine");
         targetNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(500);
+      }
+
+
+      mRootNodeInfo = null;
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+      mResultInfo = null;
+      getTargetNodeByText(mRootNodeInfo,"设置");
+      if(mResultInfo != null) {
+        Log.e("autopay", "click set, result = " + mResultInfo.getParent());
+        mResultInfo.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        SystemClock.sleep(800);
+      }
+
+      mRootNodeInfo = null;
+      while (mRootNodeInfo == null) {
+        SystemClock.sleep(400);
+        Log.i("autopay", "mRootNodeInfo is null, waiting...");
+        mRootNodeInfo = getRootInActiveWindow();
+      }
+      mResultInfo = null;
+      getTargetNodeByText(mRootNodeInfo,"登录");
+      if(mResultInfo != null) {
+        Log.e("autopay", "click login,reulrInfo = " + mResultInfo);
+        mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         SystemClock.sleep(500);
       }
 
@@ -348,7 +382,7 @@ public class AutopayAccessibilityService extends AccessibilityService {
       case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED: //窗口状态变化的时候处理
         Log.e("test","TYPE_WINDOW_STATE_CHANGED");
         Log.e("test","event.getText() = " + event.getText());
-        if(event.getClassName().equals("com.gzdxjk.healthmall.ui.login.LoginActivity")) {
+        if(event.getClassName().equals("com.gzdxjk.ihealth.registermodule.view.LoginActivity")) {
           isInLoginActivity = true;
         }
 
@@ -730,7 +764,25 @@ public class AutopayAccessibilityService extends AccessibilityService {
     } else {
       for(int i = 0; i < info.getChildCount(); i++) {
         if(info.getChild(i) != null) {
-         getTargetNodeByDesc(info.getChild(i),desc);
+          getTargetNodeByDesc(info.getChild(i),desc);
+        }
+      }
+    }
+  }
+
+  private void getTargetNodeByText(AccessibilityNodeInfo info, String text) {
+    //Log.e("autopay","getTargetNodeByDesc  childCount = " + info.getChildCount());
+    if(info == null) {
+      return;
+    }
+    if(info.getChildCount() == 0) {
+      if(info.getText() != null && info.getText().toString().trim().equals(text)) {
+        mResultInfo = info;
+      }
+    } else {
+      for(int i = 0; i < info.getChildCount(); i++) {
+        if(info.getChild(i) != null) {
+          getTargetNodeByText(info.getChild(i),text);
         }
       }
     }

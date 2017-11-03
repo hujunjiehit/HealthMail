@@ -85,7 +85,7 @@ public class NewFukuanActivity extends BaseActivity implements View.OnClickListe
           showTheResult((String) msg.obj);
           break;
         case BaseService.FINISH_FUKUAN:
-          btn_start.setText("付款完成");
+          btn_start.setText("登录辅助完成");
           break;
         default:
           Log.e("test","undefined message");

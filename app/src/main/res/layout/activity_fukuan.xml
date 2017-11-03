@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="付款"
+            android:text="登录辅助"
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -82,7 +82,7 @@
         android:layout_marginRight="36dp"
         android:textColor="@color/text_press"
         android:textSize="@dimen/medium_text_size"
-        android:text="开始付款"/>
+        android:text="开始辅助登录"/>
 
     <LinearLayout
         android:visibility="gone"

@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
-    <string name="app_name">付款助手</string>
+    <string name="app_name">登录助手</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -15,6 +15,6 @@
     <string name="error_field_required">This field is required</string>
     <string name="click_me"><u>点击购买授权</u></string>
     <string name="click_me_for_coins"><u>点击购买金币</u></string>
-    <string name="accessibility_service_label">付款助手辅助功能</string>
+    <string name="accessibility_service_label">登录助手辅助功能</string>
     <string name="description">用于辅助登陆健康猫app进行付款操作</string>
     </resources>

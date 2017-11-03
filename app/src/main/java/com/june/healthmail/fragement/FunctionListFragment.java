@@ -8,41 +8,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.activity.CancleGuanzhuActivity;
-import com.june.healthmail.activity.FukuanActivity;
-import com.june.healthmail.activity.FunctionSetupActivity;
-import com.june.healthmail.activity.GuanzhuActivity;
-import com.june.healthmail.activity.SijiaoLoginActivity;
-<<<<<<< HEAD
-import com.june.healthmail.activity.YuekeActivity;
 import com.june.healthmail.improve.activity.NewFukuanActivity;
-=======
 import com.june.healthmail.adapter.ViewPagerAdapter;
-import com.june.healthmail.http.ApiService;
-import com.june.healthmail.http.HttpManager;
-import com.june.healthmail.http.bean.BaseBean;
->>>>>>> e5207851e571b54935e3b00876954651dd9e6a08
-import com.june.healthmail.improve.activity.NewPingjiaActivity;
-import com.june.healthmail.improve.activity.NewYuekeActivity;
-import com.june.healthmail.model.UserInfo;
-import com.june.healthmail.untils.ShowProgress;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import cn.bmob.v3.BmobUser;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by bjhujunjie on 2016/9/21.

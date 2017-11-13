@@ -11,15 +11,9 @@
     <color name="darkgray">#7b7b7b</color>
     <color name="dimgray">#5b5b5b</color>
     <color name="red">#ff0000</color>
-    <color name="text">#252525</color>
     <color name="green">#00ff00</color>
     <color name="dark">#4f4f4f</color>
     <color name="gold">#d78f2f</color>
-    <color name="lightgray">#a0a0a0</color>
-
-    <color name="pink">#f76d6d</color>
-    <color name="brown">#f2af19</color>
-    <color name="light_gold">#ccca6e</color>
 
     <color name="black">#000000</color>
 
@@ -57,25 +51,14 @@
     <color name="bg_btn_press_color">#d81e06</color>
 
     <color name="text_red">#ffff5b3b</color>
-    <color name="line_bg">#ffbababa</color>
-    <color name="main_bg_color">#ed4444</color>
     <color name="layout_bg_color">#f8f8f8</color>
-    <color name="bg_item_normal_color">#ffffff</color>
-    <color name="bg_item_press_color">#e3e3e3</color>
-    <color name="bg_btn_normal_color_hui">#d2d2d2</color>
-    <color name="bg_btn_press_color_hui">#c1c1c1</color>
 
     <color name="setup_title_color">#000000</color>
 
     <!-- 文字颜色 -->
-    <color name="text_color_light_grey">#c2c2c2</color>
     <color name="text_color_light_grey2">#c1c1c1</color>
-    <color name="text_color_light_grey3">#7b7b7b</color>
 
     <color name="color_std_black">#333333</color>
-    <color name="color_std_black2">#666666</color>
     <color name="color_std_white">#ffffff</color>
 
-    <color name="color_btn_bg_yellow">#D6B88A</color>
-    <color name="text_color_white">#ffffff</color>
-    </resources>
+</resources>

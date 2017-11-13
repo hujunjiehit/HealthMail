@@ -26,12 +26,6 @@
     </style>
 
     <!-- 我的菜单 -->
-    <style name="MineItemStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/item_height_middle</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
 
     <style name="SplashBaseTheme" parent="android:Theme.Holo.Light.NoActionBar">
     </style>
@@ -70,12 +64,4 @@
         <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
     </style>
 
-    <style name="CommonGoldenBtn">
-        <item name="android:textColor">@color/operation_button_text_color</item>
-        <item name="android:textSize">@dimen/custom_small_plus_text_size</item>
-        <item name="android:background">@drawable/bg_std_yellow_round</item>
-        <item name="android:layout_height">42dp</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
 </resources>

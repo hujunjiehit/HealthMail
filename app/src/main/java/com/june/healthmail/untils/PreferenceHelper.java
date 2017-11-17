@@ -1,10 +1,16 @@
 package com.june.healthmail.untils;
 
 import android.content.SharedPreferences;
-import android.nfc.tech.NfcA;
 
-import com.june.healthmail.Config.CommonConfig;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.base.BasePerference;
+import com.june.healthmail.http.bean.Notice;
+import com.june.healthmail.http.bean.Topic;
+
+import java.util.List;
+
+import static android.R.id.list;
 
 /**
  * Created by june on 2017/3/4.
@@ -67,11 +73,21 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_PINGJIA_ALARM_TIME = "pingjia_alarm_time";//评价闹钟时间
     public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
 
+    public final static String KEY_IS_RESTRICTED = "is_restricted";//是否受限
+    public final static String KEY_RESTRICTED_TIME = "restricted_time";//受限开始时间
+
+    public final static String KEY_ENABLE_GIVE_COINS= "enable_give_coins";//是否允许管理员赠送金币
+    public final static String KEY_NOTICE = "key_notice";//小红条内容
+
+    public final static String KEY_TOPIC_LIST = "topic_list";//首页topic list
+
     private static PreferenceHelper instance;
+    private static Gson gson;
 
     public static PreferenceHelper getInstance() {
         if (instance == null) {
             instance = new PreferenceHelper();
+            gson = new Gson();
         }
         return instance;
     }
@@ -997,5 +1013,123 @@ public class PreferenceHelper extends BasePerference{
             value = prefs.getLong(KEY_YUEKE_ALARM_TIME,value);
         }
         return value;
+    }
+
+    public void setIsRestricted(boolean value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_IS_RESTRICTED,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getIsRestricted() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_IS_RESTRICTED,value);
+        }
+        return value;
+    }
+
+    public void setRestrictedTime(long value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong(KEY_RESTRICTED_TIME,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public long getRestrictedTime() {
+        long value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getLong(KEY_RESTRICTED_TIME,value);
+        }
+        return value;
+    }
+
+    public List<Topic> getTopicList() {
+        List<Topic> list = null;
+        checkPrefs();
+        if (prefs != null) {
+            String json = prefs.getString(KEY_TOPIC_LIST, null);
+            if (json != null) {
+                list = gson.fromJson(json,new TypeToken<List<Topic>>(){}.getType());
+            }
+        }
+        return list;
+    }
+
+    public void setTopicList(List<Topic> list) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (list == null) {
+                editor.putString(KEY_TOPIC_LIST, null);
+            } else {
+                String str = gson.toJson(list);
+                editor.putString(KEY_TOPIC_LIST, str);
+            }
+            editor.apply();
+        }
+    }
+
+    public void setEnableGiveCoins(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_ENABLE_GIVE_COINS,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getEnableGiveCoins() {
+        int value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_ENABLE_GIVE_COINS,value);
+        }
+        return value;
+    }
+
+    public Notice getNotice() {
+        Notice notice = null;
+        checkPrefs();
+        if (prefs != null) {
+            String json = prefs.getString(KEY_NOTICE, null);
+            if (json != null) {
+                notice = gson.fromJson(json,Notice.class);
+            }
+        }
+        return notice;
+    }
+
+    public void setNotice(Notice notice) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (notice == null) {
+                editor.putString(KEY_NOTICE, null);
+            } else {
+                String str = gson.toJson(notice);
+                editor.putString(KEY_NOTICE, str);
+            }
+            editor.apply();
+        }
     }
 }

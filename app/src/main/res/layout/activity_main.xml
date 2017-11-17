@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.june.healthmail.view.CustomTopNoticeView
+        android:id="@+id/tv_notice_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
     <com.june.healthmail.view.MyTabhost
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

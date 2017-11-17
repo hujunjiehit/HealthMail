@@ -1,49 +1,26 @@
 package com.june.healthmail.fragement;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.june.healthmail.R;
-import com.june.healthmail.activity.DetailPostActivity;
-import com.june.healthmail.activity.NewPostActivity;
-import com.june.healthmail.activity.WebViewActivity;
-import com.june.healthmail.adapter.PostAdapter;
 import com.june.healthmail.http.ApiService;
 import com.june.healthmail.http.HttpManager;
-import com.june.healthmail.http.bean.GetActivityConfigBean;
-import com.june.healthmail.model.PostModel;
-import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.http.bean.GetModuleConfigBean;
+import com.june.healthmail.http.bean.Topic;
 import com.june.healthmail.untils.PreferenceHelper;
-import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.view.CommonTopicView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
-import cn.bmob.v3.AsyncCustomEndpoints;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.CloudCodeListener;
-import cn.bmob.v3.listener.FindListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,15 +33,12 @@ import retrofit2.Retrofit;
 public class DiscoveryFragment extends Fragment implements View.OnClickListener {
 
     private View layout;
-    private TextView tvNotification1;
-    private TextView tvNotification2;
-    private TextView tvNotification3;
-    private View layoutEmpty;
-    private View layoutContent;
-    private TextView tvActivityTitle;
-    private TextView tvActivityDesc;
-    private TextView tvActivityUrl;
+    private PullToRefreshListView mPullToRefreshView;
+    private LinearLayout mContainer;
+    private List<View> mViews;
+    private List<Topic> mTopics;
     private Retrofit mRetrofit;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,10 +56,7 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onResume() {
         super.onResume();
-        if(PreferenceHelper.getInstance().getHasActivity() == 1) {
-            //有活动
-            getActivityConfigs();
-        }
+        getModuleConfig();
     }
 
     @Override
@@ -97,110 +68,117 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initView() {
-        tvNotification1 = (TextView) layout.findViewById(R.id.notification_1);
-        tvNotification2 = (TextView) layout.findViewById(R.id.notification_2);
-        tvNotification3 = (TextView) layout.findViewById(R.id.notification_3);
-        layoutEmpty = layout.findViewById(R.id.empty_activity);
-        layoutContent = layout.findViewById(R.id.activity_content);
-        tvActivityTitle = (TextView) layout.findViewById(R.id.activity_tittle);
+        mContainer = (LinearLayout) layout.findViewById(R.id.content_linearlayout);
+    }
 
-        tvActivityDesc = (TextView) layout.findViewById(R.id.tv_activity_desc);
-        tvActivityUrl = (TextView) layout.findViewById(R.id.tv_activity_url);
-        if(PreferenceHelper.getInstance().getHasActivity() == 1) {
-            //有活动
-            layoutContent.setVisibility(View.VISIBLE);
-            layoutEmpty.setVisibility(View.GONE);
-            getActivityConfigs();
-        } else {
-            //无活动
-            tvActivityTitle.setText("活动中心");
-            layoutContent.setVisibility(View.GONE);
-            layoutEmpty.setVisibility(View.VISIBLE);
+    private void setOnListener() {
 
+    }
+
+    private void init() {
+        Log.e("test","init getData");
+        mViews = new ArrayList<>();
+        mTopics = PreferenceHelper.getInstance().getTopicList();
+
+        //从缓存的topic list中获取数据 更新界面
+        if(mTopics != null && mTopics.size() > 0) {
+            showTopics();
         }
     }
 
-    private void getActivityConfigs() {
-        final ShowProgress showProgress = new ShowProgress(getActivity());
-        if(showProgress != null && !showProgress.isShowing()){
-            showProgress.setMessage("正在获取活动详情");
-            showProgress.show();
-        }
+    private void getModuleConfig() {
+//        final ShowProgress showProgress = new ShowProgress(getActivity());
+//        if(showProgress != null && !showProgress.isShowing()){
+//            showProgress.setMessage("正在获取活动详情");
+//            showProgress.show();
+//        }
         if(mRetrofit == null) {
             mRetrofit = HttpManager.getInstance().getRetrofit();
         }
-        mRetrofit.create(ApiService.class).getActivityConfig().enqueue(new Callback<GetActivityConfigBean>() {
+        mRetrofit.create(ApiService.class).getModuleConfig().enqueue(new Callback<GetModuleConfigBean>() {
             @Override
-            public void onResponse(Call<GetActivityConfigBean> call, Response<GetActivityConfigBean> response) {
-                if(showProgress != null && showProgress.isShowing()){
-                    showProgress.dismiss();
-                }
+            public void onResponse(Call<GetModuleConfigBean> call, Response<GetModuleConfigBean> response) {
+//                if(showProgress != null && showProgress.isShowing()){
+//                    showProgress.dismiss();
+//                }
 
-                final GetActivityConfigBean bean = response.body();
-                tvActivityTitle.setText(bean.getActivityTitle());
-                tvActivityDesc.setText(bean.getActivityContent());
-                tvActivityDesc.setVisibility(View.VISIBLE);
-                if(!TextUtils.isEmpty(bean.getActivityUrl())){
-                    tvActivityUrl.setText(bean.getUrlDesc());
-                    tvActivityUrl.setVisibility(View.VISIBLE);
-                    tvActivityUrl.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openTaobaoShopping(bean.getActivityUrl());
-                        }
-                    });
-                }else {
-                    tvActivityUrl.setVisibility(View.GONE);
+
+                final GetModuleConfigBean bean = response.body();
+
+
+                Log.e("test","size = " + bean.getRet().size());
+                if(bean.getRet().size() > 0) {
+                    handleTopicList(bean.getRet());
                 }
             }
 
             @Override
-            public void onFailure(Call<GetActivityConfigBean> call, Throwable t) {
-                if(showProgress != null && showProgress.isShowing()){
-                    showProgress.dismiss();
+            public void onFailure(Call<GetModuleConfigBean> call, Throwable t) {
+//                if(showProgress != null && showProgress.isShowing()){
+//                    showProgress.dismiss();
+//                }
+            }
+        });
+    }
+
+    private void handleTopicList(List<Topic> list) {
+        //先对比数据有没有变化，如果变化了，才需要刷新View，否则直接返回
+        if(mTopics != null && mTopics.size() == list.size()) {
+            boolean isEqual = true;
+            for(int i = 0 ; i < mTopics.size(); i++) {
+                if(mTopics.get(i) == null && list.get(i) == null) {
+                    continue;
+                }else if(mTopics.get(i) != null && list.get(i) != null) {
+                    if(!mTopics.get(i).equals(list.get(i))){
+                        isEqual = false;
+                        break;
+                    }
+                }
+            }
+
+            if(isEqual) {
+                Log.d("test", "same data, do not reconstruct");
+                return;
+            }else {
+                Log.d("test", "reconstruct");
+            }
+        }
+
+        //每次获取成功之后，都将结果跟新到缓存
+        PreferenceHelper.getInstance().setTopicList(list);
+        mTopics = list;
+        showTopics();
+    }
+
+    private void showTopics() {
+        //排序之后再显示的逻辑在这里
+        List<Topic> sortList = mTopics;
+        Collections.sort(sortList);
+
+
+        mViews.clear();
+        for (Topic topic:sortList) {
+            if(topic.getEnable() == 1) {
+                CommonTopicView topicView = new CommonTopicView(getActivity());
+                topicView.setData(topic);
+                mViews.add(topicView);
+            }
+        }
+        addAllViews();
+    }
+
+    private void addAllViews() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mContainer.removeAllViews();
+                for(int i = 0; i < mViews.size(); i++) {
+                    mContainer.addView(mViews.get(i));
                 }
             }
         });
     }
 
-    private void setOnListener() {
-    }
-
-    private void openTaobaoShopping(final String url){
-        Intent intent = new Intent();
-        if (CommonUntils.checkPackage(getActivity(),"com.taobao.taobao")){
-            Log.e("test","taobao is not installed");
-            intent.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent.setData(uri);
-            startActivity(intent);
-        } else {
-            intent.putExtra("url",url);
-            intent.setClass(getActivity(),WebViewActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    private void init() {
-        String str = PreferenceHelper.getInstance().getNotification();
-        if(str.contains("|")) {
-            String[] arays = str.split("[|]");
-            for(int i = 0; i < 3; i++){
-                if(arays[i] != null){
-                    if(i == 0){
-                        tvNotification1.setVisibility(View.VISIBLE);
-                        tvNotification1.setText(arays[i]);
-                    }else if(i == 1) {
-                        tvNotification2.setVisibility(View.VISIBLE);
-                        tvNotification2.setText(arays[i]);
-                    } else if(i == 2){
-                        tvNotification3.setVisibility(View.VISIBLE);
-                        tvNotification3.setText(arays[i]);
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public void onClick(View v) {

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.Tools;
 
@@ -107,6 +108,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
         tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
         if(currentUser.getUserType() == 99){
+            if(PreferenceHelper.getInstance().getEnableGiveCoins() == 0) {
+                btnGiveTheCoins.setVisibility(View.GONE);
+            }
+            btnUpgradeUserLevel.setVisibility(View.GONE);
             btnAuthorizeForever.setVisibility(View.GONE);
             btnAuthorizeByDays.setVisibility(View.GONE);
             btnAddTheCoins.setVisibility(View.GONE);

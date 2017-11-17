@@ -6,5 +6,15 @@
 
     <!-- Strings related to login -->
     <string name="click_me"><u>点击购买授权</u></string>
-    <string name="click_me_for_coins"><u>点击购买金币</u></string>
-    </resources>
+    <string name="click_me_for_coins"><u>点击购买充值卡密</u></string>
+    <string name="user_type">用户类型</string>
+    <string name="left_time">剩余授权时间</string>
+    <string name="left_icon">金币余额</string>
+
+    <string name="qq_group">QQ交流群</string>
+    <string name="current_version">当前版本</string>
+
+    <string name="left_pingjia_times">今日剩余评价次数</string>
+    <string name="left_yueke_times">今日剩余约课次数</string>
+    <string name="user_value">永久用户</string>
+</resources>

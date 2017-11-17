@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    public static final String BASE_URL = "http://10.235.9.202:3389/";
+    public static final String BASE_URL = "http://maoyouquan.cc:3389/";
 
     @GET("getPermission")
     public Call<BaseBean> getPermission(@Query("username") String username, @Query("userType") int userType, @Query("appVersion") int appVersion);

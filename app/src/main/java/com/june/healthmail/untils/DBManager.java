@@ -3,11 +3,9 @@ package com.june.healthmail.untils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.HmMemberUserVo;
-import com.june.healthmail.model.TokenData;
 
 /**
  * Created by june on 2017/3/3.
@@ -39,7 +37,7 @@ public class DBManager {
 
     public SQLiteDatabase getDb(){
         if(db == null) {
-            db = new MyDatabaseHelper(mContext,"data.db",null,2).getWritableDatabase();
+            db = new MyDatabaseHelper(mContext,"data.db",null,3).getWritableDatabase();
         }
         return db;
     }

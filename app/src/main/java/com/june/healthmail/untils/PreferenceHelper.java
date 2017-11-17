@@ -10,8 +10,6 @@ import com.june.healthmail.http.bean.Topic;
 
 import java.util.List;
 
-import static android.R.id.list;
-
 /**
  * Created by june on 2017/3/4.
  */
@@ -40,6 +38,8 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//
     public final static String KEY_ONLY_TODAY = "yueke_only_today";//是否支付全部订单
+    public final static String KEY_SORT_COURSE = "key_sort_course";//按时间排序订单
+
     public final static String KEY_REMBER_PWD = "rember_pwd";//是否记住私教密码
 
     public final static String KEY_PAY_COST = "coins_pay_cost";//付款消耗的金币数量
@@ -425,6 +425,28 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(KEY_ONLY_TODAY,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getSortCourse() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_SORT_COURSE,value);
+        }
+        return value;
+    }
+
+    public void setSortCourse(boolean sourtCourse) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_SORT_COURSE,sourtCourse);
             if (mUseApply) {
                 editor.apply();
             } else {

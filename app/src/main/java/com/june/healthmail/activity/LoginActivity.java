@@ -24,27 +24,22 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.june.healthmail.R;
-import com.june.healthmail.model.DeviceInfo;
+import com.june.healthmail.model.AutoPayDeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
-import com.june.healthmail.untils.TimeUntils;
 import com.tencent.bugly.beta.Beta;
 
-import java.sql.Time;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
  * Created by bjhujunjie on 2016/9/18.
@@ -70,7 +65,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
   private ShowProgress showProgress;
 
   private String objectUid;
-  private DeviceInfo deviceInfo;
+  private AutoPayDeviceInfo deviceInfo;
 
   private Handler mHandler = new Handler(){
     @Override
@@ -87,7 +82,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
           objectUid = userInfo.getObjectId();
           if(deviceInfo == null){
             Log.d("test","用户第一次登录，插入设备信息");
-            deviceInfo = new DeviceInfo();
+            deviceInfo = new AutoPayDeviceInfo();
             deviceInfo.setUsername(userInfo.getUsername());
             deviceInfo.setDeviceId(Installation.id(LoginActivity.this).trim());
             deviceInfo.setDeviceMac(CommonUntils.getLocalMacAddressFromIp(LoginActivity.this).trim());
@@ -371,11 +366,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
       }
 
       //判断邀请人存不存在
-      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      BmobQuery<AutoPayDeviceInfo> query = new BmobQuery<AutoPayDeviceInfo>();
       query.addWhereEqualTo("username",userName);
-      query.findObjects(new FindListener<DeviceInfo>() {
+      query.findObjects(new FindListener<AutoPayDeviceInfo>() {
         @Override
-        public void done(List<DeviceInfo> list, BmobException e) {
+        public void done(List<AutoPayDeviceInfo> list, BmobException e) {
           if(e == null){
             if(list.size() == 0){
               Log.d("test","设备信息不存在");
@@ -419,11 +414,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         showProgress.setMessage("正在查询设备信息...");
         showProgress.show();
       }
-      BmobQuery<DeviceInfo> query = new BmobQuery<DeviceInfo>();
+      BmobQuery<AutoPayDeviceInfo> query = new BmobQuery<AutoPayDeviceInfo>();
       query.addWhereEqualTo("username", userName);
-      query.findObjects(new FindListener<DeviceInfo>() {
+      query.findObjects(new FindListener<AutoPayDeviceInfo>() {
         @Override
-        public void done(List<DeviceInfo> list, BmobException e) {
+        public void done(List<AutoPayDeviceInfo> list, BmobException e) {
           if (showProgress != null && showProgress.isShowing()) {
             showProgress.dismiss();
           }
@@ -483,7 +478,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
     }
   }
-  private void showDeviceErrorDialog(DeviceInfo deviceInfo) {
+  private void showDeviceErrorDialog(AutoPayDeviceInfo deviceInfo) {
     Log.d("test","DEVICE_ERROR");
     if(showProgress != null && showProgress.isShowing()){
       showProgress.dismiss();

@@ -13,11 +13,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.1'
     defaultConfig {
-        applicationId "com.june.healthmail"
+        applicationId "com.june.healthmail.autopay"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 89
-        versionName "5.3.0"
+        versionCode 91
+        versionName "5.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构
@@ -34,7 +34,7 @@ android {
                 variant.outputs.each { output ->
                     output.outputFile = new File(
                             output.outputFile.parent,
-                            output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+                            output.outputFile.name.replace(".apk", "付款定制版-${variant.versionName}.apk"))
                 }
             }
         }
@@ -71,6 +71,6 @@ dependencies {
 }
 
 bugly {
-    appId = "c3044648f0" // 注册时分配的App ID
-    appKey = "024f968d-9b3d-4870-9fd8-006ebd74ca0b" // 注册时分配的App Key
+    appId = "454310b82c" // 注册时分配的App ID
+    appKey = "62bcd9e8-5de5-4ff5-bc85-150070fe8c84" // 注册时分配的App Key
 }

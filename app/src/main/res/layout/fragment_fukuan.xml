@@ -20,4 +20,13 @@
         android:drawableLeft="@drawable/ic_fukuan"
         android:text=" 自动付款"/>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_operition_fukuan"
+        android:gravity="center"
+        android:text="全自动付款需要联系管理员开通试用"
+        android:textColor="@color/red"/>
+
 </RelativeLayout>

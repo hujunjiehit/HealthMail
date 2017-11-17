@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.june.healthmail.Config.CommonConfig;
 import com.june.healthmail.R;
-import com.june.healthmail.model.DeviceInfo;
+import com.june.healthmail.model.AutoPayDeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.ShowProgress;
@@ -44,7 +44,7 @@ public class UnbindActivity extends BaseActivity {
   @BindView(R.id.btn_unbind_use_coins)
   Button btnUnbindUseCoins;
 
-  private DeviceInfo deviceInfo;
+  private AutoPayDeviceInfo deviceInfo;
   private UserInfo currentUser;
   private ShowProgress showProgress;
 
@@ -56,7 +56,7 @@ public class UnbindActivity extends BaseActivity {
     currentUser = BmobUser.getCurrentUser(UserInfo.class);
     Intent intent = this.getIntent();
     if(intent != null) {
-      deviceInfo = (DeviceInfo) intent.getSerializableExtra("deviceInfo");
+      deviceInfo = (AutoPayDeviceInfo) intent.getSerializableExtra("deviceInfo");
     } else {
       return;
     }

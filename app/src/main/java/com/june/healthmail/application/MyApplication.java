@@ -40,7 +40,7 @@ public class MyApplication extends Application{
     HttpUntils.getInstance().setContext(this);
 
     //CrashReport.initCrashReport(getApplicationContext(), "c3044648f0", false);
-    Bugly.init(getApplicationContext(), "c3044648f0", false);
+    Bugly.init(getApplicationContext(), "454310b82c", false);
 
     Log.e("test","uid = " + PreferenceHelper.getInstance().getUid());
     CrashReport.setUserId(PreferenceHelper.getInstance().getUid());

@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobObject;
  * Created by june on 2017/3/20.
  */
 
-public class DeviceInfo extends BmobObject{
+public class AutoPayDeviceInfo extends BmobObject{
 
     private String username;
     private String deviceId;

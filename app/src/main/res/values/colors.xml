@@ -11,15 +11,9 @@
     <color name="darkgray">#7b7b7b</color>
     <color name="dimgray">#5b5b5b</color>
     <color name="red">#ff0000</color>
-    <color name="text">#252525</color>
     <color name="green">#00ff00</color>
     <color name="dark">#4f4f4f</color>
     <color name="gold">#d78f2f</color>
-    <color name="lightgray">#a0a0a0</color>
-
-    <color name="pink">#f76d6d</color>
-    <color name="brown">#f2af19</color>
-    <color name="light_gold">#ccca6e</color>
 
     <color name="black">#000000</color>
 
@@ -48,7 +42,24 @@
 
     <!-- 文字颜色 -->
 
-
+    <!-- 文字颜色值 -->
+    <color name="text_color_black">#333333</color>
+    <color name="text_color_light_black">#666666</color>
+    <color name="text_color_grey">#999999</color>
+    <color name="text_color_light_grey">#c2c2c2</color>
+    <color name="text_color_green">#10c970</color>
+    <color name="text_color_red">#f55151</color>
+    <color name="text_color_blue">#5e8bbb</color>
+    <color name="text_color_light_blue">#6f889f</color>
+    <color name="text_color_hight_blue">#2383fa</color>
+    <color name="text_color_light_yellow">#dcb566</color>
+    <color name="text_color_yellow">#d7a101</color>
+    <color name="text_color_yellow1">#BD8D00</color>
+    <color name="text_color_dark_yellow">#c29200</color>
+    <color name="text_color_white">#ffffff</color>
+    <color name="text_color_grey_pressed">#f4f4f4</color>
+    <color name="text_color_gold">#d6a201</color>
+    <color name="text_color_orange">#dbb76c</color>
 
     <color name="div_line_color">#88252525</color>
     <color name="main_font_color">#9a9a9a</color>
@@ -57,25 +68,22 @@
     <color name="bg_btn_press_color">#d81e06</color>
 
     <color name="text_red">#ffff5b3b</color>
-    <color name="line_bg">#ffbababa</color>
-    <color name="main_bg_color">#ed4444</color>
     <color name="layout_bg_color">#f8f8f8</color>
-    <color name="bg_item_normal_color">#ffffff</color>
-    <color name="bg_item_press_color">#e3e3e3</color>
-    <color name="bg_btn_normal_color_hui">#d2d2d2</color>
-    <color name="bg_btn_press_color_hui">#c1c1c1</color>
 
     <color name="setup_title_color">#000000</color>
 
     <!-- 文字颜色 -->
-    <color name="text_color_light_grey">#c2c2c2</color>
     <color name="text_color_light_grey2">#c1c1c1</color>
-    <color name="text_color_light_grey3">#7b7b7b</color>
 
     <color name="color_std_black">#333333</color>
-    <color name="color_std_black2">#666666</color>
     <color name="color_std_white">#ffffff</color>
 
-    <color name="color_btn_bg_yellow">#D6B88A</color>
-    <color name="text_color_white">#ffffff</color>
-    </resources>
+    <color name="basicres_tab_color">#E22222</color>
+    <color name="color_std_grey_pressed">#f4f4f4</color>
+    <color name="color_std_disenable">#c2c2c2</color>
+    <color name="user_grade_hold_red">#CA6365</color>
+    <color name="common_gray_bg">#F5F5F5</color>
+    <color name="top_notice_text_color">#f26061</color>
+    <color name="top_notice_bg_color">#f7eecc</color>
+    <color name="div_line_color2">#e5e5e5</color>
+</resources>

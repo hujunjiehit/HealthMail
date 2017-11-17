@@ -1,29 +1,34 @@
 package com.june.healthmail.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.june.healthmail.R;
 import com.june.healthmail.fragement.DiscoveryFragment;
-import com.june.healthmail.fragement.ManageAcountFragment;
 import com.june.healthmail.fragement.FunctionListFragment;
+import com.june.healthmail.fragement.ManageAcountFragment;
 import com.june.healthmail.fragement.MineFragment;
+import com.june.healthmail.http.bean.Notice;
+import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.Tools;
+import com.june.healthmail.view.CustomTopNoticeView;
 import com.june.healthmail.view.MyTabhost;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends AppCompatActivity {
 
   private MyTabhost mTabHost;
   private String uid;
   private String userName;
+
+  private CustomTopNoticeView mNoticeView;
 
   private Class[] mFragments = new Class[] { DiscoveryFragment.class,
       FunctionListFragment.class, ManageAcountFragment.class, MineFragment.class};
@@ -48,10 +53,38 @@ public class MainActivity extends AppCompatActivity {
     //bmob版本更新
     //BmobUpdateAgent.update(this);
 
+    mNoticeView = (CustomTopNoticeView) findViewById(R.id.tv_notice_view);
+
     mTabHost = (MyTabhost) findViewById(android.R.id.tabhost);
     mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
     addTab();
     mTabHost.setCurrentTab(3);
+    mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+      @Override
+      public void onTabChanged(String tabId) {
+        final Notice notice = PreferenceHelper.getInstance().getNotice();
+        if(notice != null && notice.getEnable() == 1) {
+          mNoticeView.setAutoDismiss(notice.isAutoDismiss());
+          if(notice.isAutoDismiss()){
+            mNoticeView.setAutoDissmissDuration(notice.getAutoDissmissDuration());
+          }
+          if(notice.isShowIndicator()) {
+            mNoticeView.showIndicator();
+          }
+
+          mNoticeView.show(notice.getContent());
+
+          if(!TextUtils.isEmpty(notice.getUrl())) {
+            mNoticeView.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Tools.openTaobaoShopping(MainActivity.this,notice.getUrl());
+              }
+            });
+          }
+        }
+      }
+    });
   }
 
   private void addTab() {

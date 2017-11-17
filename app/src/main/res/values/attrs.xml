@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="basicres_CircleImageView">
+        <attr name="basicres_border_width" format="dimension"/>
+        <attr name="basicres_border_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomSetting">
+        <attr name="item_text" format="reference"/>
+        <attr name="sub_text" format="reference"/>
+        <attr name="item_icon" format="reference"/>
+        <attr name="item_text_color" format="color"/>
+        <attr name="top_line_visiable" format="boolean"/>
+        <attr name="bottom_line_visiable" format="boolean"/>
+        <attr name="indicator_visiable" format="boolean"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="icon_width" format="dimension"/>
+        <attr name="icon_height" format="dimension"/>
+    </declare-styleable>
+</resources>
+

@@ -34,6 +34,8 @@ public class GetConfigsBean extends BaseBean{
   private String notification;
   private String jumpOrNot;
   private String minConfigTime;
+  private int enableGiveCoins;
+  private Notice notice;
 
   public String getBuyAuthUrl() {
     return buyAuthUrl;
@@ -129,5 +131,21 @@ public class GetConfigsBean extends BaseBean{
 
   public void setMinConfigTime(String minConfigTime) {
     this.minConfigTime = minConfigTime;
+  }
+
+  public int getEnableGiveCoins() {
+    return enableGiveCoins;
+  }
+
+  public void setEnableGiveCoins(int enableGiveCoins) {
+    this.enableGiveCoins = enableGiveCoins;
+  }
+
+  public Notice getNotice() {
+    return notice;
+  }
+
+  public void setNotice(Notice notice) {
+    this.notice = notice;
   }
 }

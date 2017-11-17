@@ -1,12 +1,14 @@
 package com.june.healthmail.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
  * Created by june on 2017/3/5.
  */
 
-public class Course {
+public class Course implements Comparable<Course>{
     private List<HmGbciImage> hm_gbci_image;
     private String groupbuy_id;
     private String hm_gbc_title;
@@ -114,5 +116,10 @@ public class Course {
 
     public void setApplynumber(int applynumber) {
         this.applynumber = applynumber;
+    }
+
+    @Override
+    public int compareTo(@NonNull Course o) {
+        return this.getHm_gbc_time().compareTo(o.getHm_gbc_time());
     }
 }

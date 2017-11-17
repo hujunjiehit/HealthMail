@@ -1,10 +1,14 @@
 package com.june.healthmail.untils;
 
 import android.content.SharedPreferences;
-import android.nfc.tech.NfcA;
 
-import com.june.healthmail.Config.CommonConfig;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.base.BasePerference;
+import com.june.healthmail.http.bean.Notice;
+import com.june.healthmail.http.bean.Topic;
+
+import java.util.List;
 
 /**
  * Created by june on 2017/3/4.
@@ -34,6 +38,8 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//
     public final static String KEY_ONLY_TODAY = "yueke_only_today";//是否支付全部订单
+    public final static String KEY_SORT_COURSE = "key_sort_course";//按时间排序订单
+
     public final static String KEY_REMBER_PWD = "rember_pwd";//是否记住私教密码
 
     public final static String KEY_PAY_COST = "coins_pay_cost";//付款消耗的金币数量
@@ -66,7 +72,7 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_YUEKE_ALARM = "yueke_alarm";//约课闹钟开关
     public final static String KEY_PINGJIA_ALARM_TIME = "pingjia_alarm_time";//评价闹钟时间
     public final static String KEY_YUEKE_ALARM_TIME = "yueke_alarm_time";//约课闹钟时间
-
+    
     //自动付款专用
     public final static String KEY_AUTO_PAY_MODE = "auto_pay_mode";//自动付款模式  1--快钱储蓄卡  2--快捷支付 3--通联支付
     public final static String KEY_BANK_CARD = "auto_pay_bank_card";//银行卡号
@@ -82,12 +88,21 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_PAY_ORDER_NUMBER = "auto_pay_order_number";//通联支付支付多少个订单
     public final static String KEY_PAY_PASSWORD = "auto_pay_password";//通联支付支付密码
     public final static String KEY_CHOOSE_PAY_CARD = "choose_pay_card";//
+    public final static String KEY_IS_RESTRICTED = "is_restricted";//是否受限
+    public final static String KEY_RESTRICTED_TIME = "restricted_time";//受限开始时间
+
+    public final static String KEY_ENABLE_GIVE_COINS= "enable_give_coins";//是否允许管理员赠送金币
+    public final static String KEY_NOTICE = "key_notice";//小红条内容
+
+    public final static String KEY_TOPIC_LIST = "topic_list";//首页topic list
 
     private static PreferenceHelper instance;
+    private static Gson gson;
 
     public static PreferenceHelper getInstance() {
         if (instance == null) {
             instance = new PreferenceHelper();
+            gson = new Gson();
         }
         return instance;
     }
@@ -425,6 +440,28 @@ public class PreferenceHelper extends BasePerference{
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(KEY_ONLY_TODAY,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getSortCourse() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_SORT_COURSE,value);
+        }
+        return value;
+    }
+
+    public void setSortCourse(boolean sourtCourse) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_SORT_COURSE,sourtCourse);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -1015,11 +1052,25 @@ public class PreferenceHelper extends BasePerference{
         return value;
     }
 
+
     public void setPayBankCard(String value) {
+      checkPrefs();
+      if (prefs != null) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_BANK_CARD, value);
+        if (mUseApply) {
+          editor.apply();
+        } else {
+          editor.commit();
+        }
+      }
+    }
+
+    public void setIsRestricted(boolean value) {
         checkPrefs();
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(KEY_BANK_CARD,value);
+            editor.putBoolean(KEY_IS_RESTRICTED,value);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -1117,19 +1168,41 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getAutoPayMode() {
-        int value = 1;
+      int value = 1;
+      checkPrefs();
+      if (prefs != null) {
+        value = prefs.getInt(KEY_AUTO_PAY_MODE, value);
+      }
+      return value;
+    }
+
+    public boolean getIsRestricted() {
+        boolean value = false;
         checkPrefs();
         if (prefs != null) {
-            value = prefs.getInt(KEY_AUTO_PAY_MODE,value);
+            value = prefs.getBoolean(KEY_IS_RESTRICTED,value);
         }
         return value;
     }
 
     public void setPayOrderNumber(int value) {
+      checkPrefs();
+      if (prefs != null) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY_PAY_ORDER_NUMBER, value);
+        if (mUseApply) {
+          editor.apply();
+        } else {
+          editor.commit();
+        }
+      }
+    }
+
+    public void setRestrictedTime(long value) {
         checkPrefs();
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(KEY_PAY_ORDER_NUMBER,value);
+            editor.putLong(KEY_RESTRICTED_TIME,value);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -1139,10 +1212,19 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public int getPayOrderNumber() {
-        int value = 10;
+      int value = 10;
+      checkPrefs();
+      if (prefs != null) {
+        value = prefs.getInt(KEY_PAY_ORDER_NUMBER, value);
+      }
+      return value;
+    }
+
+    public long getRestrictedTime() {
+        long value = 0;
         checkPrefs();
         if (prefs != null) {
-            value = prefs.getInt(KEY_PAY_ORDER_NUMBER,value);
+            value = prefs.getLong(KEY_RESTRICTED_TIME,value);
         }
         return value;
     }
@@ -1192,10 +1274,44 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public void setPayCreditCard(String value) {
+      checkPrefs();
+      if (prefs != null) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_CREDIT_CARD, value);
+      }
+    }
+
+    public List<Topic> getTopicList() {
+        List<Topic> list = null;
+        checkPrefs();
+        if (prefs != null) {
+            String json = prefs.getString(KEY_TOPIC_LIST, null);
+            if (json != null) {
+                list = gson.fromJson(json,new TypeToken<List<Topic>>(){}.getType());
+            }
+        }
+        return list;
+    }
+
+    public void setTopicList(List<Topic> list) {
         checkPrefs();
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(KEY_CREDIT_CARD,value);
+            if (list == null) {
+                editor.putString(KEY_TOPIC_LIST, null);
+            } else {
+                String str = gson.toJson(list);
+                editor.putString(KEY_TOPIC_LIST, str);
+            }
+            editor.apply();
+        }
+    }
+
+    public void setEnableGiveCoins(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_ENABLE_GIVE_COINS,value);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -1204,11 +1320,21 @@ public class PreferenceHelper extends BasePerference{
         }
     }
 
+
     public String getPayCreditCard() {
         String value = "";
         checkPrefs();
         if (prefs != null) {
-            value = prefs.getString(KEY_CREDIT_CARD,value);
+          value = prefs.getString(KEY_CREDIT_CARD, value);
+        }
+        return value;
+      }
+
+    public int getEnableGiveCoins() {
+        int value = 0;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_ENABLE_GIVE_COINS,value);
         }
         return value;
     }
@@ -1255,5 +1381,31 @@ public class PreferenceHelper extends BasePerference{
             value = prefs.getString(KEY_CREDIT_CODE,value);
         }
         return value;
+    }
+
+    public Notice getNotice() {
+        Notice notice = null;
+        checkPrefs();
+        if (prefs != null) {
+            String json = prefs.getString(KEY_NOTICE, null);
+            if (json != null) {
+                notice = gson.fromJson(json,Notice.class);
+            }
+        }
+        return notice;
+    }
+
+    public void setNotice(Notice notice) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (notice == null) {
+                editor.putString(KEY_NOTICE, null);
+            } else {
+                String str = gson.toJson(notice);
+                editor.putString(KEY_NOTICE, str);
+            }
+            editor.apply();
+        }
     }
 }

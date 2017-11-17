@@ -14,16 +14,17 @@ import android.widget.Toast;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_ACOUNT_INFO = "create table account ("
-            + "id integer primary key autoincrement, "
-            + "phoneNumber text, "
-            + "passWord text, "
-            + "nickName text, "
-            + "status integer,"
-            + "mallId text, "
-            + "lastDay text, "
-            + "pingjiaTimes integer,"
-            + "yuekeTimes integer"
-            + ")";
+          + "id integer primary key autoincrement, "
+          + "phoneNumber text, "
+          + "passWord text, "
+          + "nickName text, "
+          + "status integer,"
+          + "mallId text, "
+          + "lastDay text, "
+          + "pingjiaTimes integer,"
+          + "yuekeTimes integer,"
+          + "hasPayed integer"
+          + ")";
 
     private Context mContext;
 
@@ -43,11 +44,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.e("test","onUpgrade  oldVersion =  " + oldVersion + "   newVersion = " + newVersion );
-        if(newVersion > oldVersion) {
+        if(oldVersion == 1) {
             db.execSQL("ALTER TABLE account ADD  mallId text;");
             db.execSQL("ALTER TABLE account ADD  lastDay text;");
             db.execSQL("ALTER TABLE account ADD  pingjiaTimes integer;");
             db.execSQL("ALTER TABLE account ADD  yuekeTimes integer;");
+
+            db.execSQL("ALTER TABLE account ADD  hasPayed integer;");
+        }else if(oldVersion == 2) {
+            db.execSQL("ALTER TABLE account ADD  hasPayed integer;");
         }
         Toast.makeText(mContext,"db update sucess",Toast.LENGTH_SHORT).show();
     }

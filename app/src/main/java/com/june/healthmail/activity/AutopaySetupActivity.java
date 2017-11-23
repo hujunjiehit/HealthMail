@@ -373,11 +373,11 @@ public class AutopaySetupActivity  extends BaseActivity implements View.OnClickL
           return;
         }
         int value = Integer.valueOf(edit_text.getText().toString().trim());
-        if(value > 0 && value <= 20) {
+        if(value > 0 && value <= 100) {
           mPreferenceHelper.setPayOrderNumber(value);
           tvPayOrderNumber.setText(value+"");
         }else {
-          toast("数值必须大于0且小于等于20");
+          toast("数值必须大于0且小于等于100");
         }
       }
     });

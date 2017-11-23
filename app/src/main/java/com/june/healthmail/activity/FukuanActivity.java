@@ -1,18 +1,14 @@
 package com.june.healthmail.activity;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,7 +54,6 @@ import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
-import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.Tools;
@@ -476,7 +471,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   protected void onResume() {
     super.onResume();
     boolean isServiceEnabled = isServiceEnabled();
-    boolean toolsIsServiceEnabled = Tools.isServiceOpenedByReadSettings(this,"com.june.healthmail/.service.MyAccessibilityService");
+    boolean toolsIsServiceEnabled = Tools.isServiceOpenedByReadSettings(this,"com.june.healthmail.autopay/com.june.healthmail.service.MyAccessibilityService");
     Log.e("test", isServiceEnabled + "---" + toolsIsServiceEnabled);
     if(isServiceEnabled || toolsIsServiceEnabled) {
       cbOpenAccess.setChecked(true);
@@ -1372,7 +1367,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     List<AccessibilityServiceInfo> accessibilityServices =
         mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
     for (AccessibilityServiceInfo info : accessibilityServices) {
-      if (info.getId().equals("com.june.healthmail/.service.MyAccessibilityService")) {
+      if (info.getId().equals("com.june.healthmail.autopay/com.june.healthmail.service.MyAccessibilityService")) {
         return true;
       }
     }

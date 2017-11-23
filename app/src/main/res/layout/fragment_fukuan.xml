@@ -24,9 +24,20 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/btn_operition_fukuan"
         android:gravity="center"
-        android:text="全自动付款需要联系管理员开通试用"
+        android:text="全自动付款加qq群653319381领取试用"
+        android:textColor="@color/red"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView2"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="小号可以去猫友圈备份，再去小号管理恢复"
         android:textColor="@color/red"/>
 
 </RelativeLayout>

@@ -230,8 +230,8 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size()+1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
@@ -250,8 +250,8 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size() + 1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
@@ -271,8 +271,8 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size() + 1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();

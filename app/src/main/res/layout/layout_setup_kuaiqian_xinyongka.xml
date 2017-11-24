@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="@color/setup_title_color"
+            android:lineSpacingExtra="2dp"
+            android:text="         快钱支付信用卡只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/layout_credit_card"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="信  用  卡："/>
+
+            <TextView
+                android:id="@+id/tv_pay_credit_card"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="xxxx"/>
+
+            <Button
+                android:id="@+id/edit_pay_credit_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="@dimen/medium_text_size"
+                android:text="编辑"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_creat_card_desc"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="必须是已经绑定过通联支付的信用卡"/>
+
+        <LinearLayout
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="有  效  期："/>
+
+            <TextView
+                android:id="@+id/tv_credit_date"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/edit_credit_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="@dimen/medium_text_size"
+                android:text="编辑"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_creat_date_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="月份/年份 如 0819"/>
+
+        <LinearLayout
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text="安  全  码："/>
+
+            <TextView
+                android:id="@+id/tv_credit_code"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/setup_title_color"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/edit_credit_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_press"
+                android:textSize="@dimen/medium_text_size"
+                android:text="编辑"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_creat_code_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="安全码是信用卡背面签名栏后三位"/>
+    </LinearLayout>
+
+</LinearLayout>

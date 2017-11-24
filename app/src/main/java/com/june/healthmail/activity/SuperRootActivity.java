@@ -53,11 +53,15 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private Button btnUpdatePaystatus;
     private Button btnAddTheCoins;
     private Button btnNewNotice;
+    private Button btnAutoPay;
+    private Button btnAutoPayTry;
+
 
     private TextView tvUserName;
     private TextView tvUserType;
     private TextView tvAllowDays;
     private TextView tvCoinsNumber;
+    private TextView tvPayDays;
 
     private static final int UPDATE_USER_INFO = 1;
 
@@ -103,10 +107,13 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnUpdatePaystatus = (Button) findViewById(R.id.btn_update_pay_status);
         btnAddTheCoins = (Button) findViewById(R.id.btn_add_coins);
         btnNewNotice = (Button) findViewById(R.id.btn_new_notice);
+        btnAutoPay = (Button) findViewById(R.id.btn_auto_pay);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
         tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
+        tvPayDays = (TextView) findViewById(R.id.tv_pay_days);
+        btnAutoPayTry =  (Button) findViewById(R.id.btn_auto_pay_try);
         if(currentUser.getUserType() == 99){
             if(PreferenceHelper.getInstance().getEnableGiveCoins() == 0) {
                 btnGiveTheCoins.setVisibility(View.GONE);
@@ -117,6 +124,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             btnAddTheCoins.setVisibility(View.GONE);
             btnUpdatePaystatus.setVisibility(View.GONE);
             btnNewNotice.setVisibility(View.GONE);
+            btnAutoPay.setVisibility(View.GONE);
+            btnUpgradeUserLevel.setVisibility(View.GONE);
         }
     }
 
@@ -130,6 +139,8 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnUpdatePaystatus.setOnClickListener(this);
         btnAddTheCoins.setOnClickListener(this);
         btnNewNotice.setOnClickListener(this);
+        btnAutoPay.setOnClickListener(this);
+        btnAutoPayTry.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 
@@ -146,6 +157,37 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             case R.id.btn_authorize_by_days:
                 if(mUserInfo != null){
                     authorizeUserByDays();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_auto_pay:
+                if(mUserInfo != null){
+                    autoPayByDays();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_auto_pay_try:
+                if(mUserInfo != null){
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("提醒")
+                        .setMessage("是否为该用户开通试用授权？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                autoPayTry();
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                    dialog.show();
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
@@ -293,12 +335,48 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    private void autoPayByDays() {
+        showInputDaysDialogAutoPay();
+    }
+
+    private void autoPayTry() {
+        if(mUserInfo.getAutoPay() == null){
+            mUserInfo.setAutoPay(0);
+        }
+        if(mUserInfo.getAutoPay() == 1 || mUserInfo.getAutoPay() == 2) {
+            toast("该用户已有授权，无需开通试用权限");
+        } else {
+            //开通试用授权
+            MessageDetails messageDetails = new MessageDetails();
+            messageDetails.setUserName(mUserInfo.getUsername());
+            messageDetails.setStatus(1);
+            messageDetails.setScore(1);
+            messageDetails.setType(9);
+            messageDetails.setReasons("用户开通辅助功能试用授权");
+            messageDetails.setRelatedUserName("");
+            messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+            messageDetails.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if(e==null){
+                        Log.d("test","用户开通月卡成功：" + s);
+                        toast("辅助功能试用授权开通成功，请让对方重新登录");
+                        mUserInfo.setAutoPay(1);
+                    }else{
+                        Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                        toast("辅助功能试用授权开通失败:" + e.getMessage()+","+e.getErrorCode());
+                    }
+                }
+            });
+        }
+    }
+
     private void postNewNotice() {
         BmobQuery<UserInfo> query = new BmobQuery<UserInfo>();
         query.setLimit(1000);
         query.findObjects(new FindListener<UserInfo>() {
             @Override
-            public void done(List<UserInfo> object,BmobException e) {
+            public void done(List<UserInfo> object, BmobException e) {
                 if(e==null){
                     toast("查询用户成功:"+object.size());
                     int count = 1;
@@ -499,7 +577,55 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             } else {
                 tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"");
             }
+            if(mUserInfo.getPayDays() != null) {
+                tvPayDays.setText(mUserInfo.getPayDays() + "   (" + mUserInfo.getAutoPay() + ")");
+            }else {
+                tvPayDays.setText("null");
+            }
         }
+    }
+
+    private void showInputDaysDialogAutoPay() {
+        View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pingjia_word_layout,null);
+        final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+        final TextView tv_text = (TextView) diaog_view.findViewById(R.id.tv_desc);
+        tv_text.setText("授权天数：");
+        edit_text.setHint("请输入授权天数");
+        edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("辅助功能授权天数");
+        builder.setView(diaog_view);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final String daysNum = edit_text.getText().toString().trim();
+                dialog.dismiss();
+                Log.d("test","daysNum = " + daysNum);
+
+                MessageDetails messageDetails = new MessageDetails();
+                messageDetails.setUserName(mUserInfo.getUsername());
+                messageDetails.setStatus(1);
+                messageDetails.setScore(Integer.parseInt(daysNum));
+                messageDetails.setType(9);
+                messageDetails.setReasons("用户开通辅助功能授权，授权天数见score字段");
+                messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+                messageDetails.setRelatedUserName("");
+                messageDetails.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if(e==null){
+                            Log.d("test","用户开通辅助功能授权成功：" + s);
+                            toast("通辅助功能按天授权成功，授权天数：" + Integer.parseInt(daysNum));
+                        }else{
+                            Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                            toast("通辅助功能按天授权失败:" + e.getMessage()+","+e.getErrorCode());
+                        }
+                    }
+                });
+            }
+        });
+        builder.create().show();
     }
 
     private void showInputDaysDialog() {

@@ -1,7 +1,5 @@
 package com.june.healthmail.model;
 
-import java.util.Date;
-
 import cn.bmob.v3.BmobUser;
 
 /**
@@ -24,7 +22,37 @@ public class UserInfo extends BmobUser {
   private Integer coinsNumber;  //金币数量
   private String invitePeoplePhone;  //邀请人手机号
   private Integer payStatus;  //付款插件开通状态
+
+  private Integer autoPay;  //自动付款开通状态
+  private Integer payDays;  //自动付款剩余天数
+  private Long payBegin;  //自动付款授权开始时间
+
   private String proxyPerson; //代理人信息
+
+
+  public Integer getAutoPay() {
+    return autoPay;
+  }
+
+  public void setAutoPay(Integer autoPay) {
+    this.autoPay = autoPay;
+  }
+
+  public Integer getPayDays() {
+    return payDays;
+  }
+
+  public void setPayDays(Integer payDays) {
+    this.payDays = payDays;
+  }
+
+  public Long getPayBegin() {
+    return payBegin;
+  }
+
+  public void setPayBegin(Long payBegin) {
+    this.payBegin = payBegin;
+  }
 
   public Integer getPayStatus() {
     return payStatus;

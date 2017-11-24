@@ -225,13 +225,13 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               toast("账号格式不对，账号密码在同一行，用|分开");
               return;
             }
-            if(mDBManger.addAccount(result[0],result[1])){
+            if(mDBManger.addAccount(result[0].trim(),result[1].trim())){
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size()+1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
@@ -245,13 +245,13 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               toast("账号格式不对，账号密码在同一行，用\",\"分开");
               return;
             }
-            if (mDBManger.addAccount(result[0], result[1])) {
+            if (mDBManger.addAccount(result[0].trim(), result[1].trim())) {
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size() + 1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();
@@ -266,13 +266,13 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               toast("账号格式不对，账号密码在同一行，用\"，\"分开");
               return;
             }
-            if (mDBManger.addAccount(result[0], result[1])) {
+            if (mDBManger.addAccount(result[0].trim(), result[1].trim())) {
               Log.d("test", result[0] + "--" + result[1] + " 添加成功");
               AccountInfo info = new AccountInfo();
               info.setId(accountList.size() + 1);
               info.setNickName("");
-              info.setPhoneNumber(result[0]);
-              info.setPassWord(result[1]);
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
               info.setStatus(1);
               accountList.add(info);
               mAdapter.notifyDataSetChanged();

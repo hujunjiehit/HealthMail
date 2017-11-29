@@ -14,17 +14,17 @@ import android.widget.Toast;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_ACOUNT_INFO = "create table account ("
-            + "id integer primary key autoincrement, "
-            + "phoneNumber text, "
-            + "passWord text, "
-            + "nickName text, "
-            + "status integer,"
-            + "mallId text, "
-            + "lastDay text, "
-            + "pingjiaTimes integer,"
-            + "yuekeTimes integer,"
-            + "hasPayed integer"
-            + ")";
+          + "id integer primary key autoincrement, "
+          + "phoneNumber text, "
+          + "passWord text, "
+          + "nickName text, "
+          + "status integer,"
+          + "mallId text, "
+          + "lastDay text, "
+          + "pingjiaTimes integer,"
+          + "yuekeTimes integer,"
+          + "hasPayed integer"
+          + ")";
 
     private Context mContext;
 

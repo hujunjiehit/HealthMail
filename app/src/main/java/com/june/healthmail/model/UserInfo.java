@@ -1,7 +1,5 @@
 package com.june.healthmail.model;
 
-import java.util.Date;
-
 import cn.bmob.v3.BmobUser;
 
 /**

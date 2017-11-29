@@ -1,6 +1,5 @@
 package com.june.healthmail.improve.service;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -35,6 +34,7 @@ import com.june.healthmail.untils.Tools;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import cn.bmob.v3.BmobUser;
 import okhttp3.Call;
@@ -207,6 +207,11 @@ public class YuekeService extends BaseService {
           if (courseListModel.getValuse() != null) {
             for (int i = 0; i < courseListModel.getValuse().size(); i++) {
               coureseList.add(courseListModel.getValuse().get(i));
+              if(PreferenceHelper.getInstance().getSortCourse()) {
+                //需要排序
+                Collections.sort(coureseList);
+              }
+
             }
             showTheResult("--------私教" + (sijiaoIndex + 1) + "第" + (pageIndex + 1) + "页有" + coureseList.size() + "节课程\n");
             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
@@ -224,7 +229,7 @@ public class YuekeService extends BaseService {
               if (currentNum < per_sijiao_max_courses) {
                 if (isOutofDate(coureseList.get(courseIndex))) {
                   //上课时间是否过了
-                  showTheResult("-------------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                  showTheResult("----------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
                   courseIndex++;
                   currentNum++;
                   this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
@@ -236,7 +241,8 @@ public class YuekeService extends BaseService {
                   currentNum++;
                   this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                 } else {
-                  showTheResult("-------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
+                  showTheResult("------------第" + (courseIndex + 1) + "节课时间："+ coureseList.get(courseIndex).getHm_gbc_time() + "\n");
+                  showTheResult("---------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
                   getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
                 }
               }else {
@@ -299,7 +305,7 @@ public class YuekeService extends BaseService {
           break;
 
         case START_TO_GET_COURSE_DETAILS:
-          showTheResult("----------------------------可以约课-获取课程详情\n");
+          showTheResult("--------------------------可以约课-获取课程详情\n");
           if (courseIndex < coureseList.size()) {
             getCourseDetails(coureseList.get(courseIndex).getGroupbuy_id());
           }

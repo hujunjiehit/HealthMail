@@ -72,6 +72,9 @@
             android:name=".activity.YuekeActivity">
         </activity>
         <activity
+            android:name=".activity.CoinsDetailActivity">
+        </activity>
+        <activity
             android:name=".activity.SijiaoLoginActivity">
         </activity>
         <activity

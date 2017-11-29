@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.june.healthmail.R;
 import com.june.healthmail.model.MessageDetails;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.Tools;
 
@@ -114,6 +115,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         tvPayDays = (TextView) findViewById(R.id.tv_pay_days);
         btnAutoPayTry =  (Button) findViewById(R.id.btn_auto_pay_try);
         if(currentUser.getUserType() == 99){
+            if(PreferenceHelper.getInstance().getEnableGiveCoins() == 0) {
+                btnGiveTheCoins.setVisibility(View.GONE);
+            }
+            btnUpgradeUserLevel.setVisibility(View.GONE);
             btnAuthorizeForever.setVisibility(View.GONE);
             btnAuthorizeByDays.setVisibility(View.GONE);
             btnAddTheCoins.setVisibility(View.GONE);
@@ -371,7 +376,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         query.setLimit(1000);
         query.findObjects(new FindListener<UserInfo>() {
             @Override
-            public void done(List<UserInfo> object,BmobException e) {
+            public void done(List<UserInfo> object, BmobException e) {
                 if(e==null){
                     toast("查询用户成功:"+object.size());
                     int count = 1;

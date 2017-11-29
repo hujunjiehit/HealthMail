@@ -1,15 +1,14 @@
 package com.june.healthmail.untils;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.june.healthmail.model.Course;
+import com.june.healthmail.activity.WebViewActivity;
 
-import java.text.ParseException;
-import java.util.List;
 
 /**
  * Created by june on 2017/6/15.
@@ -48,18 +47,18 @@ public class Tools {
   }
 
   public static String getUserTypeDsec(Integer userType) {
-    String typeDesc = "";
+    String typeDesc;
     if(userType == 0){
       typeDesc = "普通用户";
     }else if(userType == 1){
       typeDesc = "月卡用户";
-    }else if(userType == 2) {
+    }else if(userType == 2){
       typeDesc = "永久用户";
-    }else if(userType == 3) {
+    }else if(userType == 3){
       typeDesc = "高级永久用户";
     }else if(userType == 98){
       typeDesc = "总代理";
-    }else if(userType == 99) {
+    }else if(userType == 99){
       typeDesc = "管理员用户";
     }else if(userType == 100) {
       typeDesc = "超级管理员用户";
@@ -89,8 +88,26 @@ public class Tools {
   }
 
   public static int getPixelByDip(Context context, int dip) {
-    return (int) (context.getResources().getDisplayMetrics().density * dip
-        + 0.5f);
+    return (int) (context.getResources().getDisplayMetrics().density * dip + 0.5f);
+  }
+
+  public static int dip2px(Context context, int px) {
+    return getPixelByDip(context, px);
+  }
+
+  public static void openTaobaoShopping(Context context, final String url){
+    Intent intent = new Intent();
+    if (CommonUntils.checkPackage(context,"com.taobao.taobao")){
+      Log.e("test","taobao is not installed");
+      intent.setAction("android.intent.action.VIEW");
+      Uri uri = Uri.parse(url);
+      intent.setData(uri);
+      context.startActivity(intent);
+    } else {
+      intent.putExtra("url",url);
+      intent.setClass(context,WebViewActivity.class);
+      context.startActivity(intent);
+    }
   }
 
   //读取setting设置来判断相关服务是否开启:

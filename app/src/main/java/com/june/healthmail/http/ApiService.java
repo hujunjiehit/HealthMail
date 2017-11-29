@@ -3,6 +3,7 @@ package com.june.healthmail.http;
 import com.june.healthmail.http.bean.BaseBean;
 import com.june.healthmail.http.bean.GetActivityConfigBean;
 import com.june.healthmail.http.bean.GetConfigsBean;
+import com.june.healthmail.http.bean.GetModuleConfigBean;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -32,4 +33,7 @@ public interface ApiService {
 
     @GET("getActivityConfig")
     public Call<GetActivityConfigBean> getActivityConfig();
+
+    @GET("getModuleConfig")
+    public Call<GetModuleConfigBean> getModuleConfig();
 }

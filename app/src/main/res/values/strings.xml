@@ -5,16 +5,18 @@
     <string name="app_name">登录助手</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
     <string name="click_me"><u>点击购买授权</u></string>
-    <string name="click_me_for_coins"><u>点击购买金币</u></string>
     <string name="accessibility_service_label">登录助手辅助功能</string>
     <string name="description">用于辅助登陆健康猫app进行付款操作</string>
-    </resources>
+    <string name="click_me_for_coins"><u>点击购买充值卡密</u></string>
+    <string name="user_type">用户类型</string>
+    <string name="left_time">剩余授权时间</string>
+    <string name="left_icon">金币余额</string>
+
+    <string name="qq_group">QQ交流群</string>
+    <string name="current_version">当前版本</string>
+
+    <string name="left_pingjia_times">今日剩余评价次数</string>
+    <string name="left_yueke_times">今日剩余约课次数</string>
+    <string name="user_value">永久用户</string>
+</resources>

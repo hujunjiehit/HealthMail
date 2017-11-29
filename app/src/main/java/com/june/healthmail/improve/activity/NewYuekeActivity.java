@@ -16,7 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,11 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
     private TextView tvShowMaxCourses;
     private Button btnEditMaxCourses;
     private TextView tvDescMaxCourses;
+
+    private CheckBox cbOnlyToday;
+    private CheckBox cbSortCourse;
+    private LinearLayout layoutConfig;
+    private TextView tvShowConfig;
 
     private YuekeService.YukeBinder mBinder;
 
@@ -120,12 +128,62 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
         tvShowMaxCourses = (TextView) findViewById(R.id.tv_show_max_courses);
         btnEditMaxCourses = (Button) findViewById(R.id.btn_edit_max_courses);
         tvDescMaxCourses = (TextView) findViewById(R.id.tv_desc_max_courses);
+        layoutConfig = (LinearLayout) findViewById(R.id.layout_config);
+        cbOnlyToday = (CheckBox) findViewById(R.id.cb_only_today);
+        tvShowConfig = (TextView)  findViewById(R.id.tv_show_config);
+        if (PreferenceHelper.getInstance().getOnlyToday()) {
+            cbOnlyToday.setChecked(true);
+        } else {
+            cbOnlyToday.setChecked(false);
+        }
+
+        cbSortCourse = (CheckBox) findViewById(R.id.cb_sort);
+        if (PreferenceHelper.getInstance().getSortCourse()) {
+            cbSortCourse.setChecked(true);
+        } else {
+            cbSortCourse.setChecked(false);
+        }
     }
 
     private void setListener() {
         btn_start.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
         btnEditMaxCourses.setOnClickListener(this);
+
+        cbOnlyToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PreferenceHelper.getInstance().setOnlyToday(true);
+                } else {
+                    PreferenceHelper.getInstance().setOnlyToday(false);
+                }
+            }
+        });
+
+        cbSortCourse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PreferenceHelper.getInstance().setSortCourse(true);
+                } else {
+                    PreferenceHelper.getInstance().setSortCourse(false);
+                }
+            }
+        });
+
+        tvShowConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(layoutConfig.getVisibility() == View.GONE) {
+                    layoutConfig.setVisibility(View.VISIBLE);
+                    tvShowConfig.setText("隐藏配置");
+                }else {
+                    layoutConfig.setVisibility(View.GONE);
+                    tvShowConfig.setText("显示配置");
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -152,6 +210,9 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                         if(mBinder != null) {
                             btn_start.setText("停止约课");
                             mBinder.startYueke();
+
+                            layoutConfig.setVisibility(View.GONE);
+                            tvShowConfig.setText("显示配置");
                         }
                     } else {
                         isRunning = false;

@@ -7,6 +7,7 @@
                 android:layout_height="match_parent">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         android:layout_centerInParent="true">
 
         <Button
-            android:id="@+id/btn_operition_yueke"
+            android:id="@+id/btn_operition_tongji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_press"
@@ -25,17 +26,17 @@
             android:paddingBottom="2dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/ic_yueke"
-            android:text="自动约课"/>
+            android:drawableLeft="@drawable/ic_tongji"
+            android:text=" 课程统计"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textColor="@color/red"
-            android:text="小号只有收藏了目标私教,才能约该私教的课"/>
+            android:text="统计每节课一共约了多少个小号\n\n统计该节课哪些小号没付款\n\n统计该节课哪些小号没评价"/>
     </LinearLayout>
 
 </RelativeLayout>

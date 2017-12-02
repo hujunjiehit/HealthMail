@@ -1,6 +1,7 @@
 package com.june.healthmail.view;
 
 import android.app.AlertDialog;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -38,10 +39,12 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
   private TextView tvOperate4;
   private TextView tvOperate5;
   private TextView tvOperate6;
+  private TextView tvOperate7;
   private DBManager mDBManger;
 
   private List<BmobObject> accountList;
   private AcountListAdapter mAdapter;
+  private ClipboardManager mClipboardManager;
 
   public RightTopbarOperatePop(Context context, List<BmobObject> list, AcountListAdapter adapter) {
     super(context);
@@ -57,6 +60,7 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
     tvOperate4 = (TextView) mMenuView.findViewById(R.id.tv_operate_4);
     tvOperate5 = (TextView) mMenuView.findViewById(R.id.tv_operate_5);
     tvOperate6 = (TextView) mMenuView.findViewById(R.id.tv_operate_6);
+    tvOperate7 = (TextView) mMenuView.findViewById(R.id.tv_operate_7);
 
     setContentView(mMenuView);
     setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -69,8 +73,10 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
     tvOperate4.setOnClickListener(this);
     tvOperate5.setOnClickListener(this);
     tvOperate6.setOnClickListener(this);
+    tvOperate7.setOnClickListener(this);
 
     ColorDrawable cdw = new ColorDrawable(00000000);
+    mClipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
     setBackgroundDrawable(cdw);
   }
 
@@ -142,9 +148,42 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
 //        mAdapter.getSelected().clear();
 //        mAdapter.notifyDataSetChanged();
         break;
+      case R.id.tv_operate_7:
+        //批量复制选中的小号
+        dismiss();
+        copySelectedAccount();
+        break;
       default:
         break;
     }
+  }
+
+  private void copySelectedAccount() {
+    StringBuilder sb = new StringBuilder();
+    int count = 0;
+    for(BmobObject obj:accountList) {
+      AccountInfo accountInfo = (AccountInfo) obj;
+      if(accountInfo.getStatus() == 1) {
+        sb.append(accountInfo.getPhoneNumber() + "," + accountInfo.getPassWord() + "\n");
+        count++;
+      }
+    }
+    if(mClipboardManager == null) {
+      mClipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+    mClipboardManager.setText(sb.toString());
+    AlertDialog dialog = new AlertDialog.Builder(mContext)
+      .setTitle("复制成功")
+      .setMessage("复制成功，一共复制了" + count + "个选中的小号到系统剪切板")
+      .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          dismiss();
+        }
+      })
+      .create();
+    dialog.show();
+    toast("复制成功，一共复制了" + count + "个选中的小号");
   }
 
   private void showInputDialog() {

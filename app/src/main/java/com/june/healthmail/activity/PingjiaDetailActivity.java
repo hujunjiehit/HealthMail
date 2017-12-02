@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.june.healthmail.R;
+import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.Course;
 import com.june.healthmail.model.CourseListModel;
 import com.june.healthmail.model.Order;
@@ -66,6 +67,8 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
   private int coinsCost;
 
   private int offset;
+
+  protected ArrayList<AccountInfo> accountList = new ArrayList<>();
 
   private static final int START_TO_WORK = 1;
   private static final int START_TO_GET_COURSE_LIST = 2;
@@ -149,7 +152,8 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
         case START_TO_GET_COURSE_DETAILS:
             if(coureseList.size() > 0) {
               targetCourse = coureseList.get(courseIndex);
-              showTheResult("\n\n上课时间:" + targetCourse.getHm_gbc_time() + " 报名人数：" + targetCourse.getApplynumber() + "\n");
+              showTheResult("\n\n课程名字:" + targetCourse.getHm_gbc_title() + "\n");
+              showTheResult("上课时间:" + targetCourse.getHm_gbc_time() + " 报名人数：" + targetCourse.getApplynumber() + "\n");
               pageNumber = (targetCourse.getApplynumber() - 1) /20 + 1;
               pageIndex = 0;
               ordelList.clear();
@@ -233,6 +237,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
 
   private void initData() {
     mDBmanager = DBManager.getInstance();
+    accountList = CommonUntils.loadAccountInfo();
     today = TimeUntils.transForDate1(System.currentTimeMillis()/1000);
     String[] array = today.split(" ")[0].split("-");
     year = Tools.parseInt(array[0]);
@@ -409,7 +414,7 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
   @Override
   public void onCourseRadiogroupPositive() {
     courseIndex = mCourseRadiaoGroupDoalog.getSelected();
-    showTheResult("------用户选择课程编号:" + courseIndex + "\n");
+    showTheResult("------用户选择课程编号:" + (courseIndex+1) + "\n");
     Message msg = mHandler.obtainMessage(START_TO_GET_COURSE_DETAILS);
     msg.sendToTarget();
   }
@@ -445,28 +450,32 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
     showTheResult("待评价状态的订单：" + orderList9.size() + "个\n\n");
 
     if(orderList2.size() > 0) {
-      showTheResult("\n\n未支付状态的订单如下：\n");
+      showTheResult("\n\n未支付的小号如下：\n");
       for (int i = 0; i < orderList2.size(); i++) {
-        DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList2.get(i).getUser_id());
-        if(result == null){
+        //DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList2.get(i).getUser_id());
+        AccountInfo accountInfo = getAccountByMallID(orderList2.get(i).getUser_id());
+        if(accountInfo == null){
           showTheResult((i + 1) + "--猫号:" + orderList2.get(i).getUser_id() + "(手机号未知)\n");
         }else {
-          showTheResult((i + 1) + "--猫号:" + orderList2.get(i).getUser_id() + "（" + result.getPhoneNumber() + "）-- 编号：" +
-              result.getId() +  "\n");
+          showTheResult((i + 1) + "--猫号:" + orderList2.get(i).getUser_id() + "（" + accountInfo.getPhoneNumber() + "）-- 编号：" +
+            (accountList.indexOf(accountInfo) + 1) +  "\n");
         }
 
       }
       showTheResult("****温馨提示，用猫号和密码也能登录健康猫***\n");
 
-    }else if(orderList9.size() > 0) {
-      showTheResult("\n\n待评价状态的订单如下：\n");
+    }
+
+    if(orderList9.size() > 0) {
+      showTheResult("\n\n未评价的小号如下：\n");
       for (int i = 0; i < orderList9.size(); i++) {
-        DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList9.get(i).getUser_id());
-        if(result == null){
+        //DBManager.QueryResult result = mDBmanager.getPhoneByMallID(orderList9.get(i).getUser_id());
+        AccountInfo accountInfo = getAccountByMallID(orderList9.get(i).getUser_id());
+        if(accountInfo == null){
           showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "(手机号未知)\n");
         }else {
-          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "（" + result.getPhoneNumber() + "）-- 编号：" +
-              result.getId() +  "\n");
+          showTheResult((i + 1) + "--猫号:" + orderList9.get(i).getUser_id() + "（" + accountInfo.getPhoneNumber() + "）-- 编号：" +
+            (accountList.indexOf(accountInfo) + 1)  +  "\n");
         }
       }
       showTheResult("****温馨提示，用猫号和密码也能登录健康猫***\n");
@@ -485,5 +494,15 @@ public class PingjiaDetailActivity extends BaseActivity implements CourseRadioGr
         }
       });
     }
+  }
+
+  private AccountInfo getAccountByMallID (String mallId) {
+    AccountInfo result = null;
+    for(AccountInfo accountInfo:accountList) {
+      if(mallId.equals(accountInfo.getMallId())) {
+        result = accountInfo;
+      }
+    }
+    return result;
   }
 }

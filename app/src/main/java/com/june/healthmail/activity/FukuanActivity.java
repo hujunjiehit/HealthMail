@@ -90,6 +90,8 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private ShowProgress showProgress;
   private Retrofit mRetrofit;
 
+  private View mRootView;
+
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
   private Boolean isRunning = false;
@@ -438,6 +440,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
     tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
+    mRootView = findViewById(R.id.main_view);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
@@ -1100,24 +1103,29 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(!isFinishing()){
       popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
       if(!popwindow.isShowing()){
-        findViewById(R.id.main_view).post(new Runnable() {
-          @Override
-          public void run() {
-            popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.alpha = 0.5f;
-            getWindow().setAttributes(lp);
-            popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-              @Override
-              public void onDismiss() {
+        Log.e("test","mRootView.height = " + mRootView.getHeight());
+        if(mRootView != null && mRootView.getHeight() > 0) {
+          mRootView.post(new Runnable() {
+            @Override
+            public void run() {
+              if(mRootView.getHeight() > 0) {
+                popwindow.showAtLocation(mRootView, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha=1f;
+                lp.alpha = 0.5f;
                 getWindow().setAttributes(lp);
-                //showContinueDialog();
+                popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                  @Override
+                  public void onDismiss() {
+                    WindowManager.LayoutParams lp = getWindow().getAttributes();
+                    lp.alpha=1f;
+                    getWindow().setAttributes(lp);
+                    //showContinueDialog();
+                  }
+                });
               }
-            });
-          }
-        });
+            }
+          });
+        }
       }
     }
   }

@@ -70,3 +70,7 @@ file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/releas
 sha1=c7668c946355815cc8937c539d71b47f66e4c989
 appId=c3044648f0
 
+file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=6ef91490bf561ddc0319ef0e5a097f6c4d38f5f9
+appId=ceaa80ff39
+

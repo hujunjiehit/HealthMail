@@ -4,6 +4,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <!-- 字体大小 -->
+    <dimen name="small_little_size">10sp</dimen>
     <dimen name="small_text_size">14sp</dimen>
     <dimen name="small_medium_text_size">15sp</dimen>
     <dimen name="small_middle_text_size">16sp</dimen>

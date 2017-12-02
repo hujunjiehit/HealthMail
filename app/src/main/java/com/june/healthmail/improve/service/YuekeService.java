@@ -124,9 +124,14 @@ public class YuekeService extends BaseService {
               isRunning = false;
               finishYueke();
               //btn_start.setText("约课完成");
+              updateUserInfo();
+              mNotifyBuilder.setContentText("所有勾选的账号约课完成...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
             }
           } else {
             showTheResult("**用户自己终止约课**当前已经执行完成" + accountIndex + "个小号\n");
+            updateUserInfo();
           }
           break;
         case GET_TOKEN_SUCCESS:
@@ -185,7 +190,8 @@ public class YuekeService extends BaseService {
               showTheResult("*******用户设置了最多只约" + max_sijiao + "个私教，开始下一个小号\n\n\n");
               accountIndex++;
               currentNum = 0;
-              updateUserInfo();
+              userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+              userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
               message = this.obtainMessage(START_TO_YUE_KE);
               message.sendToTarget();
             }
@@ -193,7 +199,8 @@ public class YuekeService extends BaseService {
             showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
             accountIndex++;
             currentNum = 0;
-            updateUserInfo();
+            userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+            userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
             message = this.obtainMessage(START_TO_YUE_KE);
             message.sendToTarget();
           }

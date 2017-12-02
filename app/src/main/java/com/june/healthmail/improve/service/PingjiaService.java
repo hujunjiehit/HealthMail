@@ -1,6 +1,5 @@
 package com.june.healthmail.improve.service;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -93,10 +92,16 @@ public class PingjiaService extends BaseService {
               showTheResult("******所有账号评价结束**********\n");
               isRunning = false;
               finishPingjia();
+              updateUserInfo();
+
+              mNotifyBuilder.setContentText("所有勾选的账号评价完成...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
               //btn_start.setText("评价完成");
             }
           } else {
             showTheResult("**用户自己终止评价**当前已经执行完成"+ accountIndex + "个小号\n");
+            updateUserInfo();
           }
           break;
         case GET_TOKEN_SUCCESS:

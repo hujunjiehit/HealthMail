@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
-import com.june.healthmail.untils.PreferenceHelper;
 
 import java.util.ArrayList;
 
@@ -90,8 +89,6 @@ public class BaseService extends Service {
 
   protected void updateUserInfo() {
     if(userInfo != null) {
-      userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
-      userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
       userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
         @Override
         public void done(BmobException e) {

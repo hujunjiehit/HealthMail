@@ -1,7 +1,5 @@
 package com.june.healthmail.model;
 
-import java.util.Date;
-
 import cn.bmob.v3.BmobUser;
 
 /**
@@ -30,6 +28,8 @@ public class UserInfo extends BmobUser {
   private Long payBegin;  //自动付款授权开始时间
 
   private String proxyPerson; //代理人信息
+
+  private Integer XTimes; //次数倍数
 
   public Integer getAutoPay() {
     return autoPay;
@@ -173,6 +173,14 @@ public class UserInfo extends BmobUser {
 
   public void setPayBegin(Long payBegin) {
     this.payBegin = payBegin;
+  }
+
+  public Integer getXTimes() {
+    return XTimes;
+  }
+
+  public void setXTimes(Integer XTimes) {
+    this.XTimes = XTimes;
   }
 
   @Override

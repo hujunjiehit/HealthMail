@@ -35,6 +35,7 @@ public class GetConfigsBean extends BaseBean{
   private String jumpOrNot;
   private String minConfigTime;
   private int enableGiveCoins;
+  private int maxCourses;
   private Notice notice;
 
   public String getBuyAuthUrl() {
@@ -147,5 +148,13 @@ public class GetConfigsBean extends BaseBean{
 
   public void setNotice(Notice notice) {
     this.notice = notice;
+  }
+
+  public int getMaxCourses() {
+    return maxCourses;
+  }
+
+  public void setMaxCourses(int maxCourses) {
+    this.maxCourses = maxCourses;
   }
 }

@@ -155,13 +155,14 @@ public class DiscoveryFragment extends Fragment implements View.OnClickListener 
         List<Topic> sortList = mTopics;
         Collections.sort(sortList);
 
-
         mViews.clear();
         for (Topic topic:sortList) {
             if(topic.getEnable() == 1) {
-                CommonTopicView topicView = new CommonTopicView(getActivity());
-                topicView.setData(topic);
-                mViews.add(topicView);
+                if(getActivity() != null) {
+                    CommonTopicView topicView = new CommonTopicView(getActivity());
+                    topicView.setData(topic);
+                    mViews.add(topicView);
+                }
             }
         }
         addAllViews();

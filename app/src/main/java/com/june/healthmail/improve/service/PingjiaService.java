@@ -1,6 +1,5 @@
 package com.june.healthmail.improve.service;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -93,10 +92,16 @@ public class PingjiaService extends BaseService {
               showTheResult("******所有账号评价结束**********\n");
               isRunning = false;
               finishPingjia();
+              updateUserInfo();
+
+              mNotifyBuilder.setContentText("所有勾选的账号评价完成...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
               //btn_start.setText("评价完成");
             }
           } else {
             showTheResult("**用户自己终止评价**当前已经执行完成"+ accountIndex + "个小号\n");
+            updateUserInfo();
           }
           break;
         case GET_TOKEN_SUCCESS:
@@ -107,6 +112,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case START_TO_GET_ORDER_LIST:
+          if(isRunning == false) {
+            return;
+          }
           if (pageIndex < 5) {
             showTheResult("----开始获取第"+ (pageIndex + 1) + "页订单列表:");
             getOrderList();
@@ -119,6 +127,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case GET_ORDER_LIST_SUCCESS:
+          if(isRunning == false) {
+            return;
+          }
           showTheResult("订单列表获取成功\n");
           //保存可以评价的课程列表
           courseIndex = 0;
@@ -156,6 +167,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case START_TO_PING_JIA_ONE_COURSE:
+          if(isRunning == false) {
+            return;
+          }
           if(courseIndex < coureseList.size()){
             showTheResult("-----------开始评价第"+ (courseIndex + 1) + "节课程[" +
                 coureseList.get(courseIndex).getHm_go_orderstatus() + "]:");
@@ -184,6 +198,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case PING_JIA_ONE_COURSE_SUCCESS:
+          if(isRunning == false) {
+            return;
+          }
           showTheResult("评价成功\n");
           courseIndex++;
           CommonUntils.minusPingjiaTimes();
@@ -275,6 +292,7 @@ public class PingjiaService extends BaseService {
   protected void release() {
     super.release();
     mBinder = null;
+    isRunning = false;
     coureseList = null;
     ordersModel = null;
     pingjiaModel = null;

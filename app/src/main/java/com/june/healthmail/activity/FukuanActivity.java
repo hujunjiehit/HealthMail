@@ -97,6 +97,8 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private ShowProgress showProgress;
   private Retrofit mRetrofit;
 
+  private View mRootView;
+
   private ArrayList<AccountInfo> accountList = new ArrayList<>();
 
   private Boolean isRunning = false;
@@ -496,6 +498,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
     cbOpenAccess = (CheckBox) findViewById(R.id.cb_open_access);
     tvLeftTime = (TextView) findViewById(R.id.tv_left_time);
+    mRootView = findViewById(R.id.main_view);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
@@ -521,8 +524,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.img_setup).setVisibility(View.GONE);
       }
     }else {
-      findViewById(R.id.layout_open_access).setVisibility(View.GONE);
-      findViewById(R.id.img_setup).setVisibility(View.GONE);
+      tvLeftTime.setText("辅助功能暂未开通，请联系群主开通试用");
+      tvLeftTime.setVisibility(View.VISIBLE);
+      //findViewById(R.id.layout_open_access).setVisibility(View.GONE);
+      //findViewById(R.id.img_setup).setVisibility(View.GONE);
     }
   }
 
@@ -605,11 +610,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     cbOpenAccess.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-          cbOpenAccess.setChecked(!cbOpenAccess.isChecked());
-          Intent accessibleIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-          accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          toast("请选择猫友圈辅助功能，并开启或者关闭服务");
-          startActivity(accessibleIntent);
+        if(userInfo.getAutoPay() == null) {
+          cbOpenAccess.setChecked(cbOpenAccess.isChecked());
+          toast("辅助功能暂未开通，请联系群主开通试用");
+          return;
+        }
+        cbOpenAccess.setChecked(!cbOpenAccess.isChecked());
+        Intent accessibleIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(accessibleIntent);
       }
     });
   }
@@ -641,6 +651,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           return;
         }
         if(cbOpenAccess.isChecked()) {
+          if(userInfo.getAutoPay() == null) {
+            toast("辅助功能未开通，请关闭辅助功能再继续");
+            return;
+          }
           if(userInfo.getAutoPay() != null && userInfo.getAutoPay() < 1) {
             toast("辅助功能授权已过期，请关闭辅助功能再继续");
             return;
@@ -1250,24 +1264,29 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     if(!isFinishing()){
       popwindow = new ChoosePayOptionsPopwindow(this,fukuanChoice,this);
       if(!popwindow.isShowing()){
-        findViewById(R.id.main_view).post(new Runnable() {
-          @Override
-          public void run() {
-            popwindow.showAtLocation(findViewById(R.id.main_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.alpha = 0.5f;
-            getWindow().setAttributes(lp);
-            popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-              @Override
-              public void onDismiss() {
+        Log.e("test","mRootView.height = " + mRootView.getHeight());
+        if(mRootView != null && mRootView.getHeight() > 0) {
+          mRootView.post(new Runnable() {
+            @Override
+            public void run() {
+              if(mRootView.getHeight() > 0) {
+                popwindow.showAtLocation(mRootView, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha=1f;
+                lp.alpha = 0.5f;
                 getWindow().setAttributes(lp);
-                //showContinueDialog();
+                popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                  @Override
+                  public void onDismiss() {
+                    WindowManager.LayoutParams lp = getWindow().getAttributes();
+                    lp.alpha=1f;
+                    getWindow().setAttributes(lp);
+                    //showContinueDialog();
+                  }
+                });
               }
-            });
-          }
-        });
+            }
+          });
+        }
       }
     }
   }

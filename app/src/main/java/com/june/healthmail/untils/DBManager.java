@@ -3,11 +3,9 @@ package com.june.healthmail.untils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.HmMemberUserVo;
-import com.june.healthmail.model.TokenData;
 
 /**
  * Created by june on 2017/3/3.

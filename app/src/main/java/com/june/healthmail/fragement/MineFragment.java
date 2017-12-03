@@ -171,20 +171,18 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Log.e("test", " serverDay = " + serverDay);
                 Log.e("test", " lastDay = " + userInfo.getLastDay());
                 int x = 1;
-                if (userInfo.getUserType() >= 3) {
-                  //高级永久用户
-                  x = 3;
-                }
+                if (userInfo.getXTimes() != null) {
+                  x = userInfo.getXTimes();
+                } else {
+                  if (userInfo.getUserType() >= 3) {
+                    //高级永久用户
+                    x = 3;
+                  }
 
-                if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2) {
-                  x = 5;
+                  if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2) {
+                    x = 5;
+                  }
                 }
-
-                if (userInfo.getUsername().equals("18615548977") || userInfo.getUsername().equals("15315553632")) {
-                  //特殊用户
-                  x = 4;
-                }
-
                 if (TextUtils.isEmpty(userInfo.getLastDay()) || serverDay.equals(userInfo.getLastDay())) {
                   Log.e("test", "null or today");
                   if (TextUtils.isEmpty(userInfo.getLastDay())) {
@@ -861,6 +859,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         PreferenceHelper.getInstance().setAutoJump(Integer.parseInt(bean.getJumpOrNot()));
         PreferenceHelper.getInstance().setMinConfigTime(Integer.parseInt(bean.getMinConfigTime()));
         PreferenceHelper.getInstance().setEnableGiveCoins(bean.getEnableGiveCoins());
+        PreferenceHelper.getInstance().setMaxSetupCourses(bean.getMaxCourses());
         PreferenceHelper.getInstance().setNotice(bean.getNotice());
         mHandler.sendEmptyMessage(UPDATE_THE_TIMES);
       }

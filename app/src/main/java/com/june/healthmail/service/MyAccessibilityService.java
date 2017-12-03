@@ -976,7 +976,7 @@ public class MyAccessibilityService extends AccessibilityService {
       Log.e("test","perform action click repeatTheSame");
       SystemClock.sleep(500);
       nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
-      Toast.makeText(this, "继续付款相同的号", Toast.LENGTH_SHORT).show();
+      //Toast.makeText(this, "继续付款相同的号", Toast.LENGTH_SHORT).show();
     }
     if(mRootNodeInfo != null) {
       mRootNodeInfo.recycle();
@@ -997,7 +997,7 @@ public class MyAccessibilityService extends AccessibilityService {
       Log.e("autopay","perform action click goNext");
       SystemClock.sleep(500);
       nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
-      Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
+      //Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
     }else {
       //额外处理
       SystemClock.sleep(1000);
@@ -1015,7 +1015,7 @@ public class MyAccessibilityService extends AccessibilityService {
         Log.e("autopay","perform action click goNext");
         SystemClock.sleep(500);
         nodeList.get(1).performAction(AccessibilityNodeInfo.ACTION_CLICK);
-        Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "继续付款下一个号", Toast.LENGTH_SHORT).show();
       }
     }
     if(mRootNodeInfo != null) {

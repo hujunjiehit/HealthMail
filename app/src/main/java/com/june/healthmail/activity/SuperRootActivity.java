@@ -376,7 +376,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         query.setLimit(1000);
         query.findObjects(new FindListener<UserInfo>() {
             @Override
-            public void done(List<UserInfo> object,BmobException e) {
+            public void done(List<UserInfo> object, BmobException e) {
                 if(e==null){
                     toast("查询用户成功:"+object.size());
                     int count = 1;

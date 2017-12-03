@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="获取评价详情"
+            android:text="获取课程统计详情"
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="获取一个关注详情消耗x金币"
+            android:text="获取一节课的统计详情消耗x金币"
             android:gravity="center"
             android:textColor="@color/red"
             android:textSize="16sp"/>
@@ -88,5 +88,6 @@
         android:background="@drawable/tv_bar"
         android:scrollbars="vertical"
         android:textColor="@color/black"
+        android:textSize="@dimen/small_little_size"
         android:gravity="top"/>
 </LinearLayout>

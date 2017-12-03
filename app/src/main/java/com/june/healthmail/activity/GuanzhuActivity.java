@@ -127,12 +127,12 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
                 message.sendToTarget();
               }
             } else {
-              showTheResult("******所有账号关注结束**********\n");
+              showTheResult("******所有账号收藏结束**********\n");
               isRunning = false;
-              btn_start.setText("关注完成");
+              btn_start.setText("收藏完成");
             }
           } else {
-            showTheResult("**用户自己终止关注进展**当前已经执行完成"+ accountIndex + "个小号\n");
+            showTheResult("**用户自己终止收藏进展**当前已经执行完成"+ accountIndex + "个小号\n");
           }
           break;
         case GET_TOKEN_SUCCESS:
@@ -146,12 +146,12 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
           }
           break;
         case START_TO_GET_GUANZHU_LIST:
-          showTheResult("----开始获取关注列表:");
+          showTheResult("----开始获取收藏列表:");
           getTheGuanzhuList();
           break;
 
         case GET_GUANZHU_LIST_SUCCESS:
-          showTheResult("关注列表获取成功\n");
+          showTheResult("收藏列表获取成功\n");
           //保存关注列表--私教列表
           sijiaoIndex = 0;
           guanzhuList.clear();
@@ -161,7 +161,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
             for (int i = 0; i < guanzhuListModel.getValuse().size(); i++) {
               guanzhuList.add(guanzhuListModel.getValuse().get(i));
             }
-            showTheResult("*************当前小号关注了" + guanzhuList.size() + "个私教\n");
+            showTheResult("*************当前小号收藏了" + guanzhuList.size() + "个私教\n");
             for(Guanzhu guanzhu:guanzhuList){
               if(targetNumber.equals(guanzhu.getUser_id())){
                 targetInTheList = true;
@@ -169,30 +169,31 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
             }
           }else {
             //关注列表为空
-            showTheResult("***********关注列表为空\n");
+            showTheResult("***********收藏列表为空\n");
           }
           if(targetInTheList) {
-            showTheResult("***************已经关注目标私教，继续下一个小号\n");
+            showTheResult("***************已经收藏目标私教，继续下一个小号\n");
             accountIndex++;
             message = this.obtainMessage(START_TO_GUAN_ZHU);
             message.sendToTarget();
           } else {
-            showTheResult("***************未关注目标私教，开始关注\n");
+            showTheResult("***************未收藏目标私教，开始收藏\n");
             message = this.obtainMessage(DO_THE_ACTION_GUANZHU);
             message.sendToTarget();
           }
           break;
         case DO_THE_ACTION_GUANZHU:
-          showTheResult("------------------------------发送关注申请\n");
+          showTheResult("------------------------------发送收藏申请\n");
           postGuanzhuApply();
           break;
         case GUANZHU_SUCESS:
-          showTheResult("----------------------------------关注成功\n");
+          showTheResult("----------------------------------收藏成功\n");
           accountIndex++;
           this.sendEmptyMessageDelayed(START_TO_GUAN_ZHU,getDelayTime());
           break;
         case GUANZHU_FAILED:
-          showTheResult("----------------------------------关注失败，继续尝试\n");
+          showTheResult("----------------------------------收藏失败，继续尝试\n");
+          showTheResult("***************请看清楚红色的字，需要输入目标私教的猫号(不是手机号)\n");
           this.sendEmptyMessageDelayed(DO_THE_ACTION_GUANZHU,getDelayTime());
           break;
         case GET_TOKEN_FAILED:
@@ -212,7 +213,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
           this.sendEmptyMessageDelayed(START_TO_GUAN_ZHU,getDelayTime());
           break;
         case GET_GUANZHU_LIST_FAILED:
-          showTheResult("--获取关注列表失败，重新获取关注列表\n");
+          showTheResult("--获取收藏列表失败，重新获取收藏列表\n");
           this.sendEmptyMessageDelayed(START_TO_GET_GUANZHU_LIST,getDelayTime());
           break;
         case GET_USER_MODEL_SUCCES:
@@ -307,17 +308,17 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
   public void onClick(View v) {
     switch (v.getId()){
       case R.id.btn_start:
-        if("关注完成".equals(btn_start.getText().toString().trim())){
-          Toast.makeText(this,"关注已完成，如需继续关注请重新进入本页面",Toast.LENGTH_LONG).show();
+        if("收藏完成".equals(btn_start.getText().toString().trim())){
+          Toast.makeText(this,"收藏已完成，如需继续收藏请重新进入本页面",Toast.LENGTH_LONG).show();
         }else {
           if (isRunning == false) {
             isRunning = true;
-            btn_start.setText("停止关注");
+            btn_start.setText("停止收藏");
             startToGuanzhu();
           } else {
             isRunning = false;
             mHandler.removeCallbacksAndMessages(null);
-            btn_start.setText("开始关注");
+            btn_start.setText("开始收藏");
           }
         }
 

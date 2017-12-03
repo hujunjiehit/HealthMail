@@ -124,9 +124,14 @@ public class YuekeService extends BaseService {
               isRunning = false;
               finishYueke();
               //btn_start.setText("约课完成");
+              updateUserInfo();
+              mNotifyBuilder.setContentText("所有勾选的账号约课完成...");
+              mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
+              startForeground(1, mNotifyBuilder.build());
             }
           } else {
             showTheResult("**用户自己终止约课**当前已经执行完成" + accountIndex + "个小号\n");
+            updateUserInfo();
           }
           break;
         case GET_TOKEN_SUCCESS:
@@ -136,12 +141,12 @@ public class YuekeService extends BaseService {
           break;
 
         case START_TO_GET_GUANZHU_LIST:
-          showTheResult("----开始获取关注列表:");
+          showTheResult("----开始获取收藏列表:");
           getTheGuanzhuList();
           break;
 
         case GET_GUANZHU_LIST_SUCCESS:
-          showTheResult("关注列表获取成功\n");
+          showTheResult("收藏列表获取成功\n");
           //保存关注列表--私教列表
           sijiaoIndex = 0;
           pageIndex = 0;
@@ -157,8 +162,8 @@ public class YuekeService extends BaseService {
             message.sendToTarget();
           } else {
             //关注列表为空
-            showTheResult("!!!!没有关注的私教，请先关注要约课的私教\n");
-            showTheResult("******当前小号未关注任何私教，跳过，继续下一个小号\n\n\n");
+            showTheResult("!!!!没有收藏的私教，请先收藏要约课的私教(提示：软件有一键收藏的功能)\n");
+            showTheResult("******当前小号未收藏任何私教，跳过，继续下一个小号\n\n\n");
             accountIndex++;
             message = this.obtainMessage(START_TO_YUE_KE);
             message.sendToTarget();
@@ -175,7 +180,7 @@ public class YuekeService extends BaseService {
                     guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned() + "第" + (pageIndex + 1) + "页的课程\n");
                 getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
               } else {
-                showTheResult("**************没有更多页，开始下一个关注的私教\n");
+                showTheResult("**************没有更多页，开始下一个收藏的私教\n");
                 pageIndex = 0;
                 sijiaoIndex++;
                 currentNum = 0;
@@ -185,15 +190,17 @@ public class YuekeService extends BaseService {
               showTheResult("*******用户设置了最多只约" + max_sijiao + "个私教，开始下一个小号\n\n\n");
               accountIndex++;
               currentNum = 0;
-              updateUserInfo();
+              userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+              userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
               message = this.obtainMessage(START_TO_YUE_KE);
               message.sendToTarget();
             }
           } else {
-            showTheResult("*******所有关注的私教课程都约完了，开始下一个小号\n\n\n");
+            showTheResult("*******所有收藏的私教课程都约完了，开始下一个小号\n\n\n");
             accountIndex++;
             currentNum = 0;
-            updateUserInfo();
+            userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
+            userInfo.setPingjiaTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
             message = this.obtainMessage(START_TO_YUE_KE);
             message.sendToTarget();
           }
@@ -213,10 +220,10 @@ public class YuekeService extends BaseService {
               }
 
             }
-            showTheResult("--------私教" + (sijiaoIndex + 1) + "第" + (pageIndex + 1) + "页有" + coureseList.size() + "节课程\n");
+            showTheResult("私教" + (sijiaoIndex + 1) + "第" + (pageIndex + 1) + "页有" + coureseList.size() + "节课程\n");
             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
           } else {
-            showTheResult("--------私教" + (sijiaoIndex + 1) + "暂时没有发布课程，继续下一个私教\n");
+            showTheResult("私教" + (sijiaoIndex + 1) + "暂时没有发布课程，继续下一个私教\n");
             sijiaoIndex++;
             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_LIST, getDelayTime());
           }
@@ -229,24 +236,24 @@ public class YuekeService extends BaseService {
               if (currentNum < per_sijiao_max_courses) {
                 if (isOutofDate(coureseList.get(courseIndex))) {
                   //上课时间是否过了
-                  showTheResult("----------第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
+                  showTheResult("--第" + (courseIndex + 1) + "节课上课时间过了，跳过，开始下一节课\n");
                   courseIndex++;
                   currentNum++;
                   this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                 } else if (PreferenceHelper.getInstance().getOnlyToday() &&
                     !Tools.isToday(coureseList.get(courseIndex).getHm_gbc_date())) {
                   //只约今天的课
-                  showTheResult("-------------第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
+                  showTheResult("-----第" + (courseIndex + 1) + "节课不是今天的课，跳过，开始下一节课\n");
                   courseIndex++;
                   currentNum++;
                   this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
                 } else {
-                  showTheResult("------------第" + (courseIndex + 1) + "节课时间："+ coureseList.get(courseIndex).getHm_gbc_time() + "\n");
-                  showTheResult("---------------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
+                  showTheResult("----第" + (courseIndex + 1) + "节课时间："+ coureseList.get(courseIndex).getHm_gbc_time() + "\n");
+                  showTheResult("-------获取第" + (courseIndex + 1) + "节课程的约课名单\n");
                   getCourseUsers(coureseList.get(courseIndex).getGroupbuy_id());
                 }
               }else {
-                showTheResult("-------------用户设置每个私教最多约" + per_sijiao_max_courses + "节课，继续下一个私教\n");
+                showTheResult("-----用户设置每个私教最多约" + per_sijiao_max_courses + "节课，继续下一个私教\n");
                 sijiaoIndex++;
                 pageIndex = 0;
                 currentNum = 0;
@@ -269,7 +276,9 @@ public class YuekeService extends BaseService {
           }
           break;
         case GET_COURSE_USERS_SUCESS:
-
+          if(isRunning == false) {
+            return;
+          }
           GroupbuyUserModel groupbuyUserModel = (GroupbuyUserModel) msg.obj;
           boolean isIntheList = false;
           if (groupbuyUserModel.getValuse() != null) {
@@ -282,15 +291,16 @@ public class YuekeService extends BaseService {
               }
             }
             if (isIntheList == true) {
-              showTheResult("---------------------已经约过课了\n");
+              showTheResult("--------------经约过课了\n");
               courseIndex++;
               currentNum++;
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
             } else if (groupbuyUserModel.getValuse().size() >= max_courses) {
               if (userInfo.getUserType() == 3) {
-                showTheResult("---------------------课程已经约满了\n");
+                showTheResult("-------------课程已经约满了(上课人数已达补贴上限"+max_courses+"人)\n");
               } else {
-                showTheResult("********请升级高级永久，普通永久只能约50节课\n");
+                showTheResult("******当前课程上课人数已达50人\n");
+                showTheResult("********请升级高级永久，普通永久每节课上课人数不能超过50人(高级永久用户无此限制)\n");
               }
               courseIndex++;
               currentNum++;
@@ -299,21 +309,27 @@ public class YuekeService extends BaseService {
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS, getDelayTime());
             }
           } else {
-            showTheResult("---------------------约课名单为空，重新获取\n");
+            showTheResult("---------约课名单为空，重新获取\n");
             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
           }
           break;
 
         case START_TO_GET_COURSE_DETAILS:
-          showTheResult("--------------------------可以约课-获取课程详情\n");
+          if(isRunning == false) {
+            return;
+          }
+          showTheResult("------------------可以约课-获取课程详情\n");
           if (courseIndex < coureseList.size()) {
             getCourseDetails(coureseList.get(courseIndex).getGroupbuy_id());
           }
           break;
         case GET_COURSE_DETAILS_SUCESS:
+          if(isRunning == false) {
+            return;
+          }
           CourseDetailModel courseDetailModel = (CourseDetailModel) msg.obj;
           if (courseDetailModel.getValuse() == null) {
-            showTheResult("---------------------课程详情有误，重新获取\n");
+            showTheResult("-------------课程详情有误，重新获取\n");
             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_DETAILS, getDelayTime());
           } else {
             if (courseDetailModel.getValuse().getHm_gbc_currnum() < courseDetailModel.getValuse().getHm_gbc_maxnum()
@@ -321,7 +337,7 @@ public class YuekeService extends BaseService {
               currentCourseDetail = courseDetailModel.getValuse();
               this.sendEmptyMessageDelayed(POST_YUE_KE_APPLAY, getDelayTime());
             } else {
-              showTheResult("---------------------课程已经约满了\n");
+              showTheResult("-------------课程已经约满了(上课人数已经达到了发布课程时设置的上限"+courseDetailModel.getValuse().getHm_gbc_maxnum()+"人)\n");
               courseIndex++;
               currentNum++;
               this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
@@ -329,11 +345,11 @@ public class YuekeService extends BaseService {
           }
           break;
         case POST_YUE_KE_APPLAY:
-          showTheResult("------------------------------发送约课申请\n");
+          showTheResult("----------------------发送约课申请\n");
           postYuekeApplay();
           break;
         case YUE_KE_SUCESS:
-          showTheResult("----------------------------------约课成功\n");
+          showTheResult("--------------------------约课成功\n");
           courseIndex++;
           currentNum++;
           CommonUntils.minusYuekeTimes();
@@ -341,7 +357,7 @@ public class YuekeService extends BaseService {
           this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
           break;
         case YUE_KE_FAILED:
-          showTheResult("----------------------------------约课失败\n");
+          showTheResult("---------------------------约课失败\n");
           //courseIndex++;
           this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
           break;
@@ -418,7 +434,7 @@ public class YuekeService extends BaseService {
     max_sijiao = PreferenceHelper.getInstance().getMaxSijiao();
 
     if(userInfo.getUserType() >= 3) {
-      max_courses = 200;
+      max_courses = PreferenceHelper.getInstance().getMaxSetupCourses();
     } else {
       max_courses = 50;
     }
@@ -442,10 +458,10 @@ public class YuekeService extends BaseService {
   @Override
   protected void release() {
     super.release();
+    isRunning = false;
     mBinder = null;
     coureseList = null;
     guanzhuList = null;
-    coureseList = null;
     currentCourseDetail = null;
     mHandler.removeCallbacksAndMessages(null);
     mHandler.sendEmptyMessage(TASK_FINISHED);

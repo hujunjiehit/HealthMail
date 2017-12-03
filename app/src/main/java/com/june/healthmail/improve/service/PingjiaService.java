@@ -112,6 +112,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case START_TO_GET_ORDER_LIST:
+          if(isRunning == false) {
+            return;
+          }
           if (pageIndex < 5) {
             showTheResult("----开始获取第"+ (pageIndex + 1) + "页订单列表:");
             getOrderList();
@@ -124,6 +127,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case GET_ORDER_LIST_SUCCESS:
+          if(isRunning == false) {
+            return;
+          }
           showTheResult("订单列表获取成功\n");
           //保存可以评价的课程列表
           courseIndex = 0;
@@ -161,6 +167,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case START_TO_PING_JIA_ONE_COURSE:
+          if(isRunning == false) {
+            return;
+          }
           if(courseIndex < coureseList.size()){
             showTheResult("-----------开始评价第"+ (courseIndex + 1) + "节课程[" +
                 coureseList.get(courseIndex).getHm_go_orderstatus() + "]:");
@@ -189,6 +198,9 @@ public class PingjiaService extends BaseService {
           break;
 
         case PING_JIA_ONE_COURSE_SUCCESS:
+          if(isRunning == false) {
+            return;
+          }
           showTheResult("评价成功\n");
           courseIndex++;
           CommonUntils.minusPingjiaTimes();
@@ -280,6 +292,7 @@ public class PingjiaService extends BaseService {
   protected void release() {
     super.release();
     mBinder = null;
+    isRunning = false;
     coureseList = null;
     ordersModel = null;
     pingjiaModel = null;

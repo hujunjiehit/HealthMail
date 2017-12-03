@@ -81,6 +81,8 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_TOPIC_LIST = "topic_list";//首页topic list
 
+    public final static String KEY_MAX_SETUP_COURSES = "max_setup_courses"; //后台配置的最多补贴多少节课
+
     private static PreferenceHelper instance;
     private static Gson gson;
 
@@ -1129,6 +1131,27 @@ public class PreferenceHelper extends BasePerference{
         return value;
     }
 
+    public void setMaxSetupCourses(int value) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(KEY_MAX_SETUP_COURSES,value);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public int getMaxSetupCourses() {
+        int value = 200;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getInt(KEY_MAX_SETUP_COURSES,value);
+        }
+        return value;
+    }
     public Notice getNotice() {
         Notice notice = null;
         checkPrefs();

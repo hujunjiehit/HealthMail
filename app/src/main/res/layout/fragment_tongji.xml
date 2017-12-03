@@ -36,7 +36,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textColor="@color/red"
-            android:text="统计每节课一共约了多少个小号\n\n统计该节课哪些小号没付款\n\n统计该节课哪些小号没评价"/>
+            android:text="统计某节课一共约了多少个小号\n\n统计该节课哪些小号没付款\n\n统计该节课哪些小号没评价"/>
     </LinearLayout>
 
 </RelativeLayout>

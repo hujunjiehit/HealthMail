@@ -29,6 +29,8 @@ public class UserInfo extends BmobUser {
 
   private String proxyPerson; //代理人信息
 
+  private Integer XTimes; //次数倍数
+
 
   public Integer getAutoPay() {
     return autoPay;
@@ -172,6 +174,14 @@ public class UserInfo extends BmobUser {
 
   public void setProxyPerson(String proxyPerson) {
     this.proxyPerson = proxyPerson;
+  }
+
+  public Integer getXTimes() {
+    return XTimes;
+  }
+
+  public void setXTimes(Integer XTimes) {
+    this.XTimes = XTimes;
   }
 
   @Override

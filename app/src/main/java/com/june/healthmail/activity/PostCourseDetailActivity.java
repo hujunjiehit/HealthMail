@@ -340,8 +340,8 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
 
     //检查最大人数
     maxPeople = Tools.parseInt(etMaxPeople.getText().toString().trim());
-    if(maxPeople > 200){
-      toast("最大人数不能超过200");
+    if(maxPeople > PreferenceHelper.getInstance().getMaxSetupCourses()){
+      toast("最大人数不能超过补贴的上限"+PreferenceHelper.getInstance().getMaxSetupCourses()+"人");
       return false;
     }else if(maxPeople < 1){
       toast("请输入最大人数且不能为0");

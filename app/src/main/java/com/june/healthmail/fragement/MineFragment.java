@@ -94,6 +94,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
   Button mBtnLogout;
   @BindView(R.id.div_left_time)
   View mDivLeftTime;
+  @BindView(R.id.div_max_number)
+  View mDivMaxNumber;
+  @BindView(R.id.setting_max_number)
+  CustomSettingItem mSettingMaxNumber;
   private Unbinder mUnbinder;
 
 
@@ -179,7 +183,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     x = 3;
                   }
 
-                  if(userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2) {
+                  if (userInfo.getAutoPay() != null && userInfo.getAutoPay() == 2) {
                     x = 5;
                   }
                 }
@@ -224,7 +228,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                       if (getActivity() != null) {
-                        ((MainActivity)getActivity()).goToFragment(0);
+                        ((MainActivity) getActivity()).goToFragment(0);
                       }
                     }
                   }, 100);
@@ -314,6 +318,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     mSettingLeftYuekeCount.setOnClickListener(this);
     mSettingLeftPingjiaCount.setOnClickListener(this);
     mSettingCurrentVersion.setOnClickListener(this);
+    mSettingMaxNumber.setOnClickListener(this);
   }
 
   /**
@@ -334,7 +339,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     mSettingUserType.setSubText(Tools.getUserTypeDsec(userInfo.getUserType()));
     mSettingLeftTime.setSubText(getDesc());
-
+    if(userInfo.getMaxNumber() != null) {
+      mSettingMaxNumber.setVisibility(View.VISIBLE);
+      mDivMaxNumber.setVisibility(View.VISIBLE);
+      mSettingMaxNumber.setSubText(Tools.getMaxNumber(userInfo));
+    }else {
+      mSettingMaxNumber.setVisibility(View.GONE);
+      mDivMaxNumber.setVisibility(View.GONE);
+    }
 
     //qq交流群
     if (userInfo.getUserType() == 0) {
@@ -500,6 +512,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         break;
       case R.id.setting_coins_number:
         startActivity(new Intent(getActivity(), CoinsDetailActivity.class));
+        break;
+      case R.id.setting_max_number:
+        //startActivity(new Intent(getActivity(), CoinsDetailActivity.class));
         break;
       case R.id.setting_left_yueke_count:
         showAddYuekeDialog();
@@ -763,10 +778,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
       });
       builder.create().show();
-    } else if (messageType == 99) {
+    } else if (messageType == 100) {
       //系统公告消息
-      builder.setTitle("系统公告");
-      builder.setMessage(messageDetails.getReasons());
+      builder.setTitle("增加最大约课人数");
+      builder.setMessage("用户增加最大约课人数,本次成功增加了" + messageDetails.getScore() + "人");
       builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -777,8 +792,23 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             public void done(BmobException e) {
               if (e == null) {
                 Log.e("test", "消息更新成功");
-                messageIndex++;
-                mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                if(userInfo.getMaxNumber() != null) {
+                  userInfo.setMaxNumber(userInfo.getMaxNumber() + messageDetails.getScore());
+                }else {
+                  userInfo.setMaxNumber(50 + messageDetails.getScore());
+                }
+                userInfo.update(BmobUser.getCurrentUser().getObjectId(), new UpdateListener() {
+                  @Override
+                  public void done(BmobException e) {
+                    if (e == null) {
+                      Log.d("test", "用户信息更新成功，开始处理下一条消息");
+                      messageIndex++;
+                      mHandler.sendEmptyMessage(HANDLER_THE_MESSAGES);
+                    } else {
+                      Log.e("test", "更新用户信息失败");
+                    }
+                  }
+                });
               } else {
                 Log.e("test", "消息处理失败：" + e.getMessage() + "," + e.getErrorCode());
               }

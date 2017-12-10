@@ -40,7 +40,6 @@ import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.TimeUntils;
 import com.june.healthmail.untils.Tools;
 
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -292,7 +291,7 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
                             if(userInfo.getUserType() == 3) {
                                 showTheResult("---------------------课程已经约满了\n");
                             } else {
-                                showTheResult("********请升级高级永久，普通永久只能约50节课\n");
+                                showTheResult("********请升级高级永久，普通永久只能约"+max_courses+"节课\n");
                             }
                             courseIndex++;
                             this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS,getDelayTime());
@@ -420,7 +419,11 @@ public class YuekeActivity extends BaseActivity implements View.OnClickListener{
         if(userInfo.getUserType() >= 3) {
             max_courses = 200;
         } else {
-            max_courses = 50;
+            if(userInfo.getUsername().equals("13627003178")) {
+                max_courses = 100;
+            } else {
+                max_courses = 50;
+            }
         }
         initView();
         setListener();

@@ -269,8 +269,6 @@ public class PingjiaService extends BaseService {
   private void initData() {
     userInfo = BmobUser.getCurrentUser(UserInfo.class);
     accountList = CommonUntils.loadAccountInfo();
-    min_time = PreferenceHelper.getInstance().getMinPingjiaTime();
-    max_time = PreferenceHelper.getInstance().getMaxPingjiaTime();
   }
 
   @Override
@@ -486,5 +484,13 @@ public class PingjiaService extends BaseService {
       Log.e("test", "setPingjiaWords execute,words =  " + word);
       pingWord = word;
     }
+  }
+
+  protected int getDelayTime() {
+    min_time = PreferenceHelper.getInstance().getMinPingjiaTime();
+    max_time = PreferenceHelper.getInstance().getMaxPingjiaTime();
+    int randTime = CommonUntils.getRandomInt(min_time, max_time);
+    Log.d("test", "randTime = " + randTime);
+    return randTime;
   }
 }

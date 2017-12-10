@@ -55,12 +55,14 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
     private Button btnNewNotice;
     private Button btnAutoPay;
     private Button btnAutoPayTry;
+    private Button btnAddMaxNumber;
 
 
     private TextView tvUserName;
     private TextView tvUserType;
     private TextView tvAllowDays;
     private TextView tvCoinsNumber;
+    private TextView tvMaxNumber;
     private TextView tvPayDays;
 
     private static final int UPDATE_USER_INFO = 1;
@@ -112,8 +114,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         tvUserType = (TextView) findViewById(R.id.tv_user_type);
         tvAllowDays = (TextView) findViewById(R.id.tv_allow_days);
         tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
+        tvMaxNumber = (TextView) findViewById(R.id.tv_max_number);
         tvPayDays = (TextView) findViewById(R.id.tv_pay_days);
         btnAutoPayTry =  (Button) findViewById(R.id.btn_auto_pay_try);
+        btnAddMaxNumber = (Button) findViewById(R.id.btn_add_max_number);
         if(currentUser.getUserType() == 99){
             if(PreferenceHelper.getInstance().getEnableGiveCoins() == 0) {
                 btnGiveTheCoins.setVisibility(View.GONE);
@@ -126,6 +130,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             btnNewNotice.setVisibility(View.GONE);
             btnAutoPay.setVisibility(View.GONE);
             btnUpgradeUserLevel.setVisibility(View.GONE);
+            btnAddMaxNumber.setVisibility(View.GONE);
         }
     }
 
@@ -141,6 +146,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
         btnNewNotice.setOnClickListener(this);
         btnAutoPay.setOnClickListener(this);
         btnAutoPayTry.setOnClickListener(this);
+        btnAddMaxNumber.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 
@@ -188,6 +194,13 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                         })
                         .create();
                     dialog.show();
+                }else {
+                    toast("请先输入用户帐号，并获取用户信息！");
+                }
+                break;
+            case R.id.btn_add_max_number:
+                if(mUserInfo != null){
+                    autoAddMaxNumber();
                 }else {
                     toast("请先输入用户帐号，并获取用户信息！");
                 }
@@ -333,6 +346,10 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+    private void autoAddMaxNumber() {
+        showInputDaysDialogAddMaxNumber();
     }
 
     private void autoPayByDays() {
@@ -577,6 +594,7 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
             } else {
                 tvCoinsNumber.setText(mUserInfo.getCoinsNumber()+"");
             }
+            tvMaxNumber.setText(Tools.getMaxNumber(mUserInfo) + "");
             if(mUserInfo.getPayDays() != null) {
                 tvPayDays.setText(mUserInfo.getPayDays() + "   (" + mUserInfo.getAutoPay() + ")");
             }else {
@@ -620,6 +638,49 @@ public class SuperRootActivity extends Activity implements View.OnClickListener{
                         }else{
                             Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
                             toast("通辅助功能按天授权失败:" + e.getMessage()+","+e.getErrorCode());
+                        }
+                    }
+                });
+            }
+        });
+        builder.create().show();
+    }
+
+    private void showInputDaysDialogAddMaxNumber() {
+        View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pingjia_word_layout,null);
+        final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
+        final TextView tv_text = (TextView) diaog_view.findViewById(R.id.tv_desc);
+        tv_text.setText("约课人数：");
+        edit_text.setHint("请输入要增加的约课人数");
+        edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("增加最大约课人数");
+        builder.setView(diaog_view);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final String daysNum = edit_text.getText().toString().trim();
+                dialog.dismiss();
+                Log.d("test","daysNum = " + daysNum);
+
+                MessageDetails messageDetails = new MessageDetails();
+                messageDetails.setUserName(mUserInfo.getUsername());
+                messageDetails.setStatus(1);
+                messageDetails.setScore(Integer.parseInt(daysNum));
+                messageDetails.setType(100);
+                messageDetails.setReasons("用户增加最大约课人数，授权人数见score字段");
+                messageDetails.setNotice("操作人员：" + currentUser.getUsername());
+                messageDetails.setRelatedUserName("");
+                messageDetails.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if(e==null){
+                            Log.d("test","用户增加最大约课人数成功：" + s);
+                            toast("用户增加最大约课人数成功，增加人数：" + Integer.parseInt(daysNum));
+                        }else{
+                            Log.e("test","失败："+e.getMessage()+","+e.getErrorCode());
+                            toast("用户增加最大约课人数失败:" + e.getMessage()+","+e.getErrorCode());
                         }
                     }
                 });

@@ -1,0 +1,109 @@
+freeline auto add runtime dependencies: 0.8.6
+The Task.leftShift(Closure) method has been deprecated and is scheduled to be removed in Gradle 5.0. Please use Task.doLast(Action) instead.
+	at build_bok32elzv4lash7xjgch81vsq.run(/Users/june/docs/SpecialVersion/HealthMail/app/build.gradle:2)
+Incremental java compilation is an incubating feature.
+test variant:com.android.build.gradle.internal.api.ApplicationVariantImpl_Decorated@b80fa74
+test output:com.android.build.gradle.internal.api.ApkVariantOutputImpl_Decorated@803ef52
+test variant:com.android.build.gradle.internal.api.ApplicationVariantImpl_Decorated@5baaf571
+test output:com.android.build.gradle.internal.api.ApkVariantOutputImpl_Decorated@21183093
+find variant debug start hack process...
+variant release is not debug, skip hack process.
+:app:preBuild UP-TO-DATE
+:app:extractProguardFiles
+:app:preReleaseBuild
+:app:checkReleaseManifest
+:app:preDebugBuild UP-TO-DATE
+:app:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:app:prepareComAndroidSupportAppcompatV72511Library
+:app:prepareComAndroidSupportDesign2511Library
+:app:prepareComAndroidSupportRecyclerviewV72511Library
+:app:prepareComAndroidSupportSupportCompat2511Library
+:app:prepareComAndroidSupportSupportCoreUi2511Library
+:app:prepareComAndroidSupportSupportCoreUtils2511Library
+:app:prepareComAndroidSupportSupportFragment2511Library
+:app:prepareComAndroidSupportSupportMediaCompat2511Library
+:app:prepareComAndroidSupportSupportV42511Library
+:app:prepareComAndroidSupportSupportVectorDrawable2511Library
+:app:prepareComAndroidSupportTransition2511Library
+:app:preDebugUnitTestBuild UP-TO-DATE
+:app:preReleaseUnitTestBuild
+:app:prepareComAntfortuneFreelineRuntimeNoOp086Library
+:app:prepareComJakewhartonButterknife851Library
+:app:prepareComSquareupLeakcanaryLeakcanaryAndroidNoOp151Library
+:app:prepareComTencentBuglyCrashreport_upgrade134Library
+:pullToRefresh:preBuild UP-TO-DATE
+:pullToRefresh:preReleaseBuild UP-TO-DATE
+:pullToRefresh:checkReleaseManifest
+:pullToRefresh:prepareReleaseDependencies
+:pullToRefresh:compileReleaseAidl UP-TO-DATE
+:pullToRefresh:compileReleaseNdk UP-TO-DATE
+:pullToRefresh:compileLint UP-TO-DATE
+:pullToRefresh:copyReleaseLint UP-TO-DATE
+:pullToRefresh:mergeReleaseShaders UP-TO-DATE
+:pullToRefresh:compileReleaseShaders UP-TO-DATE
+:pullToRefresh:generateReleaseAssets UP-TO-DATE
+:pullToRefresh:mergeReleaseAssets UP-TO-DATE
+:pullToRefresh:mergeReleaseProguardFiles UP-TO-DATE
+:pullToRefresh:packageReleaseRenderscript UP-TO-DATE
+:pullToRefresh:compileReleaseRenderscript UP-TO-DATE
+:pullToRefresh:generateReleaseResValues UP-TO-DATE
+:pullToRefresh:generateReleaseResources UP-TO-DATE
+:pullToRefresh:packageReleaseResources UP-TO-DATE
+:pullToRefresh:processReleaseManifest UP-TO-DATE
+:pullToRefresh:generateReleaseBuildConfig UP-TO-DATE
+:pullToRefresh:processReleaseResources UP-TO-DATE
+:pullToRefresh:generateReleaseSources UP-TO-DATE
+:pullToRefresh:incrementalReleaseJavaCompilationSafeguard UP-TO-DATE
+:pullToRefresh:javaPreCompileRelease
+:pullToRefresh:compileReleaseJavaWithJavac UP-TO-DATE
+:pullToRefresh:processReleaseJavaRes UP-TO-DATE
+:pullToRefresh:transformResourcesWithMergeJavaResForRelease UP-TO-DATE
+:pullToRefresh:transformClassesAndResourcesWithSyncLibJarsForRelease UP-TO-DATE
+:pullToRefresh:mergeReleaseJniLibFolders UP-TO-DATE
+:pullToRefresh:transformNativeLibsWithMergeJniLibsForRelease UP-TO-DATE
+:pullToRefresh:transformNativeLibsWithStripDebugSymbolForRelease UP-TO-DATE
+:pullToRefresh:transformNativeLibsWithSyncJniLibsForRelease UP-TO-DATE
+:pullToRefresh:bundleRelease UP-TO-DATE
+:app:prepareReleaseDependencies
+:app:compileReleaseAidl UP-TO-DATE
+:app:compileReleaseRenderscript UP-TO-DATE
+:app:generateReleaseBuildConfig UP-TO-DATE
+:app:generateReleaseResValues UP-TO-DATE
+:app:generateReleaseResources UP-TO-DATE
+:app:mergeReleaseResources UP-TO-DATE
+:app:processReleaseManifest UP-TO-DATE
+:app:processReleaseResources UP-TO-DATE
+:app:generateReleaseSources UP-TO-DATE
+:app:incrementalReleaseJavaCompilationSafeguard UP-TO-DATE
+:app:javaPreCompileRelease
+:app:compileReleaseJavaWithJavac UP-TO-DATE
+:app:compileReleaseNdk UP-TO-DATE
+:app:compileReleaseSources UP-TO-DATE
+:app:lintVitalRelease
+:app:mergeReleaseShaders UP-TO-DATE
+:app:compileReleaseShaders UP-TO-DATE
+:app:generateReleaseAssets UP-TO-DATE
+:app:mergeReleaseAssets UP-TO-DATE
+:app:processReleaseJavaRes UP-TO-DATE
+:app:transformResourcesWithMergeJavaResForRelease UP-TO-DATE
+:app:transformClassesAndResourcesWithProguardForRelease UP-TO-DATE
+:app:transformClassesWithDexForRelease UP-TO-DATE
+:app:mergeReleaseJniLibFolders UP-TO-DATE
+:app:transformNativeLibsWithMergeJniLibsForRelease UP-TO-DATE
+:app:transformNativeLibsWithStripDebugSymbolForRelease UP-TO-DATE
+:app:packageRelease UP-TO-DATE
+:app:uploadReleaseSymtabFile
+[Bugly Plugin] <Info> Run upload task in application module.
+[Bugly Plugin] <Info> Processing file: /Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+[Bugly Plugin] <Info> Uploading file: /Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+[SymtabTool-I] Upload symbol file: mapping.txt
+[SymtabTool-I] Uploading..
+[SymtabTool-I] Successfully uploaded.
+[Bugly Plugin] <Info> Successfully uploaded.
+:app:assembleRelease
+:pullToRefresh:compileReleaseSources UP-TO-DATE
+:pullToRefresh:assembleRelease UP-TO-DATE
+
+BUILD SUCCESSFUL
+
+Total time: 9.535 secs

@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.UserInfo;
-import com.june.healthmail.untils.CommonUntils;
 
 import java.util.ArrayList;
 
@@ -79,12 +78,6 @@ public class BaseService extends Service {
       msg.arg1 = times;
       msg.sendToTarget();
     }
-  }
-
-  protected int getDelayTime() {
-    int randTime = CommonUntils.getRandomInt(min_time, max_time);
-    Log.d("test", "randTime = " + randTime);
-    return randTime;
   }
 
   protected void updateUserInfo() {

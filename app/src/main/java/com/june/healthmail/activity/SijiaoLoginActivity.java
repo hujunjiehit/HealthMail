@@ -136,13 +136,16 @@ public class SijiaoLoginActivity extends BaseActivity implements View.OnClickLis
           //在此判断是直接进入特殊功能列表还是直接进入自动发课
           if(flag == 1) {
             //登陆后直接进入自动发课界面
+            Log.e("test","flag = " + flag);
             it.setClass(SijiaoLoginActivity.this,PostCourseDetailActivity.class);
             startActivity(it);
-          } if(flag == 2) {
+          }else if(flag == 2) {
             //登陆后直接进入课程统计页面
+            Log.e("test","flag = " + flag);
             it.setClass(SijiaoLoginActivity.this,PingjiaDetailActivity.class);
             startActivity(it);
           }else {
+            Log.e("test","flag = " + flag);
             it.setClass(SijiaoLoginActivity.this,SpecialFunctionListActivity.class);
             startActivity(it);
           }

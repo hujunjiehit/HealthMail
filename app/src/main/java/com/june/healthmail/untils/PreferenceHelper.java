@@ -88,6 +88,7 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_PAY_ORDER_NUMBER = "auto_pay_order_number";//通联支付支付多少个订单
     public final static String KEY_PAY_PASSWORD = "auto_pay_password";//通联支付支付密码
     public final static String KEY_CHOOSE_PAY_CARD = "choose_pay_card";//
+    public final static String KEY_KUAIJIE_USE_DEFAULT_CARD = "kuaijie_use_default_card";//
     public final static String KEY_IS_RESTRICTED = "is_restricted";//是否受限
     public final static String KEY_RESTRICTED_TIME = "restricted_time";//受限开始时间
 
@@ -1432,5 +1433,27 @@ public class PreferenceHelper extends BasePerference{
             }
             editor.apply();
         }
+    }
+
+    public void setKuaijieUseDefaultCard(boolean getPayAllOrders) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+    public boolean getKuaijieUseDefaultCard() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD,value);
+        }
+        return value;
     }
 }

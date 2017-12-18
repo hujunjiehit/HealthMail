@@ -92,6 +92,26 @@
                 app:top_line_visiable="false"
                 />
 
+            <View
+                android:id="@+id/div_max_number"
+                android:layout_width="match_parent"
+                android:layout_height="1.0px"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/div_line_color"/>
+
+            <com.june.healthmail.view.CustomSettingItem
+                android:id="@+id/setting_max_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_std_item_selector_2"
+                app:bottom_line_visiable="false"
+                app:indicator_visiable="false"
+                app:item_icon="@drawable/ic_max_numbers_1"
+                app:item_text="@string/max_number"
+                app:text_size="@dimen/custom_mini_plus_text_size"
+                app:top_line_visiable="false"
+                />
         </LinearLayout>
 
 

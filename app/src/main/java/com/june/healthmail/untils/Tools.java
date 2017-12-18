@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.june.healthmail.activity.WebViewActivity;
+import com.june.healthmail.model.UserInfo;
 
 /**
  * Created by june on 2017/6/15.
@@ -143,12 +144,36 @@ public class Tools {
   }
 
   public static String getLeftTimeDesc(int leftHours) {
-    Log.e("test","leftHours = " + leftHours);
+    Log.e("test", "leftHours = " + leftHours);
     StringBuilder sb = new StringBuilder();
-    if(leftHours >= 24) {
-      sb.append(leftHours/24+"天");
+    if (leftHours >= 24) {
+      sb.append(leftHours / 24 + "天");
     }
-    sb.append(leftHours%24 + "小时");
+    sb.append(leftHours % 24 + "小时");
     return sb.toString();
+  }
+
+  public static String getMaxNumber(UserInfo userInfo) {
+    if(userInfo.getUserType() >= 3) {
+      return ""+PreferenceHelper.getInstance().getMaxSetupCourses();
+    }else {
+      if(userInfo.getMaxNumber() == null) {
+        return ""+50;
+      }else {
+        return  ""+userInfo.getMaxNumber();
+      }
+    }
+  }
+
+  public static void updateCurrentPingjiaTime(int progress) {
+    int delta = PreferenceHelper.getInstance().getMaxPingjiaTime() - PreferenceHelper.getInstance().getMinPingjiaTime();
+    PreferenceHelper.getInstance().setMinPingjiaTime(progress);
+    PreferenceHelper.getInstance().setMaxPingjiaTime(progress + delta);
+  }
+
+  public static void updateCurrentYuekeTime(int progress) {
+    int delta = PreferenceHelper.getInstance().getMaxYuekeTime() - PreferenceHelper.getInstance().getMinYuekeTime();
+    PreferenceHelper.getInstance().setMinYuekeTime(progress);
+    PreferenceHelper.getInstance().setMaxYuekeTime(progress + delta);
   }
 }

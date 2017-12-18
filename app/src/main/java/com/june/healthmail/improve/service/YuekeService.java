@@ -299,8 +299,8 @@ public class YuekeService extends BaseService {
               if (userInfo.getUserType() == 3) {
                 showTheResult("-------------课程已经约满了(上课人数已达补贴上限"+max_courses+"人)\n");
               } else {
-                showTheResult("******当前课程上课人数已达50人\n");
-                showTheResult("********请升级高级永久，普通永久每节课上课人数不能超过50人(高级永久用户无此限制)\n");
+                showTheResult("******当前课程上课人数已达限制" + max_courses + "人\n");
+                showTheResult("********请升级上课人数上限，当前每节课上课人数不能超过" + max_courses + "人(高级永久用户无此限制)\n");
               }
               courseIndex++;
               currentNum++;
@@ -428,16 +428,8 @@ public class YuekeService extends BaseService {
   private void initData() {
     userInfo = BmobUser.getCurrentUser(UserInfo.class);
     accountList = CommonUntils.loadAccountInfo();
-
-    min_time = PreferenceHelper.getInstance().getMinYuekeTime();
-    max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
     max_sijiao = PreferenceHelper.getInstance().getMaxSijiao();
-
-    if(userInfo.getUserType() >= 3) {
-      max_courses = PreferenceHelper.getInstance().getMaxSetupCourses();
-    } else {
-      max_courses = 50;
-    }
+    max_courses = Integer.parseInt(Tools.getMaxNumber(userInfo));
   }
 
   @Override
@@ -796,5 +788,13 @@ public class YuekeService extends BaseService {
       pageSize = (per_sijiao_max_courses - 1)/20 + 1;
       Log.e("test", "setPageSize execute,per_sijiao_max_courses =  " + size + "  pageSize = " + pageSize);
     }
+  }
+
+  protected int getDelayTime() {
+    min_time = PreferenceHelper.getInstance().getMinYuekeTime();
+    max_time = PreferenceHelper.getInstance().getMaxYuekeTime();
+    int randTime = CommonUntils.getRandomInt(min_time, max_time);
+    Log.d("test", "randTime = " + randTime);
+    return randTime;
   }
 }

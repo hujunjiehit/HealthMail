@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.june.healthmail.improve.service.BaseService;
 import com.june.healthmail.improve.service.YuekeService;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.Tools;
 
 /**
  * Created by june on 2017/3/4.
@@ -55,6 +57,10 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
     private CheckBox cbSortCourse;
     private LinearLayout layoutConfig;
     private TextView tvShowConfig;
+
+    private SeekBar mSeekBar;
+    private TextView mBtnMinus;
+    private TextView mBtnAdd;
 
     private YuekeService.YukeBinder mBinder;
 
@@ -143,6 +149,11 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
         } else {
             cbSortCourse.setChecked(false);
         }
+
+        mSeekBar = (SeekBar) findViewById(R.id.seek_bar);
+        mSeekBar.setMax(3000);
+        mBtnMinus = (TextView) findViewById(R.id.btn_minus);
+        mBtnAdd = (TextView) findViewById(R.id.btn_add);
     }
 
     private void setListener() {
@@ -181,6 +192,63 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                 }else {
                     layoutConfig.setVisibility(View.GONE);
                     tvShowConfig.setText("显示配置");
+                }
+            }
+        });
+
+        mSeekBar.setProgress(PreferenceHelper.getInstance().getMinYuekeTime());
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.e("test","progress = " + progress);
+                Tools.updateCurrentYuekeTime(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mBtnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSeekBar.getProgress() == 0) {
+                    toast("亲，无法更快了!");
+                    return;
+                }
+                int result = mSeekBar.getProgress() - 100;
+                if(result >= 0) {
+                    Tools.updateCurrentYuekeTime(result);
+                    mSeekBar.setProgress(result);
+                }else {
+                    result = 0;
+                    Tools.updateCurrentYuekeTime(result);
+                    mSeekBar.setProgress(result);
+                }
+            }
+        });
+
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSeekBar.getProgress() >= 3000) {
+                    toast("亲，无法更慢了!");
+                    return;
+                }
+                int result =mSeekBar.getProgress() + 100;
+                if(result <= 3000) {
+                    Tools.updateCurrentYuekeTime(result);
+                    mSeekBar.setProgress(result);
+                }else {
+                    result = 3000;
+                    Tools.updateCurrentYuekeTime(result);
+                    mSeekBar.setProgress(result);
                 }
             }
         });

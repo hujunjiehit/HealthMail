@@ -19,139 +19,191 @@
             android:text="快捷支付设置："/>
 
         <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="银行卡号："/>
+                android:text="使用默认的银行卡付款"
+                android:textColor="@color/black"/>
 
-            <TextView
-                android:id="@+id/tv_bank_card"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_bank_card"
+            <CheckBox
+                android:id="@+id/cb_kuaijie_use_default_card"
+                style="@style/CustomCheckboxTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-
+                android:layout_marginLeft="5dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
+            android:id="@+id/layout_kuaijie_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="姓        名："/>
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
-
-            <Button
-                android:id="@+id/edit_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
                 android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-
+                android:textColor="@color/setup_title_color"
+                android:lineSpacingExtra="2dp"
+                android:text="         勾选之后快捷支付只会选择默认的银行卡付款，请提前设置好，最好每个小号固定一张银行卡付款(由于快捷支付不能删除卡，所以推荐购买一批新的小号来付款)"
+                />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="身  份  证："/>
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layout_kuaijie_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="银行卡号："/>
 
-            <TextView
-                android:id="@+id/tv_id_card"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
+                    <TextView
+                        android:id="@+id/tv_bank_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
 
-            <Button
-                android:id="@+id/edit_id_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
+                    <Button
+                        android:id="@+id/edit_bank_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
 
-        </LinearLayout>
+                </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="手  机  号："/>
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="姓        名："/>
 
-            <TextView
-                android:id="@+id/tv_phone_number"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/setup_title_color"
-                android:text="xxxx"/>
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
 
-            <Button
-                android:id="@+id/edit_phone_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_press"
-                android:textSize="@dimen/medium_text_size"
-                android:text="编辑"/>
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="身  份  证："/>
+
+                    <TextView
+                        android:id="@+id/tv_id_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_id_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="手  机  号："/>
+
+                    <TextView
+                        android:id="@+id/tv_phone_number"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_text_size"
+                        android:textColor="@color/setup_title_color"
+                        android:text="xxxx"/>
+
+                    <Button
+                        android:id="@+id/edit_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_press"
+                        android:textSize="@dimen/medium_text_size"
+                        android:text="编辑"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
+
 
 </LinearLayout>

@@ -126,6 +126,12 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
   Button mEditCreditCode;
   @BindView(R.id.layout_creat_code_desc)
   TextView mLayoutCreatCodeDesc;
+  @BindView(R.id.cb_kuaijie_use_default_card)
+  CheckBox mCbKuaijieUseDefaultCard;
+  @BindView(R.id.layout_kuaijie_desc)
+  LinearLayout mLayoutKuaijieDesc;
+  @BindView(R.id.layout_kuaijie_setting)
+  LinearLayout mLayoutKuaijieSetting;
 
   private PreferenceHelper mPreferenceHelper;
   private ACache mCache;
@@ -155,7 +161,7 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
     tvCreditDate.setText(mPreferenceHelper.getCreditDate().trim());
     tvCreditCode.setText(mPreferenceHelper.getCreditCode().trim());
 
-    if(mCache == null) {
+    if (mCache == null) {
       mCache = ACache.get(AutopaySetupActivity.this);
     }
     mTonglianBankCard.setText(mCache.getAsString(Constants.BANK_CARD));
@@ -196,6 +202,16 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
       cbChoosePayCard.setChecked(false);
       layoutBankCard.setVisibility(View.GONE);
       layoutBankCardDesc.setVisibility(View.GONE);
+    }
+
+    if (PreferenceHelper.getInstance().getKuaijieUseDefaultCard()) {
+      mCbKuaijieUseDefaultCard.setChecked(true);
+      mLayoutKuaijieDesc.setVisibility(View.VISIBLE);
+      mLayoutKuaijieSetting.setVisibility(View.GONE);
+    } else {
+      mCbKuaijieUseDefaultCard.setChecked(false);
+      mLayoutKuaijieDesc.setVisibility(View.GONE);
+      mLayoutKuaijieSetting.setVisibility(View.VISIBLE);
     }
   }
 
@@ -244,6 +260,21 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
           PreferenceHelper.getInstance().setChoosePayCard(false);
           layoutBankCard.setVisibility(View.GONE);
           layoutBankCardDesc.setVisibility(View.GONE);
+        }
+      }
+    });
+
+    mCbKuaijieUseDefaultCard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+          PreferenceHelper.getInstance().setKuaijieUseDefaultCard(true);
+          mLayoutKuaijieDesc.setVisibility(View.VISIBLE);
+          mLayoutKuaijieSetting.setVisibility(View.GONE);
+        } else {
+          PreferenceHelper.getInstance().setKuaijieUseDefaultCard(false);
+          mLayoutKuaijieDesc.setVisibility(View.GONE);
+          mLayoutKuaijieSetting.setVisibility(View.VISIBLE);
         }
       }
     });
@@ -586,10 +617,10 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
           return;
         }
         //mPreferenceHelper.setPayBankCard(edit_text.getText().toString().trim());
-        if(mCache == null) {
+        if (mCache == null) {
           mCache = ACache.get(AutopaySetupActivity.this);
         }
-        mCache.put(Constants.BANK_CARD,edit_text.getText().toString().trim());
+        mCache.put(Constants.BANK_CARD, edit_text.getText().toString().trim());
         mTonglianBankCard.setText(edit_text.getText().toString().trim());
       }
     });
@@ -614,10 +645,10 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
           return;
         }
         //mPreferenceHelper.setPayName(edit_text.getText().toString().trim());
-        if(mCache == null) {
+        if (mCache == null) {
           mCache = ACache.get(AutopaySetupActivity.this);
         }
-        mCache.put(Constants.USER_NAME,edit_text.getText().toString().trim());
+        mCache.put(Constants.USER_NAME, edit_text.getText().toString().trim());
         mTonglianName.setText(edit_text.getText().toString().trim());
       }
     });
@@ -642,10 +673,10 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
           return;
         }
         //mPreferenceHelper.setPayPhoneNumber(edit_text.getText().toString().trim());
-        if(mCache == null) {
+        if (mCache == null) {
           mCache = ACache.get(AutopaySetupActivity.this);
         }
-        mCache.put(Constants.PHONE_NUMBER,edit_text.getText().toString().trim());
+        mCache.put(Constants.PHONE_NUMBER, edit_text.getText().toString().trim());
         mTonglianPhoneNumber.setText(edit_text.getText().toString().trim());
       }
     });
@@ -669,11 +700,11 @@ public class AutopaySetupActivity extends BaseActivity implements View.OnClickLi
           toast("请输入需正确的姓名");
           return;
         }
-        if(mCache == null) {
+        if (mCache == null) {
           mCache = ACache.get(AutopaySetupActivity.this);
         }
         //mPreferenceHelper.setPayIdCard(edit_text.getText().toString().trim());
-        mCache.put(Constants.ID_CARD,edit_text.getText().toString().trim());
+        mCache.put(Constants.ID_CARD, edit_text.getText().toString().trim());
         mTonglianIdCard.setText(edit_text.getText().toString().trim());
       }
     });

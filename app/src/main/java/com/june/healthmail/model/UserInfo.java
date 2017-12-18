@@ -30,6 +30,7 @@ public class UserInfo extends BmobUser {
   private String proxyPerson; //代理人信息
 
   private Integer XTimes; //次数倍数
+  private Integer maxNumber; //最多约课人数
 
   public Integer getAutoPay() {
     return autoPay;
@@ -181,6 +182,14 @@ public class UserInfo extends BmobUser {
 
   public void setXTimes(Integer XTimes) {
     this.XTimes = XTimes;
+  }
+
+  public Integer getMaxNumber() {
+    return maxNumber;
+  }
+
+  public void setMaxNumber(Integer maxNumber) {
+    this.maxNumber = maxNumber;
   }
 
   @Override

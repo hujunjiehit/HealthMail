@@ -10,6 +10,7 @@
     <string name="description">自动付款功能专用，用于接收短信验证码并点击</string>
     <string name="click_me_for_coins"><u>点击购买充值卡密</u></string>
     <string name="user_type">用户类型</string>
+    <string name="max_number">每节课最大约课人数</string>
     <string name="left_time">剩余授权时间</string>
     <string name="left_icon">金币余额</string>
 

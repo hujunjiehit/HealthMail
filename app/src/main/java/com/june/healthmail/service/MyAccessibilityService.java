@@ -161,7 +161,7 @@ public class MyAccessibilityService extends AccessibilityService {
               autoPayKuaiqian();
             } else if(PreferenceHelper.getInstance().getAutoPayMode() == 2){
               //快捷支付自动付款流程
-              stepOne();
+              autoPayKuaijie();
             } else if (PreferenceHelper.getInstance().getAutoPayMode() == 3) {
               //通联支付自动付款流程
               autoPayTonglian();
@@ -217,6 +217,104 @@ public class MyAccessibilityService extends AccessibilityService {
 
   }
 
+  private void autoPayKuaijie() {
+    if(PreferenceHelper.getInstance().getKuaijieUseDefaultCard()) {
+      //快捷默认卡付款
+      SystemClock.sleep(200);
+
+      mExecutorService.execute(new Runnable() {
+        @Override
+        public void run() {
+          AccessibilityNodeInfo targetInfo = null;
+          mRootNodeInfo = null;
+
+          SystemClock.sleep(2000);
+
+          int tryTimes = 0;
+          while (targetInfo == null && mCurrentState == STATE_WAITING_FOR_LOADING) {
+
+            mRootNodeInfo = null;
+            mRootNodeInfo = getRootInActiveWindow();
+            while (mRootNodeInfo == null) {
+              SystemClock.sleep(400);
+              Log.i("autopay", "mRootNodeInfo is null, waiting...");
+              mRootNodeInfo = getRootInActiveWindow();
+            }
+
+            try {
+              targetInfo =  mRootNodeInfo.getChild(3).getChild(0).getChild(0).getChild(0);
+              if(targetInfo != null) {
+                Log.e("autopay","targetInfo is not null, targetInfo.getChildCount = " + targetInfo.getChildCount());
+              }
+            }catch (Exception e) {
+              Log.e("autopay","targetInfo is null, waiting for loading... tryTimes = " + tryTimes);
+              targetInfo = null;
+              SystemClock.sleep(2000);
+              tryTimes++;
+            }
+            if(tryTimes >= 20 || mCurrentState == STATE_NONE) {
+              targetInfo = null;
+              break;
+            }
+          }
+
+          if(targetInfo != null) {
+            mCurrentState = STATE_BEFORE_SMS_CODE;
+            SystemClock.sleep(500);
+
+            mResultInfo = null;
+            getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"发送验证码");
+            if(mResultInfo != null) {
+              Log.e("autopay","perform action click 发送验证码");
+              mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+              SystemClock.sleep(500);
+
+              mRootNodeInfo = null;
+              mRootNodeInfo = getRootInActiveWindow();
+              while (mRootNodeInfo == null) {
+                SystemClock.sleep(400);
+                Log.i("autopay", "mRootNodeInfo is null, waiting...");
+                mRootNodeInfo = getRootInActiveWindow();
+              }
+
+              mResultInfo = null;
+              getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"知道了");
+              while (mResultInfo == null) {
+                SystemClock.sleep(1000);
+                Log.e("autopay", "watiting for send smscode, waiting...");
+
+                mRootNodeInfo = null;
+                mRootNodeInfo = getRootInActiveWindow();
+                while (mRootNodeInfo == null) {
+                  SystemClock.sleep(400);
+                  Log.i("autopay", "mRootNodeInfo is null, waiting...");
+                  mRootNodeInfo = getRootInActiveWindow();
+                }
+                getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"知道了");
+              }
+              Log.e("autopay", "mResultInfo = " + mResultInfo);
+              if(mResultInfo != null) {
+                Rect rect = new Rect();
+                mResultInfo.getBoundsInScreen(rect);
+                clickPoint((rect.left + rect.right)/2,(rect.top + rect.bottom)/2);
+                Log.e("autopay", "click point:(" + (rect.left + rect.right)/2 + "," + (rect.top + rect.bottom)/2 + ")");
+                SystemClock.sleep(500);
+              }
+              mCurrentState = STATE_WAITING_SMS_CODE;
+              getSmsCode();
+            }
+          }else {
+            SystemClock.sleep(500);
+            mCurrentState = STATE_WAITING_FOR_LOADING;
+            goBack();
+          }
+        }
+      });
+    } else {
+      //快捷不是默认卡付款--走原来的逻辑
+      stepOne();
+    }
+  }
 
 
   /**
@@ -1101,7 +1199,7 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(2000);
           tryTimes++;
           Log.e("autopay","waiting for sms code... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-          if(tryTimes >= 35 || mCurrentState == STATE_NONE) {
+          if(tryTimes >= 70 || mCurrentState == STATE_NONE) {
             break;
           }
         }

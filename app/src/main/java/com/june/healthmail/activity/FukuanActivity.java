@@ -54,6 +54,7 @@ import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
+import com.june.healthmail.untils.Tools;
 import com.june.healthmail.view.ChoosePayOptionsPopwindow;
 
 import org.json.JSONException;
@@ -87,6 +88,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private TextView tvCoinsNumber;
   private TextView tvCoinsDesc;
   private CheckBox cbPayAllOrders;
+  private CheckBox cbPayOnlyToday;
   private ShowProgress showProgress;
   private Retrofit mRetrofit;
 
@@ -199,8 +201,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           GetOrderListModel getOrderListModel = (GetOrderListModel)msg.obj;
             if(getOrderListModel.getValuse() != null){
                 for(int i = 0; i < getOrderListModel.getValuse().size(); i++){
-                    getOrderListModel.getValuse().get(i).setSelected(true);
-                    hmOrders.add(getOrderListModel.getValuse().get(i));
+                    if (PreferenceHelper.getInstance().getPayOnlyToday()) {
+                      //只付款今天的课
+                      if (Tools.isToday(getOrderListModel.getValuse().get(i).getHM_ServerDate())) {
+                        getOrderListModel.getValuse().get(i).setSelected(true);
+                        hmOrders.add(getOrderListModel.getValuse().get(i));
+                      }
+                    } else {
+                      getOrderListModel.getValuse().get(i).setSelected(true);
+                      hmOrders.add(getOrderListModel.getValuse().get(i));
+                    }
                 }
                 if(hmOrders.size() > 0){
                   showTheResult("------------共有" + hmOrders.size() + "个订单\n");
@@ -440,11 +450,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     tvCoinsNumber = (TextView) findViewById(R.id.tv_coins_number);
     tvCoinsDesc =  (TextView) findViewById(R.id.tv_coins_desc);
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
+    cbPayOnlyToday = (CheckBox) findViewById(R.id.cb_pay_only_today);
     mRootView = findViewById(R.id.main_view);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
       cbPayAllOrders.setChecked(false);
+    }
+    if (PreferenceHelper.getInstance().getPayOnlyToday()) {
+      cbPayOnlyToday.setChecked(true);
+    } else {
+      cbPayOnlyToday.setChecked(false);
     }
     if(userInfo.getPayStatus() != null && userInfo.getPayStatus() == 1) {
       tvCoinsNumber.setVisibility(View.GONE);
@@ -462,6 +478,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           PreferenceHelper.getInstance().setPayAllOrders(true);
         } else {
           PreferenceHelper.getInstance().setPayAllOrders(false);
+        }
+      }
+    });
+
+    cbPayOnlyToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          PreferenceHelper.getInstance().setPayOnlyToday(true);
+        } else {
+          PreferenceHelper.getInstance().setPayOnlyToday(false);
         }
       }
     });

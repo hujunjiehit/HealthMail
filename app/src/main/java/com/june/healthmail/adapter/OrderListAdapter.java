@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.june.healthmail.R;
 import com.june.healthmail.model.HmOrder;
+import com.june.healthmail.untils.Tools;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +83,7 @@ public class OrderListAdapter extends BaseAdapter{
         HmOrder hmOrder = mOrderList.get(position);
         holder.tvNum.setText((position + 1) + "");
         holder.tvNickName.setText(hmOrder.getTrainerNick());
-        holder.tvTime.setText(hmOrder.getHM_GBC_ServerTime());
+        holder.tvTime.setText(getServerTime(hmOrder));
         holder.tvPrice.setText(hmOrder.getHM_OrderPrice()+"");
 
         holder.cbStatus.setTag(position);
@@ -101,6 +102,10 @@ public class OrderListAdapter extends BaseAdapter{
 
         return convertView;
     }
+
+  private String getServerTime(HmOrder hmOrder) {
+    return Tools.getCourseDay(hmOrder.getHM_ServerDate()) + "日 " + hmOrder.getHM_GBC_ServerTime();
+  }
 
   private void addListener(ViewHolder holder, final int position) {
     holder.cbStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

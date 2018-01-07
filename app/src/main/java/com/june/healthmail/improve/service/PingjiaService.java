@@ -18,6 +18,7 @@ import com.june.healthmail.model.OrdersModel;
 import com.june.healthmail.model.PingjiaModel;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
+import com.june.healthmail.model.WordInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.HttpUntils;
@@ -25,6 +26,8 @@ import com.june.healthmail.untils.PreferenceHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import cn.bmob.v3.BmobUser;
 import okhttp3.Call;
@@ -54,7 +57,9 @@ public class PingjiaService extends BaseService {
   private int courseIndex = 0;
   private OrdersModel ordersModel;
   private PingjiaModel pingjiaModel;
-  private String pingWord;
+  private List<WordInfo> mPingjiaWords;
+  private String mWord;
+  private Random mRandom;
   private ArrayList<Order> coureseList = new ArrayList<>();
 
   private NotificationCompat.Builder mNotifyBuilder;
@@ -172,13 +177,15 @@ public class PingjiaService extends BaseService {
           }
           if(courseIndex < coureseList.size()){
             showTheResult("-----------开始评价第"+ (courseIndex + 1) + "节课程[" +
-                coureseList.get(courseIndex).getHm_go_orderstatus() + "]:");
+                coureseList.get(courseIndex).getHm_go_orderstatus() + "]\n");
             if(coureseList.get(courseIndex).getHm_go_orderstatus() != 9){
-              showTheResult("无需评价\n");
+              showTheResult("-------------无需评价\n");
               courseIndex++;
               message = this.obtainMessage(START_TO_PING_JIA_ONE_COURSE);
               message.sendToTarget();
             }else{
+              mWord = getPingjiaWord();
+              showTheResult("-------------评价语：" + mWord + "\n");
               pingjiaTheCourse(coureseList.get(courseIndex).getGrouporder_id());
             }
           } else {
@@ -201,7 +208,7 @@ public class PingjiaService extends BaseService {
           if(isRunning == false) {
             return;
           }
-          showTheResult("评价成功\n");
+          showTheResult("---------------评价成功\n");
           courseIndex++;
           CommonUntils.minusPingjiaTimes();
           updateTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
@@ -416,7 +423,7 @@ public class PingjiaService extends BaseService {
 
     JsonObject modelJob  = new JsonObject();
     modelJob.addProperty("hm_orderid",hm_orderid);
-    modelJob.addProperty("hm_ptc_content",pingWord.trim());
+    modelJob.addProperty("hm_ptc_content", mWord);
     modelJob.addProperty("hm_ptc_score",5);
 
     JsonObject job = new JsonObject();
@@ -459,6 +466,13 @@ public class PingjiaService extends BaseService {
     });
   }
 
+  private String getPingjiaWord() {
+    if (mRandom == null) {
+      mRandom = new Random();
+    }
+    int index = mRandom.nextInt(mPingjiaWords.size());
+    return mPingjiaWords.get(index).getWords();
+  }
 
 
   public class PingjiaBinder extends Binder {
@@ -480,9 +494,8 @@ public class PingjiaService extends BaseService {
       mActivityHandler = handler;
     }
 
-    public void setPingjiaWord(String word) {
-      Log.e("test", "setPingjiaWords execute,words =  " + word);
-      pingWord = word;
+    public void setPingjiaWord(List<WordInfo> wordList) {
+      mPingjiaWords = wordList;
     }
   }
 

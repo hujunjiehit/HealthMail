@@ -368,8 +368,8 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
       toast("开课时间不能早于现在");
       return false;
     }
-    if(!TimeUntils.isInTenDays(time)) {
-      toast("只能发布十天内的课程");
+    if(!TimeUntils.isInTwentyDays(time)) {
+      toast("只能发布二十天内的课程");
       return false;
     }
 

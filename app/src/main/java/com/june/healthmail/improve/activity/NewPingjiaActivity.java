@@ -1,11 +1,9 @@
 package com.june.healthmail.improve.activity;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
@@ -15,23 +13,26 @@ import android.os.IBinder;
 import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
+import com.june.healthmail.activity.ManagePingjiaWordsActivity;
 import com.june.healthmail.improve.service.BaseService;
 import com.june.healthmail.improve.service.PingjiaService;
+import com.june.healthmail.model.WordInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.Tools;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by june on 2017/8/17.
@@ -56,12 +57,15 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   private TextView mBtnAdd;
   private PingjiaService.PingjiaBinder mBinder;
 
+  private List<WordInfo> mWords;
+  private List<WordInfo> mSelectedWords;
+
   private ServiceConnection connection = new ServiceConnection() {
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
       mBinder = (PingjiaService.PingjiaBinder) service;
       mBinder.setHandler(mHandler);
-      mBinder.setPingjiaWord(tv_show_words.getText().toString().trim());
+      mBinder.setPingjiaWord(mSelectedWords);
     }
 
     @Override
@@ -107,7 +111,7 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
     }
     initView();
     setListener();
-    initData();
+    //initData();
 
     //bindService
     Intent bindIntent = new Intent(this,PingjiaService.class);
@@ -123,6 +127,7 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   @Override
   protected void onResume() {
     super.onResume();
+    initData();
     Log.e("test","onResume + " + getIntent().getStringExtra("fromAlarm"));
   }
 
@@ -220,21 +225,47 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   }
 
   private void initData() {
-    String pingjiaWord = PreferenceHelper.getInstance().getPingjiaWord();
-    if(pingjiaWord != null){
-      tv_show_words.setText(pingjiaWord);
+    mWords = PreferenceHelper.getInstance().getWordList();
+    if (mWords == null) {
+      mWords = new ArrayList<>();
+      WordInfo wordInfo = new WordInfo();
+      wordInfo.setWords("很好非常好");
+      wordInfo.setSelected(true);
+      mWords.add(wordInfo);
     }
+    tv_show_words.setText("随机" + getSelectedCount() +  "选1");
     tvRemainTimes.setText(PreferenceHelper.getInstance().getRemainPingjiaTimes() + "");
+  }
+
+  private int getSelectedCount() {
+    int count = 0;
+    if (mSelectedWords == null) {
+      mSelectedWords = new ArrayList<>();
+    }
+    mSelectedWords.clear();
+    for(WordInfo word:mWords) {
+      if (word.isSelected()) {
+        count++;
+        mSelectedWords.add(word);
+      }
+    }
+    return count;
   }
 
   @Override
   public void onClick(View v) {
     switch (v.getId()){
       case R.id.btn_edit_words:
-        showEditWordsDialog();
+        //showEditWordsDialog();
+        Intent intent = new Intent(this, ManagePingjiaWordsActivity.class);
+        startActivity(intent);
         break;
       case R.id.btn_start:
-        startToPingjia();
+        if (mSelectedWords != null && mSelectedWords.size() > 0) {
+          startToPingjia();
+        } else {
+          toast("至少需要勾选一个评价语");
+        }
         break;
       case R.id.img_back:	//返回
         finish();
@@ -303,33 +334,6 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
     if(offset > tvShowResult.getHeight()){
       tvShowResult.scrollTo(0,offset- tvShowResult.getHeight());
     }
-  }
-
-  private void showEditWordsDialog() {
-    View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_pingjia_word_layout,null);
-    final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
-
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("修改评价语");
-    builder.setView(diaog_view);
-    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        String new_pingjia_word = edit_text.getText().toString().trim();
-        Log.d("test","new_pingjia_word = " + new_pingjia_word);
-        if(new_pingjia_word.length() >= 5){
-          PreferenceHelper.getInstance().savePingjiaWord(new_pingjia_word);
-          tv_show_words.setText(new_pingjia_word);
-          if(mBinder != null) {
-            mBinder.setPingjiaWord(tv_show_words.getText().toString().trim());
-          }
-          dialog.dismiss();
-        }else {
-          Toast.makeText(NewPingjiaActivity.this,"评价语需要大于五个字，请重新输入",Toast.LENGTH_LONG).show();
-        }
-      }
-    });
-    builder.create().show();
   }
 
   @Override

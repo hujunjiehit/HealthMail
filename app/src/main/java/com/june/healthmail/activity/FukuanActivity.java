@@ -237,6 +237,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                   if(!CommonUntils.isPayUser(userInfo)) {
                     if(accountList.get(accountIndex).getHasPayed() == 1) {
                       showTheResult("------------今日已经扣过金币，本次支付免金币\n");
+                      if(cbPayAllOrders.isChecked()) {
+                        this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                      } else {
+                        //显示订单选择对话框
+                        showChooseOlderDialog();
+                      }
                     }else {
                       accountList.get(accountIndex).setHasPayed(1);
                       DBManager.getInstance().updateHasPayed(accountList.get(accountIndex));
@@ -246,16 +252,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                       if(userInfo.getUsername().equals("15639392922")){
                         showTheResult("--------------金币余额-" + coinsCost + "\n");
                       }else {
-                        showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
+                        showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/24 + 1) + "\n");
                       }
                     }
-
-                  }
-                  if(cbPayAllOrders.isChecked()) {
-                    this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
                   } else {
-                    //显示订单选择对话框
-                    showChooseOlderDialog();
+                    if(cbPayAllOrders.isChecked()) {
+                      this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                    } else {
+                      //显示订单选择对话框
+                      showChooseOlderDialog();
+                    }
                   }
                 }else {
                   showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
@@ -1335,6 +1341,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         public void done(BmobException e) {
           if(e == null){
             Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+            if(cbPayAllOrders.isChecked()) {
+              mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+            } else {
+              //显示订单选择对话框
+              showChooseOlderDialog();
+            }
           }
         }
       });

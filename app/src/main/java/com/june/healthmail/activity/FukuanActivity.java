@@ -675,16 +675,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           Toast.makeText(this,"金币余额不足，无法使用付款功能",Toast.LENGTH_LONG).show();
           return;
         }
-        if(cbOpenAccess.isChecked()) {
-          if(userInfo.getAutoPay() == null) {
-            toast("辅助功能未开通，请关闭辅助功能再继续");
-            return;
-          }
-          if(userInfo.getAutoPay() != null && userInfo.getAutoPay() < 1) {
-            toast("辅助功能授权已过期，请关闭辅助功能再继续");
-            return;
-          }
+
+        if(userInfo.getAutoPay() == null) {
+          toast("辅助功能未开通，无法使用付款定制版付款");
+          return;
         }
+        if(userInfo.getAutoPay() != null && userInfo.getAutoPay() < 1) {
+          toast("辅助功能授权已过期，无法使用付款定制版付款");
+          return;
+        }
+
         if("付款完成".equals(btn_start.getText().toString().trim())){
           Toast.makeText(this,"付款已完成，如需继续付款请重新进入本页面",Toast.LENGTH_LONG).show();
         }else {

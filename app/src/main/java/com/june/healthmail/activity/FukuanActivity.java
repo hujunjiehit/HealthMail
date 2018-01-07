@@ -217,20 +217,20 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
                   if(userInfo.getPayStatus() == null) {
                     updateTheCoinsNumber();
                     tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                    showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
+                    showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/24 + 1) + "\n");
                   } else {
                     if(userInfo.getPayStatus() != 1) {
                       updateTheCoinsNumber();
                       tvCoinsNumber.setText(userInfo.getCoinsNumber()+"");
-                      showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/20 + 1) + "\n");
+                      showTheResult("--------------金币余额-" + coinsCost*((hmOrders.size() -1)/24 + 1) + "\n");
+                    }else {
+                      if(cbPayAllOrders.isChecked()) {
+                        this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+                      } else {
+                        //显示订单选择对话框
+                        showChooseOlderDialog();
+                      }
                     }
-                  }
-
-                  if(cbPayAllOrders.isChecked()) {
-                    this.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
-                  } else {
-                    //显示订单选择对话框
-                    showChooseOlderDialog();
                   }
                 }else {
                   showTheResult("-------------当前无可支付订单，继续下一个小号\n\n\n");
@@ -1177,6 +1177,12 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         public void done(BmobException e) {
           if(e == null){
             Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+            if(cbPayAllOrders.isChecked()) {
+              mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT, getDelayTime());
+            } else {
+              //显示订单选择对话框
+              showChooseOlderDialog();
+            }
           }
         }
       });

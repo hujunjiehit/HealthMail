@@ -137,6 +137,10 @@
             android:name=".activity.ProxyDetailActivity">
         </activity>
 
+        <activity
+            android:name=".activity.ManagePingjiaWordsActivity">
+        </activity>
+
         <!-- bmob升级 -->
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity">

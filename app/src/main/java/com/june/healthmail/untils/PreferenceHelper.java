@@ -37,6 +37,7 @@ public class PreferenceHelper extends BasePerference{
     public final static String KEY_REMAIN_PINGJIA_TIMES = "remain_pingjia_times";//剩余评价次数
 
     public final static String KEY_PAY_ALL_ORDERS = "pay_all_orders";//
+    public final static String KEY_PAY_ONLY_TODAY = "pay_only_today";// 只付款今天的订单
     public final static String KEY_ONLY_TODAY = "yueke_only_today";//是否支付全部订单
     public final static String KEY_SORT_COURSE = "key_sort_course";//按时间排序订单
 
@@ -1439,7 +1440,7 @@ public class PreferenceHelper extends BasePerference{
         checkPrefs();
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD,getPayAllOrders);
+            editor.putBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD, getPayAllOrders);
             if (mUseApply) {
                 editor.apply();
             } else {
@@ -1448,11 +1449,34 @@ public class PreferenceHelper extends BasePerference{
         }
     }
 
+    public void setPayOnlyToday(boolean getPayAllOrders) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(KEY_PAY_ONLY_TODAY,getPayAllOrders);
+            if (mUseApply) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+    }
+
+
     public boolean getKuaijieUseDefaultCard() {
         boolean value = false;
         checkPrefs();
         if (prefs != null) {
-            value = prefs.getBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD,value);
+            value = prefs.getBoolean(KEY_KUAIJIE_USE_DEFAULT_CARD, value);
+        }
+        return value;
+    }
+
+    public boolean getPayOnlyToday() {
+        boolean value = false;
+        checkPrefs();
+        if (prefs != null) {
+            value = prefs.getBoolean(KEY_PAY_ONLY_TODAY,value);
         }
         return value;
     }

@@ -94,6 +94,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
   private TextView tvLeftTime;
   private CheckBox cbPayAllOrders;
   private CheckBox cbOpenAccess;
+  private CheckBox cbPayOnlyToday;
   private ShowProgress showProgress;
   private Retrofit mRetrofit;
 
@@ -208,8 +209,16 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           GetOrderListModel getOrderListModel = (GetOrderListModel)msg.obj;
             if(getOrderListModel.getValuse() != null){
                 for(int i = 0; i < getOrderListModel.getValuse().size(); i++){
-                    getOrderListModel.getValuse().get(i).setSelected(true);
-                    hmOrders.add(getOrderListModel.getValuse().get(i));
+                    if (PreferenceHelper.getInstance().getPayOnlyToday()) {
+                      //只付款今天的课
+                      if (Tools.isToday(getOrderListModel.getValuse().get(i).getHM_ServerDate())) {
+                        getOrderListModel.getValuse().get(i).setSelected(true);
+                        hmOrders.add(getOrderListModel.getValuse().get(i));
+                      }
+                    } else {
+                      getOrderListModel.getValuse().get(i).setSelected(true);
+                      hmOrders.add(getOrderListModel.getValuse().get(i));
+                    }
                 }
 
                 //自动支付勾选通联付款
@@ -498,11 +507,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     cbPayAllOrders = (CheckBox) findViewById(R.id.cb_pay_all_orders);
     cbOpenAccess = (CheckBox) findViewById(R.id.cb_open_access);
     tvLeftTime = (TextView) findViewById(R.id.tv_left_time);
+    cbPayOnlyToday = (CheckBox) findViewById(R.id.cb_pay_only_today);
     mRootView = findViewById(R.id.main_view);
     if (PreferenceHelper.getInstance().getPayAllOrders()) {
       cbPayAllOrders.setChecked(true);
     } else {
       cbPayAllOrders.setChecked(false);
+    }
+    if (PreferenceHelper.getInstance().getPayOnlyToday()) {
+      cbPayOnlyToday.setChecked(true);
+    } else {
+      cbPayOnlyToday.setChecked(false);
     }
     if(userInfo.getPayStatus() != null && userInfo.getPayStatus() == 1) {
       tvCoinsNumber.setVisibility(View.GONE);
@@ -600,17 +615,10 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         }
       }
     });
-
-//    cbOpenAccess.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//      @Override
-//      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//      }
-//    });
     cbOpenAccess.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if(userInfo.getAutoPay() == null) {
+        if (userInfo.getAutoPay() == null) {
           cbOpenAccess.setChecked(cbOpenAccess.isChecked());
           toast("辅助功能暂未开通，请联系群主开通试用");
           return;
@@ -620,6 +628,17 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
         accessibleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         startActivity(accessibleIntent);
+      }
+    });
+      
+    cbPayOnlyToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          PreferenceHelper.getInstance().setPayOnlyToday(true);
+        } else {
+          PreferenceHelper.getInstance().setPayOnlyToday(false);
+        }
       }
     });
   }

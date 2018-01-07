@@ -324,8 +324,8 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
   private boolean checkParams() {
     //检查发布多少节课
     courseNumber = Tools.parseInt(etCourseNumber.getText().toString().trim());
-    if(courseNumber > 10) {
-      toast("一次最多只能发布十节课");
+    if(courseNumber > 12) {
+      toast("一次最多只能发布十二节课");
       return false;
     }else if(courseNumber == 0){
       toast("请设置发布多少节课");
@@ -359,10 +359,10 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
 
     //检查时间
     String time = tvShowTime.getText().toString().trim();
-    if(beforeSix(time)){
-      toast("开课时间不能早于早上六点");
-      return false;
-    }
+//    if(beforeSix(time)){
+//      toast("开课时间不能早于早上六点");
+//      return false;
+//    }
 
     if(isBeforeNow(time)){
       toast("开课时间不能早于现在");
@@ -404,7 +404,7 @@ public class PostCourseDetailActivity extends BaseActivity implements View.OnCli
 
   private int getMaxCourseNumber() {
     int startTime = Tools.parseInt(courseTime.split(" ")[1].split(":")[0]);
-    return 23 - startTime - 2;
+    return 23 - startTime;
   }
 
   private boolean isBeforeNow(String time) {

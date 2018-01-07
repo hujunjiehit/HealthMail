@@ -56,9 +56,8 @@ public class FukuanService extends BaseService {
                   mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
                   startForeground(1, mNotifyBuilder.build());
 
-                  Bundle bundel = new Bundle();
-                  bundel.putSerializable("account",accountList.get(accountIndex));
-                  sendToService(AutopayAccessibilityService.INTENT_ACTION_FUKUAN,bundel);
+                  updateTheCoinsNumber();
+                  showTheResult("-----金币余额-1\n");
                 } else {
                   showTheResult("******当前小号未启用，跳过，继续下一个小号\n\n\n");
                   accountIndex++;
@@ -69,7 +68,6 @@ public class FukuanService extends BaseService {
                 mNotifyBuilder.setContentText("所有账号付款结束");
                 mNotifyBuilder.setProgress(accountList.size(), accountIndex, false);
                 startForeground(1, mNotifyBuilder.build());
-
                 showTheResult("******所有账号付款结束**********\n");
                 isRunning = false;
                 finishFukuan();
@@ -93,8 +91,6 @@ public class FukuanService extends BaseService {
           break;
         case NEXT_ACCOUNT:
           Log.e("test","NEXT_ACCOUNT");
-          updateTheCoinsNumber();
-          showTheResult("-----继续下一个号，金币余额-1\n");
           accountIndex++;
           message = this.obtainMessage(START_TO_FUKUAN);
           message.sendToTarget();
@@ -186,6 +182,9 @@ public class FukuanService extends BaseService {
         public void done(BmobException e) {
           if(e == null){
             Log.e("test","updateTheCoinsNumber 更新用户积分成功");
+            Bundle bundel = new Bundle();
+            bundel.putSerializable("account",accountList.get(accountIndex));
+            sendToService(AutopayAccessibilityService.INTENT_ACTION_FUKUAN,bundel);
           }
         }
       });

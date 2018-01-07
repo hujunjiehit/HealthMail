@@ -327,9 +327,9 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 int value = Integer.valueOf(edit_text.getText().toString().trim());
-                if(value > 100) {
-                    toast("每个私教最多只能约100节课");
-                }else if(value > 0 && value <= 100){
+                if(value > 200) {
+                    toast("每个私教最多只能约200节课");
+                }else if(value > 0 && value <= 200){
                     PreferenceHelper.getInstance().setMaxCourses(value);
                     per_sijiao_max_courses = PreferenceHelper.getInstance().getMaxCourses();
                     tvShowMaxCourses.setText(per_sijiao_max_courses + "");

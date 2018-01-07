@@ -1,7 +1,5 @@
 package com.june.healthmail.untils;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,10 +81,15 @@ public class TimeUntils {
     return date.getTime();
   }
 
-  public static boolean isInTenDays(String time) {
+  /**
+   * 是否是20天内的课程
+   * @param time
+   * @return
+   */
+  public static boolean isInTwentyDays(String time) {
     try {
       long time1 = TimeUntils.dateToStamp(time);
-      long diff = time1 - (System.currentTimeMillis() + 1000*3600*24*10);
+      long diff = time1 - (System.currentTimeMillis() + 1000*3600*24*20);
       if(diff > 0){
         return false;
       }else {

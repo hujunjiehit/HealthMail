@@ -35,7 +35,7 @@ android {
                 variant.outputs.each { output ->
                     println("test output:" + output)
                     output.outputFile = new File(
-                            output.outputFile.parent,
+                            "/Users/june/App",
                             output.outputFile.name.replace("app-release.apk", "付款定制版-${variant.versionName}.apk"))
                 }
             }

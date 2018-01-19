@@ -1,7 +1,6 @@
 package com.june.healthmail.view;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +8,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.june.healthmail.R;
-import com.june.healthmail.activity.FukuanActivity;
 
 /**
  * Created by bjhujunjie on 2017/3/9.
@@ -19,7 +17,7 @@ public class ChoosePayOptionsPopwindow extends PopupWindow{
     private Context mContext;
     private View view;
 
-    private Button[] btns = new Button[6];
+    private Button[] btns = new Button[7];
 
     public ChoosePayOptionsPopwindow(Context context, int[] data,View.OnClickListener listener){
       this.mContext = context;
@@ -31,8 +29,9 @@ public class ChoosePayOptionsPopwindow extends PopupWindow{
       btns[3] = (Button) view.findViewById(R.id.btn_fukuan_yilian);
       btns[4] = (Button) view.findViewById(R.id.btn_fukuan_huifu);
       btns[5] = (Button) view.findViewById(R.id.btn_fukuan_kuaiqian_2);
+      btns[6] = (Button) view.findViewById(R.id.btn_fukuan_lianlian);
 
-      for (int i = 0; i < 6; i++){
+      for (int i = 0; i < 7; i++){
         btns[i].setOnClickListener(listener);
         if(data[i] == 1){
           btns[i].setVisibility(View.VISIBLE);

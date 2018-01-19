@@ -9,6 +9,13 @@ import android.util.Log;
 import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.UserInfo;
 
+import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by june on 2017/6/15.
  */
@@ -131,5 +138,68 @@ public class Tools {
     int delta = PreferenceHelper.getInstance().getMaxYuekeTime() - PreferenceHelper.getInstance().getMinYuekeTime();
     PreferenceHelper.getInstance().setMinYuekeTime(progress);
     PreferenceHelper.getInstance().setMaxYuekeTime(progress + delta);
+  }
+
+  public static HashMap<String, String> parseParams(Uri uri) {
+    if (uri == null) {
+      return new HashMap<String, String>();
+    }
+    HashMap<String, String> temp = new HashMap<String, String>();
+    Set<String> keys = getQueryParameterNames(uri);
+    for (String key : keys) {
+      temp.put(key, uri.getQueryParameter(key));
+    }
+    return temp;
+  }
+
+  public static Set<String> getQueryParameterNames(Uri uri) {
+    String query = uri.getEncodedQuery();
+    if (query == null) {
+      return Collections.emptySet();
+    }
+
+    Set<String> names = new LinkedHashSet<String>();
+    int start = 0;
+    do {
+      int next = query.indexOf('&', start);
+      int end = (next == -1) ? query.length() : next;
+
+      int separator = query.indexOf('=', start);
+      if (separator > end || separator == -1) {
+        separator = end;
+      }
+
+      String name = query.substring(start, separator);
+      names.add(URLDecoder.decode(name));
+
+      start = end + 1;
+    } while (start < query.length());
+
+    return Collections.unmodifiableSet(names);
+  }
+
+  /**
+   * 解析出url参数中的键值对
+   */
+  public static Map<String,String> parseUrlParam(String strParam) {
+    Map<String, String> mapRequest = new HashMap<String, String>();
+    String[] arrSplit = null;
+
+    arrSplit = strParam.split("[&]");
+    for(String strSplit : arrSplit) {
+      String[] arrSplitEqual=null;
+      arrSplitEqual= strSplit.split("[=]");
+      //解析出键值
+      if(arrSplitEqual.length > 1) {
+        //正确解析
+        mapRequest.put(arrSplitEqual[0], arrSplitEqual[1]);
+      }else {
+        if(arrSplitEqual[0] != "") {
+          //只有参数没有值，不加入
+          mapRequest.put(arrSplitEqual[0], "");
+        }
+      }
+    }
+    return mapRequest;
   }
 }

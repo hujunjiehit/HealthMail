@@ -16,8 +16,8 @@ android {
         applicationId "com.june.healthmail"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 101
-        versionName "5.7.1"
+        versionCode 102
+        versionName "5.8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构
@@ -35,8 +35,8 @@ android {
                 variant.outputs.each { output ->
                     println("test output:" + output)
                     output.outputFile = new File(
-                            output.outputFile.parent,
-                            output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+                            "/Users/june/App",
+                            output.outputFile.name.replace("app-release.apk", "猫友圈-免root版本-${variant.versionName}.apk"))
                 }
             }
         }

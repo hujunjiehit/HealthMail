@@ -2,7 +2,10 @@
 
 buildscript {
     repositories {
-        jcenter()
+        //jcenter()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
@@ -16,7 +19,11 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        //jcenter()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+
         //Bmob的maven仓库地址
 //        maven {
 //            url "https://raw.github.com/bmob/bmob-android-sdk/master"

@@ -287,8 +287,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
               //testcode
               if(userInfo != null &&
                       (userInfo.getUsername().equals("13027909110") ||
-                              userInfo.getUsername().equals("18002570032") ||
-                              userInfo.getUsername().equals("18671400766"))){
+                              userInfo.getUsername().equals("18002570032"))){
                 showTheResult("---------------支付方式" + (i + 1) + "剩余支付金额：" + getAllPaymentModel.getValuse().get(i).getChannelamount() + "\n");
               }
             }
@@ -1350,6 +1349,13 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
           }
         }
       });
+    } else {
+      if(cbPayAllOrders.isChecked()) {
+        mHandler.sendEmptyMessageDelayed(START_TO_GET_ALL_PAYMENT,getDelayTime());
+      } else {
+        //显示订单选择对话框
+        showChooseOlderDialog();
+      }
     }
   }
 

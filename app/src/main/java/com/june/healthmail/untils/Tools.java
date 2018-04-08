@@ -1,19 +1,12 @@
 package com.june.healthmail.untils;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.june.healthmail.model.Course;
-
-import java.text.ParseException;
-import java.util.List;
-import android.content.Intent;
-import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.june.healthmail.activity.WebViewActivity;
 import com.june.healthmail.model.UserInfo;
@@ -175,5 +168,15 @@ public class Tools {
     int delta = PreferenceHelper.getInstance().getMaxYuekeTime() - PreferenceHelper.getInstance().getMinYuekeTime();
     PreferenceHelper.getInstance().setMinYuekeTime(progress);
     PreferenceHelper.getInstance().setMaxYuekeTime(progress + delta);
+  }
+
+  public static String getText(AccessibilityNodeInfo mNode){
+    String result;
+    if (!TextUtils.isEmpty(mNode.getContentDescription())) {
+      result = mNode.getContentDescription().toString();
+    } else {
+      result = mNode.getText().toString();
+    }
+    return result;
   }
 }

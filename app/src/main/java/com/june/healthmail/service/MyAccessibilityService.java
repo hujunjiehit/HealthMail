@@ -22,6 +22,7 @@ import com.june.healthmail.Config.DeviceConfig;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.ACache;
 import com.june.healthmail.untils.PreferenceHelper;
+import com.june.healthmail.untils.Tools;
 
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -522,12 +523,18 @@ public class MyAccessibilityService extends AccessibilityService {
 
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+
+      if (mResultInfo == null) {
+        getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+      }
+
       if(mResultInfo != null) {
         //需要获取验证码
         Log.e("autopay", "need to get sms code");
-        int size1 = mResultInfo.getContentDescription().toString().length();
-        while (mResultInfo != null && mResultInfo.getContentDescription().toString().length() <= size1) {
-          Log.e("autopay", "text length = " + mResultInfo.getContentDescription().toString().length());
+        String text;
+        text = Tools.getText(mResultInfo).trim();
+        int size1 = text.length();
+        while (mResultInfo != null && text.length() <= size1) {
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);
           mResultInfo = null;
@@ -540,6 +547,9 @@ public class MyAccessibilityService extends AccessibilityService {
             mRootNodeInfo = getRootInActiveWindow();
           }
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0), "获取验证码");
+          if (mResultInfo != null) {
+            text = Tools.getText(mResultInfo).trim();
+          }
         }
         mCurrentState = STATE_WAITING_SMS_CODE;
         getSmsCode();
@@ -564,9 +574,10 @@ public class MyAccessibilityService extends AccessibilityService {
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
       if(mResultInfo != null) {
         //需要获取验证码
-        Log.e("autopay","need to get sms code");
-        int size1 = mResultInfo.getContentDescription().toString().length();
-        while (mResultInfo != null && mResultInfo.getContentDescription().toString().length() <= size1) {
+        String text;
+        text = Tools.getText(mResultInfo);
+        int size1 = text.length();
+        while (mResultInfo != null && text.length() <= size1) {
           Log.e("autopay","text length = " + mResultInfo.getContentDescription().toString().length());
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);
@@ -579,7 +590,10 @@ public class MyAccessibilityService extends AccessibilityService {
             Log.i("autopay", "mRootNodeInfo is null, waiting...");
             mRootNodeInfo = getRootInActiveWindow();
           }
-          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+          getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0), "获取验证码");
+          if (mResultInfo != null) {
+            text = Tools.getText(mResultInfo);
+          }
         }
         getSmsCode();
       } else {
@@ -683,6 +697,11 @@ public class MyAccessibilityService extends AccessibilityService {
 
           mResultInfo = null;
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+
+          if (mResultInfo == null) {
+            getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+          }
+
           if(mResultInfo != null) {
             Log.e("autopay","perform action click 获取验证码");
             mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -777,6 +796,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
           mResultInfo = null;
           getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+
+          if (mResultInfo == null) {
+            getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+          }
           if(mResultInfo != null) {
             Log.e("autopay","perform action click 获取验证码");
             mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -804,10 +827,33 @@ public class MyAccessibilityService extends AccessibilityService {
       if(info.getContentDescription() != null && info.getContentDescription().toString().trim().contains(desc)) {
         mResultInfo = info;
       }
+
+      if(info.getText() != null && info.getText().toString().trim().contains(desc)) {
+        mResultInfo = info;
+      }
     } else {
       for(int i = 0; i < info.getChildCount(); i++) {
         if(info.getChild(i) != null) {
          getTargetNodeByDesc(info.getChild(i),desc);
+        }
+      }
+    }
+  }
+
+  private void getTargetNodeByText(AccessibilityNodeInfo info, String text) {
+    //Log.e("autopay","getTargetNodeByDesc  childCount = " + info.getChildCount());
+    if(info == null) {
+      return;
+    }
+    if(info.getChildCount() == 0) {
+      Log.e("autopay","info.getText = " + info.getText());
+      if(info.getText() != null && info.getText().toString().trim().contains(text)) {
+        mResultInfo = info;
+      }
+    } else {
+      for(int i = 0; i < info.getChildCount(); i++) {
+        if(info.getChild(i) != null) {
+          getTargetNodeByText(info.getChild(i),text);
         }
       }
     }
@@ -1199,7 +1245,7 @@ public class MyAccessibilityService extends AccessibilityService {
           SystemClock.sleep(2000);
           tryTimes++;
           Log.e("autopay","waiting for sms code... tryTimes = " + tryTimes + "  mCurrentState = " + mCurrentState);
-          if(tryTimes >= 70 || mCurrentState == STATE_NONE) {
+          if(tryTimes >= 80 || mCurrentState == STATE_NONE) {
             break;
           }
         }
@@ -1269,6 +1315,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+
+      if (mResultInfo == null) {
+        getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+      }
       if(mResultInfo != null && mResultInfo.isClickable()) {
         mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         SystemClock.sleep(2000);
@@ -1286,6 +1336,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"确认付款");
+
+      if (mResultInfo == null) {
+        getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"确认付款");
+      }
       if(mResultInfo != null && mResultInfo.isClickable()) {
         mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         SystemClock.sleep(5000);
@@ -1336,6 +1390,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+
+    if (mResultInfo == null) {
+      getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+    }
     if(mResultInfo != null && mResultInfo.isClickable()) {
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
       SystemClock.sleep(6000);
@@ -1375,6 +1433,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
     mResultInfo = null;
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+
+    if (mResultInfo == null) {
+      getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+    }
     if(mResultInfo != null && mResultInfo.isClickable()) {
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
       SystemClock.sleep(3000);

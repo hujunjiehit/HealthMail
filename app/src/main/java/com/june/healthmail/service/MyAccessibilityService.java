@@ -572,13 +572,14 @@ public class MyAccessibilityService extends AccessibilityService {
 
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
+      Log.e("autopay", "mResultInfo = " + mResultInfo);
       if(mResultInfo != null) {
         //需要获取验证码
         String text;
         text = Tools.getText(mResultInfo);
         int size1 = text.length();
         while (mResultInfo != null && text.length() <= size1) {
-          Log.e("autopay","text length = " + mResultInfo.getContentDescription().toString().length());
+          Log.e("autopay","text length = " + text.length());
           mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           SystemClock.sleep(3000);
           mResultInfo = null;
@@ -594,6 +595,8 @@ public class MyAccessibilityService extends AccessibilityService {
           if (mResultInfo != null) {
             text = Tools.getText(mResultInfo);
           }
+
+          Log.e("autopay", " text.length() = " + text.length() + "  size1 = " + size1);
         }
         getSmsCode();
       } else {
@@ -828,6 +831,7 @@ public class MyAccessibilityService extends AccessibilityService {
         mResultInfo = info;
       }
 
+      Log.e("autopay","info.getContentDescription = " + info.getText());
       if(info.getText() != null && info.getText().toString().trim().contains(desc)) {
         mResultInfo = info;
       }

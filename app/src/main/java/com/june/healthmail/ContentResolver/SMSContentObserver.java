@@ -47,6 +47,14 @@ public class SMSContentObserver extends ContentObserver {
       Cursor c = mContext.getContentResolver().query(inboxUri, null, null, null, "date desc");
       if (c != null) {
         if (c.moveToFirst()) {
+
+          final long smsdate = Long.parseLong(c.getString(c.getColumnIndex("date")));
+          final long nowdate = System.currentTimeMillis();
+          // 如果当前时间和短信时间间隔超过10秒,认为这条短信无效
+          if (nowdate - smsdate > 10*1000) {
+            return;
+          }
+
           // 获取手机号
           String address = c.getString(c.getColumnIndex("address"));
 

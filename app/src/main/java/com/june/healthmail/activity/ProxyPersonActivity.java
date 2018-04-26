@@ -296,25 +296,25 @@ public class ProxyPersonActivity extends Activity implements View.OnClickListene
     });
 
     //赠送升级人1888金币
-    MessageDetails updateMessageDetails = new MessageDetails();
-    updateMessageDetails.setUserName(mUserInfo.getUsername());
-    updateMessageDetails.setStatus(1);
-    updateMessageDetails.setScore(1888);
-    updateMessageDetails.setType(3);
-    updateMessageDetails.setReasons("升级高级永久，赠送金币1888");
-    updateMessageDetails.setRelatedUserName(mUserInfo.getUsername());
-    updateMessageDetails.save(new SaveListener<String>() {
-      @Override
-      public void done(String s, BmobException e) {
-        if(e==null){
-          Log.d("test","升级高级永久，赠送金币1888成功" + s);
-          toast("用户升级高级赠送1888金币成功");
-        }else{
-          Log.e("test","升级高级永久赠送金币失败："+e.getMessage()+","+e.getErrorCode());
-          toast("用户升级高级赠送金币失败");
-        }
-      }
-    });
+//    MessageDetails updateMessageDetails = new MessageDetails();
+//    updateMessageDetails.setUserName(mUserInfo.getUsername());
+//    updateMessageDetails.setStatus(1);
+//    updateMessageDetails.setScore(1888);
+//    updateMessageDetails.setType(3);
+//    updateMessageDetails.setReasons("升级高级永久，赠送金币1888");
+//    updateMessageDetails.setRelatedUserName(mUserInfo.getUsername());
+//    updateMessageDetails.save(new SaveListener<String>() {
+//      @Override
+//      public void done(String s, BmobException e) {
+//        if(e==null){
+//          Log.d("test","升级高级永久，赠送金币1888成功" + s);
+//          toast("用户升级高级赠送1888金币成功");
+//        }else{
+//          Log.e("test","升级高级永久赠送金币失败："+e.getMessage()+","+e.getErrorCode());
+//          toast("用户升级高级赠送金币失败");
+//        }
+//      }
+//    });
   }
 
   private void authorizeUserForever() {

@@ -30,21 +30,16 @@ import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.Installation;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
-import com.june.healthmail.untils.TimeUntils;
 import com.tencent.bugly.beta.Beta;
 
-import java.sql.Time;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 /**
  * Created by bjhujunjie on 2016/9/18.
@@ -394,7 +389,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
               }
             }
           }else {
-            if(e.getErrorCode() == 101){
+            if(e.getErrorCode() == 101 || e.getErrorCode() == 503){
               deviceInfo = null;
               mHandler.sendEmptyMessage(START_TO_LOGIN);
             }else{

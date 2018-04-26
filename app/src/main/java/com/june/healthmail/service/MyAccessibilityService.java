@@ -524,10 +524,6 @@ public class MyAccessibilityService extends AccessibilityService {
       mResultInfo = null;
       getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
 
-      if (mResultInfo == null) {
-        getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"获取验证码");
-      }
-
       if(mResultInfo != null) {
         //需要获取验证码
         Log.e("autopay", "need to get sms code");
@@ -1396,7 +1392,7 @@ public class MyAccessibilityService extends AccessibilityService {
     getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
 
     if (mResultInfo == null) {
-      getTargetNodeByText(mRootNodeInfo.getChild(3).getChild(0),"立即支付");
+      getTargetNodeByDesc(mRootNodeInfo.getChild(3).getChild(0),"确定");
     }
     if(mResultInfo != null && mResultInfo.isClickable()) {
       mResultInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);

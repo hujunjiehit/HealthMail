@@ -62,3 +62,11 @@ file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.
 sha1=a5f8c26a1725acdcbb348232e98554ca2e60650a
 appId=454310b82c
 
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=a5f8c26a1725acdcbb348232e98554ca2e60650a
+appId=454310b82c
+
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=a5f8c26a1725acdcbb348232e98554ca2e60650a
+appId=454310b82c
+

@@ -66,7 +66,7 @@ public class SMSContentObserver extends ContentObserver {
           Log.e("test", "body:" + body);
 
           // 判断手机号是否为目标号码，服务号号码不固定请用正则表达式判断前几位。
-          if (!body.contains("验证码")) {
+          if (!body.contains("验证码") && !body.contains("动态密码")) {
             //不是验证码短信，直接返回
             return;
           }

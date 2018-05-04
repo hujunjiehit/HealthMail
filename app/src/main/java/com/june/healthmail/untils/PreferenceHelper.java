@@ -389,7 +389,7 @@ public class PreferenceHelper extends BasePerference{
     }
 
     public String getBuyCoinsUrl() {
-        String url = "https://www.baidu.com/";
+        String url = "https://item.taobao.com/item.htm?spm=686.1000925.0.0.33df4945lbxAVX&id=559716537351";
         checkPrefs();
         if (prefs != null) {
             url = prefs.getString(KEY_BUY_COINS_URL,url);

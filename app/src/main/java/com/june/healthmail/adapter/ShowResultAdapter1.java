@@ -16,11 +16,11 @@ import cn.bmob.v3.BmobObject;
  * Created by june on 2017/7/30.
  */
 
-public class ShowResultAdapter extends BaseAdapter {
+public class ShowResultAdapter1 extends BaseAdapter {
   private Context mContext;
   private List<BmobObject> mAcountList;
 
-  public ShowResultAdapter(Context mContext, List<BmobObject> mAcountList) {
+  public ShowResultAdapter1(Context mContext, List<BmobObject> mAcountList) {
     this.mContext = mContext;
     this.mAcountList = mAcountList;
   }
@@ -44,7 +44,7 @@ public class ShowResultAdapter extends BaseAdapter {
   public View getView(final int position, View convertView, ViewGroup parent) {
     ViewHolder holder;
     if(convertView == null) {
-      convertView = LayoutInflater.from(mContext).inflate(R.layout.item_show_result,parent,false);
+      convertView = LayoutInflater.from(mContext).inflate(R.layout.item_show_result_1,parent,false);
       holder = new ViewHolder();
       holder.tvIndex = (TextView) convertView.findViewById(R.id.tv_index);
       holder.tvPhonenumber = (TextView) convertView.findViewById(R.id.tv_phone_number);

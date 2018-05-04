@@ -37,7 +37,7 @@ public class DBManager {
 
     public SQLiteDatabase getDb(){
         if(db == null) {
-            db = new MyDatabaseHelper(mContext,"data.db",null,3).getWritableDatabase();
+            db = new MyDatabaseHelper(mContext,"data.db",null,4).getWritableDatabase();
         }
         return db;
     }
@@ -151,10 +151,16 @@ public class DBManager {
             new String[]{accountInfo.getHasPayed()+"", accountInfo.getLastDay(), accountInfo.getPhoneNumber() });
     }
 
-    //reset评价约课次数
+    //更新评价次数、清空约课私教
     public void resetPJYKTimes(AccountInfo accountInfo){
-        getDb().execSQL("update account set pingjiaTimes = ? , yuekeTimes = ? , hasPayed = ? where phoneNumber = ?",
-            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getYuekeTimes()+"", accountInfo.getHasPayed()+"", accountInfo.getPhoneNumber() });
+        getDb().execSQL("update account set pingjiaTimes = ? , yuekeTimes = ?, sijiaoName = ?, hasPayed = ? where phoneNumber = ?",
+            new String[]{accountInfo.getPingjiaTimes()+"", accountInfo.getYuekeTimes()+"", accountInfo.getSijiaoName(), accountInfo.getHasPayed() + "", accountInfo.getPhoneNumber() });
+    }
+
+    //更新评价次数、清空约课私教
+    public void updateYuekeSijiao(AccountInfo accountInfo){
+        getDb().execSQL("update account set sijiaoName = ? where phoneNumber = ?",
+          new String[]{accountInfo.getSijiaoName(), accountInfo.getPhoneNumber() });
     }
 
     //根据mallId获取用户手机号

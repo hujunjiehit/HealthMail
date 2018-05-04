@@ -149,8 +149,8 @@
 
     <TextView
         android:id="@+id/tv_go_to_buy_coins"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
@@ -159,6 +159,18 @@
         android:autoLink="all"
         android:layout_gravity="center"
         android:text="@string/click_me_for_coins"/>
+
+    <TextView
+        android:id="@+id/tv_go_to_add_coins"
+        android:layout_marginBottom="20dp"
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textColor="@color/text_press"
+        android:textSize="20sp"
+        android:autoLink="all"
+        android:layout_gravity="center"
+        android:text="@string/click_me_add_coins"/>
   </LinearLayout>
 
   <LinearLayout

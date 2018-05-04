@@ -23,7 +23,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
           + "lastDay text, "
           + "pingjiaTimes integer,"
           + "yuekeTimes integer,"
-          + "hasPayed integer"
+          + "hasPayed integer,"
+          + "sijiaoName text"
           + ")";
 
     private Context mContext;
@@ -49,10 +50,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE account ADD  lastDay text;");
             db.execSQL("ALTER TABLE account ADD  pingjiaTimes integer;");
             db.execSQL("ALTER TABLE account ADD  yuekeTimes integer;");
-
             db.execSQL("ALTER TABLE account ADD  hasPayed integer;");
+            db.execSQL("ALTER TABLE account ADD  sijiaoName text;");
         }else if(oldVersion == 2) {
             db.execSQL("ALTER TABLE account ADD  hasPayed integer;");
+            db.execSQL("ALTER TABLE account ADD  sijiaoName text;");
+        }else if (oldVersion == 3) {
+            db.execSQL("ALTER TABLE account ADD  sijiaoName text;");
         }
         Toast.makeText(mContext,"db update sucess",Toast.LENGTH_SHORT).show();
     }

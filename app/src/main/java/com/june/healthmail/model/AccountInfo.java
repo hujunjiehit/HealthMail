@@ -19,6 +19,8 @@ public class AccountInfo extends BmobObject{
     private int yuekeTimes;    //今日约课次数
     private int hasPayed;    //今日是否已扣金币
 
+    private String sijiaoName;    //约课私教姓名
+
     public int getId() {
         return id;
     }
@@ -99,12 +101,21 @@ public class AccountInfo extends BmobObject{
         this.yuekeTimes = yuekeTimes;
     }
 
+
     public int getHasPayed() {
         return hasPayed;
     }
 
     public void setHasPayed(int hasPayed) {
         this.hasPayed = hasPayed;
+    }
+
+    public String getSijiaoName() {
+        return sijiaoName;
+    }
+
+    public void setSijiaoName(String sijiaoName) {
+        this.sijiaoName = sijiaoName;
     }
 
     @Override

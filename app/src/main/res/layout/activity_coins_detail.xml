@@ -103,9 +103,32 @@
         android:text="失败次数过多，请300秒后再重新尝试"/>
 
     <TextView
+        android:id="@+id/get_coins_key"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="2dp"
+        android:padding="4dp"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_press"
+        android:textSize="20sp"
+        android:autoLink="all"
+        android:text="@string/click_me_get_coins_key"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:text="复制淘宝发货信息提取充值卡密"/>
+
+    <TextView
         android:id="@+id/buy_coins_key"
         android:gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="2dp"
         android:padding="4dp"
         android:layout_gravity="bottom"

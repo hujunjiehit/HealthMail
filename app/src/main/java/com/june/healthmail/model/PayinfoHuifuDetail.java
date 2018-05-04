@@ -1,0 +1,58 @@
+package com.june.healthmail.model;
+
+/**
+ * Created by june on 2017/3/15.
+ */
+
+public class PayinfoHuifuDetail {
+    /**
+     * requestUrl : https://finance.chinapnr.com/npay/merchantRequest
+     * requestParam : version=10&cmd_id=208&mer_cust_id=6666000001603907&check_value=MIIIOgYJKoZIhvcNAQcCoIIIKz
+     * CCCCcCAQExCzAJBgUrDgMCGgUAMIICmwYJKoZIhvcNAQcBoIICjASCAohleUoyWlhKemFXOXVJam9pTVRBaUxDSmpiV1JmYVdRaU9pSXlN
+     * RGdpTENKdFpYSmZZM1Z6ZEY5cFpDSTZJalkyTmpZd01EQXdNREUyTURNNU1EY2lMQ0oxYzJWeVgyTjFjM1JmYVdRaU9pSWlMQ0p2Y21SbGN
+     * sOXBaQ0k2SWpneU1UVXdNRFU0TlRJeU1UUTFNVFV4TnpVNUlpd2liM0prWlhKZlpHRjBaU0k2SWpJd01UZ3dNVEU0SWl3aWRISmhibk5mWVc
+     * xMElqb2lNVEF3TUM0d01DSXNJbkpsZEY5MWNtd2lPaUpvZEhSd09pOHZjR0Y1Ym05MGFXWjVMbWhsWVd4MGFHMWhiR3d1WTI0dlVHRjVVbVZ6Z
+     * Fd4MEwwaEdTRFZRWVhraUxDSnRaWEpmY0hKcGRpSTZJbnRjSW05eVpHVnlhV1JjSWpwY0lrMHhPREF4TVRneU1UVXdNRFU0TlRJeU1UUTFYQ0
+     * lzWENKMWMyVnlhV1JjSWpwY0lqSTJNVGs1TVRNNU9Gd2lMRndpWlhoMFhDSTZYQ0poYm1SeWIybGtYMXdpZlNJc0ltUnBkbDlrWlhSaGFXd2l
+     * PbHQ3SW1ScGRrTjFjM1JKWkNJNklqWTJOall3TURBd01ERTJNRE01TURjaUxDSmthWFpCWTJOMFNXUWlPaUl4TmpJM016QTBJaXdpWkdsMlFXM
+     * TBJam9pTVRBd01DNHdNQ0lzSW1ScGRrWnlaV1Y2WlVabklqb2lNREFpZlYwc0ltSm5YM0psZEY5MWNtd2lPaUpvZEhSd09pOHZjR0Y1Ym05MGF
+     * XWjVMbWhsWVd4MGFHMWhiR3d1WTI0dlNFWk9iM1JwWm5raWZRPT2gggQfMIIEGzCCAwOgAwIBAgIFEJIYZwMwDQYJKoZIhvcNAQEFBQAwITELM
+     * AkGA1UEBhMCQ04xEjAQBgNVBAoTCUNGQ0EgT0NBMTAeFw0xNzA1MTkwMjI4MDNaFw0yMjA1MTkwMjI4MDNaMIGHMQswCQYDVQQGEwJDTjESMBA
+     * GA1UEChMJQ0ZDQSBPQ0ExMREwDwYDVQQLEwhjaGluYXBucjEZMBcGA1UECxMQT3JnYW5pemF0aW9uYWwtMTE2MDQGA1UEAwwtMDUxQE5QMDE2M
+     * nzlpKfosaHlgaXlurdAMzkxNDQwMTA2MzMxNDMyMjU0NkAxMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtXHmDqhF2MARmWV%2by
+     * KolVR7%2bI94BcnZbEkQRe7ena%2b53YkuJObBtmbLWSpCI3TTUxvVe8u4p1rtpLJZ1Nb%2bW3XX9%2fHFHkR5Luwy1pG%2fe6y%2flFeLUkC%
+     * 2b7Q%2fi2JuabyG7Y1h84T%2bEX3yD%2bn8IC6IRna95QVrJdGJkVD9Kns85SxEfwQSN4mk6FQR3hU4LKyZAx4yNcWDFtxpepuCCW%2fZ3d2al
+     * oW%2fcfV%2fb1rDGAD9iNiEPF2LOCF2X7QXkYKeRyBBz1nj82sZThIkKDLuqYp13%2fl8QgSt2LvQWsrYlRAIdnP7txcF%2fi8FwNp4wc9akH
+     * JiVK8eG90rTuGylVK2bUxWBweQIDAQABo4HyMIHvMB8GA1UdIwQYMBaAFNHb6YiC5d0aj0yqAIy%2bfPKrG%2fbZMEgGA1UdIARBMD8wPQYIY
+     * IEchu8qAQEwMTAvBggrBgEFBQcCARYjaHR0cDovL3d3dy5jZmNhLmNvbS5jbi91cy91cy0xNC5odG0wNwYDVR0fBDAwLjAsoCqgKIYmaHR0c
+     * DovL2NybC5jZmNhLmNvbS5jbi9SU0EvY3JsNzMwOC5jcmwwCwYDVR0PBAQDAgPoMB0GA1UdDgQWBBQWEUYNdX0l02vrtEBwCdq4xKqfPjAdB
+     * gNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwDQYJKoZIhvcNAQEFBQADggEBAAx0cRSMgWYl%2flQhERjVzgW%2fC2Vui5FaNE%2bkn9O
+     * L8AfydtGxY9Yhttiayk4AFUHUdDqb4RyiMlSF8MwI%2fSdEWNTySzV8AXFGKVyS1IL1CBGZBtWaftf%2bWqoLRFGOpIgjkHAuM2uoLl2A8AV
+     * dwm9uDekFpiKthT3lNaxGFlo5o1tjhQD5uLIyE2uqGvQqJweJZ8XY9FiqTuiS0uIHFArNECPTaqCcFVmwqA5nbxnsQp%2bXXlEQMmIFqZhWwD
+     * B1cDFjr34IMnjyWqbQMO6VteeGAU9vrVEBZFC%2bGlWxAuQ%2fClZBPdfAibSBEl%2bjURDyplAn%2bIoOo3Nffh%2fvxXj3xx87P9YxggFRM
+     * IIBTQIBATAqMCExCzAJBgNVBAYTAkNOMRIwEAYDVQQKEwlDRkNBIE9DQTECBRCSGGcDMAkGBSsOAwIaBQAwDQYJKoZIhvcNAQEBBQAEggEAVf5K
+     * FUbRHNPBEgsqc4vJW6gCdUUxG4t7rKXs%2fewYky70ClcXc9pkLopyxMpl6TiA8qUYUsR7OS%2b5K29ma8v8SHw5XnF6Oh%2f0rET0uM43dcCR4
+     * 2qj4Tv1xqmIZf%2b8IsQmcrmkbq%2fQTgNh3Gkmc1V89Y3g3QUQG2GJ6R0jbacAVbP7f%2b0a2U96b%2bDecaIbRT35ztp0yMOJaQJZnhR2FLiB
+     * VCVzWB38oP6XyYfLrWIRS6MXinynNzTjQ53%2fvCL%2fJ7%2fZqgJFcIc45%2fdsJU17l26TYG%2f8d24ugmupTkcHNGacT4hs0axdyU8zI5Ps7
+     * 1Voc%2frTJPcnGgsjOIKbTsW1cO1Jow%3d%3d
+     */
+
+    private String requestUrl;
+    private String requestParam;
+
+    public String getRequestUrl() {
+        return requestUrl;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+
+    public String getRequestParam() {
+        return requestParam;
+    }
+
+    public void setRequestParam(String requestParam) {
+        this.requestParam = requestParam;
+    }
+}

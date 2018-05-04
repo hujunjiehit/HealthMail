@@ -16,6 +16,7 @@ import com.june.healthmail.R;
 import com.june.healthmail.model.AutoPayDeviceInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
+import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.ShowProgress;
 
 import butterknife.BindView;
@@ -53,19 +54,24 @@ public class UnbindActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_unbind_device);
     ButterKnife.bind(this);
-    currentUser = BmobUser.getCurrentUser(UserInfo.class);
     Intent intent = this.getIntent();
     if(intent != null) {
       deviceInfo = (AutoPayDeviceInfo) intent.getSerializableExtra("deviceInfo");
     } else {
       return;
     }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
     initData();
   }
 
   private void initData() {
     showProgress = new ShowProgress(this);
     tvUserName.setText(deviceInfo.getUsername());
+    currentUser = BmobUser.getCurrentUser(UserInfo.class);
     tvCoinsNumber.setText(currentUser.getCoinsNumber() + "个");
     if (deviceInfo.getUnbindTimes() < 0) {
       tvUnbindTimes.setText("0次");
@@ -106,9 +112,18 @@ public class UnbindActivity extends BaseActivity {
     finish();
   }
 
+  @OnClick(R.id.tv_go_to_add_coins)
+  public void goToAddCoins(View view){
+    startActivity(new Intent(UnbindActivity.this, CoinsDetailActivity.class));
+  }
+
   @OnClick(R.id.tv_go_to_buy_coins)
   public void openTaobaoShopping(View view){
-    String url = "https://item.taobao.com/item.htm?spm=a1z10.1-c.w4023-14573908235.8.a6V6o9&id=547061088671";
+    String url = PreferenceHelper.getInstance().getBuyCoinsUrl();
+    if (TextUtils.isEmpty(url)) {
+      return;
+    }
+
     Intent intent = new Intent();
     if (CommonUntils.checkPackage(this,"com.taobao.taobao")){
       Log.e("test","taobao is not installed");

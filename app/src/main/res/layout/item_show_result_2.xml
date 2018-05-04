@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:descendantFocusability="blocksDescendants"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f4f4f4"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/tv_index"
+            style="@style/AcountListTitleText"
+            android:layout_weight="1"
+            android:text="编号" />
+
+        <TextView
+            android:id="@+id/tv_phone_number"
+            style="@style/AcountListTitleText"
+            android:layout_weight="3"
+            android:text="手机号" />
+
+        <TextView
+            android:id="@+id/tv_sijiao_name"
+            style="@style/AcountListTitleText"
+            android:layout_weight="6"
+            android:text="今日约课私教名字" />
+    </LinearLayout>
+</LinearLayout>

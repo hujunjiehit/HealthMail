@@ -389,7 +389,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
               }
             }
           }else {
-            if(e.getErrorCode() == 101){
+            if(e.getErrorCode() == 101 || e.getErrorCode() == 503){
               deviceInfo = null;
               mHandler.sendEmptyMessage(START_TO_LOGIN);
             }else{

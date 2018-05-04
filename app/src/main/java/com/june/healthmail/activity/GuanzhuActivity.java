@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -489,7 +488,7 @@ public class GuanzhuActivity extends BaseActivity implements View.OnClickListene
   private void showEditNumberDialog() {
     View diaog_view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_number,null);
     final EditText edit_text = (EditText) diaog_view.findViewById(R.id.edit_text);
-    edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
+    //edit_text.setInputType(InputType.TYPE_CLASS_NUMBER);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("修改目标私教猫号");

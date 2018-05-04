@@ -1,9 +1,8 @@
 package com.june.healthmail.activity;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.june.healthmail.R;
-import com.june.healthmail.adapter.ShowResultAdapter;
+import com.june.healthmail.adapter.ShowResultAdapter1;
+import com.june.healthmail.adapter.ShowResultAdapter2;
 import com.june.healthmail.model.AccountInfo;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
-import com.june.healthmail.untils.DBManager;
 import com.june.healthmail.untils.PreferenceHelper;
-import com.june.healthmail.untils.TimeUntils;
+import com.june.healthmail.untils.ShowProgress;
 
 import java.util.ArrayList;
 
@@ -38,27 +37,56 @@ import cn.bmob.v3.listener.UpdateListener;
 public class ShowTodayDetailsActivity extends BaseActivity {
   private UserInfo userInfo;
 
-  @BindView(R.id.btn_start)
-  Button btnStart;
+  @BindView(R.id.btn_start_1)
+  Button btnStart1;
+  @BindView(R.id.btn_start_2)
+  Button btnStart2;
   @BindView(R.id.tv_coins_number)
   TextView tvConinsNumber;
   @BindView(R.id.tv_coins_desc)
   TextView tvConinsDesc;
-  @BindView(R.id.tv_desc_coins_cost)
-  TextView tvConinsCostDesc;
+  @BindView(R.id.tv_desc_coins_cost_1)
+  TextView tvConinsCostDesc1;
+  @BindView(R.id.tv_desc_coins_cost_2)
+  TextView tvConinsCostDesc2;
 
-  @BindView(R.id.result_container)
-  LinearLayout resultContainer;
+  @BindView(R.id.result_container_1)
+  LinearLayout resultContainer1;
+  @BindView(R.id.result_container_2)
+  LinearLayout resultContainer2;
   @BindView(R.id.layout_btn)
   LinearLayout btnContainer;
 
-  @BindView(R.id.list_view)
-  ListView mListView;
+  @BindView(R.id.list_view_1)
+  ListView mListView1;
+  @BindView(R.id.list_view_2)
+  ListView mListView2;
 
   private int coinsCost;
-  private DBManager mDBmanager;
   private ArrayList<BmobObject> accountList = new ArrayList<>();
-  private ShowResultAdapter mAdapter;
+  private ShowResultAdapter1 mAdapter1;
+  private ShowResultAdapter2 mAdapter2;
+
+  private ShowProgress showProgress;
+
+  public static final int LOAD_DATA_FINISHED = 999;
+
+  private Handler mHandler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what){
+        case LOAD_DATA_FINISHED:
+          if(showProgress != null && showProgress.isShowing()){
+            showProgress.dismiss();
+          }
+          mAdapter1.notifyDataSetChanged();
+          mAdapter2.notifyDataSetChanged();
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -74,69 +102,67 @@ public class ShowTodayDetailsActivity extends BaseActivity {
     Log.e("test","userInfo.getCoinsNumber() = " + userInfo.getCoinsNumber());
     coinsCost = PreferenceHelper.getInstance().getCoinsCostForSpecialFunction();
     if(coinsCost == 0){
-      tvConinsCostDesc.setText("活动期间，查看今日统计免金币");
+      tvConinsCostDesc1.setText("活动期间，查看统计免金币");
+      tvConinsCostDesc2.setText("活动期间，查看统计免金币");
       tvConinsNumber.setVisibility(View.GONE);
       tvConinsDesc.setVisibility(View.GONE);
     }else {
-      tvConinsCostDesc.setText("查看一次今日统计消耗" + coinsCost + "金币");
+      tvConinsCostDesc1.setText("查看一次统计消耗" + coinsCost + "金币");
+      tvConinsCostDesc2.setText("查看一次统计消耗" + coinsCost + "金币");
       tvConinsNumber.setVisibility(View.VISIBLE);
       tvConinsDesc.setVisibility(View.VISIBLE);
     }
 
-    mAdapter = new ShowResultAdapter(this,accountList);
-    mListView.setAdapter(mAdapter);
+    mAdapter1 = new ShowResultAdapter1(this,accountList);
+    mAdapter2 = new ShowResultAdapter2(this,accountList);
+    mListView1.setAdapter(mAdapter1);
+    mListView2.setAdapter(mAdapter2);
     initData();
   }
 
   private void initData() {
-
-    mDBmanager = DBManager.getInstance();
-    accountList.clear();
-
-    SQLiteDatabase db = mDBmanager.getDb();
-    Cursor cursor = db.rawQuery("select * from account",null);
-    if(cursor.moveToFirst()){
-      do {
-        AccountInfo info = new AccountInfo();
-        info.setPassWord(cursor.getString(cursor.getColumnIndex("passWord")));
-        info.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
-        info.setNickName(cursor.getString(cursor.getColumnIndex("nickName")));
-        info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
-        info.setId(cursor.getInt(cursor.getColumnIndex("id")));
-        info.setMallId(cursor.getString(cursor.getColumnIndex("mallId")));
-        if(TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex("lastDay")))){
-          //if null, set today
-          info.setLastDay(TimeUntils.getTodayStr());
-          info.setPingjiaTimes(0);
-          info.setYuekeTimes(0);
-          DBManager.getInstance().resetPJYKTimes(info);
-        }else {
-          if(cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())){
-            //istoday
-            info.setLastDay(cursor.getString(cursor.getColumnIndex("lastDay")));
-            info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
-            info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
-          }else {
-            //not today
-            info.setLastDay(TimeUntils.getTodayStr());
-            info.setPingjiaTimes(0);
-            info.setYuekeTimes(0);
-            DBManager.getInstance().resetPJYKTimes(info);
-          }
-        }
-        //Log.e("test","userInfo = " + info.toString());
-        accountList.add(info);
-      }while(cursor.moveToNext());
+    showProgress = new ShowProgress(this);
+    if(showProgress != null && !showProgress.isShowing()){
+      showProgress.setMessage("请稍后...");
+      showProgress.show();
     }
-    cursor.close();
-    mAdapter.notifyDataSetChanged();
+    accountList.clear();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        for(AccountInfo accountInfo:CommonUntils.loadAccountInfo()) {
+          accountList.add(accountInfo);
+        }
+        mHandler.obtainMessage(LOAD_DATA_FINISHED).sendToTarget();
+      }
+    }).start();
   }
 
-  @OnClick(R.id.btn_start)
-  public void btnStart(View view){
+  @OnClick(R.id.btn_start_1)
+  public void btnStart1(View view){
     updateTheCoinsNumber();
-    resultContainer.setVisibility(View.VISIBLE);
+    resultContainer1.setVisibility(View.VISIBLE);
+    resultContainer2.setVisibility(View.GONE);
     btnContainer.setVisibility(View.GONE);
+  }
+
+  @OnClick(R.id.btn_start_2)
+  public void btnStart2(View view){
+    updateTheCoinsNumber();
+    resultContainer1.setVisibility(View.GONE);
+    resultContainer2.setVisibility(View.VISIBLE);
+    btnContainer.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (resultContainer1.getVisibility() == View.VISIBLE || resultContainer2.getVisibility() == View.VISIBLE) {
+      resultContainer1.setVisibility(View.GONE);
+      resultContainer2.setVisibility(View.GONE);
+      btnContainer.setVisibility(View.VISIBLE);
+    } else {
+      super.onBackPressed();
+    }
   }
 
   @OnClick(R.id.img_back)

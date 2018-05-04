@@ -1,7 +1,6 @@
 package com.june.healthmail.untils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,18 +16,13 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by bjhujunjie on 2017/3/3.
@@ -296,6 +290,7 @@ public class CommonUntils {
             info.setPingjiaTimes(0);
             info.setYuekeTimes(0);
             info.setHasPayed(0);
+            info.setSijiaoName("");
             DBManager.getInstance().resetPJYKTimes(info);
           } else {
             if (cursor.getString(cursor.getColumnIndex("lastDay")).equals(TimeUntils.getTodayStr())) {
@@ -304,12 +299,14 @@ public class CommonUntils {
               info.setPingjiaTimes(cursor.getInt(cursor.getColumnIndex("pingjiaTimes")));
               info.setYuekeTimes(cursor.getInt(cursor.getColumnIndex("yuekeTimes")));
               info.setHasPayed(cursor.getInt(cursor.getColumnIndex("hasPayed")));
+              info.setSijiaoName(cursor.getString(cursor.getColumnIndex("sijiaoName")));
             } else {
               //not today
               info.setLastDay(TimeUntils.getTodayStr());
               info.setPingjiaTimes(0);
               info.setYuekeTimes(0);
               info.setHasPayed(0);
+              info.setSijiaoName("");
               DBManager.getInstance().resetPJYKTimes(info);
             }
           }

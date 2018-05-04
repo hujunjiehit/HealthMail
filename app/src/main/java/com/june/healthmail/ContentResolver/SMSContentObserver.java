@@ -5,6 +5,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -77,7 +78,11 @@ public class SMSContentObserver extends ContentObserver {
           // 如果找到通过Handler发送给主线程
           if (matcher.find()) {
             code = matcher.group(0);
-            mHandler.obtainMessage(1, code).sendToTarget();
+            //mHandler.obtainMessage(1, code).sendToTarget();
+            Message msg = new Message();
+            msg.what = 1;
+            msg.obj = code;
+            mHandler.sendMessageDelayed(msg, 3000);
           }
         }
       }

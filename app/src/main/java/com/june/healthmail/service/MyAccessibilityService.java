@@ -1469,6 +1469,7 @@ public class MyAccessibilityService extends AccessibilityService {
       if (intent.getAction().equals(INTENT_ACTION_STATUS_CHANGE)) {
         Log.e("test","broadcast, code = " + intent.getStringExtra("code"));
         Log.e("test","broadcast, state = " + intent.getIntExtra("state",STATE_NONE));
+        
         code = intent.getStringExtra("code");
         mCurrentState = intent.getIntExtra("state",STATE_NONE);
         Toast.makeText(MyAccessibilityService.this,"收到验证码：" + code, Toast.LENGTH_SHORT).show();

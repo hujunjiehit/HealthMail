@@ -18,6 +18,8 @@ public class AccountInfo extends BmobObject{
     private int pingjiaTimes;    //今日评价次数
     private int yuekeTimes;    //今日约课次数
 
+    private String sijiaoName;    //约课私教姓名
+
     public int getId() {
         return id;
     }
@@ -96,6 +98,14 @@ public class AccountInfo extends BmobObject{
 
     public void setYuekeTimes(int yuekeTimes) {
         this.yuekeTimes = yuekeTimes;
+    }
+
+    public String getSijiaoName() {
+        return sijiaoName;
+    }
+
+    public void setSijiaoName(String sijiaoName) {
+        this.sijiaoName = sijiaoName;
     }
 
     @Override

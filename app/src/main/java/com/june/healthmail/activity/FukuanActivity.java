@@ -343,6 +343,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
 
         case GET_USERINFO_FAILED:
           showTheResult("----失败，继续获取\n");
+          showTheResult("------全新小号需要手动登陆一次健康猫才能用软件付款\n");
           this.sendEmptyMessageDelayed(START_TO_GET_USERINFO,getDelayTime());
           break;
 

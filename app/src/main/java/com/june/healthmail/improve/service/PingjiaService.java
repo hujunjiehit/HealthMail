@@ -152,7 +152,7 @@ public class PingjiaService extends BaseService {
               message = this.obtainMessage(START_TO_PING_JIA_ONE_COURSE);
               message.sendToTarget();
             }else {
-              showTheResult("------当前页无可评价订单\n");
+              showTheResult("------当前页没有课程需要评价\n");
               if(coureseList.size() < 20){
                 showTheResult("******第" + (pageIndex +1) + "页订单小于20，继续评价下一个小号\n");
                 showTheResult("此账号评价结束************************\n\n\n");
@@ -185,7 +185,7 @@ public class PingjiaService extends BaseService {
               message.sendToTarget();
             }else{
               mWord = getPingjiaWord();
-              showTheResult("-------------评价语：" + mWord + "\n");
+              showTheResult("---------------评价语[" + mWord + "]\n");
               pingjiaTheCourse(coureseList.get(courseIndex).getGrouporder_id());
             }
           } else {
@@ -208,9 +208,9 @@ public class PingjiaService extends BaseService {
           if(isRunning == false) {
             return;
           }
-          showTheResult("---------------评价成功\n");
+          showTheResult("-------------------评价成功\n");
           courseIndex++;
-          CommonUntils.minusPingjiaTimes();
+          //CommonUntils.minusPingjiaTimes();
           updateTimes(PreferenceHelper.getInstance().getRemainPingjiaTimes());
           this.sendEmptyMessageDelayed(START_TO_PING_JIA_ONE_COURSE,getDelayTime());
           break;
@@ -451,6 +451,7 @@ public class PingjiaService extends BaseService {
           Log.e("test","succeed = " + pingjiaModel.isSucceed());
           if(pingjiaModel.isSucceed()){
             accountList.get(accountIndex).setPingjiaTimes(accountList.get(accountIndex).getPingjiaTimes() + 1);
+            CommonUntils.minusPingjiaTimes();
             DBManager.getInstance().updatePingjiaTimes(accountList.get(accountIndex));
             mHandler.sendEmptyMessageDelayed(PING_JIA_ONE_COURSE_SUCCESS,getDelayTime());
           } else {

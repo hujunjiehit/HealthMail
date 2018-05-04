@@ -249,9 +249,10 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
 
     View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_account_layout,null);
     final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
+    editText.setHint("按照\"账号,密码\"或者\"账号----密码\"的格式输入小号，每行一个小号,支持多行\n\n 例如：\n18826789099,1234567\n1888990090,1234567");
 
     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-    builder.setTitle("按照\"账号,密码\"或者\"帐号|密码\"的格式输入小号，每行一个小号,支持多行");
+    builder.setTitle("按照下方格式输入小号");
     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
@@ -319,6 +320,29 @@ public class RightTopbarOperatePop extends PopupWindow implements View.OnClickLi
               toast(result[0]+"账号已存在，添加失败");
               Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
             }
+          } else if (lines[i].contains("----")) {
+            String[] result = lines[i].split("----");
+            Log.e("test","length = " + result.length);
+            if(result.length < 2){
+              toast("账号格式不对，账号密码在同一行，用\"，\"分开");
+              return;
+            }
+            if (mDBManger.addAccount(result[0].trim(), result[1].trim())) {
+              Log.d("test", result[0] + "--" + result[1] + " 添加成功");
+              AccountInfo info = new AccountInfo();
+              info.setId(accountList.size() + 1);
+              info.setNickName("");
+              info.setPhoneNumber(result[0].trim());
+              info.setPassWord(result[1].trim());
+              info.setStatus(1);
+              accountList.add(info);
+              mAdapter.notifyDataSetChanged();
+            }else{
+              toast(result[0]+"账号已存在，添加失败");
+              Log.d("test", result[0] + "--" + result[1] + " 已存在，添加失败");
+            }
+          } else {
+            toast("账号格式不对，账号密码在同一行，用\"，\"或者\"----\"分开");
           }
         }
       }

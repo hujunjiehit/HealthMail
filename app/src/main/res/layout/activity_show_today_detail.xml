@@ -34,8 +34,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_coins_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="金币余额："
+                android:textColor="#444444"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_coins_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="66"
+                android:textColor="#444444"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
         <Button
-            android:id="@+id/btn_start"
+            android:id="@+id/btn_start_1"
             android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,39 +66,18 @@
             android:layout_marginRight="36dp"
             android:textColor="@color/text_press"
             android:textSize="@dimen/medium_text_size"
-            android:text="获取今日统计"/>
+            android:text="约课评价次数统计"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="2dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal">
-
-                <TextView
-                    android:id="@+id/tv_coins_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="金币余额："
-                    android:textColor="#444444"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/tv_coins_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="66"
-                    android:textColor="#444444"
-                    android:textSize="16sp"/>
-            </LinearLayout>
-
             <TextView
-                android:id="@+id/tv_desc_coins_cost"
+                android:id="@+id/tv_desc_coins_cost_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -85,11 +87,40 @@
                 android:textSize="16sp"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_start_2"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="约课私教姓名统计"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="2dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_desc_coins_cost_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="获取一个关注详情消耗x金币"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:textSize="16sp"/>
+        </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/result_container"
+        android:id="@+id/result_container_1"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -133,7 +164,59 @@
               android:background="@color/div_line_color" />
 
         <ListView
-            android:id="@+id/list_view"
+            android:id="@+id/list_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="@color/div_line_color"
+            android:dividerHeight="1px"
+            android:fadingEdge="none"
+            android:listSelector="@color/transparent"
+            android:cacheColorHint="@color/transparent"
+            android:footerDividersEnabled="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/result_container_2"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="1.0px"
+              android:background="@color/div_line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f4f4f4"
+            android:gravity="center" >
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="1"
+                android:text="编号" />
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="3"
+                android:text="手机号" />
+
+            <TextView
+                style="@style/AcountListTitleText"
+                android:layout_weight="6"
+                android:text="今日约课私教名字" />
+
+        </LinearLayout>
+
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="1.0px"
+              android:background="@color/div_line_color" />
+
+        <ListView
+            android:id="@+id/list_view_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

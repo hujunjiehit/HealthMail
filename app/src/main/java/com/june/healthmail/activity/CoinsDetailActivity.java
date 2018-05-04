@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.model.KeyCoins;
@@ -23,6 +25,8 @@ import com.june.healthmail.untils.ShowProgress;
 import com.june.healthmail.untils.TimeUntils;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +55,8 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
   TextView mBuyCoinsKey;
   @BindView(R.id.tv_notice)
   TextView mTvNotice;
+  @BindView(R.id.get_coins_key)
+  TextView mGetCoinsKey;
   private UserInfo userInfo;
   private Unbinder unbinder;
   private ShowProgress showProgress;
@@ -71,12 +77,12 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
           break;
 
         case UPDATE_TIMES:
-          long time = (System.currentTimeMillis() - PreferenceHelper.getInstance().getRestrictedTime())/1000;
-          if(mTvNotice != null) {
-            if(time <= 300) {
+          long time = (System.currentTimeMillis() - PreferenceHelper.getInstance().getRestrictedTime()) / 1000;
+          if (mTvNotice != null) {
+            if (time <= 300) {
               mTvNotice.setText("失败次数过多，请" + (300 - time) + "秒后再重新尝试");
-              this.sendEmptyMessageDelayed(UPDATE_TIMES,1000);
-            }else {
+              this.sendEmptyMessageDelayed(UPDATE_TIMES, 1000);
+            } else {
               mTvNotice.setVisibility(View.GONE);
               tryTimes = 0;
               mBtnOk.setEnabled(true);
@@ -104,15 +110,16 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
     mBtnOk.setOnClickListener(this);
     mImgBack.setOnClickListener(this);
     mBuyCoinsKey.setOnClickListener(this);
+    mGetCoinsKey.setOnClickListener(this);
   }
 
   private void init() {
-    if(PreferenceHelper.getInstance().getIsRestricted()) {
-      if((System.currentTimeMillis() - PreferenceHelper.getInstance().getRestrictedTime())/1000 >= 300) {
+    if (PreferenceHelper.getInstance().getIsRestricted()) {
+      if ((System.currentTimeMillis() - PreferenceHelper.getInstance().getRestrictedTime()) / 1000 >= 300) {
         mBtnOk.setEnabled(true);
         mTvNotice.setVisibility(View.GONE);
         PreferenceHelper.getInstance().setIsRestricted(false);
-      }else {
+      } else {
         mBtnOk.setEnabled(false);
         mTvNotice.setVisibility(View.VISIBLE);
         mHandler.sendEmptyMessage(UPDATE_TIMES);
@@ -142,6 +149,9 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
         break;
       case R.id.buy_coins_key:
         openTaobaoShopping(PreferenceHelper.getInstance().getBuyCoinsUrl());
+        break;
+      case R.id.get_coins_key:
+        showGetCoinsKeyDialog();
         break;
       default:
         break;
@@ -174,7 +184,7 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
             //卡密不存在
             //toast("卡密不存在");
             tryTimes++;
-            Log.e("test"," tryTimes = " + tryTimes);
+            Log.e("test", " tryTimes = " + tryTimes);
             showdialog("提示", "卡密不存在，请确认之后再输入", "我知道了", null, new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
@@ -231,7 +241,7 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
       PreferenceHelper.getInstance().setIsRestricted(true);
       PreferenceHelper.getInstance().setRestrictedTime(System.currentTimeMillis());
       mTvNotice.setVisibility(View.VISIBLE);
-      mHandler.sendEmptyMessageDelayed(UPDATE_TIMES,1000);
+      mHandler.sendEmptyMessageDelayed(UPDATE_TIMES, 1000);
       mBtnOk.setEnabled(false);
       return false;
     }
@@ -294,15 +304,49 @@ public class CoinsDetailActivity extends BaseActivity implements View.OnClickLis
     dialogBuilder.setMessage(message);
     if (positiveText != null) {
       dialogBuilder.setPositiveButton(positiveText, listenerPositive);
-    }else {
-      dialogBuilder.setPositiveButton(null,null);
+    } else {
+      dialogBuilder.setPositiveButton(null, null);
     }
     if (negativeText != null) {
       dialogBuilder.setNegativeButton(negativeText, listenerNegative);
-    }else {
-      dialogBuilder.setNegativeButton(null,null);
+    } else {
+      dialogBuilder.setNegativeButton(null, null);
     }
     dialogBuilder.create().show();
+  }
+
+  private void showGetCoinsKeyDialog() {
+    View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_account_layout,null);
+    final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
+    editText.setHint("复制包含金币卡密的文本信息到这里，并点击确定提取金币卡密\n\n例如复制如下信息：\n您好,感谢您购买本产品\n" +
+      "您的金币卡密:abcdefghij123456\n" +
+      "\n" +
+      "金币卡密可以登录猫友圈->个人中心，点击金币余额进行充值。如有疑问，请联系客服。欢迎下次光临小店！");
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+    builder.setTitle("复制淘宝发货信息点击确定提取卡密");
+    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        //Toast.makeText(mContext, editText.getText().toString(), Toast.LENGTH_SHORT).show();
+        String regex = "[0-9A-Fa-f]{16}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(editText.getText().toString());
+        if(matcher.find()) {
+          String key = matcher.group();
+          if (key.length() == 16) {
+            Toast.makeText(mContext, "卡密提取功：" + key, Toast.LENGTH_SHORT).show();
+            if (mEditInputKey != null) {
+              mEditInputKey.setText(key);
+            }
+          } else {
+            Toast.makeText(mContext, "卡密提取失败，必须是十六位数字或者字母组合" + key, Toast.LENGTH_SHORT).show();
+          }
+        }
+      }
+    });
+    builder.setView(dialogView);
+    builder.create().show();
   }
 
   private void openTaobaoShopping(final String url) {

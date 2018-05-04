@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -73,6 +74,9 @@ public class YuekeService extends BaseService {
   private int pageIndex = 0; //页索引 一页二十节课
   private int pageSize = 0;   //总页数
   private int max_courses = 50;
+
+  private String currentSijiaoName;
+  private boolean hasAdded;
 
   private int per_sijiao_max_courses;  //每个私教最多约课数
   private int currentNum;  //每个私教当前约课数
@@ -157,6 +161,7 @@ public class YuekeService extends BaseService {
             for (int i = 0; i < guanzhuListModel.getValuse().size(); i++) {
               guanzhuList.add(guanzhuListModel.getValuse().get(i));
             }
+            showTheResult("------当前小号收藏(关注)了" + guanzhuList.size() + "个私教\n");
             mallId = guanzhuListModel.getValuse().get(0).getUser_id_fans();
             message = this.obtainMessage(START_TO_GET_COURSE_LIST);
             message.sendToTarget();
@@ -179,6 +184,9 @@ public class YuekeService extends BaseService {
                 showTheResult("************开始获取私教[" + (sijiaoIndex + 1) + "]-" +
                     guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned() + "第" + (pageIndex + 1) + "页的课程\n");
                 getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                //正在约课的私教姓名
+                currentSijiaoName = guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned();
+                hasAdded = false;
               } else {
                 showTheResult("**************没有更多页，开始下一个收藏的私教\n");
                 pageIndex = 0;
@@ -350,9 +358,18 @@ public class YuekeService extends BaseService {
           break;
         case YUE_KE_SUCESS:
           showTheResult("--------------------------约课成功\n");
+          if (!hasAdded) {
+            hasAdded = true;
+            if(TextUtils.isEmpty(accountList.get(accountIndex).getSijiaoName())) {
+              accountList.get(accountIndex).setSijiaoName(currentSijiaoName);
+            } else {
+              accountList.get(accountIndex).setSijiaoName(accountList.get(accountIndex).getSijiaoName() + "," + currentSijiaoName);
+            }
+            DBManager.getInstance().updateYuekeSijiao(accountList.get(accountIndex));
+          }
           courseIndex++;
           currentNum++;
-          CommonUntils.minusYuekeTimes();
+          //CommonUntils.minusYuekeTimes();
           updateTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
           this.sendEmptyMessageDelayed(START_TO_GET_COURSE_USERS, getDelayTime());
           break;
@@ -727,6 +744,7 @@ public class YuekeService extends BaseService {
             Message msg = mHandler.obtainMessage(YUE_KE_SUCESS);
             //msg.obj = ordersModel;
             accountList.get(accountIndex).setYuekeTimes(accountList.get(accountIndex).getYuekeTimes() + 1);
+            CommonUntils.minusYuekeTimes();
             DBManager.getInstance().updateYukeTimes(accountList.get(accountIndex));
             msg.sendToTarget();
           }else{

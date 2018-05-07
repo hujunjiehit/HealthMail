@@ -86,3 +86,19 @@ file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/releas
 sha1=bd17417308e7578b8aee154f6b5021b30d4de830
 appId=c3044648f0
 
+file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=6e8ee70e0186c006f83f2ffcdde5b5a8673491af
+appId=c3044648f0
+
+file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=45af5974a1b2b5ea88229f35ec321762847667b8
+appId=c3044648f0
+
+file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=45af5974a1b2b5ea88229f35ec321762847667b8
+appId=c3044648f0
+
+file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=45af5974a1b2b5ea88229f35ec321762847667b8
+appId=c3044648f0
+

@@ -78,13 +78,23 @@
             android:text="快钱支付(信用卡)"/>
 
         <Button
-            android:id="@+id/btn_fukuan_lianlian"
+            android:id="@+id/btn_fukuan_yinshengbao"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_pay_option"
             android:textSize="16sp"
-            android:text="连连支付"/>
+            android:text="银生宝支付"/>
+
+        <Button
+            android:id="@+id/btn_fukuan_baofu"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_pay_option"
+            android:textSize="16sp"
+            android:text="宝付支付"/>
     </LinearLayout>
 </RelativeLayout>

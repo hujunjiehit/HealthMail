@@ -16,8 +16,8 @@ android {
         applicationId "com.june.healthmail"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 110
-        versionName "6.2.0"
+        versionCode 113
+        versionName "6.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构

@@ -448,7 +448,7 @@ public class FukuanActivity extends BaseActivity implements View.OnClickListener
     }
 
     index = 3;
-    fukuanChoice[index] = 1;
+    fukuanChoice[index] = 0;
     for(Payment pyment:allpayments){
       if(pyment.getChannelamount() > 0 && pyment.getHm_p_name().equals("易联支付")){
         fukuanChoice[index] = 0; //易联支付直接不显示了

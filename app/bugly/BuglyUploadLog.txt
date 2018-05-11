@@ -110,3 +110,15 @@ file=/Users/june/docs/SpecialVersion/HealthMail/app/build/outputs/mapping/releas
 sha1=bd17417308e7578b8aee154f6b5021b30d4de830
 appId=c3044648f0
 
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=9a9c5d100cb69a8db394ccaa4bb54689ed900466
+appId=454310b82c
+
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=9a9c5d100cb69a8db394ccaa4bb54689ed900466
+appId=454310b82c
+
+file=/Users/june/Workspace/HealthMail/app/build/outputs/mapping/release/mapping.txt
+sha1=9a9c5d100cb69a8db394ccaa4bb54689ed900466
+appId=454310b82c
+

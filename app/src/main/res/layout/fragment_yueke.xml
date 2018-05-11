@@ -35,7 +35,16 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textColor="@color/red"
-            android:text="小号只有收藏了目标私教,才能约该私教的课"/>
+            android:text="约课前需要先设置要约课的私教猫号"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:text="进入约课界面点击【管理私教】添加私教猫号"/>
     </LinearLayout>
 
 </RelativeLayout>

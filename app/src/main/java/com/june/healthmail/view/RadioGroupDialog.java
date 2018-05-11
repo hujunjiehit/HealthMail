@@ -12,8 +12,6 @@ import android.widget.RadioGroup;
 
 import com.june.healthmail.R;
 
-import java.util.ArrayList;
-
 /**
  * Created by june on 2017/7/9.
  */
@@ -85,7 +83,7 @@ public class RadioGroupDialog {
     });
 
     mAlertDialog = new AlertDialog.Builder(mContext);
-    mAlertDialog.setTitle("选择课程类型");
+    mAlertDialog.setTitle("选择上课项目(任意选一个)");
     initDialog(view);
     mAlertDialog.show();
   }

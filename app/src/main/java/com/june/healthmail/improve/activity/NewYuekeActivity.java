@@ -26,11 +26,16 @@ import android.widget.Toast;
 
 import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
+import com.june.healthmail.activity.ManageSijiaoActivity;
 import com.june.healthmail.improve.service.BaseService;
 import com.june.healthmail.improve.service.YuekeService;
+import com.june.healthmail.model.SijiaoInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.PreferenceHelper;
 import com.june.healthmail.untils.Tools;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by june on 2017/3/4.
@@ -62,6 +67,12 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
     private TextView mBtnMinus;
     private TextView mBtnAdd;
 
+    private TextView mTvShowSijiaoNumber;
+    private Button mBtnManageSijiao;
+
+    private List<SijiaoInfo> mSijiaoInfos;
+    private List<SijiaoInfo> mSelectedSijiao;
+
     private YuekeService.YukeBinder mBinder;
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -70,6 +81,7 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
             mBinder = (YuekeService.YukeBinder) service;
             mBinder.setHandler(mHandler);
             mBinder.setPageSize(per_sijiao_max_courses);
+            mBinder.setSijiaoList(mSelectedSijiao);
         }
 
         @Override
@@ -124,6 +136,18 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        initSijiaoInfo();
+    }
+
+    private void initSijiaoInfo() {
+        mSijiaoInfos = PreferenceHelper.getInstance().getSijiaoList();
+        if (mSijiaoInfos == null) {
+            mSijiaoInfos = new ArrayList<>();
+        }
+        mTvShowSijiaoNumber.setText(getSelectedCount() +  "个");
+        if(mBinder != null) {
+            mBinder.setSijiaoList(mSelectedSijiao);
+        }
     }
 
     private void initView() {
@@ -154,13 +178,16 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
         mSeekBar.setMax(3000);
         mBtnMinus = (TextView) findViewById(R.id.btn_minus);
         mBtnAdd = (TextView) findViewById(R.id.btn_add);
+
+        mTvShowSijiaoNumber = (TextView) findViewById(R.id.tv_show_sijiao_number);
+        mBtnManageSijiao = (Button) findViewById(R.id.btn_manage_sijiao);
     }
 
     private void setListener() {
         btn_start.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
         btnEditMaxCourses.setOnClickListener(this);
-
+        mBtnManageSijiao.setOnClickListener(this);
         cbOnlyToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -273,21 +300,26 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                         toast("今日约课次数已用完，请充值");
                         return;
                     }
-                    if (isRunning == false) {
-                        isRunning = true;
-                        if(mBinder != null) {
-                            btn_start.setText("停止约课");
-                            mBinder.startYueke();
 
-                            layoutConfig.setVisibility(View.GONE);
-                            tvShowConfig.setText("显示配置");
+                    if (mSelectedSijiao != null && mSelectedSijiao.size() > 0) {
+                        if (isRunning == false) {
+                            isRunning = true;
+                            if(mBinder != null) {
+                                btn_start.setText("停止约课");
+                                mBinder.startYueke();
+
+                                layoutConfig.setVisibility(View.GONE);
+                                tvShowConfig.setText("显示配置");
+                            }
+                        } else {
+                            isRunning = false;
+                            if(mBinder != null) {
+                                btn_start.setText("开始约课");
+                                mBinder.stopYuke();
+                            }
                         }
                     } else {
-                        isRunning = false;
-                        if(mBinder != null) {
-                            btn_start.setText("开始约课");
-                            mBinder.stopYuke();
-                        }
+                        toast("请先设置要约课的私教(点击管理私教进行设置)");
                     }
                 }
                 break;
@@ -296,6 +328,10 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_edit_max_courses:	//修改每个私教最大课程数
                 showEditCoursesDialog();
+                break;
+            case R.id.btn_manage_sijiao:	//管理约课私教
+                Intent intent = new Intent(this, ManageSijiaoActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -351,5 +387,21 @@ public class NewYuekeActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         unbindService(connection);
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+
+    private int getSelectedCount() {
+        int count = 0;
+        if (mSelectedSijiao == null) {
+            mSelectedSijiao = new ArrayList<>();
+        }
+        mSelectedSijiao.clear();
+        for(SijiaoInfo sijiaoInfo : mSijiaoInfos) {
+            if (sijiaoInfo.isSelected()) {
+                count++;
+                mSelectedSijiao.add(sijiaoInfo);
+            }
+        }
+        return count;
     }
 }

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.june.healthmail.base.BasePerference;
 import com.june.healthmail.http.bean.Notice;
 import com.june.healthmail.http.bean.Topic;
+import com.june.healthmail.model.SijiaoInfo;
 import com.june.healthmail.model.WordInfo;
 
 import java.util.List;
@@ -83,6 +84,7 @@ public class PreferenceHelper extends BasePerference{
 
     public final static String KEY_TOPIC_LIST = "topic_list";//首页topic list
     public final static String KEY_WORD_LIST= "word_list";//评价语列表
+    public final static String KEY_SIJIAO_LIST= "sijiao_list";//私教列表
 
     public final static String KEY_MAX_SETUP_COURSES = "max_setup_courses"; //后台配置的最多补贴多少节课
 
@@ -1224,6 +1226,32 @@ public class PreferenceHelper extends BasePerference{
             } else {
                 String str = gson.toJson(list);
                 editor.putString(KEY_WORD_LIST, str);
+            }
+            editor.apply();
+        }
+    }
+
+    public List<SijiaoInfo> getSijiaoList() {
+        List<SijiaoInfo> list = null;
+        checkPrefs();
+        if (prefs != null) {
+            String json = prefs.getString(KEY_SIJIAO_LIST, null);
+            if (json != null) {
+                list = gson.fromJson(json,new TypeToken<List<SijiaoInfo>>(){}.getType());
+            }
+        }
+        return list;
+    }
+
+    public void setSijiaoList(List<SijiaoInfo> list) {
+        checkPrefs();
+        if (prefs != null) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (list == null) {
+                editor.putString(KEY_SIJIAO_LIST, null);
+            } else {
+                String str = gson.toJson(list);
+                editor.putString(KEY_SIJIAO_LIST, str);
             }
             editor.apply();
         }

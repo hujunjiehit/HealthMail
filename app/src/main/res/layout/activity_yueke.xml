@@ -44,6 +44,55 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkgray"
+            android:textSize="@dimen/medium_text_size"
+            android:text="当前选中私教："/>
+        <TextView
+            android:id="@+id/tv_show_sijiao_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text_size"
+            android:text="1个"/>
+        <Button
+            android:id="@+id/btn_manage_sijiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="@dimen/medium_text_size"
+            android:text="管理私教"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:textColor="@color/text_press"
+        android:textSize="@dimen/medium_text_size"
+        android:text="开始约课"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:text="将会使用小号管理中启用的小号来执行"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="12dp"
@@ -71,26 +120,6 @@
                 android:text="--"/>
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_marginTop="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:textColor="@color/text_press"
-        android:textSize="@dimen/medium_text_size"
-        android:text="开始约课"/>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="center"
-        android:textColor="@color/red"
-        android:text="将会使用小号管理中启用的小号来执行"/>
 
     <LinearLayout
         android:layout_width="match_parent"

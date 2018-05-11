@@ -57,43 +57,56 @@
         </provider>
 
         <activity
-            android:name=".activity.LoginActivity">
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.LoginActivityOnekey">
+            android:name=".activity.LoginActivityOnekey"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.PingjiaActivity">
+            android:name=".activity.PingjiaActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.YuekeActivity">
+            android:name=".activity.YuekeActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.CoinsDetailActivity">
+            android:name=".activity.CoinsDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.SijiaoLoginActivity">
+            android:name=".activity.SijiaoLoginActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.SpecialFunctionListActivity">
+            android:name=".activity.SpecialFunctionListActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.GuanzhuDetailActivity">
+            android:name=".activity.GuanzhuDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.PingjiaDetailActivity">
+            android:name=".activity.PingjiaDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.PostCourseDetailActivity">
+            android:name=".activity.PostCourseDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.GuanzhuActivity">
+            android:name=".activity.GuanzhuActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.CancleGuanzhuActivity">
+            android:name=".activity.CancleGuanzhuActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.FunctionSetupActivity">
+            android:name=".activity.FunctionSetupActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.MainActivity"
@@ -102,47 +115,65 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".activity.FukuanActivity">
+            android:name=".activity.FukuanActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.UnbindActivity">
+            android:name=".activity.UnbindActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.SuperRootActivity">
+            android:name=".activity.SuperRootActivity"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
-            android:name=".activity.ProxyPersonActivity">
+            android:name=".activity.ProxyPersonActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.ResetPasswordActivity">
+            android:name=".activity.ResetPasswordActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
         </activity>
         <activity
-            android:name=".activity.PayWebviewActivity">
+            android:name=".activity.PayWebviewActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.PicturePreviewActivity">
+            android:name=".activity.PicturePreviewActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.DetailPostActivity">
+            android:name=".activity.DetailPostActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.NewPostActivity">
+            android:name=".activity.NewPostActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.ShowTodayDetailsActivity">
+            android:name=".activity.ShowTodayDetailsActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.ProxyDetailActivity">
+            android:name=".activity.ProxyDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activity.ManagePingjiaWordsActivity">
+            android:name=".activity.ManagePingjiaWordsActivity"
+            android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".activity.ManageSijiaoActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <!-- bmob升级 -->
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity">

@@ -4,8 +4,8 @@ import android.view.View;
 
 import com.june.healthmail.R;
 import com.june.healthmail.fragement.BaseFragment;
-import com.june.healthmail.improve.activity.NewPingjiaActivity;
 import com.june.healthmail.improve.activity.NewYuekeActivity;
+import com.june.healthmail.improve.activity.YuekeActivity;
 
 /**
  * Created by june on 2017/10/24.
@@ -23,10 +23,17 @@ public class YueKeFragment extends BaseFragment {
 
   @Override
   public void setListener() {
-    mRootView.findViewById(R.id.btn_operition_yueke).setOnClickListener(new View.OnClickListener() {
+    mRootView.findViewById(R.id.btn_operition_yueke_new).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         checkPermission(NewYuekeActivity.class);
+      }
+    });
+
+    mRootView.findViewById(R.id.btn_operition_yueke).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        checkPermission(YuekeActivity.class);
       }
     });
   }

@@ -25,7 +25,7 @@ import com.june.healthmail.R;
 import com.june.healthmail.activity.BaseActivity;
 import com.june.healthmail.activity.ManagePingjiaWordsActivity;
 import com.june.healthmail.improve.service.BaseService;
-import com.june.healthmail.improve.service.PingjiaService;
+import com.june.healthmail.improve.service.NewPingjiaService;
 import com.june.healthmail.model.WordInfo;
 import com.june.healthmail.untils.CommonUntils;
 import com.june.healthmail.untils.PreferenceHelper;
@@ -55,7 +55,7 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   private SeekBar mSeekBar;
   private TextView mBtnMinus;
   private TextView mBtnAdd;
-  private PingjiaService.PingjiaBinder mBinder;
+  private NewPingjiaService.PingjiaBinder mBinder;
 
   private List<WordInfo> mWords;
   private List<WordInfo> mSelectedWords;
@@ -63,7 +63,7 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
   private ServiceConnection connection = new ServiceConnection() {
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-      mBinder = (PingjiaService.PingjiaBinder) service;
+      mBinder = (NewPingjiaService.PingjiaBinder) service;
       mBinder.setHandler(mHandler);
       mBinder.setPingjiaWord(mSelectedWords);
     }
@@ -114,7 +114,7 @@ public class NewPingjiaActivity extends BaseActivity implements View.OnClickList
     //initData();
 
     //bindService
-    Intent bindIntent = new Intent(this,PingjiaService.class);
+    Intent bindIntent = new Intent(this,NewPingjiaService.class);
     bindService(bindIntent,connection, BIND_AUTO_CREATE);
   }
 

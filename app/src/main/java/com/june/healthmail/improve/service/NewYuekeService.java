@@ -23,6 +23,7 @@ import com.june.healthmail.model.GroupbuyUserModel;
 import com.june.healthmail.model.Guanzhu;
 import com.june.healthmail.model.GuanzhuListModel;
 import com.june.healthmail.model.PostYuekeModel;
+import com.june.healthmail.model.SijiaoInfo;
 import com.june.healthmail.model.TokenModel;
 import com.june.healthmail.model.UserInfo;
 import com.june.healthmail.untils.CommonUntils;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 import okhttp3.Call;
@@ -47,7 +49,7 @@ import okhttp3.Response;
  * Created by june on 2017/8/19.
  */
 
-public class YuekeService extends BaseService {
+public class NewYuekeService extends BaseService {
 
   private static final int START_TO_YUE_KE = 1;
   private static final int GET_TOKEN_SUCCESS = 2;
@@ -87,6 +89,8 @@ public class YuekeService extends BaseService {
 
   private ArrayList<Guanzhu> guanzhuList = new ArrayList<>();
   private ArrayList<Course> coureseList = new ArrayList<>();
+  private ArrayList<SijiaoInfo> sijiaoList = new ArrayList<>();
+
   private CourseDetail currentCourseDetail;
 
   private YukeBinder mBinder = new YukeBinder();
@@ -140,7 +144,9 @@ public class YuekeService extends BaseService {
           break;
         case GET_TOKEN_SUCCESS:
           showTheResult("--获取token成功\n");
-          message = this.obtainMessage(START_TO_GET_GUANZHU_LIST);
+          sijiaoIndex = 0;
+          pageIndex = 0;
+          message = this.obtainMessage(START_TO_GET_COURSE_LIST);
           message.sendToTarget();
           break;
 
@@ -177,18 +183,19 @@ public class YuekeService extends BaseService {
 
         case START_TO_GET_COURSE_LIST:
           //传入私教id
-          if (sijiaoIndex < guanzhuList.size()) {
+          if (sijiaoIndex < sijiaoList.size()) {
             if (sijiaoIndex < max_sijiao) {
               showTheResult("**********用户设置一共" + pageSize + "页课程\n");
               if (pageIndex < pageSize) {//页数
                 showTheResult("************开始获取私教[" + (sijiaoIndex + 1) + "]-" +
-                    guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned() + "第" + (pageIndex + 1) + "页的课程\n");
-                getTheCourseList(guanzhuList.get(sijiaoIndex).getUser_id());
+                    sijiaoList.get(sijiaoIndex).getMallId() + "[" + sijiaoList.get(sijiaoIndex).getName()  + "]第" + (pageIndex + 1) + "页的课程\n");
+                getTheCourseList(sijiaoList.get(sijiaoIndex).getMallId());
+
                 //正在约课的私教姓名
-                currentSijiaoName = guanzhuList.get(sijiaoIndex).getHm_u_nickname_concerned();
+                currentSijiaoName = sijiaoList.get(sijiaoIndex).getName();
                 hasAdded = false;
               } else {
-                showTheResult("**************没有更多页，开始下一个收藏的私教\n");
+                showTheResult("**************没有更多页，开始下一个私教\n");
                 pageIndex = 0;
                 sijiaoIndex++;
                 currentNum = 0;
@@ -204,7 +211,7 @@ public class YuekeService extends BaseService {
               message.sendToTarget();
             }
           } else {
-            showTheResult("*******所有收藏的私教课程都约完了，开始下一个小号\n\n\n");
+            showTheResult("*******所有选中的私教课程都约完了，开始下一个小号\n\n\n");
             accountIndex++;
             currentNum = 0;
             userInfo.setYuekeTimes(PreferenceHelper.getInstance().getRemainYuekeTimes());
@@ -291,6 +298,7 @@ public class YuekeService extends BaseService {
           boolean isIntheList = false;
           if (groupbuyUserModel.getValuse() != null) {
             //String mallId = groupbuyUserModel.getAccessToken().getMallId();
+            mallId = accountList.get(accountIndex).getMallId();
             if (mallId != null) {
               for (GroupbuyUser groupbuyUser : groupbuyUserModel.getValuse()) {
                 if (mallId.equals(groupbuyUser.getUser_id())) {
@@ -520,6 +528,7 @@ public class YuekeService extends BaseService {
             //更新小号昵称
             DBManager.getInstance().updateUserInfo(accountList.get(accountIndex).getPhoneNumber(),
                 tokenmodel.getData().getHmMemberUserVo());
+            accountList.get(accountIndex).setMallId(tokenmodel.getData().getHmMemberUserVo().getMallId());
             accessToken = tokenmodel.getData().getAccessToken();
             Message msg = mHandler.obtainMessage(GET_TOKEN_SUCCESS);
             msg.sendToTarget();
@@ -805,6 +814,16 @@ public class YuekeService extends BaseService {
       per_sijiao_max_courses = size;
       pageSize = (per_sijiao_max_courses - 1)/20 + 1;
       Log.e("test", "setPageSize execute,per_sijiao_max_courses =  " + size + "  pageSize = " + pageSize);
+    }
+
+    public void setSijiaoList(List<SijiaoInfo> list) {
+      if (list == null) {
+        return;
+      }
+      sijiaoList.clear();
+      for(SijiaoInfo sijiaoInfo : list) {
+        sijiaoList.add(sijiaoInfo);
+      }
     }
   }
 

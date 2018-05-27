@@ -65,14 +65,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activity.PingjiaActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".activity.YuekeActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".activity.CoinsDetailActivity"
             android:screenOrientation="portrait">
         </activity>
@@ -186,15 +178,28 @@
 
         <activity
             android:name=".improve.activity.NewPingjiaActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".improve.activity.NewYuekeActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name=".improve.activity.YuekeActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
         </activity>
 
         <service
-            android:name=".improve.service.PingjiaService"
+            android:name=".improve.service.NewPingjiaService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+        <service
+            android:name=".improve.service.NewYuekeService"
             android:enabled="true"
             android:exported="true">
         </service>

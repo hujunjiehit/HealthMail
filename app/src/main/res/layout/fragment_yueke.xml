@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:orientation="vertical"
@@ -7,11 +7,52 @@
                 android:layout_height="match_parent">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_new_yueke"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_operition_yueke_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_press"
+            android:textSize="26sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/ic_yueke"
+            android:text="自动约课【新】"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:layout_below="@id/btn_operition_yueke_new"
+            android:text="勾选的小号会根据设置的私教猫号来约课"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_below="@id/layout_new_yueke">
 
         <Button
             android:id="@+id/btn_operition_yueke"
@@ -26,7 +67,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_yueke"
-            android:text="自动约课"/>
+            android:text="自动约课【旧】"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -35,16 +76,15 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textColor="@color/red"
-            android:text="约课前需要先设置要约课的私教猫号"/>
+            android:layout_below="@id/btn_operition_yueke"
+            android:text="小号需要用软件一键关注要约课的私教"/>
+    </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:text="进入约课界面点击【管理私教】添加私教猫号"/>
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

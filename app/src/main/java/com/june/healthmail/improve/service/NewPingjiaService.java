@@ -35,7 +35,7 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
-public class PingjiaService extends BaseService {
+public class NewPingjiaService extends BaseService {
 
 
   private static final int START_TO_PING_JIA = 1;

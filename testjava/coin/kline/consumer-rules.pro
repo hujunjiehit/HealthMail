@@ -1,1 +1,0 @@
--keep class com.coinbene.manbiwang.kline.bean.**{ *; }

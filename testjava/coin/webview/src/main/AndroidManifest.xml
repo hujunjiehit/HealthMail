@@ -1,0 +1,17 @@
+<manifest package="com.coinbene.manbiwang.webview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".WebviewApplication"
+        tools:replace="android:name">
+        <activity
+            android:name="com.coinbene.manbiwang.webview.WebviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|adjustPan"
+            android:screenOrientation="nosensor"
+            android:launchMode="singleTask">
+        </activity>
+    </application>
+
+</manifest>

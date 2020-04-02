@@ -1,0 +1,138 @@
+{
+  "nightModeEnable": true,
+  "shareEnable": true,
+  "communityEnable": true,
+  "languageConfig": {
+    "enable": true,
+    "supportLanguage": [
+      {
+        "name": "简体中文",
+        "code": "zh_CN"
+      },
+      {
+        "name": "English",
+        "code": "en_US"
+      },
+      {
+        "name": "한국어",
+        "code": "ko_KR"
+      },
+      {
+        "name": "Português",
+        "code": "pt_BR"
+      },
+      {
+        "name": "日本語",
+        "code": "ja_JP"
+      },
+      {
+        "name": "ViệtName",
+        "code": "vi_VN"
+      }
+    ]
+  },
+  "multiSiteConfig": {
+    "enable": true,
+    "supportSite": [
+      "MAIN",
+      "KO",
+      "BR",
+      "VN"
+    ]
+  },
+  "buglyConfig": {
+    "enable": true,
+    "releaseAppKey": "b0878359d9",
+    "testAppKey": "a638fa1cb8"
+  },
+  "supportOnlineConfig": {
+    "enable": true,
+    "domain": "coinbene.udesk.cn",
+    "appID": "ad7e4a02cb59d107",
+    "appKey": "3e656df6c11cf73d7b643bd671ae505d"
+  },
+  "baseUrlConfig": [
+    {
+      "envName": "dev",
+      "base_url": "http://a.dev.atomchain.vip",
+      "base_url_h5": "http://dev.dev.atomchain.vip",
+      "base_url_res": "http://res.coinbene.mobi/resource-upload/",
+      "spot_websocket": "ws://ws.dev.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.dev.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.dev.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.dev.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName": "test",
+      "base_url": "http://a.test.atomchain.vip",
+      "base_url_h5": "http://test.test.atomchain.vip",
+      "base_url_res": "http://res.coinbene.mobi/resource-upload/",
+      "spot_websocket": "ws://ws.test.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.test.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.test.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.test.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName": "staging",
+      "base_url": "http://a.staging.atomchain.vip",
+      "base_url_h5": "http://master.staging.atomchain.vip",
+      "base_url_res": "http://res.coinbene.mobi/resource-upload/",
+      "spot_websocket": "ws://ws.staging.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.staging.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.staging.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.staging.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName": "online",
+      "base_url": "https://a.j1gi.com",
+      "base_url_h5": "https://www.coinbene.vip",
+      "base_url_res": "https://res.coinbene.mobi/resource-upload/",
+      "spot_websocket": "ws://ws.coinbene.mobi/ws",
+      "btc_contract_websocket": "ws://ws-contract.coinbene.mobi/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.coinbene.mobi/usdt/ws",
+      "websocket_url": "wss://ws.j1gi.com/stream/ws",
+      "option_broker_id": "7801250866987737088"
+    }
+  ],
+  "zendeskConfig": {
+    "noticeConfig": [
+      {
+        "siteName": "MAIN",
+        "base": "https://coinbenevip.zendesk.com",
+        "noticeList": "/api/v2/help_center/%s/categories/360002111153/articles.json",
+        "noticeCenter": "/hc/%s/categories/360002111153"
+      },
+      {
+        "siteName": "KO",
+        "base": "https://coinbenevip-kr.zendesk.com",
+        "noticeList": "/api/v2/help_center/%s/categories/360002198353/articles.json",
+        "noticeCenter": "/hc/%s/categories/360002198373"
+      },
+      {
+        "siteName": "BR",
+        "base": "https://coinbenevip-br.zendesk.com",
+        "noticeList": "/api/v2/help_center/%s/categories/360002174694/articles.json",
+        "noticeCenter": "/hc/%s/categories/360002174694"
+      },
+      {
+        "siteName": "VN",
+        "base": "https://coinbenecomvn.zendesk.com",
+        "noticeList": "/api/v2/help_center/%s/categories/360002666094/articles.json",
+        "noticeCenter": "/hc/%s/categories/360002666094"
+      }
+    ],
+    "aboutUs": "https://coinbenevip.zendesk.com/hc/%s/articles/360033363154",
+    "btcContractGuide": "https://coinbenevip.zendesk.com/hc/%s/sections/360005713174",
+    "usdtContractGuide": "https://coinbenevip.zendesk.com/hc/%s/sections/360005713154",
+    "btcContractProtocol": "https://coinbenevip.zendesk.com/hc/%s/articles/360033790134",
+    "usdtContractProtocol": "https://coinbenevip.zendesk.com/hc/%s/articles/360037627314",
+    "ybbGuide": "https://coinbenevip.zendesk.com/hc/%s/articles/360038204114",
+    "marginGuide": "https://coinbenevip.zendesk.com/hc/%s/articles/360035444613",
+    "marginUserProtocol": "https://coinbenevip.zendesk.com/hc/%s/articles/360035444233",
+    "helpCenter": "https://coinbenevip.zendesk.com/hc/%s/categories/360002096194",
+    "spotStrategyOrder": "https://coinbenevip.zendesk.com/hc/%s/articles/360041212433"
+  }
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_default"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:background="@color/spot_order_type_background"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_default"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/market_default"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp" />
+
+        <ImageView
+            android:id="@+id/iv_default"
+            android:layout_width="10.8dp"
+            android:layout_height="7.6dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/trade_pair_check" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_default"
+        android:background="@color/res_item_divider" />
+
+    <RelativeLayout
+        android:id="@+id/layout_buy"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:background="@color/spot_order_type_background"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/show_buy_market"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp" />
+
+        <ImageView
+            android:id="@+id/iv_buy"
+            android:layout_width="10.8dp"
+            android:layout_height="7.6dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/trade_pair_check"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_buy_market"
+        android:background="@color/res_item_divider" />
+
+    <RelativeLayout
+        android:id="@+id/layout_sell"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:background="@color/spot_order_type_background"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/show_sell_merket"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp" />
+
+        <ImageView
+            android:id="@+id/iv_sell"
+            android:layout_width="10.8dp"
+            android:layout_height="7.6dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/trade_pair_check"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pop_arrow_down"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

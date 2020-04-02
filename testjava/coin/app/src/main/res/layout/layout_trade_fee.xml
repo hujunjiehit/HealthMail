@@ -1,0 +1,176 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_trade_fee_root"
+    android:background="@color/res_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_trade_fee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_trade_fee_desc"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/res_your_trade_fee_level"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_trade_fee_value"
+            app:layout_constraintLeft_toRightOf="@id/tv_trade_fee_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/tv_trade_fee_link"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/icon_blue_warning"
+            android:drawablePadding="5dp"
+            android:text="@string/res_contract_trade_fee"
+            android:textColor="@color/res_blue"
+            android:textSize="15dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_trade_volume"
+        android:layout_below="@id/layout_trade_fee"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp"
+            android:text="@string/res_latest_30day_trade_volume"/>
+
+        <TextView
+            android:id="@+id/tv_trade_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp"
+            android:text="30.999" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_detail_fee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_trade_volume"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/res_buttonBackGround_normal">
+
+        <TextView
+            android:id="@+id/tv_maker_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/res_maker_fee"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/tv_maker_value"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_maker_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="--"
+            android:textColor="@color/res_assistColor_22"
+            android:textSize="16dp" />
+
+        <View
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_maker_value"
+            app:layout_constraintRight_toLeftOf="@id/tv_taker_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="2px"
+            android:layout_height="20dp"
+            android:background="@color/res_textColor_3"></View>
+
+        <TextView
+            android:id="@+id/tv_taker_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_taker_value"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/res_taker_fee"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/tv_taker_value"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="--"
+            android:textColor="@color/res_assistColor_22"
+            android:textSize="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_below="@id/layout_detail_fee"
+        android:id="@+id/tip_balance_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/current_balance"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_below="@id/tip_balance_tv"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="1px">
+    </View>
+</RelativeLayout>

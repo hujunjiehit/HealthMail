@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <array name="site_list">
+        <item>Main site,MAIN</item>
+        <item>Korea,KO</item>
+        <item>Brasil,BR</item>
+        <item>Viet Nam,VN</item>
+        <item>RMEX,RMEX</item>
+    </array>
+
+    <array name="language_list">
+        <item>简体中文,zh_CN</item>
+        <item>English,en_US</item>
+        <item>한국어,ko_KR</item>
+        <item>Português,pt_BR</item>
+        <item>日本語,ja_JP</item>
+        <item>ViệtName,vi_VN</item>
+<!--        <item>Русский,ru_RU</item>-->
+    </array>
+
+    <!--回报率为负数-->
+    <string-array name="poster_string_negative">
+        <item>Hold on, we can win</item>
+        <item>Everything is possible, don\'t give up</item>
+        <item>Floating loss is not a real loss, don\'t panic</item>
+        <item>Fight against the trend and create greater glories</item>
+        <item>Make persistent efforts and create new achievements</item>
+        <item>The heart does not compromise, it must be unrestricted</item>
+        <item>Believing is future</item>
+        <item>There is a spirit called hold on straight to the end</item>
+    </string-array>
+
+    <string-array name="poster_string_positive">
+        <item>How big is the heart, how big is the income</item>
+        <item>The good things are just beginning</item>
+        <item>What is winning? Winning is not losing</item>
+        <item>Good hunters are good at waiting</item>
+        <item>You are profiting, so relax and let it be</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_0_60">
+        <item>Where Amazing Happen</item>
+        <item>Impossible made possible</item>
+        <item>You\'re more powerful than you think</item>
+        <item>Risk everything. Winner stays</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_60_80">
+        <item>Winners do what losers don\'t want to do</item>
+        <item>Better late than never</item>
+        <item>A bold attempt is half success</item>
+        <item>Life is always crazy once</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_80_100">
+        <item>To be good, to the dead</item>
+        <item>Obey your thirst</item>
+        <item>Energy and persistence conquer all things</item>
+        <item>The good seaman is known in bad weather</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_100">
+        <item>For man is man and master of his fate</item>
+        <item>All things come to those who wait</item>
+        <item>Sow nothing，reap nothing</item>
+        <item>Chance favors the prepared mind</item>
+    </string-array>
+
+    <string-array name="mining_share_copywriting" tools:ignore="InconsistentArrays">
+        <item>I\'d rather dig CFT than give my heart away.</item>
+        <item>Dig, dig, dig, the loess becomes gold</item>
+        <item>Think hard, just want to get CFT</item>
+        <item>I am a CFT miner, I speak for CFT.</item>
+        <item>CFT is proud of you today, you will be proud of CFT tomorrow</item>
+    </string-array>
+
+</resources>

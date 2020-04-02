@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/res_selector_item_press_status">
+
+
+    <TextView
+        android:id="@+id/history_delegation_contrancts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/history_delegation_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/bg_green_sharp"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingTop="1dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="1dp"
+        android:textColor="@color/res_white"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_delegation_contrancts"
+        app:layout_constraintStart_toEndOf="@+id/history_delegation_contrancts"
+        app:layout_constraintTop_toTopOf="@+id/history_delegation_contrancts" />
+
+    <TextView
+        android:id="@+id/history_delegation_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:gravity="right"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_delegation_contrancts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/history_delegation_contrancts" />
+
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/entrust_volume_unit"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/history_delegation_contrancts"
+        app:layout_constraintTop_toBottomOf="@+id/history_delegation_contrancts" />
+
+
+    <TextView
+        android:id="@+id/history_delegation_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/entrust_price"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+
+    <TextView
+        android:id="@+id/history_entrust_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_delegation_vol"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/history_delegation_vol" />
+
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_entrust_value"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="@+id/history_delegation_time"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+
+    <TextView
+        android:id="@+id/history_entrust_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_entrust_price"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintTop_toTopOf="@+id/history_entrust_price" />
+
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/deal_unit"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/history_delegation_vol"
+        app:layout_constraintTop_toBottomOf="@+id/history_delegation_vol" />
+
+
+    <TextView
+        android:id="@+id/history_deal_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_avg_label"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/history_entrust_price"
+        app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+
+    <TextView
+        android:id="@+id/history_deal_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_deal_vol"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toTopOf="@+id/history_deal_vol" />
+
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_fee_label"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView14"
+        app:layout_constraintEnd_toEndOf="@+id/history_entrust_value"
+        app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+
+    <TextView
+        android:id="@+id/history_fee_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_deal_price"
+        app:layout_constraintEnd_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="@+id/history_deal_price" />
+
+
+    <TextView
+        android:id="@+id/delegation_textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/contract_history_profit_usdt"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/history_deal_vol"
+        app:layout_constraintTop_toBottomOf="@+id/history_deal_vol" />
+
+    <TextView
+        android:id="@+id/history_delegation_profit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/delegation_textView18"
+        app:layout_constraintTop_toBottomOf="@+id/delegation_textView18" />
+
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_type"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toTopOf="@+id/delegation_textView18" />
+
+
+    <TextView
+        android:id="@+id/history_delegation_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current_clinch_scale"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+
+    <TextView
+        android:id="@+id/history_delegation_scale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/history_delegation_type"
+        app:layout_constraintEnd_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toTopOf="@+id/history_delegation_type" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="0.4dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/res_divider_tile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/history_delegation_scale" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

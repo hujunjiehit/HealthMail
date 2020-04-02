@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_top"
+        layout="@layout/commom_menu_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_top"
+        android:layout_marginBottom="64dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/market_item_bg">
+
+                <TextView
+                    android:id="@+id/text_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/coin_type"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+
+                <TextView
+                    android:id="@+id/text_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/address_select_coin_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/arrow_right"
+                    android:layout_width="8dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="13dp"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+            <LinearLayout
+                android:id="@+id/ll_chains"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/chain_name"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="14dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rl_chains"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background">
+
+                <TextView
+                    android:id="@+id/fee_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/mark_tab"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/withDraw_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:hint="@string/address_example_tips"
+                    android:singleLine="true"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background"
+                android:minHeight="71dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/withdraw_address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/address_coin_add_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/address_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/withdraw_address_tv"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/with_draw_address_hint_new"
+                    android:imeOptions="actionDone"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/close_view"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_below="@+id/withdraw_address_tv"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/zxing_layout"
+                    android:src="@drawable/icon_close"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/zxing_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/withdraw_address_tv"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="14dp">
+
+                    <ImageView
+                        android:id="@+id/zxing_icon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/icon_scanning" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/xrp_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/xrp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/destination_tg_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/xrp_withdraw_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/destination_tg_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:hint="@string/xrp_withdraw_hint"
+                    android:inputType="text"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/xrp_line_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background">
+
+                <TextView
+                    android:id="@+id/cap_pwd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/cap_pwd_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <com.coinbene.common.widget.EditTextTwoIcon
+                    android:id="@+id/cap_pwd_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/cap_pwd_hint"
+                    android:inputType="numberPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/goole_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/google_layout"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/google_auth_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/google_auth_code_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/google_input_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:hint="@string/google_auth_code_hint"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/msg_code_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/msg_code_layout"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_background"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/left_msg_code_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/set_reset_cap_phone_label"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/msg_code_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:hint="@string/user_hint_msg_code"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:textColor="@color/res_textColor_1"
+                    android:textColorHint="@color/res_textColor_3"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/send_msgcode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/user_send_msg_code"
+                    android:textColor="@color/res_blue"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view_line5"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/submmit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_bg_sharp"
+            android:gravity="center"
+            android:text="@string/submmit"
+            android:textColor="@color/res_white"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

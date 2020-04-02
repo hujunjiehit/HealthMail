@@ -1,0 +1,2 @@
+-keep class com.coinbene.manbiwang.model.http.**{ *; }
+-keep class com.coinbene.manbiwang.model.websocket.**{ *; }

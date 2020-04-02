@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?><!--日间规范颜色-->
+<resources>
+    <color name="colorAccent">@color/res_blue</color>
+
+    <!--背景颜色  #7-->
+    <color name="res_background">#FFFFFF</color>
+
+    <!--底部导航背景颜色 #8-->
+    <color name="res_tabBackground">#FFFFFF</color>
+
+    <!--底部导航图标 #17-->
+    <color name="res_tabIconColor">#C5CED5</color>
+
+    <!--主要文字  #4-->
+    <color name="res_textColor_1">#000000</color>
+
+    <!--次要文字 #5-->
+    <color name="res_textColor_2">#808080</color>
+
+    <!--三级文字 #6-->
+    <color name="res_textColor_3">#999999</color>
+
+    <!--App内通用红色-->
+    <color name="res_red">#E3595D</color>
+
+
+    <!--App内红色1e透明-->
+    <color name="res_red_1e">#1EE3595D</color>
+
+
+    <!--App内通用绿色1e透明-->
+    <color name="res_green_1e">#1e3CBC98</color>
+
+    <!--App内通用绿色-->
+    <color name="res_green">#3CBC98</color>
+
+    <!--App内通用蓝色添加12%透明度-->
+    <color name="res_blue_e0">#e03B7BFD</color>
+
+
+    <color name="res_blue_28">#283b7bfd</color>
+
+
+    <color name="res_blue_10">#1A3b7bfd</color>
+
+    <!--App内通用蓝色-->
+    <color name="res_blue">#3B7BFD</color>
+
+    <!--App内通用白色-->
+    <color name="res_white">#ffffff</color>
+
+    <!--白色50%透明度，现在用于按压状态-->
+    <color name="res_white_80">#80ffffff</color>
+
+    <!--白色40%透明度，现在用于按压状态-->
+    <color name="res_white_40">#66ffffff</color>
+
+
+    <!--条目分割线颜色  #13-->
+    <color name="res_item_divider">#F2F2F2</color>
+
+    <!--分割条 #14-->
+    <color name="res_divider_tile">#F5F7F9</color>
+
+    <!--EditText hint字体颜色-->
+    <color name="res_editColor_hint">@color/res_textColor_3</color>
+
+    <!--Button  #11-->
+    <color name="res_buttonBackGround_normal">#F5F7F9</color>
+
+    <!--透明层颜色  #12-->
+    <color name="res_layerColor">#80000000</color>
+
+    <!--默认图标颜色 #16-->
+    <color name="res_IconColor">#6D87A8</color>
+
+    <!--条目按压状态 #18-->
+    <color name="res_ItemPress">#F9FAFC</color>
+
+    <!--dialog背景-->
+    <color name="res_dialogBackGround">#FFFFFF</color>
+
+    <!--输入框默认颜色 #15-->
+    <color name="res_border_color">#47000000</color>
+
+    <!--按钮禁用-->
+    <color name="color_button_disable">#c5cdd6</color>
+
+    <!--    图案锁颜色-->
+    <color name="color_pattern_lock">#e8eaf7</color>
+
+    <!--辅助颜色-->
+
+    <color name="res_assistColor_19_80">#14f5a624</color>
+    <color name="res_assistColor_21">#F5A624</color>
+    <color name="res_assistColor_22">#F99C03</color>
+    <color name="res_assistColor_23">#BE52F2</color>
+
+    <color name="res_lable_background">#24F99C03</color>
+
+    <color name="res_lable_background_28">#28f99c03</color>
+
+
+    <color name="res_toast">#CC4f5359</color>
+
+    <!--—————————————————————————————————————————————————————————————————————————————————————-->
+
+    <!--现货交易页面-->
+    <!--深度图颜色-->
+    <color name="res_deepth_red">#14e3595d</color>
+    <color name="res_deepth_green">#143cbc98</color>
+
+    <!--未实现盈亏总计 背景色  不在规范的颜色里-->
+    <color name="res_background_fef3e0">#fef3e0</color>
+
+    <!--现货交易拖动条颜色-->
+    <!--外环-->
+    <color name="color_seekBar_ring">#ffffff</color>
+    <!--实心圆颜色-->
+    <color name="color_seekBar_background">#dde1ea</color>
+
+
+    <!--k线颜色-->
+    <color name="kline_black_131e2f">#131e2f</color>
+    <color name="kline_black_0f1826">#0f1826</color>
+    <color name="ma5">@color/k_ma5</color>
+    <color name="ma10">@color/k_ma10</color>
+    <color name="ma20">@color/k_ma20</color>
+    <color name="k_ma5">#a7265a</color>
+    <color name="k_ma10">#e2a453</color>
+    <color name="k_ma20">#145fa1</color>
+    <color name="marker_bg">#1C232E</color>
+    <color name="marker_line_bg">#000000</color>
+    <color name="marker_text_bg">#000000</color>
+    <color name="border_color">#A7ADBC</color>
+    <color name="mine_label_txt">#A7ADBC</color>
+    <color name="minute_jizhun">#7F9976</color>
+    <color name="minute_blue">#00D0FC</color>
+    <color name="minute_yellow">#E7B448</color>
+    <color name="balance_chat_line">#22273e</color>
+    <color name="fenshi_line">#3b7bfd</color>
+    <color name="kline_highlight">#4Dffffff</color>
+    <color name="kline_border_color">#444953</color>
+    <color name="kline_text_color">#c0c0c2</color>
+    <color name="kline_markline_color">#CF9CFF</color>
+    <color name="kline_current_price_color">#6f7081</color>
+    <color name="increasing_color">#3CBC98</color>
+    <color name="decreasing_color">#E3595D</color>
+    <color name="Kline_White">#d8d8d8</color>
+    <color name="color_kline_text1">#d2d5e9</color>
+    <color name="color_kline_text2">#6d87a8</color>
+
+    <!--十字光标的颜色-->
+    <color name="color_kline_cursor">#4c84a6db</color>
+
+    <color name="res_seek_bar_track_color">#dde1ea</color>
+
+    <color name="black">#FF000000</color>
+    <color name="colorPrimary">#3F51B5</color>
+
+    <color name="share_data_back">#16304c</color>
+
+    <color name="share_green">#00ab8d</color>
+
+
+</resources>

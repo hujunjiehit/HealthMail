@@ -1,0 +1,507 @@
+<resources>
+    <string-array name="normal_domain">
+        <item>coinbene.com</item>
+        <item>coinbene.com.cn</item>
+        <item>https://s-m-s.coinbene.mobi</item>
+        <item>restest.coinbene.mobi</item>
+        <item>staging.atomchain</item>
+        <item>manbiwang.com</item>
+        <item>baidu.com</item>
+        <item>atomchain.vip</item>
+    </string-array>
+
+    <string-array name="hahaha">
+        <item>1x</item>
+        <item>10x</item>
+        <item>20x</item>
+        <item>30x</item>
+        <item>40x</item>
+        <item>50x</item>
+        <item>60x</item>
+        <item>70x</item>
+        <item>80x</item>
+    </string-array>
+
+    <string-array name="debug_white_list">
+        <!--app-->
+        <item>18002570032</item>
+        <item>13027909110</item>
+        <item>18510167357</item>
+
+        <!--test-->
+        <item>15236899615</item>
+        <item>15650715321</item>
+        <item>18710046551</item>
+        <item>13467002543</item>
+        <item>18618456606</item>
+        <item>18791373717</item>
+
+        <!--后端-->
+        <item>18001131109</item>
+        <item>18611338535</item>
+        <item>13718737267</item>
+        <item>13521308103@126.com</item>
+        <item>15811009395</item>
+
+        <!--web-->
+        <item>857261364@qq.com</item>
+        <item>mrfan217@126.com</item>
+        <item>15210165920</item>
+        <item>15210567035</item>
+        <item>18793871664</item>
+        <item>15236899615</item>
+
+        <item>13683377411</item>
+        <item>18910602015</item>
+        <item>15626210599</item>
+        <item>18701420750</item>
+        <item>18612272787</item>
+        <item>18210069066</item>
+
+        <!--UI-->
+        <item>18301296603</item>
+        <item>18435120863</item>
+
+        <!--客服-->
+        <item>13601310013</item>
+        <item>18231379350</item>
+        <item>15318717242</item>
+        <item>15711103441</item>
+        <item>15910636382</item>
+        <item>18642868386</item>
+        <item>13269302181</item>
+        <item>18375341732</item>
+        <item>17610632921</item>
+    </string-array>
+
+    <declare-styleable name="InteractiveKLineView">
+
+        <!-- 与轴、网格有关的属性 -->
+
+        <!-- X 轴标签字符大小 -->
+        <attr name="xLabelSize" format="dimension" />
+        <!-- X 轴标签字符颜色 -->
+        <attr name="xLabelColor" format="color" />
+        <!-- X 轴 Label 区域的高度 -->
+        <attr name="xLabelViewHeight" format="dimension" />
+        <!-- X 轴 Label 区域的高度 -->
+        <attr name="xLabelViewTimeHeight" format="dimension" />
+        <!-- Y 轴标签字符大小 -->
+        <attr name="yLabelSize" format="dimension" />
+        <!-- Y 轴标签字符颜色 -->
+        <attr name="yLabelColor" format="color" />
+        <!-- Y 轴标签对齐方向 -->
+        <attr name="yLabelAlign">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+
+        <!-- 轴线条大小 -->
+        <attr name="axisSize" format="dimension" />
+        <!-- 轴线条颜色 -->
+        <attr name="axisColor" format="color" />
+        <!-- 网格线大小 -->
+        <attr name="gridSize" format="dimension" />
+        <!-- 网格线颜色 -->
+        <attr name="gridColor" format="color" />
+
+        <!-- 与高亮、MarkerView 有关的属性 -->
+
+        <!-- 高亮线条大小 -->
+        <attr name="highlightSize" format="dimension" />
+        <!-- 高亮线条颜色 -->
+        <attr name="highlightColor" format="color" />
+
+        <!-- MarkerView 边框大小 -->
+        <attr name="markerBorderSize" format="dimension" />
+        <!-- MarkerView 边框颜色 (长按显示的数据)-->
+        <attr name="markerBorderColor" format="color" />
+        <!-- MarkerView 字符大小 -->
+        <attr name="markerTextSize" format="dimension" />
+        <!-- MarkerView 字符颜色 -->
+        <attr name="markerTextColor" format="color" />
+        <!-- X 轴 MarkerView 对齐方向 -->
+        <attr name="xMarkerAlign">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+            <enum name="auto" value="2" />
+        </attr>
+        <!-- Y 轴 MarkerView 对齐方向 -->
+        <attr name="yMarkerAlign">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="auto" value="2" />
+        </attr>
+
+        <!-- 与分时图有关的属性 -->
+
+        <!-- 分时线大小 -->
+        <attr name="timeLineSize" format="dimension" />
+        <!-- 分时线颜色 -->
+        <attr name="timeLineColor" format="color" />
+        <!-- 分时图 entry 最多个数。注：此值与 entrySet 里的 entries.size() 意义不同，这里指 X 轴上最多能容纳多少个 entry -->
+        <attr name="timeLineMaxCount" format="integer" />
+
+        <!-- 与蜡烛图有关的属性 -->
+
+        <!-- 蜡烛图矩形边框大小 -->
+        <attr name="candleBorderSize" format="dimension" />
+        <!-- 蜡烛图极值字符大小 -->
+        <attr name="candleExtremumLabelSize" format="dimension" />
+        <!-- 蜡烛图极值字符颜色 -->
+        <attr name="candleExtremumLableColor" format="color" />
+        <!-- 影线大小 -->
+        <attr name="shadowSize" format="dimension" />
+        <!-- 上涨颜色 -->
+        <attr name="increasingColor" format="color" />
+        <!-- 下跌颜色 -->
+        <attr name="decreasingColor" format="color" />
+        <!-- 不涨不跌颜色 -->
+        <attr name="neutralColor" format="color" />
+        <!-- 竖屏状态下的默认缩放倍数下显示多少个蜡烛图。注：横屏时会自动根据视图宽高变化比例计算，不需要手工设置 -->
+        <attr name="portraitDefaultVisibleCount" format="integer" />
+        <!-- 最多放大次数 -->
+        <attr name="zoomInTimes" format="integer" />
+        <!-- 最多缩小次数 -->
+        <attr name="zoomOutTimes" format="integer" />
+        <!-- 上涨蜡烛图填充样式。默认实心 -->
+        <attr name="increasingStyle">
+            <!-- 实心 -->
+            <enum name="fill" value="0" />
+            <!-- 空心，仅描边 -->
+            <enum name="stroke" value="1" />
+        </attr>
+        <!-- 下跌蜡烛图填充样式，默认实心 -->
+        <attr name="decreasingStyle">
+            <!-- 实心 -->
+            <enum name="fill" value="0" />
+            <!-- 空心，仅描边 -->
+            <enum name="stroke" value="1" />
+        </attr>
+
+        <!-- 与股票指标有关的属性 -->
+
+        <attr name="maLineSize" format="dimension" />
+        <attr name="res_redColor" format="color" />
+        <attr name="res_assistColor_22Color" format="color" />
+        <attr name="res_blueColor" format="color" />
+
+        <attr name="bollLineSize" format="dimension" />
+        <attr name="bollMidLineColor" format="color" />
+        <attr name="bollUpperLineColor" format="color" />
+        <attr name="bollLowerLineColor" format="color" />
+
+        <attr name="kdjLineSize" format="dimension" />
+        <attr name="kdjKLineColor" format="color" />
+        <attr name="kdjDLineColor" format="color" />
+        <attr name="kdjJLineColor" format="color" />
+
+        <attr name="macdLineSize" format="dimension" />
+        <attr name="macdHighlightTextColor" format="color" />
+        <attr name="deaLineColor" format="color" />
+        <attr name="diffLineColor" format="color" />
+
+        <attr name="rsiLineSize" format="dimension" />
+        <attr name="rsi1LineColor" format="color" />
+        <attr name="rsi2LineColor" format="color" />
+        <attr name="rsi3LineColor" format="color" />
+
+        <attr name="maTextSize" format="dimension" />
+        <attr name="maTextColor" format="color" />
+        <attr name="bollTextSize" format="dimension" />
+        <attr name="bollTextColor" format="color" />
+        <attr name="kdjTextSize" format="dimension" />
+        <attr name="kdjTextColor" format="color" />
+        <attr name="macdTextSize" format="dimension" />
+        <attr name="macdTextColor" format="color" />
+        <attr name="rsiTextSize" format="dimension" />
+        <attr name="rsiTextColor" format="color" />
+
+        <!-- 其它 -->
+
+        <attr name="loadingTextSize" format="dimension" />
+        <attr name="loadingTextColor" format="color" />
+        <attr name="loadingText" format="string" />
+
+        <attr name="errorTextSize" format="dimension" />
+        <attr name="errorTextColor" format="color" />
+        <attr name="errorText" format="string" />
+
+    </declare-styleable>
+
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="line_count" format="integer|reference" />
+        <attr name="line_width" format="dimension|reference" />
+        <attr name="progress_start_color" format="color|reference" />
+        <attr name="progress_end_color" format="color|reference" />
+        <attr name="progress_text_color" format="color|reference" />
+        <attr name="progress_text_size" format="dimension|reference" />
+        <attr name="progress_stroke_width" format="dimension|reference" />
+        <attr name="progress_background_color" format="color|reference" />
+        <attr name="progress_start_degree" format="integer|reference" />
+        <attr name="drawBackgroundOutsideProgress" format="boolean|reference" />
+
+        <attr name="style">
+            <enum name="line" value="0" />
+            <enum name="solid" value="1" />
+            <enum name="solid_line" value="2" />
+        </attr>
+
+        <attr name="progress_shader">
+            <enum name="linear" value="0" />
+            <enum name="radial" value="1" />
+            <enum name="sweep" value="2" />
+        </attr>
+
+        <attr name="progress_stroke_cap">
+            <enum name="butt" value="0" />
+            <enum name="round" value="1" />
+            <enum name="square" value="2" />
+        </attr>
+
+    </declare-styleable>
+
+
+    <declare-styleable name="DecimalEditText">
+        <attr name="decimal_num" format="integer"></attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="MarqueeViewStyle">
+        <attr name="mvInterval" format="integer|reference" />
+        <attr name="mvAnimDuration" format="integer|reference" />
+        <attr name="mvTextSize" format="dimension|reference" />
+        <attr name="mvTextColor" format="color|reference" />
+        <attr name="mvSingleLine" format="boolean" />
+        <attr name="mvGravity">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="mvDirection">
+            <enum name="bottom_to_top" value="0" />
+            <enum name="top_to_bottom" value="1" />
+            <enum name="right_to_left" value="2" />
+            <enum name="left_to_right" value="3" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="MZBannerView">
+        <attr name="open_mz_mode" format="boolean" />
+        <attr name="canLoop" format="boolean" />
+        <attr name="indicatorPaddingLeft" format="dimension" />
+        <attr name="indicatorPaddingRight" format="dimension" />
+        <attr name="indicatorPaddingTop" format="dimension" />
+        <attr name="indicatorPaddingBottom" format="dimension" />
+        <attr name="indicatorAlign">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="middle_page_cover" format="boolean" />
+    </declare-styleable>
+    <item name="mz_banner_item_tag" type="id" />
+
+
+    <declare-styleable name="SegmentTabLayout">
+        <attr name="tl_indicator_color" />
+        <attr name="tl_indicator_height" />
+        <attr name="tl_indicator_margin_left" />
+        <attr name="tl_indicator_margin_top" />
+        <attr name="tl_indicator_margin_right" />
+        <attr name="tl_indicator_margin_bottom" />
+        <attr name="tl_indicator_corner_radius" />
+        <attr name="tl_indicator_anim_enable" />
+        <attr name="tl_indicator_anim_duration" />
+        <attr name="tl_indicator_bounce_enable" />
+        <attr name="tl_divider_color" />
+        <attr name="tl_divider_width" />
+        <attr name="tl_divider_padding" />
+        <attr name="tl_tab_padding" />
+        <attr name="tl_tab_space_equal" />
+        <attr name="tl_tab_width" />
+        <attr name="tl_textsize" />
+        <attr name="tl_textSelectColor" />
+        <attr name="tl_textUnselectColor" />
+        <attr name="tl_textBold" />
+        <attr name="tl_textAllCaps" />
+        <attr name="tl_bar_color" format="color" />
+        <attr name="tl_bar_stroke_color" format="color" />
+        <attr name="tl_bar_stroke_width" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="MsgView">
+        <attr name="mv_backgroundColor" format="color" />
+        <attr name="mv_cornerRadius" format="dimension" />
+        <attr name="mv_strokeWidth" format="dimension" />
+        <attr name="mv_strokeColor" format="color" />
+        <attr name="mv_isRadiusHalfHeight" format="boolean" />
+        <attr name="mv_isWidthHeightEqual" format="boolean" />
+    </declare-styleable>
+    <!--tablayout-->
+    <attr name="tl_divider_color" format="color" />
+    <attr name="tl_divider_padding" format="dimension" />
+    <attr name="tl_divider_width" format="dimension" />
+    <attr name="tl_indicator_anim_duration" format="integer" />
+    <attr name="tl_indicator_anim_enable" format="boolean" />
+    <attr name="tl_indicator_bounce_enable" format="boolean" />
+    <attr name="tl_indicator_color" format="color" />
+    <attr name="tl_indicator_corner_radius" format="dimension" />
+    <attr name="tl_indicator_gravity" format="enum">
+        <enum name="TOP" value="48" />
+        <enum name="BOTTOM" value="80" />
+    </attr>
+    <attr name="tl_indicator_height" format="dimension" />
+    <attr name="tl_indicator_margin_bottom" format="dimension" />
+    <attr name="tl_indicator_margin_left" format="dimension" />
+    <attr name="tl_indicator_margin_right" format="dimension" />
+    <attr name="tl_indicator_margin_top" format="dimension" />
+    <attr name="tl_indicator_style" format="enum">
+        <enum name="NORMAL" value="0" />
+        <enum name="TRIANGLE" value="1" />
+        <enum name="BLOCK" value="2" />
+    </attr>
+    <attr name="tl_indicator_width" format="dimension" />
+    <attr name="tl_indicator_width_equal_title" format="boolean" />
+    <attr name="tl_tab_padding" format="dimension" />
+    <attr name="tl_tab_space_equal" format="boolean" />
+    <attr name="tl_tab_width" format="dimension" />
+    <attr name="tl_textAllCaps" format="boolean" />
+    <attr name="tl_textBold" format="enum">
+        <enum name="NONE" value="0" />
+        <enum name="SELECT" value="1" />
+        <enum name="BOTH" value="2" />
+    </attr>
+    <attr name="tl_textSelectColor" format="color" />
+    <attr name="tl_textUnselectColor" format="color" />
+    <attr name="tl_textsize" format="dimension" />
+    <attr name="tl_underline_color" format="color" />
+    <attr name="tl_underline_gravity" format="enum">
+        <enum name="TOP" value="48" />
+        <enum name="BOTTOM" value="80" />
+    </attr>
+    <attr name="tl_underline_height" format="dimension" />
+    <declare-styleable name="CommonTabLayout">
+        <attr name="tl_indicator_color" />
+        <attr name="tl_indicator_height" />
+        <attr name="tl_indicator_width" />
+        <attr name="tl_indicator_margin_left" />
+        <attr name="tl_indicator_margin_top" />
+        <attr name="tl_indicator_margin_right" />
+        <attr name="tl_indicator_margin_bottom" />
+        <attr name="tl_indicator_corner_radius" />
+        <attr name="tl_indicator_gravity" />
+        <attr name="tl_indicator_style" />
+        <attr name="tl_indicator_anim_enable" />
+        <attr name="tl_indicator_anim_duration" />
+        <attr name="tl_indicator_bounce_enable" />
+        <attr name="tl_underline_color" />
+        <attr name="tl_underline_height" />
+        <attr name="tl_underline_gravity" />
+        <attr name="tl_divider_color" />
+        <attr name="tl_divider_width" />
+        <attr name="tl_divider_padding" />
+        <attr name="tl_tab_padding" />
+        <attr name="tl_tab_space_equal" />
+        <attr name="tl_tab_width" />
+        <attr name="tl_textsize" />
+        <attr name="tl_textSelectColor" />
+        <attr name="tl_textUnselectColor" />
+        <attr name="tl_textBold" />
+        <attr name="tl_textAllCaps" />
+        <attr name="tl_iconWidth" format="dimension" />
+        <attr name="tl_iconHeight" format="dimension" />
+        <attr name="tl_iconVisible" format="boolean" />
+        <attr name="tl_iconGravity" format="enum">
+            <enum name="LEFT" value="3" />
+            <enum name="TOP" value="48" />
+            <enum name="RIGHT" value="5" />
+            <enum name="BOTTOM" value="80" />
+        </attr>
+        <attr name="tl_iconMargin" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="SlidingTabLayout">
+        <attr name="tl_indicator_color" />
+        <attr name="tl_indicator_height" />
+        <attr name="tl_indicator_width" />
+        <attr name="tl_indicator_margin_left" />
+        <attr name="tl_indicator_margin_top" />
+        <attr name="tl_indicator_margin_right" />
+        <attr name="tl_indicator_margin_bottom" />
+        <attr name="tl_indicator_corner_radius" />
+        <attr name="tl_indicator_gravity" />
+        <attr name="tl_indicator_style" />
+        <attr name="tl_indicator_width_equal_title" />
+        <attr name="tl_underline_color" />
+        <attr name="tl_underline_height" />
+        <attr name="tl_underline_gravity" />
+        <attr name="tl_divider_color" />
+        <attr name="tl_divider_width" />
+        <attr name="tl_divider_padding" />
+        <attr name="tl_tab_padding" />
+        <attr name="tl_tab_space_equal" />
+        <attr name="tl_tab_width" />
+        <attr name="tl_textsize" />
+        <attr name="tl_textSelectColor" />
+        <attr name="tl_textUnselectColor" />
+        <attr name="tl_textBold" />
+        <attr name="tl_textAllCaps" />
+    </declare-styleable>
+
+
+    <declare-styleable name="BubbleSeekBar">
+        <attr name="bsb_min" format="float|reference" /> <!--min < max, default: 0.0f-->
+        <attr name="bsb_max" format="float|reference" /> <!--min < max, default: 100.0f-->
+        <attr name="bsb_progress" format="float|reference" /> <!--real time progress value, default: min-->
+        <attr name="bsb_is_float_type" format="boolean" /> <!--support for float type-->
+        <attr name="bsb_track_size" format="dimension|reference" /> <!--height of right-track(on the right of thumb), default: 2dp-->
+        <!--height of left-track(on the left of thumb), default: 2dp higher than right-track's height-->
+        <attr name="bsb_second_track_size" format="dimension|reference" />
+        <attr name="bsb_thumb_radius" format="dimension|reference" /> <!--radius of thumb, default: 2dp higher than left-track's height-->
+        <!--radius of thumb when be dragging, default: 2 times of left-track's height-->
+        <attr name="bsb_thumb_radius_on_dragging" format="dimension|reference" />
+        <attr name="bsb_track_color" format="color|reference" /> <!--color of right-track, default: R.color.colorPrimary-->
+        <attr name="bsb_second_track_color" format="color|reference" /> <!--color of left-track, default: R.color.colorAccent-->
+        <attr name="bsb_thumb_color" format="color|reference" /> <!--color of thumb, default: same as left-track's color-->
+        <attr name="bsb_section_count" format="integer|reference" /> <!--shares of whole progress(max - min), default: 10-->
+        <attr name="bsb_show_section_mark" format="boolean" /> <!--show demarcation points or not, default: false-->
+        <attr name="bsb_auto_adjust_section_mark" format="boolean" /> <!--auto scroll to the nearest section_mark or not, default: false-->
+        <attr name="bsb_show_section_text" format="boolean" /> <!--show section-text or not, default: false-->
+        <attr name="bsb_section_text_size" format="dimension|reference" /> <!--text size of section-text, default: 14sp-->
+        <attr name="bsb_section_text_color" format="color|reference" /> <!--text color of section-text, default: same as right-track's color-->
+        <!--text position of section-text relative to track, sides, bottom_sides, below_section_mark, default: sides-->
+        <attr name="bsb_section_text_position">
+            <enum name="sides" value="0" />
+            <enum name="bottom_sides" value="1" />
+            <enum name="below_section_mark" value="2" />
+        </attr>
+        <attr name="bsb_section_text_interval" format="integer" /> <!--the interval of two section-text, default: 1-->
+        <attr name="bsb_show_thumb_text" format="boolean" /> <!--show real time progress-text under thumb or not, default: false-->
+        <attr name="bsb_thumb_text_size" format="dimension|reference" /> <!--text size of progress-text, default: 14sp-->
+        <attr name="bsb_thumb_text_color" format="color|reference" /> <!--text color of progress-text, default: same as left-track's color-->
+        <attr name="bsb_show_progress_in_float" format="boolean" /> <!--show bubble-progress in float or not, default: false-->
+        <attr name="bsb_touch_to_seek" format="boolean" /> <!--touch anywhere on track to quickly seek, default: false-->
+        <attr name="bsb_seek_step_section" format="boolean" /> <!--seek one step by one section, the progress is discrete, default: false-->
+        <attr name="bsb_seek_by_section" format="boolean" /> <!--seek by section, the progress may not be linear, default: false-->
+        <attr name="bsb_bubble_color" format="color|reference" /> <!--color of bubble, default: same as left-track's color-->
+        <attr name="bsb_bubble_text_size" format="dimension|reference" /> <!--text size of bubble-progress, default: 14sp-->
+        <attr name="bsb_bubble_text_color" format="color|reference" /> <!--text color of bubble-progress, default: #ffffffff-->
+        <attr name="bsb_anim_duration" format="integer" /> <!--duration of animation, default: 200ms-->
+        <attr name="bsb_always_show_bubble" format="boolean" /> <!--bubble shows all time, default: false-->
+        <attr name="bsb_always_show_bubble_delay" format="integer" /> <!--the delay duration before bubble shows all the time, default: 200ms-->
+        <attr name="bsb_hide_bubble" format="boolean" /> <!--hide bubble, default: false-->
+        <attr name="bsb_rtl" format="boolean" /> <!--right to left, default: false-->
+        <attr name="android:enabled" />
+        <attr name="bsb_show_top_progress" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="MoreTextView">
+        <attr name="foldText" format="string" />
+        <attr name="unFoldText" format="string" />
+        <attr name="foldLine" format="integer" />
+        <attr name="tailTextColor" format="color" />
+        <attr name="canFoldAgain" format="boolean" />
+    </declare-styleable>
+</resources>

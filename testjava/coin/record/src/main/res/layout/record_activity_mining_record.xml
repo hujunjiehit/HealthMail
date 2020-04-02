@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/res_background">
+    
+    <View
+        android:id="@+id/mining_title"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/mining_record_back"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/res_icon_back"
+        app:layout_constraintBottom_toBottomOf="@id/mining_title"
+        app:layout_constraintStart_toStartOf="@id/mining_title"
+        app:layout_constraintTop_toTopOf="@id/mining_title" />
+
+
+    <TextView
+        android:id="@+id/mining_record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_contract_mining_detail"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/mining_title"
+        app:layout_constraintEnd_toEndOf="@id/mining_title"
+        app:layout_constraintStart_toStartOf="@id/mining_title"
+        app:layout_constraintTop_toTopOf="@id/mining_title" />
+
+    <CheckBox
+        android:id="@+id/mining_filter"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/option_filter_selector"
+        android:button="@null"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/mining_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mining_title" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mining_refresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mining_record_title">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mining_record_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

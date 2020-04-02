@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tv_passport"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/market_item_bg"
+        android:gravity="center"
+        android:text="@string/Passport"
+        android:textColor="@color/res_selector_tv1_press_select_blue"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/res_item_divider" />
+
+    <TextView
+        android:id="@+id/tv_id_card"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/market_item_bg"
+        android:gravity="center"
+        android:text="@string/id_card_no_china"
+        android:textColor="@color/res_selector_tv1_press_select_blue"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/res_divider_tile" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/market_item_bg"
+        android:gravity="center"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/res_item_divider" />
+</LinearLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?><!--日间规范颜色-->
+<resources>
+    <!--App内通用红色-->
+    <color name="res_blue">#00B871</color>
+</resources>

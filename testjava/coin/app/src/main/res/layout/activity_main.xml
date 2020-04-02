@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_whole_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--android:clipToPadding="false"-->
+        <!--android:fitsSystemWindows="true"-->
+        <com.coinbene.manbiwang.spot.spot.popbar.NoScrollViewPager
+            android:id="@+id/main_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/res_item_divider" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemBackground="@color/res_tabBackground"
+            app:itemTextColor="@color/selector_nav_text"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/menu_nav" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/res_background"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/status_bar_height" />
+
+        <fragment
+            android:id="@+id/fragment_drawer_parent"
+            class="com.coinbene.manbiwang.contract.newcontract.FragmentDrawerParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:tag="drawer_parent_main" />
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:paddingTop="44dp"
+        android:background="#1a1c30"
+        android:gravity="center_vertical">
+
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/res_icon_back" />
+
+        <TextView
+            android:id="@+id/menu_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="--"
+            android:textColor="@color/color_kline_text1"
+            android:textSize="18dp" />
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="9dp"
+            android:layout_height="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="7.6dp"
+            android:layout_toEndOf="@+id/menu_title_tv"
+            android:background="@drawable/kline_select_down_icon" />
+
+        <ImageView
+            android:id="@+id/menu_right_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toStartOf="@+id/img_contract_share"
+            android:background="@drawable/res_icon_guide" />
+
+        <ImageView
+            android:id="@+id/img_contract_share"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/res_icon_share" />
+
+
+    </RelativeLayout>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_view">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1a1c30"
+            android:orientation="vertical"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_behavior="com.coinbene.common.utils.AppBarLayoutBehavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll">
+
+
+                <include layout="@layout/kline_layout_contract_top"></include>
+
+
+                <LinearLayout
+                    android:id="@+id/share_Area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/kline_layout_type"></include>
+
+
+                    <include layout="@layout/kline_layout_value"></include>
+
+
+                    <include layout="@layout/kline_layout_value2"></include>
+
+
+                    <include layout="@layout/kline_layout_chart"></include>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <com.qmuiteam.qmui.widget.QMUITabSegment
+                android:id="@+id/tab_segment"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1a1c30"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager_trade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#24263e"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/buy_layout"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_red_bg"
+            android:gravity="center"
+            android:text="@string/buy_open_long"
+            android:textColor="@color/res_white"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/sell_layout"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_green_bg"
+            android:gravity="center"
+            android:text="@string/sell_open_short"
+            android:textColor="@color/res_white"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+</RelativeLayout>

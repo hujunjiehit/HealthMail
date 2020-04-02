@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:background="@color/res_background">
+
+    <include
+        layout="@layout/common_layout_top_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </include>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_top_bar"
+        app:layout_constraintBottom_toTopOf="@id/view_bottom"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/res_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </View>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_borrow"
+        android:layout_width="105dp"
+        android:layout_height="44dp"
+        android:text="@string/res_Loan"
+        android:textSize="16dp"
+        android:textColor="@color/res_white"
+        app:qmui_borderWidth="0dp"
+        app:qmui_radius="3dp"
+        app:qmui_backgroundColor="@color/res_green"
+        app:layout_constraintEnd_toStartOf="@+id/btn_repay"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/view_bottom"
+        app:layout_constraintBottom_toBottomOf="@id/view_bottom"
+        app:layout_constraintTop_toTopOf="@id/view_bottom"
+        app:layout_constraintHorizontal_chainStyle="spread"/>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_repay"
+        android:layout_width="105dp"
+        android:layout_height="44dp"
+        android:text="@string/res_repay"
+        android:textSize="16dp"
+        android:textColor="@color/res_white"
+        app:qmui_borderWidth="0dp"
+        app:qmui_radius="3dp"
+        app:qmui_backgroundColor="@color/res_red"
+        app:layout_constraintEnd_toStartOf="@+id/btn_transfer"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_borrow"
+        app:layout_constraintTop_toTopOf="@+id/btn_borrow" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_transfer"
+        android:layout_width="105dp"
+        android:layout_height="44dp"
+        android:text="@string/myself_transfer_label"
+        android:textSize="16dp"
+        android:textColor="@color/res_white"
+        app:qmui_borderWidth="0dp"
+        app:qmui_radius="3dp"
+        app:qmui_backgroundColor="@color/res_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_repay"
+        app:layout_constraintTop_toTopOf="@+id/btn_borrow" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

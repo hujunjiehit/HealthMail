@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <array name="site_list">
+        <item>마스터 국,MAIN</item>
+        <item>대한민국,KO</item>
+        <item>브라질,BR</item>
+        <item>베트남,VN</item>
+        <item>RMEX,RMEX</item>
+    </array>
+    <array name="language_list" tools:ignore="InconsistentArrays">
+        <item>简体中文,zh_CN</item>
+        <item>English,en_US</item>
+        <item>한국어,ko_KR</item>
+        <item>Português,pt_BR</item>
+        <item>日本語,ja_JP</item>
+        <item>ViệtName,vi_VN</item>
+<!--        <item>Русский,ru_RU</item>-->
+    </array>
+
+    <string-array name="poster_string_negative">
+        <item>포기하지 않으면 모든 것이 가능합니다</item>
+        <item>더 노력하여 좋은 성과를 취합시다</item>
+        <item>포지션을 바꾸면 다시 이길 수 있습니다</item>
+        <item>믿음이 미래를 만듭니다</item>
+    </string-array>
+
+    <string-array name="poster_string_positive">
+        <item>넓은 마음이 높은 수익을 가져옵니다</item>
+        <item>아름다운 미래가 방금 시작되었습니다</item>
+        <item>승리란? 지지 않으면 곧 승리입니다</item>
+        <item>훌륭한 사냥꾼은 기다림에 뛰어납니다</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_0_60">
+        <item>끝없는 등락퀴즈로 셀수없는 BTC를 번다</item>
+        <item>모든 것을 이기기 위해 모든 것을 싸워라</item>
+        <item>번뇌삼천버리고 난 ETH만을 위해 전념한다</item>
+        <item>우승자는 왕, 패자 따뜻한 침대입니다</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_60_80">
+        <item>고통이 없으면 얻는 것도 없다</item>
+        <item>성적은 투자한 시간의 절대량에 비례한다</item>
+        <item>불가능이란 노력하지 않는 자의 변명이다</item>
+        <item>오늘 걷지 않으면 내일 뛰어야 한다</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_80_100">
+        <item>행복과 기회는 우리를 위해 항상 열려있습니다</item>
+        <item>인생의 목적은 끓임없는 전진에 있다</item>
+        <item>가장 위대한 일은 남들이 자고 있을 때 이뤄진다</item>
+        <item>행복은 성적순이 아닐지 몰라도 성공은 성적순이다</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_100">
+        <item>흐리고 비가 내리는 날, 스스로 태양이 되면 된다</item>
+        <item>용감하게 하늘 높이 비상하는 것은 내 신앙이다</item>
+        <item>사실 당신은 상상보다 더 강하다</item>
+        <item>인생은 너무 짧기에 꿈을 미룰 수 있는 여유조차 없다</item>
+    </string-array>
+
+    <string-array name="mining_share_copywriting">
+        <item>파고 파고 황토는 금이됩니다</item>
+        <item>저는 CFT 광부이고 CFT를 말합니다.</item>
+    </string-array>
+
+</resources>

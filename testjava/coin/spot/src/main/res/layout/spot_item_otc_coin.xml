@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="30dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="4dp">
+
+    <TextView
+        android:id="@+id/tv_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:textSize="14dp" />
+
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="16dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/res_blue" />
+
+</LinearLayout>

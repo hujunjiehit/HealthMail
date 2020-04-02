@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_layout_top_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v1"
+        android:layout_width="0dp"
+        android:layout_height="2px"
+        android:background="@color/res_item_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+
+    <!--币种选择-->
+    <TextView
+        android:id="@+id/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/res_currency_categroy"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toBottomOf="@+id/v1" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/spinner_asset"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="BTC"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_1"
+        app:layout_constraintTop_toBottomOf="@+id/text_1"
+        app:qmui_borderColor="@color/res_border_color"
+        app:qmui_borderWidth="2px"
+        app:qmui_radius="3dp" />
+
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/res_down_arrow_small"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_asset"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_asset"
+        app:layout_constraintTop_toTopOf="@+id/spinner_asset" />
+
+
+    <!--账户选择区域-->
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_edit_normal_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_asset" />
+
+    <View
+        android:id="@+id/view22"
+        android:layout_width="0dp"
+        android:layout_height="2px"
+        android:layout_marginStart="30dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        app:layout_constraintStart_toStartOf="@+id/view1"
+        app:layout_constraintEnd_toStartOf="@+id/btn_reverse"
+        app:layout_constraintTop_toTopOf="@+id/view1" />
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/res_green_point"
+        android:drawablePadding="12dp"
+        android:text="@string/res_from"
+        android:textColor="@color/res_textColor_3"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/view22"
+        app:layout_constraintStart_toStartOf="@+id/view1"
+        app:layout_constraintTop_toTopOf="@+id/view1"
+        app:layout_constraintVertical_bias="0.269" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/res_red_point"
+        android:drawablePadding="12dp"
+        android:text="@string/res_to"
+        android:textColor="@color/res_textColor_3"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintStart_toStartOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/view22" />
+
+
+    <!--from-->
+    <View
+        android:id="@+id/view_up"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv1"
+        app:layout_constraintEnd_toStartOf="@+id/btn_reverse"
+        app:layout_constraintStart_toEndOf="@+id/tv1"
+        app:layout_constraintTop_toTopOf="@+id/tv1" />
+
+    <TextView
+        android:id="@+id/tv_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_up"
+        app:layout_constraintStart_toStartOf="@+id/view_up"
+        app:layout_constraintTop_toTopOf="@+id/view_up"
+        tools:text="杠杆账户" />
+
+    <ImageView
+        android:id="@+id/iv_up_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/res_down_arrow_small"
+        app:layout_constraintBottom_toBottomOf="@+id/view_up"
+        app:layout_constraintEnd_toEndOf="@+id/view_up"
+        app:layout_constraintTop_toTopOf="@+id/view_up" />
+
+    <ImageView
+        android:id="@+id/iv_up_disable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/icon_transfer_disable"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view_up"
+        app:layout_constraintStart_toEndOf="@id/tv_up"
+        app:layout_constraintTop_toTopOf="@id/view_up"></ImageView>
+
+
+    <!--to-->
+    <View
+        android:id="@+id/view_down"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_reverse"
+        app:layout_constraintStart_toEndOf="@+id/tv2"
+        app:layout_constraintTop_toTopOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/tv_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_down"
+        app:layout_constraintStart_toStartOf="@+id/view_down"
+        app:layout_constraintTop_toTopOf="@+id/view_down"
+        tools:text="币币账户" />
+
+    <ImageView
+        android:id="@+id/iv_down_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/res_down_arrow_small"
+        app:layout_constraintBottom_toBottomOf="@+id/view_down"
+        app:layout_constraintEnd_toEndOf="@+id/view_down"
+        app:layout_constraintTop_toTopOf="@+id/view_down" />
+
+    <ImageView
+        android:id="@+id/iv_down_disable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/icon_transfer_disable"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view_down"
+        app:layout_constraintStart_toEndOf="@id/tv_down"
+        app:layout_constraintTop_toTopOf="@id/view_down"></ImageView>
+
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_reverse"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:layout_margin="1px"
+        android:background="@color/res_border_color"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintEnd_toEndOf="@+id/view1"
+        app:layout_constraintTop_toTopOf="@+id/view1"
+        app:qmui_backgroundColor="@color/res_buttonBackGround_normal"
+        app:qmui_borderWidth="0dp"
+        app:qmui_radiusBottomRight="3dp"
+        app:qmui_radiusTopRight="3dp" />
+
+    <ImageView
+        android:id="@+id/img_exchange"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:rotation="90"
+        android:src="@drawable/icon_transfer_exchange"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_reverse"
+        app:layout_constraintEnd_toEndOf="@+id/btn_reverse"
+        app:layout_constraintStart_toStartOf="@+id/btn_reverse"
+        app:layout_constraintTop_toTopOf="@+id/btn_reverse" />
+
+
+    <TextView
+        android:id="@+id/tv_disable_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:text="杠杆账户暂停划转"
+        android:textColor="@color/res_red"
+        android:textSize="13dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+
+    <!--财富账户余币宝交互区域-->
+    <LinearLayout
+        android:id="@+id/layout_ybb_area"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_disable_desc">
+
+        <RelativeLayout
+            android:id="@+id/layout_checkbox_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal">
+
+            <CheckBox
+                android:id="@+id/check_box_ybb"
+                style="@style/CoinBene.CheckBox"
+                android:layout_alignParentLeft="true"
+                android:checked="false"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_toEndOf="@id/check_box_ybb"
+                android:gravity="center_vertical"
+                android:textColor="@color/res_textColor_1"
+                android:text="@string/res_direct_to_ybb"
+                tools:text="直接转入余币宝" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_ybb_left_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/res_textColor_1"
+            android:text="@string/res_left_value"
+            tools:text="额度: 2323.2323" />
+    </LinearLayout>
+
+    <!--杠杆币对选择区域-->
+    <TextView
+        android:id="@+id/tv_tradepair_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/res_currency_pair"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/layout_ybb_area" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/spinner_single_symbol"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="BTC"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_tradepair_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tradepair_title"
+        app:qmui_borderColor="@color/res_border_color"
+        app:qmui_borderWidth="2px"
+        app:qmui_radius="3dp" />
+
+    <ImageView
+        android:id="@+id/iv_select_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/res_down_arrow_small"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_single_symbol"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_single_symbol"
+        app:layout_constraintTop_toTopOf="@+id/spinner_single_symbol" />
+
+
+    <!--杠杆币对切换区域-->
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/spinner_from_symbol"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="BTC/USDT"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/img_tradepair_reverse"
+        app:layout_constraintEnd_toStartOf="@id/img_tradepair_reverse"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/img_tradepair_reverse"
+        app:qmui_borderColor="@color/res_border_color"
+        app:qmui_borderWidth="2px"
+        app:qmui_radius="3dp" />
+
+    <ImageView
+        android:id="@+id/iv_select_from_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/res_down_arrow_small"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_from_symbol"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_from_symbol"
+        app:layout_constraintTop_toTopOf="@+id/spinner_from_symbol" />
+
+    <ImageView
+        android:id="@+id/img_tradepair_reverse"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/icon_transfer_exchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tradepair_title" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/spinner_to_symbol"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="ETH/USDT"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/img_tradepair_reverse"
+        app:layout_constraintEnd_toEndOf="@+id/view1"
+        app:layout_constraintStart_toEndOf="@id/img_tradepair_reverse"
+        app:layout_constraintTop_toTopOf="@id/img_tradepair_reverse"
+        app:qmui_borderColor="@color/res_border_color"
+        app:qmui_borderWidth="2px"
+        app:qmui_radius="3dp" />
+
+    <ImageView
+        android:id="@+id/iv_select_to_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/res_down_arrow_small"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_to_symbol"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_to_symbol"
+        app:layout_constraintTop_toTopOf="@+id/spinner_to_symbol" />
+
+
+    <!--数量输入区域-->
+    <TextView
+        android:id="@+id/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:gravity="center"
+        android:text="@string/vol"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tradepair_title"
+        app:layout_goneMarginTop="20dp" />
+
+    <EditText
+        android:id="@+id/edit_vol"
+        style="@style/CoinBene.EditText"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="left|center_vertical"
+        android:hint="@string/please_input_coin_num_tip"
+        android:inputType="number|numberDecimal"
+        android:paddingLeft="10dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_3"
+        app:layout_constraintTop_toBottomOf="@+id/text_3" />
+
+    <TextView
+        android:id="@+id/tv_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/all_acount"
+        android:textColor="@color/res_blue"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_vol"
+        app:layout_constraintEnd_toEndOf="@+id/edit_vol"
+        app:layout_constraintTop_toTopOf="@+id/edit_vol" />
+
+
+    <TextView
+        android:id="@+id/tv_can_use"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/res_can_use"
+        android:textColor="@color/res_assistColor_21"
+        android:textSize="13dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/edit_vol"
+        app:layout_constraintTop_toBottomOf="@+id/edit_vol" />
+
+    <TextView
+        android:id="@+id/tv_ybb_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="#193b7bfd"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="13dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btn_transfer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="您将有100 BTC转入余币宝账户中，有20 BTC转入到理财账户中" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_transfer"
+        style="@style/CoinBene.Button"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btn_confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_pair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="spinner_single_symbol" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_pair_double"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="spinner_from_symbol,img_tradepair_reverse,spinner_to_symbol" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_dialog_shape_bg">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="@string/res_quick_close"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="@color/res_textColor_1"
+        android:gravity="center"
+        android:background="@drawable/bottom_sheet_dialog_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <View
+        android:id="@+id/container_close_desc"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:background="@drawable/contract_btn_bg_grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@id/container_close_desc"
+        app:layout_constraintBottom_toBottomOf="@id/container_close_desc"
+        app:layout_constraintStart_toStartOf="@id/container_close_desc"
+        app:layout_constraintEnd_toEndOf="@id/container_close_desc">
+
+        <TextView
+            android:id="@+id/tv_close_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_3"
+            android:background="@drawable/contract_btn_bg_grey"
+            android:textSize="15dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/res_quick_close_desc"
+            />
+
+        <ImageView
+            android:id="@+id/icon_describe"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/res_icon_discribe"
+            android:layout_marginStart="5dp"
+            />
+    </LinearLayout>
+
+
+    <com.coinbene.common.widget.input.PlusSubInputView
+        android:id="@+id/input_num"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/container_close_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_available_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:textSize="12dp"
+        android:textColor="@color/res_textColor_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_num"
+        tools:text="可平84(张)"
+        />
+
+
+    <com.coinbene.common.widget.seekbar.BubbleSeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:bsb_bubble_color="@color/res_green"
+        app:bsb_bubble_text_color="@color/res_textColor_1"
+        app:bsb_bubble_text_size="18sp"
+        app:bsb_max="0"
+        app:bsb_min="100"
+        app:bsb_second_track_color="@color/res_red"
+        app:bsb_section_count="4"
+        app:bsb_show_section_mark="true"
+        app:bsb_thumb_radius="6dp"
+        app:bsb_thumb_text_size="18sp"
+        app:bsb_touch_to_seek="true"
+        app:bsb_track_color="@color/color_seekBar_background"
+        android:paddingEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_available_number"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_position"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_zero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0   "
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:id="@+id/tv_cur_hold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/cur_position"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_hundred"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_cancel"
+        style="@style/CoinBene.Button.Cancel"
+        app:qmui_backgroundColor="@color/res_buttonBackGround_normal"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:text="@string/btn_cancel"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_ok"
+        app:layout_constraintTop_toBottomOf="@id/layout_position"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_ok"
+        style="@style/CoinBene.Button"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:text="@string/res_quick_close"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toEndOf="@id/btn_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/btn_cancel"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

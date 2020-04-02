@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_time_key"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:textColor="#455c78"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/tv_direction_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_time_key"
+            android:gravity="left"
+            android:text="@string/direction"
+            android:textColor="#455c78"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/tv_trade_detail_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80.4dp"
+            android:layout_toStartOf="@+id/tv_v_key"
+            android:gravity="center"
+            android:text="@string/price"
+            android:textColor="#455c78"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/tv_v_key"
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="right"
+            android:text="@string/vol"
+            android:textColor="#455c78"
+            android:textSize="11dp" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_deal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="15dp"
+        android:dividerHeight="0dp" />
+</LinearLayout>

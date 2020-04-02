@@ -1,0 +1,11 @@
+include ':app', ':common', ':resource', ':webview', ':market', ':fortune', ':service', ':balance', ':spot', ':record', ':user',':contract',':kline', ':model', ':home'
+
+include ':thirdLibraries:' + 'ToastUtils'
+include ':thirdLibraries:' + 'UdeskSDKUI'
+include ':thirdLibraries:' + 'PatternLocker'
+include ':thirdLibraries:' + 'MPChartLib-3.0.3'
+include ':thirdLibraries:' + 'websocket'
+include ':thirdLibraries:' + 'banner'
+include ':thirdLibraries:' + 'networkcapture'
+include ':thirdLibraries:' + 'indicatorseekbar'
+include ':thirdLibraries:' + 'KLineChartLib'

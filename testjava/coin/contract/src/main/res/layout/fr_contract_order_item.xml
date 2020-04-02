@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="23dp"
+    android:background="@drawable/res_selector_item_press_status">
+
+    <com.qmuiteam.qmui.widget.QMUIProgressBar
+        android:id="@+id/qmui_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="right"
+        android:rotation="180"
+        app:qmui_background_color="@color/res_background"
+        app:qmui_progress_color="@color/res_deepth_red"
+        app:qmui_type="type_rect"
+        app:qmui_value="0" />
+
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/amount_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp" />
+</RelativeLayout>

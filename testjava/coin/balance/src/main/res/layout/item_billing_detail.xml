@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_currency_pair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BTC/USDT" />
+
+    <TextView
+        android:id="@+id/tv_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:textColor="@color/res_textColor_3"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_currency_pair"
+        app:layout_constraintStart_toEndOf="@+id/tv_currency_pair"
+        app:layout_constraintTop_toTopOf="@+id/tv_currency_pair"
+        tools:text="2018.09.34 12:30" />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_detail_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_detail_time" />
+
+    <TextView
+        android:id="@+id/text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12.4dp"
+        android:text="@string/token"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_currency_pair"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency_pair" />
+
+    <TextView
+        android:id="@+id/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="53dp"
+        android:text="@string/vol"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_2"
+        app:layout_constraintStart_toEndOf="@+id/text_2"
+        app:layout_constraintTop_toTopOf="@+id/text_2" />
+
+
+    <TextView
+        android:id="@+id/text_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_overage"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_3"
+        app:layout_constraintEnd_toEndOf="@+id/tv_category"
+        app:layout_constraintTop_toTopOf="@+id/text_3" />
+
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/text_2"
+        app:layout_constraintTop_toBottomOf="@+id/text_2"
+        tools:text="BTC" />
+
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_currency"
+        app:layout_constraintStart_toStartOf="@+id/text_3"
+        app:layout_constraintTop_toTopOf="@+id/tv_currency"
+        tools:text="+0.23456543" />
+
+    <TextView
+        android:id="@+id/tv_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="end"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_amount"
+        app:layout_constraintEnd_toEndOf="@+id/text_4"
+        app:layout_constraintTop_toTopOf="@+id/tv_amount"
+        tools:text="210.33" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2px"
+        android:layout_marginTop="14dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_currency"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

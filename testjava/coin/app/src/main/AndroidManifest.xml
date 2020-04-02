@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.coinbene.manbiwang">
+    <!-- 排除蓝牙权限 -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        tools:node="remove" /> <!-- 排除短信权限 -->
+    <uses-permission
+        android:name="android.permission.RECEIVE_SMS"
+        tools:node="remove" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- App receives GCM messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" /> <!-- 请注意添加网络权限 -->
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <application
+        android:name=".CoinbeneApplication"
+        android:allowBackup="true"
+        android:appComponentFactory="@null"
+        android:icon="@mipmap/launcher_logo"
+        android:label="@string/res_app_name"
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/launcher_round_logo"
+        android:supportsRtl="true"
+        android:theme="@style/CoinbeneAppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:name,android:label,android:appComponentFactory">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- 默认的渠道，如果apk包没有添加CHANNEL文件的话采用这个 -->
+        <meta-data
+            android:name="CHANNEL"
+            android:value="manbiwang" />
+
+        <activity
+            android:name=".spot.otc.AddOrderActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".spot.otc.AdManageActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".modules.common.splash.SplashActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor"
+            android:theme="@style/CoinBene.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="coinbene" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+<!--            &lt;!&ndash; 请添加这里的整个 intent-filter 区块，并确保其中只有一个 data 字段 &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="growing.18af9eb91bff12d8" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|uiMode|locale"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/TASK_THEME"/>
+        <activity
+            android:name="com.coinbene.common.zxing.ScannerActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.coinbene.common.SelectCountryActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".spot.otc.OtcOrderDetailActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.coinbene.common.zxing.QrCodeActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".modules.common.other.DialogConiDescribeActivity"
+            android:screenOrientation="nosensor"
+            android:theme="@style/ActivityDialogTheme" />
+        <activity
+            android:name=".spot.otc.ShopsOrderListActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".spot.otc.AdDetailActivity"
+            android:screenOrientation="nosensor" /> <!-- Debug活动 -->
+        <activity
+            android:name=".debug.DebugActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" /> <!-- 异常详情 -->
+        <activity
+            android:name=".debug.crash.CrashDetailActivity"
+            android:configChanges="locale"
+            android:process=":carshDetail"
+            android:screenOrientation="nosensor" /> <!-- 登录 -->
+
+        <activity android:name=".debug.networkcapture.NetworkCaptureListActivity"
+            android:screenOrientation="nosensor"/>
+
+        <activity android:name=".debug.networkcapture.NetworkCaptureDetailActivity"
+            android:screenOrientation="nosensor"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <receiver
+            android:name=".LanguageReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".push.PushReceiver"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.AdDownloadService" />
+
+        <service android:name=".service.ForegroundService" />
+    </application>
+
+</manifest>

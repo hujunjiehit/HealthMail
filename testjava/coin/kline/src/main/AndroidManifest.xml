@@ -1,0 +1,59 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.coinbene.manbiwang.kline" >
+
+    <application>
+
+
+        <activity
+            android:name=".spotkline.SpotKlineActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/CoinBene.Chart" />
+
+        <activity
+            android:name=".spotkline.SpotKlineLandActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:theme="@style/CoinBene.ChartLand" />
+
+        <activity
+            android:name=".contractkline.ContractKlineActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/CoinBene.Chart" />
+
+        <activity
+            android:name=".contractkline.ContractKlineLandActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:theme="@style/CoinBene.ChartLand" />
+
+
+
+
+
+        <activity
+            android:name=".newspotkline.NewSpotKlineActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/CoinBene.Chart" />
+
+        <activity
+            android:name=".newspotkline.NewSpotKlineLandActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:theme="@style/CoinBene.ChartLand" />
+
+        <activity
+            android:name=".newspotkline.NewContractKlineActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/CoinBene.Chart" />
+
+        <activity
+            android:name=".newspotkline.NewContractKlineLandActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:theme="@style/CoinBene.ChartLand" />
+    </application>
+</manifest>

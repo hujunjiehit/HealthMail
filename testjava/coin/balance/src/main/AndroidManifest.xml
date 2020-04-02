@@ -1,0 +1,64 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.coinbene.manbiwang.balance" >
+
+    <application>
+
+        <activity
+            android:name=".transfer.TransferActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".activity.spot.AddTransferAccountActivity"
+            android:screenOrientation="nosensor" />
+
+        <activity android:name=".activity.margin.BillingDetailsActivity"
+            android:screenOrientation="nosensor"/>
+
+        <activity
+            android:name=".activity.spot.SelectCoinActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.DepositActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.WithDrawActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.CoinAddressActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.AddWithDrawAddressActivity"
+            android:configChanges="locale"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.margin.MarginDetailActivity"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.margin.BorrowActivity"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.margin.RepayActivity"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.BalanceDetailActivity"
+            android:screenOrientation="nosensor" />
+
+        <activity
+            android:name=".activity.spot.TransferAddressActivity"
+            android:screenOrientation="nosensor" />
+    </application>
+</manifest>

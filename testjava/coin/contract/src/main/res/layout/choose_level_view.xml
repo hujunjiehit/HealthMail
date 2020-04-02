@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <com.coinbene.common.widget.CustomSeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="5dp"
+        app:isb_min="0"
+        app:isb_max="75"
+        app:isb_seek_smoothly="true"
+        app:isb_show_tick_marks_type="oval"
+        app:isb_show_tick_texts="false"
+        app:isb_tick_marks_color="@color/selector_tick_marks_color"
+        app:isb_track_background_color="@color/res_seek_bar_track_color"
+        app:isb_tick_texts_color="@color/res_textColor_1"
+        app:isb_track_progress_color="@color/res_blue"
+        app:isb_ticks_count="6"
+        app:isb_thumb_color="@color/res_blue"
+        app:isb_thumb_adjust_auto="false"
+        app:isb_show_indicator="none"
+        app:isb_thumb_drawable="@drawable/res_seek_bar_icon"
+        app:isb_thumb_size="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lever_symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lever_symbol"
+        />
+
+    <TextView
+        android:id="@+id/tv_min_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1X"
+        tools:text="1X"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="12dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/center_layout"
+        app:layout_constraintBottom_toBottomOf="@id/center_layout"
+        />
+
+    <TextView
+        android:id="@+id/tv_max_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100X"
+        tools:text="100X"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="12dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/center_layout"
+        app:layout_constraintBottom_toBottomOf="@id/center_layout"
+        />
+
+    <LinearLayout
+        android:id="@+id/center_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"
+        >
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp"
+            android:text="杠杆"
+            tools:text="杠杆"/>
+
+        <TextView
+            android:id="@+id/tv_current_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="22X"
+            android:text="22X"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp"
+            android:layout_marginStart="5dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:background="@drawable/shape_edit_normal_background"
+            android:focusableInTouchMode="false"
+            />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

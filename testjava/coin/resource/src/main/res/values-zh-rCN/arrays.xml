@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <array name="site_list">
+        <item>主站,MAIN</item>
+        <item>韩国,KO</item>
+        <item>巴西,BR</item>
+        <item>越南,VN</item>
+        <item>RMEX,RMEX</item>
+    </array>
+
+    <array name="language_list" tools:ignore="InconsistentArrays">
+        <item>简体中文,zh_CN</item>
+        <item>English,en_US</item>
+        <item>한국어,ko_KR</item>
+        <item>Português,pt_BR</item>
+        <item>日本語,ja_JP</item>
+        <item>ViệtName,vi_VN</item>
+<!--        <item>Русский,ru_RU</item>-->
+    </array>
+
+    <string-array name="poster_string_negative">
+        <item>盯盘不努力，合约负收益</item>
+        <item>小亏小负，心态不输</item>
+        <item>Buff轻易不扔，心态轻易不崩</item>
+        <item>小亏即小赚，大亏即大赚</item>
+        <item>赚过亏过，才是人生</item>
+        <item>这行情，谁盘的动</item>
+        <item>怕不是天选之子，反指天王</item>
+        <item>浮亏并非实亏，稳住，我能赢</item>
+        <item>失败乃成功之母，亏损即盈利之父</item>
+        <item>巴菲特也有亏损的时候</item>
+        <item>出来混，总要付点学费</item>
+        <item>留的本金在，不怕没钱捞</item>
+        <item>盈亏相伴，先亏后赚</item>
+        <item>亏兮盈所倚，盈兮亏所伏</item>
+<!--        <item>盈亏相伴，先亏后赚</item>-->
+<!--        <item>亏兮盈所倚，盈兮亏所伏</item>-->
+<!--        <item>肉的理想，白菜的命</item>-->
+    </string-array>
+
+
+    <string-array name="poster_string_positive">
+        <item>今晚吃肉，要红烧哒！</item>
+        <item>又是心情美丽的一天</item>
+        <item>顺市而为是我的盈利法宝</item>
+        <item>一直赚钱，一直爽</item>
+        <item>赚钱从未如此简单</item>
+        <item>稳扎稳打，步步为赢</item>
+        <item>道路千万条，盈利第一条</item>
+        <item>与其自我膨胀，不如再次建仓</item>
+        <item>心有多大，收益就有多大</item>
+        <item>让收益再飞会</item>
+        <item>搏一搏，单车变摩托</item>
+        <item>掐指一算，今天要盈利</item>
+        <item>定个小目标，先赚它一个亿</item>
+        <item>精神抖一抖，收益翻三番</item>
+        <item>小手一抖，饭钱到手</item>
+        <item>何以解忧，唯有暴富</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_0_60">
+        <item>万丈高楼平地起，成功只能靠自己</item>
+        <item>年少不努力，长大开夏利</item>
+        <item>年纪轻轻，币币成堆!</item>
+        <item>酒是爹来饭是娘，赢了总比输了强</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_60_80">
+        <item>小手一抖，饭钱到手</item>
+        <item>要想生活过得去，手里就得有点币</item>
+        <item>床前明月光，赢了就不慌</item>
+        <item>拼一拼，黄土变黄金</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_80_100">
+        <item>钱途似海，来日方长</item>
+        <item>搏一搏，别墅加保姆</item>
+        <item>富贵险中求，吃喝都不愁</item>
+        <item>英雄不问出路，赢币不看岁数</item>
+    </string-array>
+
+    <string-array name="options_share_copywriting_100">
+        <item>换个姿势，我还能赢</item>
+        <item>掐指一算，今天要盈利</item>
+        <item>胜者为王，败者暖床</item>
+        <item>我就是我，不赢钱就上火</item>
+    </string-array>
+
+
+    <string-array name="mining_share_copywriting">
+        <item>挖心掏肝，不如攒点CFT</item>
+        <item>挖一挖，黄土变黄金</item>
+        <item>挖空心思，只想得到CFT</item>
+        <item>挖BTC不如挖CFT，拿着收益，笑看风云</item>
+        <item>我是CFT矿工，我为CFT代言</item>
+        <item>今天CFT以你为荣，明天你以CFT为荣</item>
+        <item>挖一挖，CFT抱回家</item>
+        <item>挖心掏肝，不如攒点CFT</item>
+        <item>努力吧，骚年，至少未来让人觉得你是一个拥有CFT的人</item>
+        <item>勤劳致富 挖矿暴富</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/res_background"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_account_info"></include>
+
+    <include layout="@layout/layout_coni_sale"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:background="@color/res_background">
+
+        <RelativeLayout
+            android:id="@+id/balance_coin_header"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_search"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/res_icon_search" />
+
+            <com.coinbene.common.widget.app.ClearEditText
+                android:id="@+id/et_search_coin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_edit_normal_background"
+                android:hint="@string/search_input_hint"
+                android:paddingStart="22dp"
+                android:textColor="@color/res_textColor_1"
+                android:textColorHint="@color/res_textColor_3"
+                android:textSize="13dp" />
+
+        </RelativeLayout>
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_asset_detail"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentLeft="true"-->
+        <!--            android:layout_centerInParent="true"-->
+        <!--            android:text="@string/asset_detail"-->
+        <!--            android:textColor="@color/res_textColor_1"-->
+        <!--            android:textSize="16dp"-->
+        <!--            android:textStyle="bold" />-->
+
+        <LinearLayout
+            android:id="@+id/ll_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/check_box"
+                style="@style/CoinBene.CheckBox"
+                android:layout_alignParentLeft="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/hide_asset_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:text="@string/hide_assets_zero_tips"
+                android:textColor="@color/res_textColor_2"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/res_item_divider"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_asset_detail"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/balance_tip"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="13dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/balance_tip_value"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

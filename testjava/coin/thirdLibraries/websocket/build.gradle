@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+
+    compileOnly rootProject.ext.dependencies["arouter"]
+    compileOnly 'com.squareup.okhttp3:okhttp:3.9.0'
+    compileOnly rootProject.ext.dependencies["okgo"]
+    compileOnly rootProject.ext.dependencies["rxjava"]
+    compileOnly rootProject.ext.dependencies["rxandroid"]
+    compileOnly 'com.google.code.gson:gson:2.8.2'
+    compileOnly 'com.dhh:rxlifecycle2:1.5'
+}

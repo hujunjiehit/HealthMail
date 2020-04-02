@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="21dp">
+
+    <com.qmuiteam.qmui.widget.QMUIProgressBar
+        android:id="@+id/qmui_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="right"
+        android:rotation="180"
+        app:qmui_progress_color="@color/res_deepth_red"
+        app:qmui_type="type_rect"
+        app:qmui_value="0" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingStart="8dp"
+        android:singleLine="true"
+        android:text="0"
+        android:textColor="@color/res_red"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="37dp"
+        android:singleLine="true"
+        android:text="0"
+        android:textColor="@color/color_kline_text1"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/color_kline_text1" />
+</RelativeLayout>

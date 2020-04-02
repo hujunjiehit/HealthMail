@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.coinbene.common.widget.FixSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_layout_top_bar" />
+
+        <com.qmuiteam.qmui.widget.QMUITabSegment
+            android:id="@+id/tab_segment"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/res_background"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <View
+            style="@style/Item.Divider"
+            android:layout_width="match_parent" />
+
+        <com.coinbene.manbiwang.market.widget.SortLayout
+            android:id="@+id/sort_layout"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/res_background"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/res_background">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/fresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_fresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawableTop="@drawable/icon_fresh"
+                    android:gravity="center"
+                    android:text="@string/check_network"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_fresh"
+                    android:layout_width="150dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/reload"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="16dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.coinbene.common.widget.FixSwipeRefreshLayout>

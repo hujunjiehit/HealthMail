@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="325dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/dialog_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_change_level"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <com.coinbene.common.widget.input.InputView
+        android:id="@+id/input_view"
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        />
+
+    <com.coinbene.common.widget.CustomSeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="308dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        app:isb_min="0"
+        app:isb_max="75"
+        app:isb_seek_smoothly="true"
+        app:isb_show_tick_marks_type="oval"
+        app:isb_show_tick_texts="true"
+        app:isb_tick_marks_color="@color/selector_tick_marks_color"
+        app:isb_track_background_color="@color/res_seek_bar_track_color"
+        app:isb_tick_texts_color="@color/res_textColor_1"
+        app:isb_track_progress_color="@color/res_blue"
+        app:isb_ticks_count="6"
+        app:isb_thumb_color="@color/res_blue"
+        app:isb_thumb_adjust_auto="false"
+        app:isb_show_indicator="none"
+        app:isb_thumb_drawable="@drawable/res_seek_bar_icon"
+        app:isb_thumb_size="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_view"
+        />
+
+    <TextView
+        android:id="@+id/tv_max_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="最大可开：500 000张"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/input_view"
+        app:layout_constraintTop_toBottomOf="@id/seek_bar"/>
+
+    <TextView
+        android:id="@+id/tv_risk_tips"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="@color/res_red"
+        android:text="@string/res_risk_tips"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toStartOf="@id/tv_max_open"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_max_open"/>
+
+    <View
+        android:id="@+id/divider_line_h"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_risk_tips"
+        android:layout_marginTop="20dp"
+        android:background="@color/res_item_divider"
+        />
+
+    <View
+        android:id="@+id/divider_line_v"
+        android:layout_width="2px"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/res_item_divider"
+        app:layout_constraintTop_toBottomOf="@id/divider_line_h"/>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_cancel"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="@color/res_textColor_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/divider_line_v"
+        app:layout_constraintTop_toTopOf="@id/divider_line_v"
+        app:layout_constraintBottom_toBottomOf="@id/divider_line_v"/>
+
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_confirm"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="@color/res_blue"
+        app:layout_constraintStart_toStartOf="@id/divider_line_v"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/divider_line_v"
+        app:layout_constraintBottom_toBottomOf="@id/divider_line_v"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

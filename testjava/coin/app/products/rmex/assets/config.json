@@ -1,0 +1,107 @@
+{
+  "nightModeEnable": false,
+  "shareEnable": true,
+  "communityEnable": false,
+  "languageConfig": {
+    "enable": true,
+    "supportLanguage": [
+      {
+        "name": "简体中文",
+        "code": "zh_CN"
+      },
+      {
+        "name": "English",
+        "code": "en_US"
+      }
+    ]
+  },
+  "multiSiteConfig": {
+    "enable": false,
+    "supportSite": [
+      "RMEX"
+    ]
+  },
+  "pushConfig": {
+    "enable": true,
+    "appId": "",
+    "appSecret": ""
+  },
+  "buglyConfig": {
+    "enable": true,
+    "releaseAppKey": "b0878359d9",
+    "testAppKey": "a638fa1cb8"
+  },
+  "supportOnlineConfig": {
+    "enable": false,
+    "domain": "",
+    "appID": "",
+    "appKey": ""
+  },
+  "baseUrlConfig": [
+    {
+      "envName" : "dev",
+      "base_url": "http://a.dev.atomchain.vip",
+      "base_url_h5": "http://dev.dev.atomchain.vip",
+      "base_url_res": "http://res.atomchain.vip/resource-upload/",
+      "spot_websocket": "ws://ws.dev.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.dev.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.dev.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.dev.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName" : "test",
+      "base_url": "http://a.test.atomchain.vip",
+      "base_url_h5": "http://test.test.atomchain.vip",
+      "base_url_res": "http://res.atomchain.vip/resource-upload/",
+      "spot_websocket": "ws://ws.test.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.test.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.test.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.test.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName" : "staging",
+      "base_url": "http://a.staging.atomchain.vip",
+      "base_url_h5": "http://master.staging.atomchain.vip",
+      "base_url_res": "http://res.atomchain.vip/resource-upload/",
+      "spot_websocket": "ws://ws.staging.atomchain.vip/ws",
+      "btc_contract_websocket": "ws://ws-contract.staging.atomchain.vip/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.staging.atomchain.vip/usdt/ws",
+      "websocket_url": "ws://ws.staging.atomchain.vip/stream/ws",
+      "option_broker_id": "14"
+    },
+    {
+      "envName" : "online",
+      "base_url": "http://a.shzhuoji.com",
+      "base_url_h5": "https://s-m-s.shzhuoji.com",
+      "base_url_res": "http://res.rmex.com/resource-upload/",
+      "spot_websocket": "ws://ws.shzhuoji.com/ws",
+      "btc_contract_websocket": "ws://ws-contract.shzhuoji.com/contract/ws",
+      "usdt_contract_websocket": "ws://ws-contract.shzhuoji.com/usdt/ws",
+      "websocket_url": "wss://ws.coinbene.vip/stream/ws",
+      "option_broker_id": "7801250866987737088"
+    }
+  ],
+
+  "zendeskConfig" : {
+    "noticeConfig" : [
+      {
+        "siteName" : "RMEX",
+        "base" : "https://rmexofficial.zendesk.com",
+        "noticeList" : "/api/v2/help_center/%s/categories/360002576834/articles.json",
+        "noticeCenter" : "/hc/%s/categories/360002598393"
+      }
+    ],
+    "aboutUs" : "https://rmexofficial.zendesk.com/hc/%s/articles/360038283214",
+    "btcContractGuide" : "",
+    "usdtContractGuide" : "https://rmexofficial.zendesk.com/hc/%s/sections/360006090234",
+    "btcContractProtocol" : "",
+    "usdtContractProtocol" : "https://rmexofficial.zendesk.com/hc/%s/articles/360038791213",
+    "ybbGuide" : "",
+    "marginGuide" : "https://rmexofficial.zendesk.com/hc/%s/articles/360038796153",
+    "marginUserProtocol" : "https://rmexofficial.zendesk.com/hc/%s/articles/360038282954",
+    "helpCenter" : "https://rmexofficial.zendesk.com/hc/%s/categories/360002576834",
+    "spotStrategyOrder" : "https://coinbenevip.zendesk.com/hc/zh-cn/articles/360041212433"
+  }
+}

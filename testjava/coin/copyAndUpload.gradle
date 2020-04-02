@@ -1,0 +1,128 @@
+tasks.whenTaskAdded { task ->
+    if (task.name.endsWith("Release") && task.name.startsWith("assemble")) {
+        String buildType = task.name.substring(8)
+        task.doLast {
+            println("============== copy apk, buildType = " + buildType)
+            copyFile(buildType)
+        }
+    }
+}
+
+gradle.projectsEvaluated {
+    for(Task task : project.tasks) {
+        if (task.name.endsWith("Release") && task.name.startsWith("assemble")) {
+
+            if (task == null) {
+                return
+            }
+
+            task.doLast {
+                File dir = project.rootProject.file("channels")
+                File[] fileList = dir.listFiles()
+                List<String> listPath = new ArrayList<>();
+                for (File file : fileList) {
+                    if (file.isFile() && file.getName().endsWith(".apk")) {
+                        listPath.add(file.getAbsolutePath())
+                    }
+                }
+
+                println("===========> listPath.size = " + listPath.size())
+                Map<Object, String> map = new HashMap<Object, String>()
+                for (String path : listPath) {
+                    File f = new File(path)
+                    map.put(f.lastModified(), path)
+                }
+                //按文件的最后修改时间排序，然后取最近修改的文件来上传
+                Object[] obj = map.keySet().toArray()
+                Arrays.sort(obj)
+
+                def apkPath = map.get(obj[obj.length - 1])
+
+                doActionUpload(apkPath)
+            }
+        }
+    }
+
+}
+
+def doActionUpload(String apkPath) {
+    def apkFile = new File(apkPath)
+    if (!apkFile.exists()) {
+        throw IllegalStateException("需要上传的文件不存在:" + apkFile.getAbsolutePath())
+    }
+
+    println("=======>doActionUpload apk路径:" + apkPath)
+    println("===========>开始调用python上传apk，请耐心等待....")
+
+    //调用python脚本 这个脚本需要放在工程目录下
+    def process = "python3 uploadapk.py $apkPath".execute()
+
+    ByteArrayOutputStream result = new ByteArrayOutputStream()
+    def inputStream = process.getInputStream()
+    byte[] buffer = new byte[1024]
+    int length
+    while ((length = inputStream.read(buffer)) != -1) {
+        result.write(buffer, 0, length)
+    }
+    println(result.toString("UTF-8"))
+
+    //阻塞gradle代码直到python代码执行结束
+    int exitValue = process.waitFor()
+
+    println("==============>apk上传成功 with value $exitValue")
+}
+
+def copyFile(String buildType){
+
+    def dayTime = new java.text.SimpleDateFormat("yyyyMMdd").format(new Date())
+    def secondTime = new java.text.SimpleDateFormat("HHmmss").format(new Date())
+
+    File dir = project.rootProject.file("channels")
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
+    def versionCode = ""
+    def versionName = ""
+
+    android.productFlavors.all { flavor ->
+        if (buildType.toLowerCase().startsWith(flavor.name)) {
+            versionCode = flavor.versionCode
+            versionName = flavor.versionName
+        }
+    }
+
+    println("==============>    flavor versionCode ==> " + versionCode)
+    println("==============>    flavor versionName ==> " + versionName)
+
+    android.applicationVariants.all { variant ->
+        if (!variant.name.equalsIgnoreCase(buildType)) {
+            return
+        }
+
+        if (variant.name.equalsIgnoreCase("release")) {
+            // 拷贝mapping文件
+            copy {
+                from variant.mappingFile.getParentFile()
+                include "mapping.txt"
+                into dir.getPath()
+                rename {
+                    "app-" + variant.name + "-v" + versionName + "-" + versionCode + "-" + dayTime + "-" + secondTime + "-mapping.txt"
+                }
+            }
+        }
+
+        if (variant.name.endsWith("release") || variant.name.endsWith("Release")) {
+            // 拷贝apk文件
+            copy {
+                from variant.outputs[0].outputFile
+                into dir.getPath()
+                // 重命名导出名称
+                rename {
+                    "app-" + variant.name + "-v" + versionName + "-" + versionCode + "-" + dayTime + "-" + secondTime + ".apk"
+                }
+            }
+        }
+
+    }
+}

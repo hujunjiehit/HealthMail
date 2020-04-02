@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable-xxhdpi/btc.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/btc_popup.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/icon_all.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/pop_down.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/up_popup_icon.png" />
+    </issue>
+</lint>

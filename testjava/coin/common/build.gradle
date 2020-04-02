@@ -1,0 +1,140 @@
+apply plugin: 'com.android.library'
+apply plugin: 'io.objectbox'
+apply plugin: 'bugly'
+apply from: "../common.gradle"
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "boolean", "ENABLE_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "boolean", "ENABLE_DEBUG", "true"
+        }
+        preRelease {
+            consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "boolean", "ENABLE_DEBUG", "true"
+            minifyEnabled false
+            matchingFallbacks = ['release', 'debug']
+        }
+    }
+
+}
+
+bugly {
+    appId = 'b0878359d9' // 注册时分配的App ID 注意不带尖括号
+    appKey = '973350bd-bed2-4d43-a0e6-078a7628209f' // 注册时分配的App Key
+    debug = true  //调试模式开关（具体说明见下文“调试模式”）//test
+}
+
+repositories {
+    //    mavenCentral()
+    //    google()
+
+    jcenter()
+    maven { url "https://jitpack.io" }
+    maven { url "http://objectbox.net/beta-repo/" }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+
+    api project(':thirdLibraries:ToastUtils')
+    api project(':thirdLibraries:MPChartLib-3.0.3')
+    api project(':thirdLibraries:PatternLocker')
+    api project(':thirdLibraries:UdeskSDKUI')
+    api project(':thirdLibraries:websocket')
+    api project(':thirdLibraries:banner')
+    api project(':thirdLibraries:networkcapture')
+    api project(':thirdLibraries:indicatorseekbar')
+    api project(':thirdLibraries:KLineChartLib')
+
+    api project(':resource')
+    api project(':service')
+    api project(':model')
+
+    api rootProject.ext.dependencies["androidx"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["annotation"]
+    api rootProject.ext.dependencies["gridlayout"]
+    api rootProject.ext.dependencies["constraint-layout"]
+
+    api rootProject.ext.dependencies["objectbox"]
+    api rootProject.ext.dependencies["jpinyin"]
+    api rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["swipebacklayout"]
+    api rootProject.ext.dependencies["mmkv"]
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["rxlifecycle"]
+    api rootProject.ext.dependencies["shimmer"]
+    api rootProject.ext.dependencies["butterknife"]
+    api rootProject.ext.dependencies["fingerprint"]
+    api rootProject.ext.dependencies["multidex"]
+
+    //二维码扫描和生成
+    api rootProject.ext.dependencies["zxingscanner"]
+    api rootProject.ext.dependencies["zxing"]
+
+    //状态栏透明
+    api rootProject.ext.dependencies["systembartint"]
+    api rootProject.ext.dependencies["systembartint-library"]
+
+    //recyclerview
+    api rootProject.ext.dependencies["multitype"]
+    api rootProject.ext.dependencies["brvah"]
+
+    //网络请求框架
+    api rootProject.ext.dependencies["okgo"]
+
+    //图片加载框架
+    api rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+
+    //Lottie动画
+    api rootProject.ext.dependencies["lottie"]
+
+    //Arouter
+    api rootProject.ext.dependencies["arouter"]
+
+    //好像是时间选择器
+    api 'com.contrarywind:Android-PickerView:4.1.8'
+//
+//    //GIO自动埋点
+//    api 'com.growingio.android:vds-android-agent:RN-autotrack-2.7.9'
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-beta01"
+
+    //权限管理
+    api 'com.yanzhenjie.permission:support:2.0.1'
+    api 'org.aspectj:aspectjrt:1.8.9'
+    api 'com.qmuiteam:qmui:1.4.0'
+    api 'org.greenrobot:eventbus:3.1.1'
+
+    //Android图片压缩
+    api 'top.zibin:Luban:1.1.8'
+
+    //startActivityForResult库
+    api 'com.github.florent37:inline-activity-result:1.0.2'
+
+    api 'com.tencent.bugly:crashreport:latest.release'
+    //fota
+//    api('com.fota.android:option:0.5.5@aar') {
+//        transitive = true
+//    }
+}

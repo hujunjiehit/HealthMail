@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_type"
+    android:layout_width="match_parent"
+    android:layout_height="38dp"
+    android:baselineAligned="false"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/layout_line_min"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/line_min_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/k_chart_line_min"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/line_min_view1"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_fifteen_min"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/fifteen_min_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/k_chart_15min"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/line_view1"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_one_hour"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/one_hour_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/k_chart_1hour"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/line_view2"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_four_hour"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/four_hour_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/k_chart_4hour"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/line_view3"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_one_day"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/one_day_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/k_chart_1day"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/line_view4"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_more"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/k_chart_more"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <ImageView
+            android:id="@+id/iv_more_top"
+            android:layout_width="6dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@+id/more_tv"
+            android:src="@drawable/icon_kline_type" />
+
+        <ImageView
+            android:id="@+id/iv_more_bottom"
+            android:layout_width="6dp"
+            android:layout_height="5dp"
+            android:layout_alignBottom="@+id/more_tv"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/more_tv"
+            android:src="@drawable/icon_kline_type_select"
+            android:visibility="gone" />
+
+
+        <View
+            android:id="@+id/line_view5"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_zhib"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/zhibiao_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/k_chart_index"
+            android:textColor="@color/res_selector_kline_text_select_blue"
+            android:textSize="13dp" />
+
+        <ImageView
+            android:id="@+id/iv_zhib_top"
+            android:layout_width="6dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@+id/zhibiao_tv"
+            android:src="@drawable/icon_kline_type" />
+
+        <ImageView
+            android:id="@+id/iv_zhib_bottom"
+            android:layout_width="6dp"
+            android:layout_height="5dp"
+            android:layout_alignBottom="@+id/zhibiao_tv"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/zhibiao_tv"
+            android:src="@drawable/icon_kline_type_select"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/line_view6"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/res_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+</LinearLayout>

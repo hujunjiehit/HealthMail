@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:orientation="vertical">
+
+    <include layout="@layout/commom_menu_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/left_pwd_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/set_reset_cap_phone_label"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/msg_code_input"
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/left_pwd_tv"
+            android:background="@null"
+            android:hint="@string/user_hint_msg_code"
+            android:inputType="number"
+            android:textColor="@color/res_textColor_1"
+            android:textColorHint="@color/res_editColor_hint"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/send_msgcode_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/user_send_msg_code"
+            android:textColor="@color/res_blue"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:background="@color/res_item_divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/left_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/set_new_cap_pwd_label"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="16dp" />
+
+        <com.coinbene.common.widget.EditTextTwoIcon
+            android:id="@+id/new_pwd_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/left_tv" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/ok_btn"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_btn_bg"
+        android:gravity="center"
+        android:text="@string/btn_ok"
+        android:textColor="@color/res_blue_btn_selector"
+        android:textSize="18dp" />
+
+</LinearLayout>

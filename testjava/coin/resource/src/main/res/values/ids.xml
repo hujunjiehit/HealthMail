@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tv_right_button" type="id" />
+    <item name="iv_left_image" type="id" />
+    <item name="res_title_right_text" type="id" />
+    <item name="res_title_left_image" type="id" />
+    <item name="res_title_right_layout" type="id" />
+</resources>

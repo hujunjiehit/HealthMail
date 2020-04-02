@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
+
+    <include
+        android:id="@+id/layout_top"
+        layout="@layout/layout_contract_top" />
+
+
+    <include
+        android:id="@+id/include_top_layout"
+        layout="@layout/fragment_contract_usdt_top"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_top" />
+
+    <include
+        android:id="@+id/include_center_layout"
+        layout="@layout/fragment_contract_center_usdt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/include_top_layout" />
+
+
+    <com.qmuiteam.qmui.widget.QMUITabSegment
+        android:id="@+id/tab_segment"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/include_center_layout"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintTop_toBottomOf="@+id/tab_segment" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_line">
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,41 @@
+<resources>
+    <string name="ma_normal">MA(5, 10, 20)</string>
+    <string name="ma_5">MA(5)</string>
+    <string name="ma_10">MA(5，10)</string>
+    <string name="ma_20">MA(5，10，20)</string>
+    <string name="ma_highlight">●res_red %1$.4f ●res_assistColor_22 %2$.4f ●res_blue %3$.4f</string>
+    <string name="ma_highlight_10">●res_red %1$.4f ●res_assistColor_22 %2$.4f</string>
+    <string name="ma_highlight_5">●res_red %1$.4f</string>
+    <string name="macd_normal">MACD(12, 26, 9)</string>
+    <string name="macd_highlight">MACD(12, 26, 9) ●DIF %1$s ●DEA %2$s ●MACD %3$s</string>
+
+    <string name="rsi_normal">RSI(6, 12, 24)</string>
+    <string name="rsi_highlight">RSI(6, 12, 24) ●RSI1 %1$s ●RSI2 %2$s ●RSI3 %3$s</string>
+
+    <string name="kdj_normal">KDJ(9, 3, 3)</string>
+    <string name="kdj_highlight">KDJ(9, 3, 3) ●K %1$s ●D %2$s ●J %3$s</string>
+
+    <string name="boll_normal">BOLL(20, 2)</string>
+    <string name="boll_highlight">BOLL(20, 2) ●UPPER %2$s  ●MID %1$s ●LOWER %3$s</string>
+
+    <string name="ma_future_highlight">●MA5 %1$s ●MA10 %2$s ●MA20 %3$s ●%4$s %5$s</string>
+    <string name="boll_highlight_future">BOLL(20, 2) ●UPPER %2$s  ●MID %1$s ●LOWER %3$s ●%4$s %5$s</string>
+    <string name="boll_highlight_nan_future">BOLL(20, 2) ●UPPER %2$s  ●MID %1$s ●LOWER %3$s ●%4$s %5$s</string>
+    <string name="mark_future">●%1$s %2$s</string>
+
+    <string name="volume_highlight">●res_red %1$.4f ●res_assistColor_22 %2$.4f</string>
+
+    <string name="kline_fb">%.1fb</string>
+    <string name="kline_fm">%.1fm</string>
+    <string name="kline_fk">%.1fk</string>
+    <string name="kline_fw">%.1fw</string>
+
+    <string name="ma_highlight_new">●MA5 %1$s ●MA10 %2$s ●MA20 %3$s</string>
+    <string name="boll_highlight_new">BOLL(20, 2) ●UPPER %2$s  ●MID %1$s ●LOWER %3$s</string>
+    <string name="macd_highlight_new">MACD(12, 26, 9) ●DIF %1$s ●DEA %2$s ●MACD %3$s</string>
+    <string name="kdj_highlight_new">KDJ(9, 3, 3) ●K %1$s ●D %2$s ●J %3$s</string>
+    <string name="rsi_highlight_new">RSI(6, 12, 24) ●RSI1 %1$s ●RSI2 %2$s ●RSI3 %3$s</string>
+
+    <string name="client_not_installed">客户端未安装</string>
+    <string name="copy_link">Copy</string>
+</resources>

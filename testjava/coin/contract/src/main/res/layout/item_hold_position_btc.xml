@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_contrack_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/forever_no_delivery"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/current_delegation_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/tv_contrack_name"
+        android:background="@drawable/bg_green_sharp"
+        android:paddingLeft="5dp"
+        android:paddingTop="1dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="1dp"
+        android:textColor="@color/res_white"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_contrack_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_contrack_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_contrack_name" />
+
+    <ImageView
+        android:id="@+id/iv_share"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/icon_share_contrack"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_contrack_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_contrack_name" />
+
+
+    <TextView
+        android:id="@+id/tv_total_hold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/avl_total"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_contrack_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_contrack_name" />
+
+    <TextView
+        android:id="@+id/tv_total_hold_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_total_hold"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_total_hold"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_hold" />
+
+
+    <TextView
+        android:id="@+id/tv_entrust_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/open_unit_price"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_total_hold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_hold" />
+
+    <TextView
+        android:id="@+id/tv_entrust_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_entrust_price"
+        android:layout_marginTop="4dp"
+        android:text=""
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_entrust_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_entrust_price" />
+
+    <TextView
+        android:id="@+id/tv_force_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:text="@string/force_price"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_entrust_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_entrust_price" />
+
+    <TextView
+        android:id="@+id/tv_force_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_entrust_price"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_force_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_force_price" />
+
+    <TextView
+        android:id="@+id/tv_unrealized_profit_loss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_total_hold_value"
+        android:layout_marginTop="8dp"
+        android:text="@string/unrealized_profit_loss_btc"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_total_hold_value"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_hold_value" />
+
+    <TextView
+        android:id="@+id/tv_unrealized_profit_loss_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_unrealized_profit_loss"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_unrealized_profit_loss"
+        app:layout_constraintTop_toBottomOf="@+id/tv_unrealized_profit_loss" />
+
+
+    <TextView
+        android:id="@+id/tv_realized_profit_loss"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_total_hold_value"
+        android:text="@string/realized_profit_loss_btc"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_unrealized_profit_loss"
+        app:layout_constraintStart_toStartOf="@+id/tv_entrust_price_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_unrealized_profit_loss" />
+
+    <TextView
+        android:id="@+id/tv_realized_profit_loss_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_unrealized_profit_loss"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_realized_profit_loss"
+        app:layout_constraintTop_toBottomOf="@+id/tv_realized_profit_loss" />
+
+
+    <TextView
+        android:id="@+id/tv_usage_bond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_total_hold_value"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:text="@string/usage_bond_btc"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_realized_profit_loss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_realized_profit_loss" />
+
+    <TextView
+        android:id="@+id/tv_usage_bond_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_unrealized_profit_loss"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_usage_bond"
+        app:layout_constraintTop_toBottomOf="@+id/tv_usage_bond" />
+
+    <TextView
+        android:id="@+id/tv_return_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_unrealized_profit_loss_value"
+        android:layout_marginTop="8dp"
+        android:text="@string/return_percent"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_unrealized_profit_loss_value"
+        app:layout_constraintTop_toBottomOf="@+id/tv_unrealized_profit_loss_value" />
+
+    <TextView
+        android:id="@+id/tv_return_percent_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_return_percent"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_return_percent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_return_percent" />
+
+    <TextView
+        android:id="@+id/tv_substrack_queue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_unrealized_profit_loss_value"
+        android:layout_marginTop="8dp"
+        android:text="@string/subtract_queue"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_realized_profit_loss_value"
+        app:layout_constraintTop_toBottomOf="@+id/tv_realized_profit_loss_value" />
+
+    <com.coinbene.manbiwang.contract.layout.SubteactPositionLayout
+        android:id="@+id/tv_substrack_queue_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_below="@+id/tv_return_percent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_return_percent_value"
+        app:layout_constraintStart_toStartOf="@+id/tv_substrack_queue"
+        app:layout_constraintTop_toTopOf="@+id/tv_return_percent_value" />
+
+
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_return_percent_value" />
+
+
+    <TextView
+        android:id="@+id/tv_close_hold"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="7dp"
+        android:gravity="right|center_vertical"
+        android:text="@string/close_long"
+        android:textColor="@color/res_blue"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_line1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_stop_loss"
+        app:layout_constraintTop_toBottomOf="@+id/view_line1" />
+
+    <TextView
+        android:id="@+id/tv_stop_loss"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="7dp"
+        android:drawableStart="@drawable/drawable_vertical_line"
+        android:drawableEnd="@drawable/drawable_vertical_line"
+        android:gravity="center"
+        android:text="@string/stop_loss"
+        android:textColor="@color/res_blue"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_close_hold"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_target_profit"
+        app:layout_constraintTop_toBottomOf="@+id/view_line1" />
+
+    <TextView
+        android:id="@+id/tv_target_profit"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="7dp"
+        android:gravity="center_vertical"
+        android:text="@string/target_profit"
+        android:textColor="@color/res_blue"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_stop_loss"
+        app:layout_constraintStart_toStartOf="@+id/view_line1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_return_percent_value"
+        app:layout_constraintTop_toBottomOf="@+id/view_line1" />
+
+    <TextView
+        android:id="@+id/tv_close_position"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/tv_return_percent_value"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_close_position"
+        android:gravity="center"
+        android:text="@string/close_long"
+        android:textColor="@color/res_blue"
+        android:textSize="15dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_return_percent_value" />
+
+
+    <View
+        android:id="@+id/view18"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/res_divider_tile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stop_loss" />
+</androidx.constraintlayout.widget.ConstraintLayout>

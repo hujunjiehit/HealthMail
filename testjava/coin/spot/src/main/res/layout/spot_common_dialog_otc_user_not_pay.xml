@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_dialog_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ad_bottom_shape"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_buy_or_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_unit_price"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="17dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_unit_price"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toStartOf="@+id/tv_unit_price"
+            android:text="@string/order_unit_price"
+            android:textColor="@color/res_textColor_2" />
+
+
+        <TextView
+            android:id="@+id/tv_unit_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="24dp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_please_pay_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/ad_payment_method"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_pay_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_please_pay_type"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/buy_pay_type_tips"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp" />
+
+
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/tv_pay_tips"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/btn_blue_stroke"
+        android:gravity="center"
+        android:text="@string/to_add"
+        android:textColor="@color/res_blue"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@+id/tv_add"
+        android:layout_marginTop="66dp"
+        android:background="@color/res_divider_tile" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/view_line"
+        android:gravity="center"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="18dp" />
+
+</RelativeLayout>

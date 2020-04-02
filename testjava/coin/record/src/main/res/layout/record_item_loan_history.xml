@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BTC" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="12dp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_currency"
+        app:layout_constraintStart_toEndOf="@+id/tv_currency"
+        app:layout_constraintTop_toTopOf="@+id/tv_currency"
+        tools:text="2018.09.34 12:30" />
+
+    <TextView
+        android:id="@+id/textView59"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="@string/res_paid_off"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_time" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/res_loan_vol"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_currency"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/res_add_interest"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv1"
+        app:layout_constraintEnd_toStartOf="@+id/tv5"
+        app:layout_constraintStart_toEndOf="@+id/tv1"
+        app:layout_constraintTop_toTopOf="@+id/tv1" />
+
+
+    <TextView
+        android:id="@+id/tv_loan_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/tv1"
+        app:layout_constraintTop_toBottomOf="@+id/tv1"
+        tools:text="12.13452345" />
+
+    <TextView
+        android:id="@+id/tv_Loan_Interest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/tv2"
+        app:layout_constraintTop_toBottomOf="@+id/tv2"
+        tools:text="0.23452345" />
+
+
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_loan_id"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView59"
+        app:layout_constraintTop_toTopOf="@+id/tv2" />
+
+
+    <TextView
+        android:id="@+id/tv_loan_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv5"
+        app:layout_constraintTop_toBottomOf="@+id/tv5"
+        tools:text="12423456" />
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2px"
+        android:layout_marginTop="14dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_loan_amount"
+        app:layout_constraintTop_toBottomOf="@+id/tv_loan_amount" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

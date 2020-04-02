@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/res_selector_item_press_status">
+
+
+    <TextView
+        android:id="@+id/tv_left_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="7dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BTC" />
+
+    <TextView
+        android:id="@+id/tv_left_top_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="/--"
+        android:textColor="@color/res_textColor_3"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top"
+        app:layout_constraintStart_toEndOf="@+id/tv_left_top"
+        tools:text="/USDT" />
+
+    <TextView
+        android:id="@+id/tv_right_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="115dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_top"
+        tools:text="8658.23" />
+
+    <TextView
+        android:id="@+id/tv_left_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_left_top"
+        app:layout_constraintTop_toBottomOf="@+id/tv_left_top"
+        tools:text="24H量 762.12m USDT" />
+
+    <TextView
+        android:id="@+id/tv_right_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_right_top"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_bottom"
+        tools:text="¥ 59966.9468" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/btn_right"
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:text="--%"
+            android:textColor="@color/res_white"
+            app:qmui_backgroundColor="@color/res_green"
+            app:qmui_borderWidth="0dp"
+            app:qmui_radius="3dp"
+            tools:text="+0.63%">
+        </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="15dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_left_bottom" />
+
+    <ImageView
+        android:id="@+id/iv_optional_mark"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/icon_is_self"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <TextView
+        android:id="@+id/tv_margin"
+        android:layout_width="20dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/yellow_bg"
+        android:paddingBottom="1dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="5X"
+        android:textColor="@color/res_assistColor_22"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top_sub"
+        app:layout_constraintStart_toEndOf="@+id/tv_left_top_sub"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_top_sub"/>
+
+
+    <ImageView
+        android:id="@+id/iv_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/icon_new"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top_sub"
+        app:layout_constraintStart_toEndOf="@+id/tv_margin"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_top_sub" />
+
+
+    <ImageView
+        android:id="@+id/iv_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_hot"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top_sub"
+        app:layout_constraintStart_toEndOf="@+id/iv_tag1"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_top_sub"/>
+
+
+    <ImageView
+        android:id="@+id/iv_tag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_hot"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_left_top_sub"
+        app:layout_constraintStart_toEndOf="@+id/iv_tag2"
+        app:layout_constraintTop_toTopOf="@+id/tv_left_top_sub"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

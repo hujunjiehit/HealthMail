@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="webview_grey_400">#bdbdbd</color>
+    <color name="webview_green_4caf50">#4caf50</color>
+</resources>

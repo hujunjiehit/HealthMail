@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background">
+
+    <include
+        android:id="@+id/layout_top_bar"
+        layout="@layout/common_layout_top_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/country_layout"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/market_item_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_top_bar"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp">
+
+        <TextView
+            android:id="@+id/left_phone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/res_down_arrow_big"
+            android:text="@string/ch_str"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="13dp" />
+
+
+        <TextView
+            android:id="@+id/select_country_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:text="@string/ch_phone_num"
+            android:textColor="@color/res_textColor_1"
+            android:textColorHint="@color/res_textColor_3"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/arrow_img1"
+            android:layout_width="8dp"
+            android:layout_height="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow"
+            android:visibility="gone" />
+
+        <com.coinbene.common.widget.EditTextOneIcon
+            android:id="@+id/account_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/select_country_tv" />
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginStart="15dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/country_layout"/>
+
+    <TextView
+        android:id="@+id/ok_btn"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/btn_bg_sharp"
+        android:gravity="center"
+        android:text="@string/btn_ok"
+        android:textColor="@color/res_white"
+        android:textSize="18dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_line"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

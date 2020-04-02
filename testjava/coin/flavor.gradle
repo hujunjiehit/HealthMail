@@ -1,0 +1,151 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+//ProductModel
+class Product {
+    //resource config
+    String flavor
+    String appID
+    String jniSrc
+    String resSrc
+    String javaSrc
+    String assetsSrc
+    String manifestSrc
+    int versionCode
+    String versionName
+    PushConfig pushConfig
+}
+
+class PushConfig {
+    String accessID
+    String accessKey
+    String hwAppID
+}
+
+//解析ProductJSON
+def slurper = new groovy.json.JsonSlurper()
+def products = slurper.parse(project.file('products/products.json'))
+
+android {
+
+    flavorDimensions 'coinbene'
+    productFlavors {
+        for (Product product : products) {
+            def flavor = product.flavor;
+            if (flavor == null || "".equals(flavor)) {
+                continue
+            }
+
+            "${flavor}" {
+                //注意⚠️google-services.json文件中的包命一定要与applicationId相同否则编译不过
+                applicationId product.appID
+
+
+                versionCode product.versionCode
+                versionName product.versionName
+
+                manifestPlaceholders = [
+                        XG_ACCESS_ID : product.pushConfig.accessID,
+                        XG_ACCESS_KEY: product.pushConfig.accessKey,
+                        PACKAGE_NAME : product.appID,
+                        HW_APPID     : product.pushConfig.hwAppID,
+                ]
+            }
+        }
+    }
+
+
+    sourceSets {
+        for (Product product : products) {
+            def flavor = product.flavor;
+            if (flavor == null || "".equals(flavor)) {
+                continue
+            }
+
+            "${flavor}" {
+                if (product.javaSrc != null && !"".equals(product.javaSrc)) {
+                    java.srcDirs = [product.javaSrc]
+                }
+
+                if (product.resSrc != null && !"".equals(product.resSrc)) {
+                    res.srcDirs = [product.resSrc]
+                }
+
+                if (product.jniSrc != null && !"".equals(product.jniSrc)) {
+                    jniLibs.srcDir(product.jniSrc)
+                }
+
+                if (product.assetsSrc != null && !"".equals(product.assetsSrc)) {
+                    assets.srcDirs = [product.assetsSrc]
+                }
+
+                if (product.manifestSrc != null && !"".equals(product.manifestSrc)) {
+                    manifest.srcFile product.manifestSrc
+                }
+            }
+        }
+    }
+}
+
+gradle.projectsEvaluated {
+
+    def flavor = getCurrentFlavor()
+
+    println("===============> current flavor:" + flavor)
+    if (flavor.contains("Unknow")) {
+        println("===============> Unknow flavor, return")
+        return;
+    }
+
+    StringBuffer taskName = new StringBuffer()
+    taskName.append("process")
+    taskName.append(flavor.charAt(0).toUpperCase())//首字母大写
+    taskName.append(flavor.substring(1))
+
+
+    println("===============>" + taskName.toString())
+
+    for (Task task : project.tasks) {
+        if (task.name.startsWith(taskName.toString()) && task.name.endsWith("GoogleServices")) {
+
+            println("===============> findTask:" + task.name)
+
+            task.doFirst {
+                project.copy {
+                    from "products/${flavor}/"
+                    include "google-services.json"
+                    into "."
+                    println("===============> copy ${flavor} google-services.json")
+                }
+            }
+        }
+    }
+}
+
+def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    Pattern pattern;
+    println("===============> tskReqStr:" + tskReqStr)
+    if (tskReqStr.contains("assemble")) {
+        println 'contain'
+        if (tskReqStr.contains("PreRelease")) {
+            pattern = Pattern.compile("assemble(\\w+)(PreRelease|Debug)")
+        } else {
+            pattern = Pattern.compile("assemble(\\w+)(Debug|Release)")
+        }
+    } else {
+        if (tskReqStr.contains("PreRelease")) {
+            pattern = Pattern.compile("assemble(\\w+)(PreRelease|Debug)")
+        } else {
+            pattern = Pattern.compile("assemble(\\w+)(Debug|Release)")
+        }
+    }
+    Matcher matcher = pattern.matcher(tskReqStr)
+    if (matcher.find()) {
+        return matcher.group(1).toLowerCase()
+    } else {
+        println "NO MATCH FOUND"
+        return "Unknow"
+    }
+}

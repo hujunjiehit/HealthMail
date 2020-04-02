@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    tools:context=".modules.common.web.ContractRankingActivity">
+
+    <View
+        android:id="@+id/contract_ranking_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/back_grey_button"
+        app:layout_constraintBottom_toBottomOf="@+id/contract_ranking_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contract_ranking_toolbar" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ranked_match_title"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/webview_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contract_ranking_toolbar" />
+
+    <ImageView
+        android:id="@+id/img_Share"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/icon_share_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/contract_ranking_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contract_ranking_toolbar" />
+
+
+    <FrameLayout
+        android:id="@+id/webview_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contract_ranking_toolbar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/res_white"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_time"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/res_white"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="80.4dp"
+        android:layout_toLeftOf="@+id/tv_num"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/res_white"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="93dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/res_white"
+        android:textSize="12dp" />
+</RelativeLayout>

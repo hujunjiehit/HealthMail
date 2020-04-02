@@ -1,0 +1,1876 @@
+<resources>
+    <string name="res_app_name">CoinBene</string>
+    <string name="tab_market">相場</string>
+    <string name="tab_trading">取引</string>
+    <string name="tab_otc">法定通貨</string>
+    <string name="tab_myself">設定</string>
+    <string name="error_transfer">情報を取得できませんでした。しばらくしてからもう一度お試しください</string>
+
+    <!--tab行情 -->
+    <string name="market_title">相場</string>
+    <string name="market_tab_btc">BTC</string>
+    <string name="market_tab_usdt">USDT</string>
+    <!--tab交易 -->
+    <string name="trade_title">取引</string>
+    <string name="trade_record">委託記録</string>
+    <string name="trade_buy">買い</string>
+    <string name="trade_sell">売り</string>
+    <string name="trade_buy_ok">購入を確認</string>
+    <string name="trade_buy_new">購入</string>
+    <string name="trade_sell_new">販却</string>
+    <string name="trade_entrust">取り消し</string>
+    <string name="entrust_price">委任価格</string>
+    <string name="entrust_price_new">委任価格</string>
+    <string name="entrust_volume">委任数量</string>
+    <string name="entrust_amount">取引数量</string>
+    <string name="not_deal">未済注文</string>
+    <string name="part_deal">一部の取引</string>
+    <string name="part_cancel">一部取消</string>
+    <string name="all_deal">すべての注文</string>
+    <string name="order_cancel_label">取消済み</string>
+    <string name="new_entrust_tips">最新の委任</string>
+    <string name="all_entrust_history">すべての委任履歴を見る</string>
+    <string name="part_25">1/4</string>
+    <string name="part_50">1/2</string>
+    <string name="part_100">すべて</string>
+    <string name="amount_label">出来高</string>
+    <string name="able_label">取引可能額</string>
+    <string name="recharge">入金</string>
+    <string name="buy_btn_txt">買い %s</string>
+    <string name="sell_btn_txt">販却 %s</string>
+    <string name="input_price_hint">価格</string>
+    <string name="input_num_hint">数量</string>
+    <string name="pop_trade_pair_title">すべて</string>
+    <!--用户密码 -->
+    <string name="user_input_name">メールボックスまたは携帯電話番号</string>
+    <string name="user_email">メールボックス</string>
+    <string name="user_input_email">メールを入力してください</string>
+    <string name="user_input_phone">携帯番号を入力してください</string>
+    <string name="user_input_phone_hint">携帯番号を入力してください</string>
+    <string name="user_input_name_label">アカウント</string>
+    <string name="user_input_phone_label">携帯番号</string>
+    <string name="user_input_pwd">6〜20桁の数字</string>
+    <string name="user_input_pwd_label">パスワード</string>
+    <string name="user_pwd_label">パスワード</string>
+    <string name="user_login_btn">ログイン</string>
+    <string name="user_login_title">ログイン</string>
+    <string name="user_forget_pwd">パスワードを忘れた？</string>
+    <string name="user_menu_register">新規登録</string>
+    <string name="user_menu_phone_register">携帯新規登録</string>
+    <string name="user_menu_email_register">メール新規登録</string>
+    <string name="user_menu_register_title">新規登録</string>
+    <string name="user_register_phone_right_btn">メール新規登録</string>
+    <string name="user_msg_code_label">SMS認証</string>
+    <!--<string name="user_mail_code_label">邮箱验证码</string>-->
+    <string name="user_send_msg_code">発送</string>
+    <string name="user_hint_msg_code">認証コードを入力してください</string>
+    <string name="user_register_btn">新規登録</string>
+    <string name="user_register_tips_first">「登録」ボタンをクリックすると、あなたは同意します</string>
+    <string name="user_register_tips_sencond">利用規約</string>
+    <string name="user_email_resend_btn">メールを再送します</string>
+    <string name="user_send_email_top_tips">* メールが届いて来なければ、迷惑メールまでお確認ください</string>
+    <string name="user_send_email_sended_label">認証メールを送信済です。24時間以内にお確認ください</string>
+    <string name="user_send_register_email_label">ログインパスワードをリセットするリンクを送信済です。24時間以内にお確認ください</string>
+    <string name="user_send_email_phone_sended_label">携帯電話と関連付けるリンクを送信済です。24時間以内にお確認ください</string>
+    <string name="user_activate_email_tips">システムが認証メールアドレスリンクを送信します</string>
+    <string name="user_send_email_menu_skip">スキップ</string>
+    <string name="user_menu_send_title">認証メールアドレス</string>
+    <string name="user_find_pwd_newpwd">新しいパスワード</string>
+    <string name="btn_ok">確定</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="btn_close">閉じる</string>
+    <string name="btn_next">次に</string>
+    <string name="btn_go_login">ログイン</string>
+    <string name="user_find_pwd_title">パスワードを取り戻します</string>
+    <string name="dialog_get_pwd_title">パスワードを取り戻す方を選択ください</string>
+    <string name="dialog_get_pwd_phone">携帯電話番号で取り戻します</string>
+    <string name="dialog_get_pwd_mail">メールアドレスで取り戻します</string>
+    <string name="country_label">国番号</string>
+
+    <!--区号-->
+    <string name="country_china">中国（+86）</string>
+    <string name="country_china_2">（+86）</string>
+    <string name="country_Malaysia">マレーシア（＋60</string>
+    <string name="country_Ltaty">イタリア（＋39）</string>
+    <string name="country_Ltaty_key">イタリア</string>
+    <string name="country_Malay">マレーシア</string>
+    <string name="country_Malaysia_2">（マレーシア</string>
+    <string name="country_Vietnam">ベトナム（＋84）</string>
+    <string name="country_united_states_of_america">アメリカ（＋１</string>
+    <string name="country_Canada">カナダ（＋１）</string>
+    <string name="country_Korea">韓国（+82）</string>
+    <string name="country_India">インド（＋91）</string>
+    <string name="country_Indonesia">インドネシア（62）</string>
+    <string name="country_Russia">俄 ロシア（＋7）</string>
+    <string name="country_Singapore">シンガポール（＋65）</string>
+    <string name="country_Turkey">トルコ（＋90）</string>
+    <string name="country_Vietnam_key">ベトナム</string>
+    <string name="country_united_states_of_america_key">アメリカ</string>
+    <string name="country_Canada_key">カナダ</string>
+    <string name="country_Korea_key">韓国</string>
+    <string name="country_India_key">インド</string>
+    <string name="country_Indonesia_key">インドネシア</string>
+    <string name="country_Russia_key">ロシア</string>
+    <string name="country_Singapore_key">シンガポール</string>
+    <string name="country_Turkey_key">トルコ</string>
+    <string name="country_select_tips">国籍を選択します</string>
+    <string name="country_select_title">国家/地域</string>
+    <string name="country_Brazil">ブラジル</string>
+    <string name="register_success"> 登録を成功しました</string>
+
+    <!-- 双重认证-->
+    <string name="title_second_check">ダブルチェック</string>
+    <!-- 我的页面-->
+    <string name="myself_amount_label">資産評価</string>
+    <string name="myself_recharge_label">入金</string>
+    <string name="myself_withdraw_label">出金</string>
+    <string name="myself_record_label">履歴</string>
+    <!-- 设置页面-->
+    <string name="setting_title">設置</string>
+    <string name="setting_email">メールアドレス</string>
+    <string name="setting_phone">携帯電話</string>
+    <string name="setting_google_auth">Google認証</string>
+    <string name="setting_check_selected">認証コード選択</string>
+    <string name="setting_modify_login_pwd">ログインパスワード</string>
+    <string name="setting_capital_pwd">キャピタルパスワード</string>
+    <string name="setting_gesture_pwd">ジェスチャーパスワード</string>
+    <string name="setting_finger_pwd">指紋パスワード</string>
+    <string name="setting_address">出金アドレスを管理します</string>
+    <string name="setting_about">CoinBeneについて</string>
+    <string name="setting_quit">ログアウト</string>
+    <string name="setting_bind">関連付ける</string>
+    <string name="setting_rest">再設定</string>
+    <string name="setting_item_set">設置</string>
+    <string name="setting_modify">修正</string>
+    <string name="setting_not_activate_label">未認証</string>
+
+    <!--设置，验证码首选项 -->
+    <string name="check_code_label">資金パスワード、出金、出金のアドレスを検証する方式を添付しました。</string>
+
+    <string name="check_msg_item_label">メールで検証</string>
+
+    <string name="check_google_item_label">Googleで検証</string>
+
+    <string name="check_msg_code_label">メールの検証コード</string>
+
+    <string name="check_google_code_label">Googleの検証コード</string>
+
+    <string name="send_msg_code_success">検証コードの送信が成功しました</string>
+
+    <string name="send_msg_code_wait">%ds</string>
+
+    <string name="send_msg_code_again">再送</string>
+
+    <string name="first_check_phone_msg">メッセージ検証を使用済です</string>
+
+       
+    <string name="first_check_google">Google検証を使用済です</string>
+    　　
+    <string name="please_check_one">検証方式を選択ください</string>
+
+    <string name="with_draw_num_is_empty">出金数量を入力ください</string>
+
+    <string name="with_draw_address_is_empty">出金アドレスを入力ください</string>
+
+    <string name="capital_pwd_is_empty">資金パスワードを入力ください</string>
+
+    <string name="please_input_google_code">Googleの検証コードを入力ください</string>
+
+    <string name="please_input_msg_code">メールの検証コードを入力ください</string>
+
+    <string name="set_first_check_success">    設置を成功しました。</string>
+
+    <!--设置，绑定邮箱 -->
+    <string name="bing_mail_title">メールアドレスを関連付ける</string>
+
+    <string name="bing_mail_account_label">メールアドレス</string>
+
+    <string name="activate_send_mail_title">メールアドレスを認証します</string>
+
+    <string name="email_is_empay">没受信がなくて、再度にログインしてください</string>
+
+    <string name="send_email_success">    送信が成功しました。</string>
+
+    <string name="data_transfer_fail">データ転送がエラー</string>
+
+    <!--绑定，重置谷歌验证 -->
+    <string name="bing_google_title">Google検証を関連付ける</string>
+
+    <string name="rest_google_title">Google検証をリセット</string>
+
+    <string name="bing_google_email_sended_label">システムよりGoogleと関連付けるリンクを送信しました。24時間以内にご確認ください。</string>
+
+    <string name="rest_google_email_sended_label">系システムがGoogle検証をリセットするリンクを送信済です。24時間以内にお確認ください。</string>
+
+    <string name="send_email_fail">送信エラー</string>
+
+    <!--设置，绑定手机 -->
+    <string name="bing_phone_title">携帯電話を関連付ける。</string>
+    <string name="bind_phone_label">携帯電話番号</string>
+    <string name="bing_phone_code">検証コード</string>
+    <string name="bing_phone_input_phone_hint">お電話番号を入力ください</string>
+    <string name="phone_is_not_right">携帯電話番号のフォーマットが間違っています.</string>
+    <string name="bing_phone_success">绑定手机号成功</string>
+    <string name="send_email_wait">%ds</string>
+    <string name="mail_is_not_veri">まずメールを確認してください</string>
+    <string name="mail_is_not_bind">最初にメールボックスをバインドしてください</string>
+    <string name="check_google_first">最初にGoogleの確認をバインドしてください。</string>
+    <string name="setting_has_setted">セット</string>
+    <string name="reset_phone_title">携帯電話をリセット</string>
+    <string name="reset_old_phone_label">旧携帯電話番号</string>
+    <string name="reset_old_phone_code">旧携帯電話番号の検証コード</string>
+    <string name="reset_new_phone_label">新しい携帯電話番号</string>
+    <string name="reset_new_phone_code">新しい携帯電話番号を検証</string>
+    <!-- 设置，关于-->
+    <string name="set_about_title">CoinBeneについて</string>
+    <string name="set_about_version">%s</string>
+    <string name="set_about_check_version">検査更新</string>
+    <string name="set_about_contact_us_label">顧客サービスメールアドレス</string>
+    <string name="set_about_contact_us_label_key">電子メイル</string>
+    <string name="set_about_contact_us_value">support@coinbene.com</string>
+    <string name="set_about_contact">WeChatパブリック番号：BK_Finance</string>
+    <string name="set_about_wx_value">https://t.me/CB_coinbene</string>
+    <string name="set_about_wx">Telegram</string>
+    <string name="set_about_service_link">サービス条約</string>
+    <string name="set_about_cor">© 2017-2018 著作権を所有しています.</string>
+    <string name="check_version_new">既に最新バージョンとなります</string>
+    <string name="version_update_label">アップデータ</string>
+
+    <!-- 设置，修改登录密码 -->
+    <string name="set_modify_pwd_title">ログインパスワードを修正します</string>
+
+    <string name="set_old_pwd_label">元のパスワード</string>
+
+    <string name="set_new_pwd_label">新しいパスワード</string>
+
+    <string name="modify_pwd_success">パスワードの修正を成功しました</string>
+    <!-- 设置，资金密码-->
+    <string name="set_modify_cap_pwd_title">資金パスワードを修正します</string>
+    <string name="set_old_cap_pwd_label">元の資金パスワード</string>
+    <string name="set_new_cap_pwd_label">新しい資金パスワード</string>
+    <string name="set_set_cap_pwd_title">資金パスワードを設置</string>
+    <string name="set_cap_google_code_label">グーグル検証</string>
+    <string name="set_cap_pwd_label">資金パスワード</string>
+    <string name="set_cap_num_hint">6-8桁の数字</string>
+    <string name="setting_forget_capital_pwd">資金パスワードを忘れた場合?</string>
+    <string name="set_reset_cap_phone_label">メールで検証</string>
+    <string name="set_reset_cap_pwd_title">資金パスワードをリセットします</string>
+    <string name="set_cap_pwd_success">資金パスワードの設置が成功しました</string>
+
+    <!-- 充值，提现-->
+    <string name="selecte_coin_title_label">コインタイトルを選択</string>
+
+    <string name="copy">コピー</string>
+
+    <string name="copy_address">アドレスをコピー</string>
+
+    <string name="deposit">アドレスを作成</string>
+
+    <string name="remark">宛先タグ Tag</string>
+
+    <string name="remark_recharge_hint">15文字以内</string>
+
+    <string name="recharge_history">入金記録</string>
+
+    <string name="withdraw_count">出金の数量</string>
+
+    <string name="transfer_count">振込数量</string>
+
+    <string name="transfer_minimum">最小振込数量%s</string>
+    <string name="transfer_amount">振込数量を入力</string>
+    <string name="withdraw_mincount">最小出金数量%s</string>
+    <string name="aviable_num_label">引き出せる残高:</string>
+    <string name="aviable_num_label_transfer">引き出せる残高</string>
+    <string name="aviable_num_label_transfer_new">使用可能な残高:</string>
+    <string name="recharge_tips1">请向该地址转入您需要充值的%1$s，%2$s充值在%3$s个区块确认后可入账</string>
+    <string name="recharge_tips2">%1$sにいかになるデジタル資産を入金しないでください。%2$sにそれ以外のデジタル資産を入金すると損失になる恐れがあります。私たちが一切責任を負いません。</string>
+    <string name="recharge_tips3">请勿向%1$s地址充值任何其他数字资产，因您向%2$s地址充值其他数字资产造成的损失，我们概不负责。</string>
+    <string name="get_url_failed">写真の獲得が失敗しました</string>
+    <string name="block_fee_label">ブロックチェーン費用:</string>
+    <string name="withdraw_address_label">出金アドレス</string>
+    <string name="cap_pwd_label">資金パスワード</string>
+    <string name="cap_pwd_hint">資金パスワードを入力ください</string>
+    <string name="google_auth_code_label">グーグル検証</string>
+
+    <!--<string name="google_auth_code_hint">请输入谷歌验证码</string>-->
+    <string name="google_auth_code_hint">グーグル/身分検証コード</string>
+    <string name="with_draw_address_hint">%sアドレスしか支持しません</string>
+    <string name="with_draw_address_hint_new">出金アドレスを入力ください</string>
+
+    <!--请输入提现地址-->
+    <string name="msg_code_is_empty">メール検証コードを入力ください</string>
+    <string name="de_tag_is_empty">宛先タグを入力ください</string>
+    <string name="submmit">提出</string>
+    <string name="xrp_withdraw_label">宛先タグ</string>
+    <string name="xrp_withdraw_hint">出金を取引所まで提出すると記入する必要があります</string>
+    <string name="cannot_deposit_tips">%s入金機能がまもなくオープンしますのでお楽しみお待ちください。</string>
+    <string name="cannot_withdraw_tips">%s现金を出金機能がまもなくオープンしますのでお楽しみお待ちください。</string>
+
+    <string name="withdraw_history">出金記録</string>
+    <string name="withdraw_title">%s出金</string>
+    <string name="withdraw_title_new">%s出金</string>
+    <string name="history_withdraw_recharge">入金出金記録</string>
+
+    <string name="history_trade">注文履歴</string>
+    <string name="history_coin_type">シンボル</string>
+    <string name="history_type">タイプ</string>
+    <string name="history_type_all">全部</string>
+
+    <string name="cur_entrust_label">注文状況</string>
+    <string name="history_entrust_label">注文履歴</string>
+
+    <string name="history_avg_label">成約平均価格</string>
+    <string name="history_fee_label">手数料</string>
+    <string name="all_coin_title">全部</string>
+
+    <string name="record_type_recharge">入金</string>
+    <string name="transferOut">転出</string>
+    <string name="transferIn">転入</string>
+
+    <string name="record_type_withdraw">出金</string>
+    <string name="toast_data_transfer_error">データの転送が失敗</string>
+    <string name="recharge_title">%s入金</string>
+
+    <string name="recharge_title_new">%s入金</string>
+    <string name="orderstatus_1_doing">処理中</string>
+    <string name="orderstatus_2_out">完成</string>
+    <string name="orderstatus_daishenhe">審査中</string>
+    <string name="orderstatus_3">取引が出しました</string>
+    <string name="orderstatus_2_in">記帳済</string>
+    <string name="orderstatus_4_submit">送金済</string>
+    <string name="orderstatus_5">取り消しました</string>
+    <string name="orderstatus_6">却下済</string>
+    <string name="orderstatus_7">タッグがたりない</string>
+
+    <string name="get_balance_fail">資産情報の獲得が失敗しました</string>
+    <string name="withdraw_success">出金成功</string>
+    <string name="transfer_success">振込成功</string>
+    <string name="delete_withdraw_addr_success">アドレスを削除しました</string>
+    <string name="add_withdraw_addr_success">出金アドレスを添付しました</string>
+    <string name="please_set_cap_num_hint">6－8桁の資金パスワードを入力ください</string>
+
+    <!-- 二维码 -->
+    <string name="zxing_picture_label">アルバム</string>
+    <string name="zxing_scan_label">QR コードを枠内に置くと自動にスキャンできます。</string>
+    <string name="zxing_scan_not_right_result">有効なアドレスではありません</string>
+    <string name="zxing_not_find_zxing">QR コードが見つかっていません</string>
+    <string name="dialog_wait_label">お待ちください...</string>
+    <string name="please_give_permission_grant">権限ください</string>
+    <string name="scan_qr_title">スキャン</string>
+    <string name="qr_copy_success">コピー成功</string>
+
+    <!-- 提现地址管理-->
+    <string name="address_add">+アドレスを添付</string>
+    <string name="address_delete">削除</string>
+    <string name="withdraw_address_title">出金アドレス管理</string>
+    <string name="select_withdraw_address_title">%sアドレス</string>
+    <string name="address_coin_add_title">出金アドレス添付</string>
+    <string name="address_coin_add_type">タイプ</string>
+    <string name="address_coin_add_remark">アドレス名称</string>
+    <string name="address_coin_add_label">アドレス</string>
+    <string name="address_coin_empty">データがエンプティー</string>
+    <string name="address_example_tips">例：マイダドレス１</string>
+    <string name="address_other_name_is_empty">アドレス名称を入力ください</string>
+    <string name="address_select_coin_label">選択ください</string>
+    <string name="address_select_coin">シンボルを選択ください</string>
+
+    <!-- 其他 -->
+    <string name="loadmore_label_no_more">最後の項目になりました</string>
+
+    <string name="loadmore_loading">ローディング...</string>
+
+    <string name="dialog_loading">ローディング...</string>
+
+    <string name="network_error">ネットワークの接続が失敗しました。もう一度試してください。</string>
+
+    <string name="reload">リロード</string>
+
+    <string name="check_network">接続が異常のため、ネットワークをチェックしてください。</string>
+
+    <string name="back_to_exit">もう一度クリックしてプログラムを終了させます</string>
+
+    <!-- 程序动态检查提示-->
+    <string name="login_name_check_is_wrong">メールアドレス或いは携帯電話番号のフォーマットが間違っています</string>
+    <string name="email_is_empty">メールアドレスを入力ください</string>
+
+    <string name="pwd_is_empty">パスワードを入力ください</string>
+
+    <string name="account_is_empty">メールボックスまたは携帯電話番号</string>
+
+    <string name="email_error">正しいメールアドレスを入力ください</string>
+
+    <string name="user_info_fail">ユーザー情報の取得が失敗しました</string>
+
+    <string name="login_success_toast">ログイン成功</string>
+
+    <string name="pwd_check">英数6-20文字</string>
+
+    <string name="tradePair_list_null">データの取得が失敗しました</string>
+
+    <string name="cancel_success">キャンセルが提出しました</string>
+
+    <string name="buyorsell_success">注文が成功</string>
+
+    <string name="buyorsell_fail">注文が失敗</string>
+
+    <string name="not_login_tip">ログインしてください</string>
+
+    <string name="please_input_coin_num_tip">数量を入力ください</string>
+
+    <string name="minprice_tips">最少買い上げる価格よりすくない</string>
+
+    <string name="please_input_coin_price_tip">価格を入力ください</string>
+
+    <string name="more_than_ablenum_tip">残高が不足</string>
+
+    <string name="cancel_entrust_success">注文を取り消ししました</string>
+
+    <string name="max_input_price_tips">現行価格%sより高く購入することが不可であります</string>
+
+    <string name="min_input_price_tips">販売価格は現行価格%sより安いことが不可であります</string>
+
+    <string name="sell_max_input_price_tips">販売価格は1000％に超えることが不可であります</string>
+
+    <string name="dialog_title">提示</string>
+
+    <string name="dialog_recharge_content">メールアドレス認証を完成させてください</string>
+
+    <string name="dialog_email_verify">メールアドレス認証</string>
+
+    <string name="dialog_bind_google_verify">グーグル検証を関連</string>
+
+    <string name="dialog_cap_modify_verify">資金パスワードを設置</string>
+
+    <string name="dialog_withdraw_title">以下の設置を完成させてください</string>
+
+    <string name="dialog_cap_pwd_label">資金パスワードを設置してください</string>
+
+    <string name="dialog_buy_sell_content">携帯電話或いはグーグル検証を関連してください</string>
+       
+    <string name="dialog_setting_email_1">メールアドレス認証、或いは関連してください</string>
+       
+    <string name="dialog_phone_tips_label">携帯電話と関連済。変更する必要があった場合は顧客サービスまでご連絡ください。</string>
+       
+    <string name="dialog_setting_email_2">メールアドレスと関連済。変更する必要があった場合は顧客サービスまでご連絡ください。</string>
+
+    <string name="dialog_setting_change_type">CoinBene満币サイト(www.coinbene.comまで設定を完成してください。</string>
+
+    <string name="dialog_setting_cap_tips">携帯電話或いはグーグル検証を関連してください。</string>
+
+    <string name="dialog_setting_had_capped">資金パスワードを設定済。変更する必要があった場合はCoinBene満币サイト(www.coinbene.comまで設定を完成してください。</string>
+
+    <string name="set_new_pwd_success">新しいパスワードを設定しました</string>
+
+    <string name="dialog_real_name_auth">レアルネーム認証</string>
+
+    <string name="dialog_bing_phone">携帯電話番号を関連</string>
+
+    <!-- K线图-->
+    <string name="k_chart_buy_label">買い</string>
+
+    <string name="k_chart_sell_label">売り</string>
+
+    <string name="k_chart_vol">量</string>
+
+    <string name="k_chart_open">開</string>
+
+    <string name="k_chart_high">高値</string>
+
+    <string name="k_chart_low">低値</string>
+
+    <string name="k_chart_close">終値</string>
+
+    <string name="k_chart_1min">1分</string>
+
+    <string name="k_chart_15min">15分</string>
+
+    <string name="k_chart_1hour">1時間</string>
+
+    <string name="k_chart_4hour">4時間</string>
+
+    <string name="k_chart_1day">1日</string>
+
+    <string name="k_chart_more">更に</string>
+
+    <string name="k_chart_5min">5分</string>
+
+    <string name="k_chart_30min">30分</string>
+
+    <string name="k_chart_1week">1週間</string>
+
+    <string name="k_chart_1mon">1ヶ月</string>
+
+    <string name="k_chart_index">指標</string>
+
+    <string name="k_chart_main">主図&#160;&#160;</string>
+
+    <string name="k_chart_sub1">副図1</string>
+
+    <string name="k_chart_sub2">副図2</string>
+
+    <string name="k_chart_hide">隠す</string>
+
+    <string name="data_is_empty">データがエンプティー</string>
+
+    <string name="available_string">使用可能</string>
+
+    <string name="unclocked_string">凍結</string>
+
+    <string name="all">合計</string>
+
+    <string name="Estimated">概算</string>
+
+    <string name="dialog_delete_content">出金アドレスを削除しますか？</string>
+
+    <string name="vol_market_item">24H額</string>
+
+    <string name="splash_label">安全、安定、信頼されるデジタル資産を取引するプラットフォ—ムである</string>
+
+    <string name="hide_assets_zero_tips">０の通貨を隠す</string>
+
+    <string name="search_input_hint">シンボルを検索</string>
+
+    <string name="search_coin_input_hint">デジタル資産の検索</string>
+
+    <string name="search_tradeteam_input_hint">取引ペアを検索</string>
+
+    <string name="search_country_input_hint">国家/地域を入力して検索ください</string>
+
+    <string name="asset_estimation">資産概算</string>
+
+    <string name="asset_detail">資産の内訳</string>
+
+    <string name="empty_txt">記録がありません</string>
+
+    <string name="time">時間</string>
+
+    <string name="direction">方向</string>
+
+    <string name="price">価格</string>
+
+    <string name="vol">数量</string>
+
+    <string name="order_book">注文</string>
+
+    <string name="market_trades">歩み値</string>
+
+    <string name="bids">買い</string>
+
+    <string name="asks">売り</string>
+
+    <string name="withdraw">出金</string>
+
+    <string name="transfer_accounts">内部転送</string>
+
+    <string name="title_trade_pair">取引ペア</string>
+
+    <string name="trade_balance_num">%1$s %2$s</string>
+
+    <string name="refresh">リフレッシュ</string>
+       
+    <string name="ch_phone_num">+86フォンナンバー</string>
+       
+    <string name="ch_str">中国</string>
+
+    <string name="toast_tips_downing">ダウンロード開始...</string>
+
+    <string name="notify_tips_prepare">最新バージョンをダウンロードする準備ができました</string>
+
+    <string name="notify_tips_fail">ダウンロードエラー、もう一度お試してください</string>
+
+    <string name="notify_tips_done">ダウンロード済、クリックしてインストールを開始してください</string>
+
+    <string name="notify_tips_doing">最新バージョンをダウニング</string>
+
+    <string name="rsi">RSI</string>
+    <string name="kdj">KDJ</string>
+    <string name="macd">MACD</string>
+    <string name="ma">MA&#160;&#160;&#160;&#160;</string>
+    <string name="k_vol">VOL&#160;&#160;</string>
+
+    <string name="self">オプション</string>
+    <string name="edit_self">オプションを編集</string>
+    <string name="edit">編集</string>
+    <string name="quotation_self">クォーテーションをオプション</string>
+    <string name="add">添付</string>
+
+    <!--绘制手势相关 -->
+    <string name="gesture_ac_title">ジェスチャーパスワードを設定</string>
+
+    <string name="gesture_set_tips">ロックを解除する図を描いてください</string>
+
+    <string name="gesture_set_again">もう一度ロックを解除する図を描いてください</string>
+
+       
+    <string name="gesture_set_error_count">４つの点につながる必要があるのでもう一度描いてください</string>
+       
+    <string name="gesture_set_error_diff">前回と一致していないのでもう一度描いてください</string>
+       
+    <string name="gesture_check_error_count">認証に失敗した、まだ%d回の機会残し</string>
+    <string name="gesture_set_success">ジェスチャーパスワードを設定しました</string>
+
+       
+    <string name="gesture_login_set_tips">資金保護のため、指でパターンを設定してください。</string>
+    <string name="gesture_cancel">すぐに設定しません</string>
+
+       
+    <string name="gesture_login_check_error">検証エラー、もう一度ログインしてください</string>
+    <string name="gestrue_login_label">パスワードでログイン</string>
+
+    <string name="gestrue_close_check_title">ジェスチャーパスワードを検証</string>
+
+    <string name="gestrue_login_check_title">ジェスチャーパスワードを検証</string>
+
+    <string name="gestrue_close_check_tips">元のジェスチャーパスワードを検証</string>
+
+    <string name="gesture_login_check_tips">ジェスチャーパスワードを描いてロックを解除します</string>
+
+    <string name="all_acount">全部</string>
+
+    <string name="account_number">受取人</string>
+
+    <string name="input_account_number">受取人口座を入力ください</string>
+
+    <string name="email_or_phone">受取人登録アドレス/携帯電話番号</string>
+
+    <string name="record_type_transfer">振替</string>
+
+    <string name="transfer">振替記録</string>
+
+    <!-- 指纹 -->
+    <string name="finger_touch_id">Touch ID</string>
+
+    <string name="finger_login_label">パスワードでログイン</string>
+
+    <string name="finger_dialog_label">“CoinBene”のTouch ID</string>
+
+    <string name="finger_dialog_tips">指紋を検証ください</string>
+
+       
+    <string name="finger_not_enable">指紋パスワードがまだ有効化されていません。設定から制限を解除してください。</string>
+    <string name="finger_fail_retry">もう一度お試してください</string>
+
+    <string name="finger_verify_fail">指紋検証が失敗、少しお待ちしてから再度にお試してください</string>
+
+    <string name="finger_set_success">設置しました</string>
+
+    <string name="user_tip_title">満币のお客様へ</string>
+
+    <string name="user_tip_content">よりよいサビースを提供してプラットフォーム体験を高めるため、5月21日－22日の間に、満币プラットフォームがシステムアップデートが行ないます。ご不便をおかけしまして、申し訳ございません。そのため、私たちはプラットフォーム上のすべてのユーザーに対して1ヶ月の取引手数料を免除させていただき、期間は5月24日0:00-6月22号0:00までとなります。最後に、改めてお詫び申し上げます。すべてのユーザーが満币に対してご理解やサポートを感謝します！</string>
+
+    <string name="user_tip_btn">わかりました</string>
+
+    <string name="finger_check_fail_more_than_5">数回にわたり指紋検証に失敗したため、30秒後に再度お試しください。</string>
+
+    <string name="finger_check_fail_try_again">頻繁に操作するため、少しお待ちしてから試してください</string>
+
+       
+    <string name="to">振込み</string>
+       
+    <string name="from">入金</string>
+    <string name="real_nameauthentication">実名認証</string>
+
+       
+    <string name="authenticated">認証済</string>
+    <string name="country_or_area">国家或いは地域</string>
+    <string name="user_name">姓名</string>
+       
+    <string name="card_type">証明書タイプ</string>
+    <string name="id_card_number">身分証明書番号</string>
+
+    <string name="id_card_front">身分証明書の正面写真</string>
+
+    <string name="id_card_back">身分証明書の背面写真</string>
+
+    <string name="id_card_of_hander">身分証明書を手持ちする写真</string>
+
+    <string name="input_name">姓名を入力ください</string>
+
+    <string name="real_name_auth">実名認証</string>
+
+    <string name="input_id_card_number">身分証明書番号を入力ください</string>
+
+    <string name="input_suc_id_card_number">正しい身分証明書番号を入力ください</string>
+
+    <string name="input_id_passport_number">パスポート番号を入力ください</string>
+
+    <string name="take_photo">写真を撮ります</string>
+
+    <string name="pic">アルバム</string>
+
+    <string name="passptort_cover">パスポート表紙</string>
+
+    <string name="personal_information_page">パスポートの個人情報ページ</string>
+
+    <string name="handheld_passport_personal_information_page">パスポートの個人情報ページを手持ちする写真</string>
+
+    <string name="title_select_country">国家或いは地域</string>
+
+    <string name="Passport">パスポート</string>
+       
+    <string name="passport_no">パスポート番号</string>
+       
+    <string name="id_card">二代目身分証明書</string>
+
+    <string name="id_card_no_china">身分証明書</string>
+
+    <string name="country_no_result">検索記録がありません</string>
+
+    <string name="unverified">未認証</string>
+       
+    <string name="Processing">審査中</string>
+       
+    <string name="Verified">認証済</string>
+       
+    <string name="failed">不合格</string>
+       
+    <string name="unfinished">未完成</string>
+
+    <string name="please_complete_email_verification">メールアドレス認証を完成させてください</string>
+
+    <string name="identification_processing">実名認証審査中</string>
+
+    <string name="preliminary_approval_has_passed">初歩審査が通しました</string>
+
+    <string name="upload_img_tip">写真は名前等の各情報が明瞭であり、それらが修正されていないことを確認してください。</string>
+
+    <string name="click_to_upload">クッリクしてアップロード</string>
+
+    <string name="please_select_country_or_region">国家あるいは地域を選択</string>
+       
+    <string name="please_upload_ID_card_front">身分証明書の正面をアップロードください</string>
+       
+    <string name="please_upload_ID_card_resverse">身分証明書の背面をアップロードください</string>
+
+    <string name="please_upload_handheld_ID_card">手持ちしている写真をアップロードください</string>
+       
+    <string name="please_upload_the_passport_cover">パスポートの表面をアップロードください</string>
+
+    <string name="please_upload_the_passport_information_page">パスポートの個人情報ページをアップロードください</string>
+
+    <string name="please_upload_the_handheld_passport_information_page">パスポートの個人情報ページを手持ちする写真をアップロードください</string>
+
+    <string name="submit_success">提出成功</string>
+
+    <string name="submit_fail">提出失敗</string>
+
+    <string name="query_fail">データの獲得が失敗しました</string>
+
+    <string name="click_reload">リロード</string>
+
+    <string name="only_moac_mainnet_address_supported">モウカしか支持しないメインネットアドレス</string>
+      
+    <string name="MOAC">MOAC</string>
+
+    <string name="select_picture_fail">写真の獲得が失敗しました。もう一度選択ください</string>
+
+    <string name="add_favorites">+オプションを添加</string>
+
+    <string name="successfully_added">オプションを添加しました</string>
+
+    <string name="successfully_deleted">オプションを削除しました</string>
+
+    <string name="no_favorites">オプションがありません</string>
+
+    <string name="order_succes">成功した注文</string>
+    <string name="pay_bind_info">支払い情報のバインド</string>
+    <string name="please">最初に記入してください</string>
+    <string name="go_setting">セットへ</string>
+    <string name="order_detail_title">注文の詳細</string>
+    <string name="pay_confirm">支払い確認</string>
+    <string name="pay_comfirm_tip">転送が完了し、悪意のあるクリックがブロックされることを確認してください。</string>
+    <string name="pay_collection">收款确认</string>
+    <string name="pay_collection_tip">支払いを受領したことを確認した後、システムは自動的に通貨をユーザーに転送します。</string>
+    <string name="comfirm_cancel_order">あなたの注文のために以下をするようにしてください</string>
+    <string name="comfirm_hander_order_tip">私は支払いがないと確信しています、そして、私が注文を撤回した後に私は支払いません。</string>
+    <string name="not_pay_collection">支払い確認を受け取っていません</string>
+    <string name="not_pay_collection_tip">支払いを受領していないこと、注文が確定されていること、悪意のあるクリックが制限されていることを確認してください。</string>
+    <string name="time_remaining">残り:</string>
+    <string name="wait_release_coin">相手が支払いを待っている</string>
+    <string name="seller_info">支払い情報</string>
+    <string name="seller">売主</string>
+    <string name="pay_type">お支払い方法</string>
+    <string name="bank">銀行カード</string>
+    <string name="alipay">アリペイ</string>
+    <string name="wechat">WeChat</string>
+    <string name="buy_order_freeze">支払が完了しない場合、カスタマーサービスへ連絡するか注文をキャンセルしてください。</string>
+    <string name="wait_release_pay">支払い待ち</string>
+    <string name="comfirm_release_pay">相手が支払いました。確認してください</string>
+    <string name="get_pay_money">支払いを受けた</string>
+    <string name="not_pay_money">支払いはありません</string>
+    <string name="buyer_info">購入者情報</string>
+    <string name="buyer">買い手</string>
+    <string name="get_money_type">私の支払い方法</string>
+    <string name="sell_order_freeze">注文は凍結されています。カスタマーサービスに連絡するか、支払いを確認してください</string>
+    <string name="bank_pay">銀行カードの支払い</string>
+    <string name="bank_name">銀行名</string>
+    <string name="alipay_pay">アリペイ支払い</string>
+    <string name="alipay_acount">アリペイアカウント</string>
+    <string name="wechat_pay">WeChatによる支払い</string>
+    <string name="wechat_acount">WeChatアカウント</string>
+    <string name="unit_price">価格</string>
+    <string name="order_number">数量</string>
+    <string name="totle_price">合計金額</string>
+    <string name="create_order_time">注文時間</string>
+    <string name="order_id">注文番号</string>
+    <string name="bank_address">支店情報</string>
+    <string name="bank_acount">銀行カード番号</string>
+    <string name="change_pay_type">支払い方法を切り替える</string>
+    <string name="payee">受取人</string>
+    <string name="pay_qr">領収書QRコード</string>
+    <string name="pay_remark">支払いをするときに注意してください</string>
+    <string name="completed_the_payment">支払いが完了しました</string>
+    <string name="cancel_order">注文をキャンセル</string>
+    <string name="all_order">すべての注文</string>
+    <string name="order_unfinished">未完成</string>
+    <string name="order_completed">完了</string>
+    <string name="order_cancelled">キャンセル済み</string>
+    <string name="please_input_usdt">USDTを入力してください</string>
+    <string name="please_input_cny">CNYを入力してください</string>
+    <string name="available_balance_Insufficient">残高不足</string>
+    <string name="limit">限界</string>
+    <string name="order_unit_price">単価</string>
+    <string name="please_input_number">購入数量を入力してください</string>
+    <string name="please_input_buy_cny">購入金額を入力してください</string>
+    <string name="cny">CNY</string>
+    <string name="order_validity_tip">注文は30分間有効です</string>
+    <string name="create_order">ご注文</string>
+    <string name="otc_title">USDT/CNY</string>
+    <string name="amount">金額</string>
+    <string name="alipay_qr">アリペイコレクションQRコード</string>
+    <string name="wechat_qr">WeChatコレクションQRコード</string>
+    <string name="now_binding">すぐにバインド</string>
+    <string name="pay_bind_tip">注意：あなたの本名のアカウントを使用することを忘れないでください。有効にされた支払い方法は、取引の時に買い手に表示されるでしょう。</string>
+    <string name="bind_bank">製本銀行カード</string>
+    <string name="input_bank_name"></string>
+    <string name="input_bank_address">預金の銀行を入力してください</string>
+    <string name="input_bank_acount">銀行カード番号を入力してください</string>
+    <string name="bind_suc">バインド成功</string>
+    <string name="bind_alipay">Alipayのバインディング</string>
+    <string name="input_alipay_acount">Alipayのアカウントを入力してください</string>
+    <string name="bind_wechat">バインドWeChat</string>
+    <string name="input_wechat_acount">WeChatアカウントを入力してください</string>
+    <string name="upload_qr_code">領収書のQRコードをアップロードしてください</string>
+    <string name="request_failed">リクエストが失敗しました。しばらくしてからもう一度お試しください</string>
+    <string name="bind_alipay_wechat_tip">注：あなたの本名アカウントを必ず使用してください</string>
+    <string name="tips_pay_bind_info">最初に支払い情報を綴じてください。</string>
+    <string name="copy_suc">コピー成功</string>
+    <string name="please_over_setting">最初に記入してください</string>
+    <string name="pay_binding">支払い方法</string>
+    <string name="comfirm_save_qr_code">必ずアルバムに画像を保存してください</string>
+    <string name="save_suc">画像を保存しました</string>
+    <string name="save_err">画像保存に失敗しました</string>
+    <string name="fail_reload">読み込めませんでした。クリックしてもう一度試してください</string>
+    <string name="optional">%s（オプション）</string>
+    <string name="please_input">入力してください%s</string>
+    <string name="discover_version">新バージョン</string>
+
+    <string name="history_detail_label">取引の内訳></string>
+    <string name="history_detail_title">取引の内訳</string>
+    <string name="history_item_detail_time">取引时间</string>
+    <string name="history_item_detail_count">取引量</string>
+    <string name="history_item_detail_price">取引価格</string>
+    <string name="history_item_detail_total">出来高</string>
+    <string name="history_item_detail_fee">手数料</string>
+    <string name="history_detail_header_count">取引数量/委任数量</string>
+    <string name="history_detail_header_price">取引の平均価格/委任価格</string>
+    <string name="history_detail_header_total">出来高</string>
+    <string name="history_detail_header_fee">手数料</string>
+    <string name="history_detail_header_buy">購入</string>
+    <string name="history_detail_header_sell">販却</string>
+    <string name="history_detail_header_percent">一部取消 %d</string>
+    <string name="history_detail_header_percent_all">取引 100%</string>
+    <string name="token">通貨</string>
+    <string name="tween_four_hour_limit">24H 取引高</string>
+    <string name="last_price">価格</string>
+    <string name="fall_rese_change">騰落率</string>
+    <string name="please_input_sell_number">販売数量を入力してください</string>
+    <string name="please_input_sell_price">販売金額を入力してください</string>
+    <string name="cancel_all">バッチ取消</string>
+    <string name="hide_other_symbols">他の取引ペアを隠す</string>
+    <string name="sure_cancel_all">すべての%s注文をキャンセルしてもよろしいですか？</string>
+
+    <string name="invalid_input_baseAsset">無効な取引ペア</string>
+
+    <string name="history_filter_all_label">全部</string>
+
+    <string name="hist_filter_tradepair">取引ペア</string>
+
+    <string name="hist_filter_baseasset">シンボル</string>
+
+    <string name="histr_filter_direction">取引方向</string>
+
+    <string name="histr_filter_direction_buy">買い</string>
+
+    <string name="histr_filter_direction_sell">売り</string>
+
+    <string name="hist_filter_time">時間</string>
+
+    <string name="hist_filter_time_3_month">3か月</string>
+
+    <string name="hist_filter_time_1_month">1か月</string>
+
+    <string name="hist_filter_time_1_week">1週間</string>
+
+    <string name="hist_filter_time_1_day">1日</string>
+
+    <string name="hist_filter_hide_label">キャンセルしたラベルを隠します。</string>
+
+    <string name="hist_filter_reset_btn">設置</string>
+
+    <string name="coni_switch_set">設置</string>
+
+    <string name="coni_switch_message">「マイ」ページで「CONI」で手数料を支払うことがオープンする（50％割引）、またすべての取引手数料が50％をカットする特恵特権が利用可能となります</string>
+
+    <string name="coni_switch_title">CONIで支払うと手数料が50%の割引がご利用できます</string>
+
+    <string name="btn_confirm">確定</string>
+
+    <string name="notice_center">公告センター</string>
+
+    <string name="all_notice">全部</string>
+
+    <string name="recharge_tips1_new"> 最低入金%1$s個%2$s</string>
+
+    <string name="recharge_tips2_new"> 上述したアドレスに入金する%1$s(%2$s)を入力し、%3$s以下の入金が記帳にならず返金不可となります。</string>
+
+    <string name="recharge_tips2_new_version"> %1$s個未満の入金は記帳にならず返金不可となります</string>
+
+    <string name="recharge_tips3_new">他のデジタル資産を入金しないでください</string>
+
+    <string name="recharge_tips4_new">上のアドレスに入金しないでください。取り出せなくなった場合、弊社では責任を負いかねます。</string>
+
+    <string name="recharge_tips5_new">入金は%s個のブロックチェーンを確認してから記帳となります。</string>
+
+    <string name="recharge_tips6_new">上述したアドレスに入金した%1$s(%2$s)は%s個のブロックチェーンを確認してから記帳となります。</string>
+
+    <string name="restricted_deposit">入金制限とされています。顧客サービスまでお問い合わせてください</string>
+
+    <string name="restricted_withdrawing">出金制限とされています。顧客サービスまでお問い合わせてください</string>
+
+    <string name="my_blance">マイ資産</string>
+
+    <string name="recharge_tips0_new">入金について必ずお読みください：</string>
+
+    <string name="ad_skip">スキップ</string>
+
+    <string name="cancel_all_suc">すべてをキャンセル済</string>
+
+    <string name="notice">お知らせ</string>
+
+    <string name="no_otc_ad">广告がありません</string>
+
+    <string name="no_notice">公告がありません</string>
+
+    <string name="close">閉じます</string>
+
+    <string name="boll">BOLL</string>
+
+    <string name="setting_site_label">国選択</string>
+       
+    <string name="setting_launage_tv">言語</string>
+
+    <string name="site_label_tips">国家/地域の取引サイトによって取引ペアが異なる場合があります</string>
+
+    <string name="setting_language_label">言語</string>
+       
+    <string name="menu_name_done">完成</string>
+
+    <string name="site_change_message">もう一度ログインして他のサイトに切り替えます</string>
+       
+    <string name="coin_info">項目紹介</string>
+       
+    <string name="coin_issue_time">発行時間</string>
+       
+    <string name="initial_price">発行価格</string>
+    <string name="coin_circulation_vol">流通総量</string>
+
+    <string name="total_amount">発行総計</string>
+
+    <string name="coin_white_paper">白書</string>
+
+    <string name="coin_block_explorer">ブロック検</string>
+
+    <string name="coin_official_website">公式サイト</string>
+
+    <string name="add_favorite">追加する</string>
+       
+    <string name="added">添付済</string>
+       
+    <string name="tab_balance">資産</string>
+       
+    <string name="setting_safe">セキュリティセンター</string>
+
+    <string name="setting_balance">資産設置</string>
+       
+    <string name="setting_defined">基本設定</string>
+       
+    <string name="safe_title">セキュリティセンター</string>
+       
+    <string name="balance_title">資産設置</string>
+       
+    <string name="defined_title">基本設定</string>
+
+    <string name="unlogin_txt">ログイン</string>
+
+    <string name="unlogin_tips">ログインをクリックして、より多く楽しむことができる</string>
+
+    <string name="login_uuid_txt">UID:</string>
+
+    <string name="balance_tip">通貨/概算</string>
+
+    <string name="balance_tip_value">使用可能/総計</string>
+
+    <!--<string name="login_label">登录</string>-->
+    <string name="is_save_change">修正した内容を保存しますか</string>
+
+    <string name="look_all_current_order">現行すべての依頼を確認します</string>
+
+    <string name="look_all_history_order">すべての依頼履歴を確認します</string>
+    <string name="Symbol">シンボル</string>
+       
+    <string name="Top">トップ</string>
+       
+    <string name="Drag">ドラッグ</string>
+       
+    <string name="orders">オーダー</string>
+       
+    <string name="tarde_deals">歩み値</string>
+
+    <string name="Positions">ポジション</string>
+
+    <string name="Filled_amount">成約数/依頼数</string>
+
+    <string name="trade_vol">数量</string>
+       
+    <string name="i_kown">了解済</string>
+
+    <string name="display_qr_code">QRコードを表示</string>
+
+    <string name="deposit_address">入金アドレス</string>
+
+    <string name="copy_tag">コピー</string>
+
+    <string name="please_read_tips">以上の提示をお先にお読みください</string>
+
+    <string name="save_qr_code">QRコード保存</string>
+
+    <string name="kline_color_cofig">配色</string>
+
+    <string name="entrust_history">注文履歴</string>
+
+    <string name="rechargeAndreflect_histroy">リ入金・リフレクト記録</string>
+
+    <string name="coin_status_stop">一時休止中</string>
+
+    <string name="cannot_deposit_tips_new">，入金を一時休止</string>
+
+    <string name="cannot_withdraw_tips_new">，出金が一時休止</string>
+
+    <string name="one_day_vol">24H取引数</string>
+
+    <string name="recharge_coin">入金履歴</string>
+
+    <string name="recharge_coin_new">入金履歴</string>
+
+    <string name="reflect_coin">出金履歴</string>
+
+    <string name="reflect_coin_new">出金履歴</string>
+
+    <string name="high_price">24H最高価格</string>
+
+    <string name="low_price">24H最低価格</string>
+
+    <string name="red_rise_green_fall">赤線は陽線、 緑線は陰線</string>
+
+    <string name="green_rise_red_fall">緑線は陽線、 赤線は陰線</string>
+
+    <string name="day_night_mode">ナイトモード</string>
+
+    <string name="shared_friend">お友達にシェアして返金を儲けられます</string>
+
+    <string name="weibo">ブログ</string>
+       
+    <string name="twitter">Twitter</string>
+       
+    <string name="facebook">Facebook</string>
+       
+    <string name="telegram">Telegram</string>
+       
+    <string name="tips_ieo_title">ご注意：</string>
+
+    <string name="tips_ieo_label">%sただいま購入しかできなくて、売ることに戻す時間は公告に従ってください</string>
+
+    <string name="setting_invitation">返金インビテーション</string>
+
+    <string name="setting_invitation_title">CoinBene-返金インビテーション</string>
+
+    <string name="share_succes">サクセスをシェア</string>
+
+    <string name="share_error">シェアがエラー</string>
+
+    <string name="share_cancel">シェアがキャンセル</string>
+
+    <string name="copy_tag_title">%sコピー</string>
+
+    <string name="look_all">すべてを見ます</string>
+
+    <!--充值、提现原因-->
+    <string name="WalletMaintenance">ウォレットがメンテナンス</string>
+
+    <string name="BlockchainNodeUpgrade">ブロックチェーンアップグレード</string>
+
+    <string name="NetworkAnomaly">ネットワークアノマリー</string>
+
+    <string name="MainnetSwitch">メインネットチェンジ</string>
+
+    <string name="CoinSwapping">コインスワッピング</string>
+
+    <string name="OfficialRequirements">オフィシャル項目要求</string>
+    <!--//add test-->
+    <string name="look_whole">すべてを見ます</string>
+    <string name="take_up">テイクアップ</string>   
+    <string name="total_price">総額</string>   
+    <string name="froze_acount">凍結</string>
+    <string name="valuetion_btc">概算(BTC)</string>
+    <string name="go_to_trade">取引に入ります</string>   
+    <string name="valuation">エバリュエーション</string>   
+    <string name="available_price">使用可能</string>   
+    <string name="balance_detail">資産ディテール</string>
+    <string name="market_default">注文</string>
+    <string name="show_buy_market">買い</string>
+    <string name="show_sell_merket">売り</string>
+    <string name="customer_service">オンラインサービス</string>
+    <string name="support_Email">サポートメールアドレス</string>
+    <string name="about_joinCommunity">コミュニティーに加入</string>
+    <string name="about_currentVersion">現行バージョン</string>
+    <string name="about_TermsOfService">サービス条約</string>
+    <string name="community_wechart_text">WeChat公式群</string>
+    <string name="community_Separate_service">一対一サービス</string>
+    <string name="community_telegram_website">コミュニティーテレグラムウェブサイト</string> 
+    <string name="coin_type">コインタイプ</string>
+    <string name="mark_tab">マークタブ</string>
+    <string name="add_coin_address">%sアドレス添付</string>
+    <string name="actual_account">実際入金:</string>   
+    <string name="free_admission">無料</string>
+    <string name="please_to_kyc">実名認証をお先に完成させてください</string>
+    <string name="please_to_br_kyc">CoinBene満币サイト(https://www.coinbene.com.br)まで実名認証を完成させてください</string>
+    <string name="tv_add_account">アカウント増加</string>
+    <string name="transfer_account_data">プラットフォ—ム内で振替ます</string>
+    <string name="add_account">アカウント増加</string>
+    <string name="account">アカウント</string>
+    <string name="please_input_account">振込先のアカウントを入力ください</string>
+    <string name="an_example">例：顧客小明様</string>
+    <string name="transfer_txt_new">内部の振込履歴</string>   
+    <string name="record_detail_num">数量</string> 
+    <string name="record_detail_status">状態</string>   
+    <string name="record_address_status">アドレス</string>
+    <string name="record_detail_txid">Txid</string>   
+    <string name="record_detail_time">時間</string>
+    <string name="withdraw_detail_title">出金ディテール</string>
+    <string name="deposit_detail_title">入金ディテール</string>   
+    <string name="record_detail_remark">備考</string> 
+    <string name="pattern_reset">再設定</string>
+    <string name="please_input_tag">備考タッグを入力ください</string>
+    <string name="history_entrust_label_new">注文履歴</string>
+    <string name="please_enter_newPhone">新しい電話番号を入力ください</string>
+    <string name="phone_num_agreement">元の電話番号番号と一致</string>
+    <string name="Invitation_join_community">公式コミュニティーウィーチャット、スキャンして顧客サービスがご案内していただきます</string>
+    <string name="Wechat_number">ウィーチャット：%s</string>
+    <string name="reset_phoneNum_success">リセットしました。改めてログインしてください</string>
+    <string name="twentyFour_dont_withdray">電話番号をリセットしてから24時間以内にotcRv不可</string>
+    <string name="change_phone_num">携帯電話をチェンジしました</string>
+    <string name="old_phone_num">元の携帯電話番号</string>
+    <string name="verification_code">検証コード</string>
+    <string name="send_verification_code">送る</string>
+    <string name="new_phone_num"> 新しい携帯電話番号</string>
+    <string name="input_verification_code">SMS確認コード</string>
+    <string name="confirm_change_phone_num">確定</string>
+    <string name="change_phone_num_reminder">ご注意:</string>
+    <string name="change_phone_des"> 携帯電話番号をリセットしてから24時間以内にotcRvや振替が禁止となります。</string>
+    <string name="coinbene_global">CoinBene Global</string>
+    <string name="commuinity_linkein">LinkedIn</string>
+    <string name="youtube">YouTuBe</string>
+    <string name="add_transfor_account">振替アドレスを添付しました</string>
+    <string name="please_input_true">正しいotcRv数量を入力ください</string>
+    <string name="min_withdraw">最低换金金額よりすくないことが不可である</string>
+    <string name="balance_chart_date">日付：</string>
+    <string name="balance_chart_local_price">金額：</string>
+
+    <!--新增-->
+    <string name="reset_password">変更</string>
+    <string name="login_password">パスワード</string>
+    <string name="second_checked_content">二段階認証設定</string>
+    <string name="original_login_password">現在のパスワード</string>
+    <string name="original_balance_password">現在の資金パスワード</string>
+    <string name="new_login_password">新しいパスワード</string>
+    <string name="update_password">パスワード変更</string>
+    <string name="new_balance_password">新しい資金パスワード</string>
+    <string name="forget_balance_password">資金パスワードを忘れた</string>
+    <string name="close_second_check">二段階認証をオフする</string>
+    <string name="open_second_check">二段階認証をオンする</string>
+    <string name="receive_push_notice">通知を受け取る</string>
+    <string name="share_coinbene"> CoinBeneを共有する</string>
+    <string name="share_failed">共有失敗</string>
+    <string name="share_slogan">安全、安定、信頼性のデジタル資産取引所</string>
+    <string name="share_download_app">以下のQRコードをスキャンしてCoinBeneアプリをダウンロードする</string>
+    <string name="share_qr_code">シェア</string>
+    <string name="recrod_dispatch_text">その他の記録</string>
+    <string name="wechart_not_extis"> Ｗechatアプリが無いため、シェアに失敗しました</string>
+    <string name="please_enter_oldpassword">現在のパスワードを入力してください</string>
+    <string name="please_enter_newpassword">新しいパスワードを入力してください</string>
+    <string name="contains_chinese_chat">中国語漢字が含めている</string>
+    <string name="please_enter_old_balance_password">現在の資金パスワードを入力してください</string>
+    <string name="please_enter_new_balance_password">新しい資金パスワードを入力してください</string>
+    <string name="update_preference">優先認証方法を変更する</string>
+    <string name="update_preference_tip">二段階認証に登録し、資金パスワードを設定する・出金する・出金アドレスを登録する時の認証方法を設置する</string>
+    <string name="set_google_code">* Google二段階認証で認証</string>
+    <string name="set_SMS_code">* SMSメッセージで認証</string>
+    <string name="entity_macd">MACD</string>
+    <string name="entity_kdj">KDJ</string>
+    <string name="entity_wr">WR</string>
+    <string name="entity_rsi">RSI</string>
+    <string name="entity_boll">BOLL</string>
+    <string name="entity_expma">EXPMA</string>
+    <string name="entity_dmi">DMI</string>
+    <string name="recrod_dispatch_detail">配布詳細</string>
+    <string name="friends">モーメンツ</string>
+    <string name="set_balance_tip">* アカウントのセキュリティをより強化するために、お客様が仮想通貨の内部と外部送付または外部ビットコインアドレスを追加する際、資金パスワードのご設定が必要となります</string>
+    <string name="please_first_bind_phone">認証コードを変更する場合、先に携帯電話の登録を済ませてください</string>
+    <string name="please_first_bind_google">認証コードを変更する場合、先にグーグル認証を済ませてください</string>
+
+
+    <!--期货-->
+    <string name="contract_coin_type">シンボル</string>
+    <string name="br_current_delegation">当面注文</string>
+    <string name="br_History_delegation">注文履歴</string>
+    <string name="contract_avl_balance">利用可能残高</string>
+    <string name="contract_avl_balance_usdt">利用可能残高</string>
+    <string name="estimate_force_price">清算価格</string>
+    <string name="contract_commission_record">契約注文履歴</string>
+    <string name="contract_ing_delegation">当面注文</string>
+    <string name="record_fund_cost">資金費用</string>
+    <string name="transfer_record">振替記録</string>
+    <string name="return_percent">利益率</string>
+    <string name="return_percent_share">利益率</string>
+    <string name="account_balance">口座残高</string>
+    <string name="account_balance_usdt">口座残高</string>
+    <string name="unrealized_profit_loss">未実現損益</string>
+    <string name="unrealized_profit_loss_btc">未実現損益(BTC)</string>
+    <string name="unrealized_profit_loss_usdt">未実現損益(USDT)</string>
+    <string name="unrealized_profit_loss_usdt_zh">未実現損益</string>
+    <string name="realized_profit_loss_btc">実現損益(BTC)</string>
+    <string name="realized_profit_loss_usdt">実現損益(USDT)</string>
+    <string name="realized_profit_loss">実現損益</string>
+    <string name="contract_title">契約</string>
+    <string name="open_long">オープン</string>
+    <string name="close_long">クローズ</string>
+    <string name="buy_open_long">オープンロング</string>
+    <string name="buy_open_long_zh">オープンロング</string>
+    <string name="avl_open_long">参入可能</string>
+    <string name="avl_open_short">参入可能</string>
+    <string name="avl_close">決済可能</string>
+    <string name="number">枚</string>
+    <string name="current_balance">当面資産</string>
+    <string name="current_balance_usdt">当面資産</string>
+    <string name="sell_open_short">オープンショート</string>
+    <string name="sell_open_short_zh">オープンショート</string>
+    <string name="buy_close_short">クローズショート</string>
+    <string name="transfer_record_goto">への振替</string>
+    <string name="tecent_qq">QQ</string>
+    <string name="share_poster_text">シェア</string>
+    <string name="f8">資金費率</string>
+    <string name="f8_settlement">費用決済まで</string>
+    <string name="hold_position">ポジション</string>
+    <string name="fund_transfer_title">資金振替</string>
+    <string name="fund_transfer_able">振替可能残高:</string>
+    <string name="contract_current_delegation">契約当面注文</string>
+    <string name="contract_histor_delegation">契約注文履歴</string>
+    <string name="lever">レバレッジ</string>
+    <string name="fixed_price">指値価格</string>
+    <string name="market_price">成行価格</string>
+    <string name="sign_price">マーク価格</string>
+    <string name="sign_price_value">マーク価格</string>
+    <string name="balance_coin_str">スポット口座</string>
+    <string name="balance_future_str">契約口座</string>
+    <string name="myself_transfer_label">振替</string>
+    <string name="balance_ft_holder">ポジション</string>
+    <string name="lever_ratio">レバレッジ</string>
+    <string name="contract_trade_price">価格</string>
+    <string name="contract_trade_number">数量</string>
+    <string name="login_register_label">ログイン/登録</string>
+    <string name="total_hold_positon">ホールディング(枚)</string>
+    <string name="force_price">清算価格</string>
+    <string name="usage_bond">証拠金</string>
+    <string name="usage_bond_btc">証拠金(BTC)</string>
+    <string name="usage_bond_usdt">証拠金(USDT)</string>
+    <string name="forever_no_delivery">%s永久</string>
+    <string name="subtract_queue">ADL</string>
+    <string name="open_unit_price">建値の平均価格</string>
+    <string name="poster_tip">最終釈明権はCoinBeneによるものです</string>
+    <string name="mark_price">マーク価格</string>
+    <string name="fund_cost_value">価値</string>
+    <string name="fund_cost_type">取引タイプ</string>
+    <string name="fund_cost_feepaid">支払った費用（BTC）</string>
+    <string name="current_clinch_scale">成約比率</string>
+    <string name="history_entrust_value">注文履歴価値</string>
+    <string name="future_item_num">未決済ポジション数量</string>
+    <string name="future_high_price">ラスト価格</string>
+    <string name="future_low_price">最低価格</string>
+    <string name="one_day_vol_future">成約量</string>
+    <string name="not_support_change_lever_tip">ポジションまたは注文中のものはレバリッジを変更できません</string>
+    <string name="entrust_volume_unit">委託量(枚)</string>
+    <string name="deal_unit">成約量(枚)</string>
+    <string name="side_long">ロング %dX</string>
+    <string name="side_short">ショート %dX</string>
+    <string name="sell_close_long">クローズロング</string>
+    <string name="side_close_short">クローズショート</string>
+    <string name="delegation_type_liquidation">清算</string>
+    <string name="delegation_type_adi">ADL</string>
+    <string name="close_amount_insufficient_tip">決済済みポジション数量はポジション残高を超えられません</string>
+    <string name="long_text">ロング</string>
+    <string name="long_text_share">ロング</string>
+    <string name="short_text">空</string>
+    <string name="short_text_share">空</string>
+    <string name="asset_estimation_coin">スポット</string>
+    <string name="order_canceling">キャンセル中</string>
+    <string name="cancel_order_fail">失敗しました。再試してください</string>
+    <string name="contracts_transfer_successful">振替に成功しました</string>
+    <string name="max_order_account">一回の最大注文数量が10000000枚のため、引下げてください。</string>
+    <string name="v24">24H量</string>
+    <string name="future_24vol_unit_label">%s 枚</string>
+
+    <string name="contract_transfer_sure">確定</string>
+    <string name="contract_guide_title">契約ガイド</string>
+    <string name="fund_transfer_tip">振込可能な残高が不足です</string>
+    <string name="client_not_installed">クライアントがインストールされていません</string>
+    <string name="contract_experience_title">無制限契約体験制覇試合</string>
+    <string name="contract_experience_share">シェア</string>
+    <string name="respected_users">Dear CoinBene user:</string>
+    <string name="contract_match_describe">&#160; &#160;&#160; &#160;Our Perpetual Contract activity has been upgraded, CoinBene invite you come and join us!\n&#160; &#160;&#160; &#160;During the activity, as long as you log in and enter the contract trade page or asset page, you can gain 2 BTC as your experience fund.\n&#160; &#160;&#160; &#160;You will have the chance to win more than 1500 USDT and have the privilege of 0  trading fee. Besides you can have unlimited USDT as rewards. Multiple benefits are waiting for you.\n&#160; &#160;&#160; &#160;Contract trade has risk, please make sure you understand the user agreement and related trading rules in the contract guide.  </string>
+    <string name="not_hint">プロンプトなし</string>
+    <string name="balance_future_tips">(体験金)</string>
+
+    <string name="contract_history_delegation">注文履歴</string>
+    <string name="side_close_long">クローズロング</string>
+    <!--<string name="japan_warn">注意：\nCoinBeneは、日本の資金決済に関する法律に基づく仮想通貨交換業者の登録を受けておりません。こちらは、弊社のサービス提供を行わない国（もしくは地域）の居住者向けサービスではございません。詳細につきましては、利用規約をご参照下さい。\n\n-->
+    <!--Important Notice：\nCoinBene has not been registered virtual currency exchange under the Payment Services Act of Japan. Hence CoinBene does not provide services to the residents of countries or regions where CoinBene does not provide services. See the User Agreement for more information.</string>-->
+    <!--<string name="japan_warn_btn">確認／Confirm</string>-->
+    <string name="k_chart_line_min">ライン</string>
+    <string name="analog_share_des">\@CoinBene無制限契約は0コストで参与して、すぐ1BTCを受けますから、参与のチャンスになります!</string>
+    <string name="analog_share_title">CoinBene無制限契約体験制覇試合</string>
+    <string name="mincnt_tips">最小注文数量が%sです</string>
+    <string name="option_btc_shareText">ビットコインを宝として次の世代に伝えましょう。</string>
+    <string name="option_share_topText">Call&amp;Put,1分間の私の%s利回り</string>
+    <string name="option_eth_shareText">若いのに、ETHを山積み</string>
+    <string name="option_coni_shareText">CONIをこなして、地球一周</string>
+    <string name="option_fota_shareText">You\'re more powerful than you think</string>
+    <string name="option_usdt_shareText">すべてを勝つためにすべてを戦う</string>
+
+    <!--2.3.2新增文案-->
+    <string name="option_record_title">Call&amp;Put取引記録</string>
+    <string name="option_record">Call&amp;Putの取引記録</string>
+    <string name="update_btn_reject">キャンセル</string>
+    <string name="tab_options">Call&amp;Put</string>
+    <string name="balance_up_down_str">Call&amp;Put</string>
+    <string name="options_underlying_asset">アセット</string>
+    <string name="options_investment">投資</string>
+    <string name="options_profit">収益</string>
+    <string name="options_worth">価値</string>
+    <string name="options_sava_share">共有を保存</string>
+    <string name="optionGuide_failed_text">リロードするページをクリックしてください</string>
+
+
+    <!--otc-->
+    <string name="tab_legal_currency">Trade</string>
+    <string name="balance_tip_value_options">Total</string>
+    <string name="f8_kline">資金費率</string>
+    <string name="target_profit">利食い</string>
+    <string name="stop_loss">ストップ</string>
+    <string name="touch_price">トリガー価格</string>
+    <string name="close_cont">数量</string>
+    <string name="avl_close_cont">決算可能数量</string>
+    <string name="expected_return">依頼価額で期待収益を見る: </string>
+    <string name="long_order">ロングオープン</string>
+    <string name="short_order">ショットオープン</string>
+    <string name="contract_entrust_price">委託価額</string>
+    <string name="avl_total">決算可能/合計</string>
+    <string name="contract_plan">利食い/ストップ</string>
+    <string name="contract_plan_type">タイプ</string>
+    <string name="contract_plan_status">状態</string>
+    <string name="cur_position">現在ポジション</string>
+    <string name="string_btn_cancel">Cancel</string>
+    <string name="contract_to_trade">Go to trade</string>
+    <string name="please_input_touch_price">トリガー価格を入力してください</string>
+    <string name="please_input_entrust_price">トリガー価格を入力してください</string>
+    <string name="please_input_close_cont">清算する数量を入力してください。</string>
+    <string name="entrust_price_than_avg_price">委託価額はオープン価額より多いべきです。</string>
+    <string name="entrust_price_less_avg_price">委託価額はオープン価額より少ないべきです</string>
+    <string name="entrustSuc">注文成功</string>
+    <string name="cancel_plan_order">Cancel</string>
+    <string name="plan_status_not_touch">誘発されない</string>
+    <string name="plan_status_touched">トリガー済み</string>
+    <string name="plan_status_cancel">キャンセル</string>
+    <string name="plan_status_fail">失敗</string>
+    <string name="delegation_plan">企画限額</string>
+    <string name="not_close_position">決算可能ポジションはありません。</string>
+    <string name="canceled_order">キャンセルが提出しました</string>
+
+
+    <!--otc-->
+    <string name="according_amount">数量に従て</string>
+    <string name="according_price">金額に従て</string>
+    <string name="please_choose_pay_type">受け取る方法を選んでください</string>
+    <string name="transaction_volume">取引数量</string>
+    <string name="transaction_price">取引金額</string>
+    <string name="place_order">注文する</string>
+    <string name="otc_filter_amount">数量</string>
+    <string name="otc_currency">円取引</string>
+    <string name="please_pay_order_type">支払い方を選んでください</string>
+    <string name="cant_zero">取引の金額がゼロではいけません。</string>
+    <string name="to_add">+加えましょう</string>
+    <string name="buy_pay_type_tips">買う手が%1$s決済で支払いをしますので、こういう決済仕方を加えてください</string>
+    <string name="unbind">バンディングを解除</string>
+    <string name="add_pay_type">入金を受け取る仕方を加えてください</string>
+    <string name="bind_newly_added">バインディングを追加</string>
+    <string name="create_time">作成時間</string>
+    <string name="real_account">実際入金額</string>
+    <string name="bank_user_name">姓名</string>
+    <string name="pay_qrcode">QRコード</string>
+    <string name="instructions_for_transfer">振り込みの注意事項</string>
+    <string name="instruction_for_transfor_tip1">1.振り込み方の名前は必ず実名認証の名前と一致（同じ）すべきです。</string>
+    <string name="instruction_for_transfor_tip2">2.非ウィークデーの振り込みは振り込むたび、上限額は5万です。</string>
+    <string name="shops_remarks">セラーメーモ</string>
+    <string name="otc_order_status_tip">*もし、売る手に振り込みを仕上げたら、必ずしも、振り込み完了ボタンをクリックお願いします。クリックしないと資産の損失を招く可能がありますので、ご注意なさってください。。</string>
+    <string name="completed_transfer">転送済み</string>
+    <string name="otc_order_cancel">キャンセル</string>
+    <string name="my_receipt_info">マイ受け取りメッセージ（入金）</string>
+    <string name="others_info">相対情報</string>
+    <string name="complete_orders">完了オーダーの数量</string>
+    <string name="seconds">秒</string>
+    <string name="minutes">分</string>
+    <string name="ad_legal_tender_label">法定通貨</string>
+    <string name="ad_payment_label">お金の受け取る方法</string>
+    <string name="ad_reference_num">参考番を示さない</string>
+    <string name="ad_tips_pay_bind_info">最初に支払い方法を拘束してください</string>
+    <string name="otc_ad_memo_max_length">500語までしか入力できません</string>
+    <string name="otc_ad_sell_max_num">数量は最大販売可能数量を超えることはできません</string>
+    <string name="ad_order_release_success">うまく棚に</string>
+    <string name="ad_payment_buy_label">支払方法</string>
+    <string name="ad_status">状況</string>
+    <string name="ad_detail">広告の詳細</string>
+    <string name="under_order">下場</string>
+    <string name="delete_order">キャンセル</string>
+    <string name="under_order_sure">確認を削除</string>
+    <string name="under_order_tip">この広告を下ろしますか。下場の広告は再上場できません。</string>
+    <string name="delete_order_sure">広告をキャンセルしますか？</string>
+    <string name="ad_text">広告</string>
+    <string name="sell_order">売り注文</string>
+    <string name="buy_order">買い注文</string>
+    <string name="wait_payment">支払い待ち</string>
+    <string name="paid">支払い済み</string>
+    <string name="time_out_pay">タイムアウトキャンセル</string>
+    <string name="order_freezing">凍結</string>
+    <string name="wait_receivables">入金待ち</string>
+    <string name="wait_sure">確認中</string>
+    <string name="order_all">フルオーダー</string>
+    <string name="order_manager">注文管理</string>
+    <string name="ad_manage_title">広告管理</string>
+    <string name="shop_pay_comfirm_tip">振り込み完了をクリックしてください。悪意の操作は口座の凍結を招きますのでご注意お願いします！</string>
+    <string name="shop_pay_collection_tip">”受け取りました”をクリックしてから、システムからコインをユーザーに振り込みます。買い手の入金を確かにもらいましたか</string>
+    <string name="shop_not_pay_collection_tip">[未販売]をクリックすると、注文が確定されます，悪意のあるクリックはマージンから差し引かれます</string>
+    <string name="shop_comfirm_hander_order_tip">注文をキャンセルすると、ユーザーにUSDTが返金されます,3回以上注文のキャンセルは広告から禁止されます</string>
+    <string name="new_ad_text">新たな広告</string>
+    <string name="ad_payment_method">お金の受け取る方法</string>
+    <string name="insert_ad_text">新たな広告</string>
+    <string name="please_input_buy_number">購入数を入力してください</string>
+    <string name="ad_input_limit">金額を入力してください</string>
+    <string name="ad_save_btn">保存</string>
+    <string name="save_and_release">保存且つ上場</string>
+    <string name="ad_input_remark">コメントを入力してください</string>
+    <string name="ad_able_price">売れる残高：</string>
+    <string name="ad_minlimit_tip">最小値は以下でなければなりません</string>
+    <string name="ad_maxlimit_tip">最大値は以上でなければなりません</string>
+    <string name="ad_status_running">上場中</string>
+    <string name="ad_status_invalid">下場</string>
+    <string name="unbind_bank">カードのバインドを解除してください？</string>
+    <string name="unbind_alipay">Alipayの結合を解除するようにしてください？</string>
+    <string name="unbind_wechat">WeChat／ウィーチャットのバンディングを解除？</string>
+    <string name="real_pay">実際支払い額</string>
+    <string name="register_time">登記時間／ローグイン時間</string>
+    <string name="authentication_tip">注意：本名のアカウントを必ず使用してください。</string>
+    <string name="bank_acount_address">開設銀行</string>
+    <string name="bank_branch">開設支銀行</string>
+
+    <string name="gradually_position">分離ポジション</string>
+    <string name="crossed_position">フルポジション</string>
+    <string name="bond_model">マージンモード</string>
+    <string name="crossed_position_title">· クロスマージン：</string>
+    <string name="crossed_position_des">契約残高を全部マージンとします。</string>
+    <string name="gradually_position_title">· 分離マージン：</string>
+    <string name="gradually_position_des">ポジションマージンはポジションをオープンするとき必要とするもので、増やしたり減らしたりすることができます。</string>
+    <string name="contract_calculator_text">電卓</string>
+    <string name="marginMode_change_remind">所有してるポジションとか注文があるため，ポジションの備えの更改は許せません。</string>
+    <string name="update_bail_increase">増やす金額を入力お願いします。</string>
+    <string name="update_bail_decrease">減らす金額を入力お願いします。</string>
+    <string name="update_bail_most">増加最大量</string>
+    <string name="update_bail_least">減少最大量</string>
+    <string name="updated_bail_increase">追加してからの強制清算価格：</string>
+    <string name="updated_bail_decrease">減少してからの強制清算価格：</string>
+    <string name="profit_and_loss">損益</string>
+    <string name="calculator_bail_text">マージン</string>
+    <string name="copy_link">リンクをコーピ―します。</string>
+    <string name="contract_history_profit">收益(BTC)</string>
+    <string name="contract_history_profit_usdt">收益(USDT)</string>
+    <string name="margin_add_text">マージンを増やします</string>
+    <string name="margin_sub_text">マージンを減らします</string>
+    <string name="open_long_v2">ロングオープン %dX</string>
+    <string name="open_short_v2">ショットオープン %dX</string>
+    <string name="open_long_v3">ロングオープン</string>
+    <string name="open_short_v3">ショットオープン</string>
+    <string name="update_apk_fail">Already stopped</string>
+    <string name="retry">Retry</string>
+
+    <!--2.3.6翻译-->
+    <string name="start_calculate">計算</string>
+    <string name="calculate_result_title"> 結果 </string>
+    <string name="calculator_remind"> 実際の取引では、手数料、資金レート、実際の取引価格が存在するため、計算結果が取引結果と完全に一致しない場合があります。 </string>
+    <string name="open_price_text">参入价格</string>
+    <string name="close_price_text">決済価格</string>
+    <string name="open_count_text">数量</string>
+    <string name="expect_rate_text">ROE</string>
+    <string name="expect_profit_text">収益</string>
+    <string name="target_price_text">決済価格</string>
+    <string name="target_profit_text">収益</string>
+    <string name="account_mode_text">モード</string>
+    <string name="force_price_text">清算価格</string>
+    <string name="pl_calculate_text">P&amp;L</string>
+    <string name="tp_calculate_text">決済価格</string>
+    <string name="fc_calculate_text"> 清算価格</string>
+    <string name="calculator_title">電卓</string>
+    <string name="calculator_balance_text">残高</string>
+
+    <string name="pricing_method">価格設定方法</string>
+    <string name="chain_name">チェーン名</string>
+    <string name="fixed_amount">定額で</string>
+    <string name="price_range_tips">範囲は-10%至10%です</string>
+    <string name="market_reference_price">市場参考価格</string>
+    <string name="price_type_tips">固定価格は市場によって変動しません</string>
+    <string name="trade_price">取引価格</string>
+    <string name="from_floating_proportionally">比例フローティング</string>
+    <string name="floating_range">浮遊率</string>
+    <string name="price_type_tips2">変動比率を設定すると、市場のリアルタイム参照価格を上回るまたは下回る割合で取引することができます。</string>
+    <string name="please_input_ratio">変動比率を入力してください</string>
+    <string name="please_input_chain_name">%1$s(%2$s)の住所を入力してください</string>
+    <string name="my_coin_address">私のアドレス：</string>
+
+
+    <!--invite rebate-->
+    <string name="invite_activity_title">CoinBene紹介奨励</string>
+    <string name="invite_slogan_1">ボーナスをもらいに行きましょうと呼んでます</string>
+    <string name="invite_slogan_2">あなたも呼んで見ますか!</string>
+    <string name="scanning_get_welfare">QRコードをスキャンして奨励をもらいましょう。</string>
+    <string name="ranked_match_title">無制限契約体験制覇試合</string>
+
+    <!--巴西联邦合法化-->
+    <string name="birthday">生年月日</string>
+    <string name="family_address">自宅の住所</string>
+    <string name="please_input_family_address">あなたの自宅住所を入力してください</string>
+    <string name="br_kyc_tip">Due to federal law, you are required to go to the web version to supplement the relevant information and certification before trading</string>
+    <string name="please_choose_birthday">生年月日を入力してください</string>
+
+    <!--高级限价委托-->
+    <string name="high_lever_entrust">高度な指値</string>
+    <string name="only_marker">Post only</string>
+    <string name="fixed_price_entrust">@string/fixed_price</string>
+    <string name="market_price_entrust">@string/market_price</string>
+    <string name="all_deal_or_cancel">約定または抹消</string>
+    <string name="deal_cancel_surplus">即時または取消</string>
+
+    <!--trade fee level-->
+    <string name="res_your_trade_fee_level">取引手数料レベル:</string>
+    <string name="res_contract_trade_fee">契約料</string>
+    <string name="res_taker_fee">taker</string>
+    <string name="res_maker_fee">maker</string>
+    <string name="res_latest_30day_trade_volume">過去30日の取引量(BTC):</string>
+
+    <string name="k_chart_change">幅</string>
+    <string name="price_btc">金額(BTC)</string>
+    <string name="price_usdt">金額(USDT)</string>
+
+    <!--2.4.1-->
+    <string name="how_to_open_digital_currency">デジタル通貨取引を開始する方法を知っていますか？</string>
+    <string name="i_am_novice">助けが必要</string>
+    <string name="i_have_experience">助けは必要なし</string>
+    <string name="how_to_buy_digital_currency">最初のデジタル通貨を所有する方法</string>
+    <string name="buy_digital_currency_tips1">以下の方法を使用して、デジタル通貨を法定通貨で購入できます</string>
+    <string name="buy_digital_currency_tips2">取引を通じて%s通貨を購入する</string>
+    <string name="buy_digital_currency_tips3">最初に%sを通じて安定したトークンを購入し、次にトークンを使用して%sを通じて他のデジタル通貨を購入します。</string>
+    <string name="go_to_buy_digital_currency">デジタル通貨を購入する</string>
+    <string name="res_contract_mining">契約マイニング</string>
+    <string name="res_contract_mining_detail">マイニングの詳細</string>
+    <string name="res_mining_unlocked">ロック解除</string>
+    <string name="res_mining_locked">ロック中</string>
+    <string name="res_mining_record">マイニングレコード</string>
+    <string name="addUp_mining">累積マイニング</string>
+    <string name="res_mining_day_amount">取引マイニング</string>
+    <string name="res_mining_minute_amount">取引マイニング（分）</string>
+    <string name="res_order_mining">注文マイニング</string>
+    <string name="res_sort_mining">ランクマイニング</string>
+    <string name="res_mining_date">採掘日：</string>
+    <string name="res_mining_day_value">毎日のマイニング合計</string>
+    <string name="self_mining">私のマイニング</string>
+    <string name="mining_valuation">累積マイニング評価	</string>
+    <string name="otc_trading">円か取引</string>
+    <string name="spot_trading">スポット取引</string>
+    <string name="method_two">方法2</string>
+    <string name="method_one">方法1</string>
+    <string name="mining_guide_text">CFTを取得するためのマイニング</string>
+
+    <!--杠杆需求-->
+    <string name="tab_margin_trade">レバレッジ</string>
+    <string name="burst_price">ロスカット価格</string>
+    <string name="borrow_return_asset">借入/返済</string>
+    <string name="risk_rate">リスク率</string>
+    <string name="res_from">から</string>
+    <string name="res_to">に</string>
+    <string name="res_currency_categroy">通貨</string>
+    <string name="res_currency_available">使用可能</string>
+    <string name="res_currency_frozen">凍結</string>
+    <string name="opening_margin_agreement">レバレッジ規約</string>
+    <string name="margin_trade_tips_one">レバレッジ取引により、投資家はより大きな資産に投資することができ、期待収益とリスクが同時に増幅されます</string>
+    <string name="margin_trade_tips_two">CoinBene「</string>
+    <string name="margin_trade_tips_three">ユーザーはフラットになり、無料の資産を失うリスクがありますので、投資家はこの危険を認識し、慎重に投資する必要があります。</string>
+    <string name="margin_user_agreement">《レバレッジ取引ユーザー利用規約》</string>
+    <string name="not_trading">取引しない</string>
+    <string name="entering_a_transaction">取引の入力</string>
+    <string name="risk_rate_calculation">リスク率</string>
+    <string name="risk_rate_tip1">リスク率=総資産/（借入資産+利息）× 100％</string>
+    <string name="risk_rate_tip2">リスク率110％で取引はロスカットされます</string>
+    <string name="risk_rate_tip3">リスク率125％を超えた部分については出金・振替が可能です</string>
+    <string name="ok_i_kown">わかった</string>
+    <string name="res_borrow_asset">借入</string>
+    <string name="res_history_borrow">借入履歴</string>
+    <string name="res_borrow_coin_type">借入通貨種</string>
+    <string name="res_borrow_coin_pair">借入通貨ペア</string>
+    <string name="res_hour_interest_rate">小时利率</string>
+    <string name="res_borrow_number">借入数</string>
+    <string name="res_max_borrow_number">以下まで借りることができます：</string>
+    <string name="res_repay_asset">返済</string>
+    <string name="res_repay_coin_type">通貨通貨</string>
+    <string name="res_repay_coin_pair">コイン通貨ペア</string>
+    <string name="res_remain_repay_number">返済すべき数量</string>
+    <string name="res_repay_number">返済数量</string>
+    <string name="res_max_repay_number">以下も可能です：</string>
+    <string name="res_borrow_success">成功した借入</string>
+    <string name="res_repay_success">成功した通貨</string>
+    <string name="res_leverage_bill_detail">取引履歴</string>
+    <string name="please_read_and_tick_first">最初に読んでチェックしてください</string>
+
+    <string name="res_margin_bill">注文</string>
+    <string name="res_margin_account">レバレッジ</string>
+    <string name="res_total_asset_estimation">総資産推計</string>
+    <string name="margin_guide">レバレッジガイド</string>
+    <string name="margin_user_protocol">ビジネスユーザー契約の活用</string>
+    <string name="res_overage">残高</string>
+
+    <string name="leverage_record">レバレッジコミッションレコード</string>
+    <string name="leverage_loan_record">借入記録</string>
+    <string name="loan_current">現在の借入</string>
+    <string name="loan_history">借入履歴</string>
+    <string name="res_currency_pair">通貨ペア</string>
+    <string name="res_can_use">回転可能：%s  %s</string>
+
+    <string name="res_interest_incurred">利息計算</string>
+    <string name="res_liquidation_fee">ロスカット費</string>
+    <string name="res_transferred_from_Spot_account">現物から振替</string>
+    <string name="res_transfer_to_Spot_account">現物へ振替</string>
+
+    <string name="res_margin_buy">購入</string>
+    <string name="res_margin_sell">売却</string>
+    <string name="res_Loan">借入</string>
+    <string name="res_repay">返済</string>
+    <string name="res_loan_vol">借入数量</string>
+    <string name="res_loan_Interest">利息</string>
+    <string name="res_over_repay">返済すべき数量</string>
+    <string name="res_loan_id">借入番号</string>
+    <string name="res_unpaid_quantity">未払い数量</string>
+    <string name="res_unpaid_interest">未収利息</string>
+    <string name="res_wear_warehouse">倉庫を着る</string>
+    <string name="res_has_borrowed">既借</string>
+    <string name="res_interest">利息</string>
+    <string name="res_borrowing">借入中</string>
+    <string name="res_paid_off">決済済み</string>
+    <string name="res_transfer_record">振替記録</string>
+    <string name="res_transfer_record_short">振替記録</string>
+    <string name="res_add_interest">累積利息</string>
+    <string name="res_min_borrow">最低融資</string>
+
+    <!--USDT合约-->
+    <string name="btc_contract">BTC先物取引</string>
+    <string name="usdt_contract">USDT先物取引</string>
+    <string name="res_btc_contract_guide">BTC先物ガイド</string>
+    <string name="res_usdt_contract_guide">USDT先物ガイド</string>
+    <string name="res_btc_contract_account">BTC先物取引</string>
+    <string name="res_usdt_contract_account">USDT先物取引</string>
+    <string name="res_btc_contract_record">BTC先物レコード</string>
+    <string name="res_usdt_contract_record">USDT先物レコード</string>
+    <string name="unrealized_profit_loss_total">未実現損益合計</string>
+    <string name="res_balance_account">資産口座</string>
+    <string name="res_fortune_account">富アカウント</string>
+    <string name="res_game_account">ゲーム口座</string>
+    <string name="balance_tip_value_game">フリーズ/合計</string>
+    <string name="share_rate_of_return">利益率の共有</string>
+    <string name="share_amount_of_return">収益額を共有</string>
+    <string name="res_disable_transfer">振替停止中</string>
+    <string name="res_disable_transfer_in">転入停止中</string>
+    <string name="res_disable_transfer_out">転出停止中</string>
+    <string name="res_disable_transfer_desc">アカウントの異常のため、口座振替機能の使用は禁止されています。禁止を解除するには、カスタマーサービスにご連絡ください</string>
+    <string name="all_hold_position">ホールディング</string>
+    <string name="fail_to_check_balance">残高照会に失敗</string>
+
+    <!--vip需求-->
+    <string name="res_rate_level">手数料等級</string>
+    <!-- 游戏-->
+    <string name="tab_game">GAME</string>
+    <string name="res_game_cooperation">ゲームコラボレーションについてはgame@coinbene.comまでお問合せ下さい</string>
+    <string name="res_support_wechat">Telegram リンク: https://t.me/CoinBene_CallPutt</string>
+    <string name="res_game_remark">電報メモ：GAME Club</string>
+    <string name="res_get_more_benefits">Telegramコミュニティに参加する に入って更に特典ゲット</string>
+    <string name="res_game_battle">トークン大作戦</string>
+    <string name="res_options_dec">ニューゲーム、1分間のドキドキ</string>
+    <string name="res_battle_dec">暗号通貨業界初のIP構築、スリリングなチャレンジが待っています！</string>
+    <string name="res_start_game">ゲーム開始</string>
+    <string name="res_game_welcome">ゲーム場は百万人のゲームファンの共通の選択肢、トークンゲームの開発パートナー募集中！</string>
+    <string name="res_hot_game">スーパーホットゲーム</string>
+    <string name="res_profit_btc">収益額(%s)</string>
+    <string name="res_cooperation">GAME 協力</string>
+    <string name="please_buy_total_price">購入価格を入力してください</string>
+    <string name="entruast_total_price">委託価格</string>
+    <string name="deal_price_from_total">成約価格/総額</string>
+
+
+    <!--余币宝-->
+    <string name="res_action">操作</string>
+    <string name="res_ybb_presstimate">YUBIBAO 資産:</string>
+    <string name="res_ybb_asset_detail">資産一覧</string>
+    <string name="res_quick_trade">クイック購入</string>
+    <string name="res_transfer_in_amount">数量</string>
+    <string name="res_transfer_out_amount">転出数量</string>
+    <string name="res_transfer_in_amount_hint">転入数量</string>
+    <string name="res_transfer_out_amount_hint">転出数量</string>
+    <string name="res_confirm_transfer_in">転入確認</string>
+    <string name="res_confirm_transfer_out">転出確認</string>
+    <string name="res_available_transfer_amount">振替可能残高</string>
+    <string name="res_person_quote">個人限度額</string>
+    <string name="res_transfer_in_success">転入成功</string>
+    <string name="res_transfer_out_success">転出成功</string>
+    <string name="res_direct_to_ybb">YUBIBAOへ</string>
+    <string name="res_left_value">限度額</string>
+    <string name="res_all_asset">全ての種類</string>
+    <string name="res_all_type">全てのタイプ</string>
+    <string name="res_total_value">総額</string>
+    <string name="res_yestoday_profit">昨日の収益</string>
+    <string name="res_total_profit">累計収益</string>
+    <string name="res_seven_day_annual">7日間の年間収益率</string>
+    <string name="res_transfer_to_ybb">入金</string>
+    <string name="res_transfer_from_ybb">出金</string>
+    <string name="res_transfer_ybb_hint">%s %sをYUBIBAOへ、%s %s資産運用へ</string>
+    <string name="res_fortune">財産</string>
+    <string name="res_fortune_guide">遊び方指南</string>
+    <string name="res_count_down_info">次回の収益確認まであと: %s</string>
+    <string name="res_yestoday_interest_valuation">昨日の利子(USDT)</string>
+    <string name="res_total_profit_valuation">累計収益(USDT)</string>
+    <string name="res_transfer_now">すぐに転入</string>
+    <string name="res_yestoday_dividend">昨日の配当</string>
+    <string name="res_total_dividend">累計配当</string>
+    <string name="res_status_full">満</string>
+
+    <string name="usdt_protocol_title">USDT契約開始について</string>
+    <string name="usdt_protocol_content">USDT無期限契約は、CoinBeneにて導入されたデジタル通貨デリバティブです。レバレッジにより、投資家はより大きな資産に投資することができ、期待収益とリスクは同時に増幅されます。損失が出る場合がありますので、リスクに対する認識を確認し、慎重に投資する必要があります。</string>
+    <string name="usdt_protocol_text">USDT契約条件を読みました《USDT契約条件》</string>
+    <string name="go_trading">取引へ</string>
+    <string name="btc_protocol_title">BTC契約開始について</string>
+    <string name="btc_protocol_content">BTC無期限契約は、CoinBeneにて導入されたデジタル通貨デリバティブです。レバレッジにより、投資家はより大きな資産に投資することができ、期待収益とリスクは同時に増幅されます。損失が出る場合がありますので、リスクに対する認識を確認し、慎重に投資する必要があります。</string>
+    <string name="btc_protocol_text">BTC契約条件を読みました《BTC契約条件》</string>
+
+    <string name="res_no_more_bussiness">以上になります</string>
+
+    <string name="deposit_address_tip_eth">このアドレスは【ETH】入金専用です。他のERC-20トークンをこのアドレスに入金しないでください。\n入金した場合、受け取られません。</string>
+    <string name="deposit_address_tip_usdt_erc">このアドレスは、Ethereumチェーンの【USDT】入金専用です。他のERC-20トークンをこのアドレスに入金しないでください。\n入金した場合、受け取られません。</string>
+    <string name="transfer_suspend">転送を一時停止</string>
+
+    <string name="unit_switch">取引単位</string>
+    <string name="avl_total_unit">決算可能/ポジション(%s)</string>
+    <string name="entrust_volume_unit_coin">委託量(%s)</string>
+    <string name="deal_unit_coin">成約量(%s)</string>
+    <string name="auth_tip">身分証明に関して：片手にご本人の身分証明書を持ち、もう片方の手には「CoinBene」と「当日の日付（月/日/西暦）」を記入された紙を持ち、顔が隠れないようにして撮影してください。身分証明書と記入した紙を胸の前に当て、それぞれに書かれている内容が鮮明に写っている写真をご提出ください。</string>
+    <string name="usdt_contract_min_place_order">最小注文数量は</string>
+    <string name="res_transfer_disable">送金が制限されています</string>
+    <string name="res_otc_trade">@string/tab_otc</string>
+    <string name="res_margin_trade">@string/tab_margin_trade</string>
+    <string name="res_help_center">サポート</string>
+
+    <string name="fixed_price_stop_loss_and_stop_loss">逆指値</string>
+    <string name="market_price_stop_loss_and_sop_loss">成行逆指値</string>
+    <string name="fixed_price_oco">指値OCO</string>
+    <string name="market_price_oco">成行OCO</string>
+    <string name="estimate_buy">推定購入</string>
+    <string name="estimate_sell">推定販売</string>
+    <string name="high_lever_order">シニア注文</string>
+    <string name="trigger_condition">トリガー条件</string>
+    <string name="entrust_total_amout">注文総額</string>
+    <string name="please_input_fix_price">指値を入力してください</string>
+    <string name="order_failed">失敗しました</string>
+    <string name="touched_failed">トリガー後に失敗しました</string>
+    <string name="order_type">注文タイプ</string>
+    <string name="touched_order">トリガー注文</string>
+    <string name="real_touched_price">実際のトリガー条件</string>
+    <string name="oco_touched_order">OCO トリガー注文</string>
+    <string name="oco_canceled_order">OCO 注文をキャンセルする</string>
+    <string name="fixed_order">指値注文</string>
+    <string name="market_order">成行注文</string>
+    <string name="canceled_entrust_order">注文をキャンセルする</string>
+    <string name="fixed_discribe">価格と数量を指定する注文は、市場価格がユーザーの指値価格以下である限り、この注文は約定します</string>
+    <string name="read_more">もっと見る</string>
+    <string name="market_discribe">価格を指定せず、現在の市場で最適な価格で購入または売却の注文を行います</string>
+    <string name="fixed_plan_discribe">トリガー価格を指定する場合、条件が満たされると、指値注文が生成され、事前に設定された価格と数量に従って市場に送信されます</string>
+    <string name="market_plan_discribe">トリガー価格を指定する場合、条件が満たされると、事前に設定された購入量または数量に従って成行注文が生成され、市場に送信されます</string>
+    <string name="fixed_oco_discribe">指値注文と指値トリガー注文を指定する場合、指値注文またはトリガー注文の条件が満たされると、1つの注文が自動的に注文され、他の注文はキャンセルされます</string>
+    <string name="market_oco_discribe">指値注文とトリガー成行注文を指定する場合、指値注文またはトリガー注文の条件が満たされると、1つの注文が自動的に注文され、他の注文はキャンセルされます</string>
+    <string name="view_more_high_lever">すべて見る</string>
+    <string name="tab_home">ホーム</string>
+    <string name="res_not_support_change_level">未処理の注文がある場合、レバレッジを変更できませんでした</string>
+    <string name="res_max_open_number">最大オーブン枚数: </string>
+    <string name="contract_usdt_estimated_value">先物額:</string>
+    <string name="res_human_verify">マンマシン検証</string>
+    <string name="start_the_journey_of_digital_wealth">デジタル資産の旅へ</string>
+    <string name="hot_list">HOTランキング</string>
+    <string name="touch_time">トリガー時間</string>
+    <string name="res_change_level">調整レバレッジ</string>
+    <string name="res_risk_tips">現在のレバレッジはより高いです、リスクに注意を払ってください</string>
+    <string name="set_contract_plan">ストップの設定(オプション)</string>
+    <string name="contract_plan_discribe">最新の価格がストッププロフィット/ストップロス価格に達すると、システムは自動的にポジションをクローズします。 ただし、特定のポジションを正常に閉じることは保証されていません。 次のことに注意してください。\n1、トリガー価格に達すると、クローズできる数量が不十分である場合、ポジションはクローズに失敗し、システムは注文を自動的にキャンセルします\n2、市場価格があまりにも変化すると、ポジションはクローズに失敗し、 システムは注文を自動的にキャンセルします</string>
+    <string name="stop_profit_price">利益の停止</string>
+    <string name="stop_loss_price">ストップロス</string>
+    <string name="profit_not_less_price">ストップ利益価格は注文価格より低くすることはできません</string>
+    <string name="less_not_than_price">ストップロス価格は注文価格を超えることはできません</string>
+    <string name="progit_not_than_price">ストップ利益価格は注文価格を超えることはできません</string>
+    <string name="loss_not_less_price">ストップロス価格は注文価格より低くすることはできません</string>
+    <string name="plan_close_tips">トリガー価格に達すると、クローズできる数量が不十分であるか、市場価格が大きく変化し、ポジションはクローズされ、システムは自動的に注文をキャンセルします</string>
+    <string name="setting_time">設定時間</string>
+    <string name="cancel_time">キャンセル時間</string>
+    <string name="touch_suc">トリガー成功</string>
+    <string name="hand_cancel">手動取消し</string>
+    <string name="touch_fail">トリガー失敗</string>
+
+    <string name="res_substract_tips">このインジケータは、自動ライトニング中の位置を示します。 インジケータライトが点灯している場合、クローズイベントの後に位置が減少する場合があります</string>
+    <string name="res_quick_close">即清算</string>
+    <string name="res_quick_close_desc">最高ườngの価格から市場に10％変動</string>
+    <string name="res_quick_close_tips">即清算する時、システムは市場価格に応じた最良の価格で取引を開始します。 市場が激しく変動すると、価格が初期終値の10％を超えると、オープンポジションはキャンセルされます</string>
+    <string name="delegation_plan_market">予定市場価格</string>
+    <string name="contract_trade">契約取引</string>
+
+    <string name="res_invite_optional">招待コード(任意)</string>
+    <string name="res_invite_input_hint">招待コードを記入してください</string>
+</resources>

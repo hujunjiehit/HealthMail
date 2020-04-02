@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:orientation="vertical">
+
+    <include layout="@layout/commom_menu_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/balance_title"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="25dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_bind_pay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/market_item_bg"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/pay_type"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="16dp" />
+
+                <RelativeLayout
+                    android:id="@+id/pay_icon_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_pay_state">
+
+                    <ImageView
+                        android:id="@+id/one_img"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/two_img" />
+
+                    <ImageView
+                        android:id="@+id/two_img"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/three_img" />
+
+                    <ImageView
+                        android:id="@+id/three_img"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_pay_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/iv_right_pay"
+                    android:text=""
+                    android:textColor="@color/res_blue"
+                    android:textSize="14dp" />
+
+
+                <ImageView
+                    android:id="@+id/iv_right_pay"
+                    android:layout_width="8dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/line_bind_view"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+            <RelativeLayout
+                android:id="@+id/modify_cap_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/market_item_bg"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/left_capital_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/setting_capital_pwd"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/capital_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/arrow_img4"
+                    android:text="@string/setting_item_set"
+                    android:textColor="@color/res_textColor_3"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/arrow_img4"
+                    android:layout_width="8dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+
+            <RelativeLayout
+                android:id="@+id/address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/market_item_bg"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/left_address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/setting_address"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/arrow_img5"
+                    android:layout_width="8dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:background="@color/res_item_divider" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/menu_layout"
+        layout="@layout/commom_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menu_layout"
+        android:layout_marginBottom="64dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/rl_coin_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_coin_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:id="@+id/tv_coin_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/iv_coin_icon"
+                        android:text="--"
+                        android:textColor="@color/res_textColor_1"
+                        android:textSize="21dp" />
+
+                    <TextView
+                        android:id="@+id/tv_coin_local_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/iv_coin_icon"
+                        android:text="--"
+                        android:textColor="@color/res_textColor_2"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_coin_info"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/total_price"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_total_price_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_coin_info"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="15dp"
+                    android:text="--"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_available_price"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_total_price"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/available_price"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_available_price_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_total_price_value"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:text="--"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_frozen_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_available_price"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/froze_acount"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_frozen_price_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_available_price_value"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:text="--"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/view_Line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/tv_frozen_price"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/res_item_divider" />
+
+                <TextView
+                    android:id="@+id/tv_valuation_btc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_Line"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/valuetion_btc"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_valuation_btc_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_Line"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:text="--"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_valuation_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_valuation_btc"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/valuation"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_valuation_local_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_valuation_btc"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:text="--"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/view_center_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_below="@+id/tv_valuation_local_value"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/res_divider_tile" />
+
+                <TextView
+                    android:id="@+id/tv_go_to_trade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_center_line"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/go_to_trade"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_market"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/balance_detail_pay"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/res_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_deposit"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/small_btn_red_bg"
+            android:gravity="center"
+            android:text="@string/myself_recharge_label"
+            android:textColor="@color/res_white"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_withdraw"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@drawable/small_btn_green_bg"
+            android:gravity="center"
+            android:text="@string/myself_withdraw_label"
+            android:textColor="@color/res_white"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_transfer"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/small_btn_blue_bg"
+            android:gravity="center"
+            android:text="@string/myself_transfer_label"
+            android:textColor="@color/res_white"
+            android:textSize="18dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</RelativeLayout>

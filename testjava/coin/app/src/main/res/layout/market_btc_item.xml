@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/res_selector_item_press_status"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_self"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/icon_is_self"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/coin_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/left_bottom_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4.5dp"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/left_bottom_denominator_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="11.6dp"
+            android:layout_toRightOf="@+id/left_bottom_tv"
+            android:lineSpacingExtra="4.5dp"
+            android:text="/--"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="10dp" />
+
+        <ImageView
+            android:id="@+id/tv_new_coin"
+            android:layout_width="21dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="14dp"
+            android:layout_toRightOf="@+id/left_bottom_denominator_tv"
+            android:src="@drawable/icon_new"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/tv_hot_coin"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/tv_new_coin"
+            android:src="@drawable/icon_hot"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/right_bottom_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5.6dp"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:id="@+id/center_top_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@+id/right_top_tv"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/center_bottom_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5.6dp"
+            android:layout_toLeftOf="@+id/right_top_tv"
+            android:text="--"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/right_top_tv"
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/market_item_percent_green_bg"
+            android:gravity="center"
+            android:text="--%"
+            android:textColor="@color/res_white"
+            android:textSize="14dp" />
+        <!--@drawable/market_item_percent_red_bg-->
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/rl_content"
+        android:layout_marginLeft="15dp"
+        android:background="@color/res_item_divider" />
+
+</RelativeLayout>

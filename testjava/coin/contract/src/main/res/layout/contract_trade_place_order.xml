@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_avl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_avl_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp"
+            tools:text="可用" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/res_icon_transfer" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_buy"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/res_selector_button_red"
+        android:gravity="center"
+        android:text="@string/buy_open_long_zh"
+        android:textColor="@color/res_blue_btn_selector"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_avl" />
+
+
+    <RelativeLayout
+        android:id="@+id/ll_buy"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_buy">
+
+        <TextView
+            android:id="@+id/tv_avl_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/avl_open_long"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_avl_long_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_avl_long"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/number"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_close_short_number"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape_edit_normal_background"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/number"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_bond_buy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_buy">
+
+        <TextView
+            android:id="@+id/tv_occupy_bond_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/usage_bond"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_occupy_buy_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_occupy_bond_buy"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_sell"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/res_selector_button_red"
+        android:gravity="center"
+        android:text="@string/sell_open_short_zh"
+        android:textColor="@color/res_blue_btn_selector"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_bond_buy" />
+
+
+    <RelativeLayout
+        android:id="@+id/ll_sell"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sell">
+
+        <TextView
+            android:id="@+id/tv_avl_short"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/avl_open_short"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_avl_short_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_avl_short"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/number"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_close_long_number"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape_edit_normal_background"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/number"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_bond_sell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_sell">
+
+        <TextView
+            android:id="@+id/tv_occupy_bond_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/usage_bond"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_occupy_sell_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_occupy_bond_sell"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="12dp" />
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

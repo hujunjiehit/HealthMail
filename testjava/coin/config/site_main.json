@@ -1,0 +1,84 @@
+{
+  "main_navigation": [
+    {
+      "imgUrl": "http://res.coinbene.mobi/resource-app/fffd3875c2ba474d.png",
+      "schema": "coinbene://Currency",
+      "sort": 1,
+      "lang": {
+        "zh_CN": "法币交易",
+        "en_US": "OTC trading",
+        "ko_KR": "OTC거래",
+        "pt_BR": "OTC trading",
+        "ja_JP": "円か取引",
+        "vi_VN": "Giao dịch OTC"
+      }
+    },
+    {
+      "imgUrl": "http://res.coinbene.mobi/resource-app/d11ec036c2bb89ec.png",
+      "schema": "coinbene://fortuneDetail",
+      "sort": 2,
+      "lang": {
+        "zh_CN": "财富",
+        "en_US": "Fund",
+        "ko_KR": "재산",
+        "pt_BR": "Fund",
+        "ja_JP": "財産",
+        "vi_VN": "Fund"
+      }
+    },
+    {
+      "imgUrl": "http://res.coinbene.mobi/resource-app/122c1451c2bc335c.png",
+      "schema": "coinbene://Margin",
+      "sort": 3,
+      "lang": {
+        "zh_CN": "杠杆交易",
+        "en_US": "Margin",
+        "ko_KR": "레버리지",
+        "pt_BR": "Margin",
+        "ja_JP": "レバレッジ",
+        "vi_VN": "Ký quỹ"
+      }
+    },
+    {
+      "imgUrl": "http://res.coinbene.mobi/resource-app/5689dbfbc2bcb6e2.png",
+      "schema": "coinbene://helpCenter",
+      "sort": 4,
+      "lang": {
+        "zh_CN": "帮助中心",
+        "en_US": "Support",
+        "ko_KR": "받침",
+        "pt_BR": "Suporte",
+        "ja_JP": "サポート",
+        "vi_VN": "Ủng hộ"
+      }
+    }
+  ],
+  "url_config": {
+    "base_url": [],
+    "ws_url": [],
+    "h5_url": "",
+    "user_invitation_url": "https://www.yiyingjuquan.top/auth/register?hash="
+  },
+  "base_url_configs": [],
+  "switch_config": {
+    "otc": {
+      "function": 1,
+      "asset": 1
+    },
+    "margin": {
+      "function": 1,
+      "asset": 1
+    },
+    "contract": {
+      "function": 1,
+      "asset": 1
+    },
+    "fortune": {
+      "function": 1,
+      "asset": 1
+    },
+    "ws_compress": {
+      "compress": 1
+    }
+  }
+}

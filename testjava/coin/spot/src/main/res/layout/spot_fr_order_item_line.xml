@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/current_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:lines="1"
+        android:text="--"
+        android:textColor="@color/res_red"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/local_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:lines="1"
+        android:text="--"
+        android:textColor="@color/res_textColor_3"
+        android:textSize="12dp"
+        android:visibility="visible" />
+
+</LinearLayout>

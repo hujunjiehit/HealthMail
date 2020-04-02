@@ -1,0 +1,250 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/res_background">
+
+    <ImageView
+        android:id="@+id/iv_tip"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_trade_tip" />
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iv_tip"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_open_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="16dp"
+            tools:text="卖出平多"/>
+
+        <TextView
+            android:id="@+id/tv_contrack_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="16dp"
+            tools:text="BTCUSDT"/>
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/center_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@id/ll_title">
+
+        <TextView
+            android:id="@+id/tv_lever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lever_ratio"
+            android:textColor="@color/res_textColor_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_lever_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_lever"
+            app:layout_constraintTop_toTopOf="@id/tv_lever"
+            />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contract_trade_price"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="15dp"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lever"
+            />
+
+        <TextView
+            android:id="@+id/tv_price_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_price"
+            app:layout_constraintTop_toTopOf="@id/tv_price"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contract_trade_number"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="15dp"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            />
+
+        <TextView
+            android:id="@+id/tv_number_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_number"
+            app:layout_constraintStart_toEndOf="@id/tv_number"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_profit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_number_value"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_profit_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_profit_price"
+                android:textColor="@color/res_textColor_2"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_profit_price_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_loss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_profit"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_loss_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_loss_price"
+                android:textColor="@color/res_textColor_2"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_loss_price_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_not_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="22dp"
+        android:layout_below="@id/center_layout"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/tb_not_hint"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/hide_checked_bg"
+            android:checked="false"
+            android:textOff=""
+            android:layout_gravity="center_vertical"
+            android:textOn="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/not_hint"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/res_textColor_2" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/ll_not_hint"
+        android:background="@color/res_item_divider" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/divider_line">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="17dp" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="50dp"
+            android:background="@color/res_item_divider" />
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@string/btn_ok"
+            android:layout_weight="1"
+            android:textColor="@color/res_blue"
+            android:textSize="17dp" />
+    </LinearLayout>
+</RelativeLayout>

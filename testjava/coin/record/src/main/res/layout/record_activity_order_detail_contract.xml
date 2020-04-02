@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background">
+
+    <View
+        android:id="@+id/detail_Toolbar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/history_detail_title"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_Toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_title"
+        android:src="@drawable/res_icon_back" />
+
+    <TextView
+        android:id="@+id/direction_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="1dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="1dp"
+        android:text="--"
+        android:textColor="@color/res_white"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toStartOf="@+id/contract_Symbol"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Toolbar" />
+
+    <TextView
+        android:id="@+id/contract_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/direction_Symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/direction_Symbol"
+        app:layout_constraintTop_toTopOf="@+id/direction_Symbol" />
+
+
+    <TextView
+        android:id="@+id/part_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contract_Symbol" />
+
+
+    <TextView
+        android:id="@+id/vol_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/Filled_amount"
+        android:textColor="#6b7d8c"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/part_cancel" />
+
+    <TextView
+        android:id="@+id/detail_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:text=""
+
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vol_Symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vol_Symbol" />
+
+
+    <TextView
+        android:id="@+id/price_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center"
+        android:text="@string/history_detail_header_price"
+        android:textColor="#6b7d8c"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vol_Symbol" />
+
+    <TextView
+        android:id="@+id/detail_top_price"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/price_Symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/price_Symbol" />
+
+
+    <TextView
+        android:id="@+id/worth_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center"
+        android:text="@string/history_entrust_value"
+        android:textColor="#6b7d8c"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price_Symbol" />
+
+    <TextView
+        android:id="@+id/detail_worth"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/worth_Symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/worth_Symbol" />
+
+    <TextView
+        android:id="@+id/free_Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center"
+        android:text="@string/history_fee_label"
+        android:textColor="#6b7d8c"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_worth" />
+
+    <TextView
+        android:id="@+id/detail_free"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/free_Symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/free_Symbol" />
+
+    <View
+        android:id="@+id/detail_shadow"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:background="@color/res_divider_tile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_free" />
+
+    <TextView
+        android:id="@+id/detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/history_item_detail_time"
+        android:textColor="#8b9fac"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_shadow" />
+
+    <TextView
+        android:id="@+id/detail_bottom_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/history_item_detail_price"
+        android:textColor="#8b9fac"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_time" />
+
+    <TextView
+        android:id="@+id/detail_bottom_vol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="@string/one_day_vol_future"
+        android:textColor="#8b9fac"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_time" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detail_RecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_bottom_price">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

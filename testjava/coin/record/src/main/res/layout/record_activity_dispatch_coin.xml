@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background">
+
+    <include
+        android:id="@+id/dispatch_title"
+        layout="@layout/commom_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+
+    <ImageView
+        android:id="@+id/dispatcth_coin_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/dispatch_title"
+        android:layout_marginLeft="135dp"
+        android:layout_marginTop="28dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dispatch_title"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@+id/dispatcth_coin_logo"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dispatch_coin_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="21dp" />
+
+        <TextView
+            android:id="@+id/dispatch_coin_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2.4dp"
+            android:text="--"
+            android:textColor="@color/res_textColor_2"
+            android:textSize="13dp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/number_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dispatch_title"
+        android:layout_marginTop="111dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/vol"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="15dp" />
+
+
+        <TextView
+            android:id="@+id/dispatch_num"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/number_layout"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/record_detail_status"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/dispatch_status"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="@string/orderstatus_2_in"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/remark_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_layout"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/record_detail_remark"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/dispatch_tip"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/remark_layout"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/record_detail_time"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/dispatch_date"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/res_textColor_1"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

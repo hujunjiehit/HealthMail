@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_background">
+
+    <com.qmuiteam.qmui.widget.QMUIAppBarLayout
+        android:id="@+id/layout_AppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
+            android:id="@+id/layout_CollapsingTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/qmui_topbar_height"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:qmui_collapsedTitleGravity="center"
+            app:qmui_contentScrim="@color/res_background"
+            app:qmui_expandedTitleGravity="center_horizontal|bottom"
+            app:qmui_expandedTitleMarginBottom="20dp"
+            app:qmui_statusBarScrim="@color/res_background"
+            app:qmui_titleEnabled="false">
+
+            <me.erwa.sourceset.view.banner.BannerView
+                android:id="@+id/new_banner"
+                android:layout_width="match_parent"
+                android:layout_height="184dp"
+                app:bv_intervalInMillis="3000">
+
+                <me.erwa.sourceset.view.banner.indicator.CrossBarIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    app:cbi_itemBackgroundColor="#66ffffff"
+                    app:cbi_itemForegroundColor="#ffffff"
+                    app:cbi_itemHeight="2dp"
+                    app:cbi_itemSpace="5dp"
+                    app:cbi_itemWidth="10dp" />
+            </me.erwa.sourceset.view.banner.BannerView>
+
+            <com.qmuiteam.qmui.widget.QMUITopBar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                app:qmui_layout_collapseMode="pin"
+                app:qmui_topbar_bg_color="@color/qmui_config_color_transparent"
+                app:qmui_topbar_need_separator="false"
+                app:qmui_topbar_title_color="@color/res_textColor_1" />
+
+        </com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout>
+
+    </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/res_background">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/res_hot_game"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_option"
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv1">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2px"
+                    android:background="@color/res_item_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/img_OptionGif"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="15dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_Options"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/tab_options"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_OptionGif"
+                    app:layout_constraintTop_toTopOf="@+id/img_OptionGif" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/res_options_dec"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_Options"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Options" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/btn_StartOptions"
+                    android:layout_width="115dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/res_start_game"
+                    android:textColor="@color/res_white"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_OptionGif"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:qmui_backgroundColor="#ffbe37"
+                    app:qmui_borderWidth="0dp"
+                    app:qmui_radius="18dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_Battle"
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_option">
+
+                <View
+                    android:id="@+id/view23"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/res_item_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/img_BattleGif"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="15dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_Battle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toRightOf="@+id/img_BattleGif"
+                    android:text="@string/res_game_battle"
+                    android:textColor="@color/res_textColor_1"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_BattleGif"
+                    app:layout_constraintTop_toTopOf="@+id/img_BattleGif" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_Battle"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toRightOf="@+id/img_BattleGif"
+                    android:text="@string/res_battle_dec"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_Battle"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Battle" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/btn_StartBattle"
+                    android:layout_width="115dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/res_start_game"
+                    android:textColor="@color/res_white"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_BattleGif"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:qmui_backgroundColor="#ffbe37"
+                    app:qmui_borderWidth="0dp"
+                    app:qmui_radius="18dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:background="@color/res_divider_tile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Battle" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/res_cooperation"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_item_divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+            <LinearLayout
+                android:id="@+id/layout_GameCooperation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/shape_game_cooperation"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <ImageView
+                    android:layout_width="92dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/res_icon_game_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:lineSpacingExtra="10dp"
+                    android:text="@string/res_game_welcome"
+                    android:textColor="@color/res_white"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="12dp"
+                    android:lineSpacingExtra="5.5sp"
+                    android:text="@string/res_game_cooperation"
+                    android:textColor="@color/res_white"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_divider_tile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_GameCooperation" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/about_joinCommunity"
+                android:textColor="@color/res_textColor_1"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginTop="10dp"
+                android:background="@color/res_item_divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+            <LinearLayout
+                android:id="@+id/layout_JoinCommunity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="12dp"
+                    android:text="@string/res_support_wechat"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="12dp"
+                    android:text="@string/res_game_remark"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/res_get_more_benefits"
+                    android:textColor="@color/res_textColor_2"
+                    android:textSize="14sp" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/btn_JoinCommunity"
+                    android:layout_width="175dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/about_joinCommunity"
+                    android:textColor="@color/res_white"
+                    android:textSize="15dp"
+                    app:qmui_backgroundColor="#ffbe37"
+                    app:qmui_borderWidth="0dp"
+                    app:qmui_radius="3dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

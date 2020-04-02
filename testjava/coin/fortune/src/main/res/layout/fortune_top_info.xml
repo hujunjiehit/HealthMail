@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="330dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_top_info"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/fortune_card_background_no_corner">
+
+    <View
+        android:id="@+id/top_item"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_ybb_presstimate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_ybb_presstimate"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:alpha="0.8"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@id/top_item"
+        app:layout_constraintTop_toBottomOf="@id/top_item"
+        app:layout_constraintEnd_toStartOf="@id/cb_eye"
+        />
+
+    <CheckBox
+        android:id="@+id/cb_eye"
+        style="@style/CustomCheckBoxTheme"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="7dp"
+        app:layout_constraintStart_toEndOf="@id/tv_ybb_presstimate"
+        app:layout_constraintTop_toTopOf="@id/tv_ybb_presstimate"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ybb_presstimate"
+        app:layout_constraintEnd_toEndOf="@id/top_item"
+        />
+
+    <TextView
+        android:id="@+id/tv_ybb_account_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-- BTC"
+        android:textColor="@color/res_white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ybb_presstimate"
+        />
+
+    <TextView
+        android:id="@+id/tv_ybb_local_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="≈ --"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ybb_account_balance"
+        />
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="0.4dp"
+        android:layout_height="30dp"
+        android:background="@color/res_white"
+        android:alpha="0.25"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ybb_local_balance"/>
+
+
+
+    <TextView
+        android:id="@+id/tv_yesterday_interest_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_yestoday_interest_valuation"
+        tools:text="昨日利息估值(USDT)"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/res_white"
+        android:alpha="0.7"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/divider_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_ybb_local_balance"/>
+
+    <TextView
+        android:id="@+id/tv_total_interest_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_total_profit_valuation"
+        tools:text="累计收益估值(USDT)"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/res_white"
+        android:alpha="0.7"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@id/divider_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ybb_local_balance"/>
+
+    <TextView
+        android:id="@+id/tv_yesterday_interest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:layout_marginTop="5dp"
+        android:textSize="16dp"
+        android:textColor="@color/res_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/divider_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_yesterday_interest_key"/>
+
+    <TextView
+        android:id="@+id/tv_total_interest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textSize="16dp"
+        android:textColor="@color/res_white"
+        app:layout_constraintStart_toStartOf="@id/divider_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_yesterday_interest"
+        />
+
+    <View
+        android:id="@+id/view_text_container"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/res_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:alpha="0.13"
+        />
+
+    <TextView
+        android:id="@+id/tv_count_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/res_count_down_info"
+        tools:text="距下次收益到账还有: 02:39:58"
+        android:textColor="@color/res_white"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_text_container"
+        app:layout_constraintBottom_toBottomOf="@id/view_text_container"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

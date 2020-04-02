@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/res_background">
+
+    <TextView
+        android:id="@+id/tv_mining_date_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/res_mining_date"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_mining_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_mining_date_desc"
+        app:layout_constraintTop_toTopOf="@+id/tv_mining_date_desc" />
+
+    <TextView
+        android:id="@+id/textView00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/res_mining_day_amount"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@id/tv_mining_date_desc"
+        app:layout_constraintTop_toBottomOf="@id/tv_mining_date_desc" />
+
+
+    <TextView
+        android:id="@+id/tv_mining_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@id/textView00"
+        app:layout_constraintTop_toBottomOf="@id/textView00" />
+
+
+    <TextView
+        android:id="@+id/textView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/res_order_mining"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView00"
+        app:layout_constraintEnd_toStartOf="@+id/textView12"
+        app:layout_constraintStart_toEndOf="@+id/textView00"
+        app:layout_constraintTop_toTopOf="@+id/textView00"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_mining_order"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView02"
+        app:layout_constraintTop_toBottomOf="@+id/textView02" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/res_sort_mining"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView02"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView02" />
+
+    <TextView
+        android:id="@+id/tv_mining_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/res_mining_day_value"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/textView00"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mining_day" />
+
+
+    <TextView
+        android:id="@+id/tv_mining_total"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/res_mining_unlocked"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/textView02"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+
+    <TextView
+        android:id="@+id/tv_mining_unlock"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/res_mining_locked"
+        android:textColor="@color/res_textColor_2"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mining_sort" />
+
+
+    <TextView
+        android:id="@+id/tv_mining_locked"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:text="--"
+        android:textColor="@color/res_textColor_1"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2px"
+        android:layout_marginTop="14dp"
+        android:background="@color/res_item_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_mining_total"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mining_locked" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

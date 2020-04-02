@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".modules.user.setting.VerificationCodeActivity">
+
+    <include
+        android:id="@+id/titleBar"
+        layout="@layout/commom_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="更改验证码首选项"
+            android:textColor="#232323"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:text="谷歌验证"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/enter_gogle_verification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:hint="请输入谷歌验证码"
+            android:textColor="@color/res_textColor_1"
+            android:textColorHint="@color/res_textColor_3"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:layout_marginTop="11.6dp"
+            android:background="@color/res_item_divider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:gravity="center"
+            android:text="登录二次验证、设置资金密码、提币、添加提现地址时验证方式"
+            android:textColor="@color/res_textColor_3"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/verification_code_update_confirm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17.6dp"
+        android:gravity="center"
+        android:text="*将设置谷歌验证码为动态码"
+        android:textColor="#ffaf49"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/verification_code_update_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_bg_sharp"
+        android:text="@string/btn_confirm"
+        android:textColor="@color/res_white" />
+
+
+</RelativeLayout>
